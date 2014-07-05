@@ -1,0 +1,17 @@
+"dialog" { "name" : "StartDialog" }
+"image" { 
+	"pos" : "200,650" , "rect" : "900,500,400,80" , "centered" : "false" 
+}
+"image" { 
+	"pos" : "600,650" , "rect" : "900,500,400,80" , "centered" : "false" 
+}
+"image" { 
+	"pos" : "920,650" , "rect" : "900,500,240,80" , "centered" : "false" 
+}
+"text" { 
+	"id" : "10" , "pos" : "400,640" , "text" : "Main Menu" , "color" : "100,40,32,255" , "scale" : "1.5" 
+}
+"button" { "id" : "0" , "pos" : "400,500" , "text" : "New Game" , "rect" : "510,0,340,50" }
+"button" { "id" : "2" , "pos" : "400,400" , "text" : "Highscores" , "rect" : "510,0,340,50" }
+"button" { "id" : "3" , "pos" : "400,300" , "text" : "Credits" , "rect" : "510,0,340,50" }
+"button" { "id" : "1" , "pos" : "400,200" , "text" : "Exit" , "rect" : "510,0,340,50" }

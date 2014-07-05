@@ -1,0 +1,12 @@
+"gui" {
+	"texture_id" : "0" ,
+	"font" : "xscale"
+}
+"GameOver" {
+	"id" : "0" ,
+	"file" : "game_over" 
+}
+"MainMenu" {
+	"id" : "1" ,
+	"file" : "start_dialog" 
+}

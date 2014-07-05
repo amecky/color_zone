@@ -1,0 +1,9 @@
+The four corners
+--xxxxxxxxx--
+--xxxxxxxxx--
+xxxxxxxxxxxxx
+xxxxxxxxxxxxx
+xxxx-----xxxx
+xxxxxxxxxxxxx
+--xxxxxxxxx--
+--xxxxxxxxx--
