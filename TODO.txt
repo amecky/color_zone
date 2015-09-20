@@ -1,0 +1,36 @@
+- add coverage selection game state
+- game over -> background fade to black or all pieces in monochrome
+- build logo as map with moving block forming BLOCKS
+- play intro music
+- find nice sound when block is copied
+- save highscores
+- in timer mode -> 50% coverage means next level
+- game over state -> handle gameOver flag and proceed to next level
+- add 2 more levels or less
+- center level name
+- save all levels into binary file containing name
+- build level selection state from level list dynamically
+- use different menu selection sound
+- add intro screen with logo and branding
+- add level selection menu
+- highscore menu -> show for every level and every mode
+- mode selection menu
+
+9.7.2014
+------------------
+- create score game state
+- credits menu missing
+
+7.7.2014
+------------------
+- HUD show level name
+- running -> check that selection is not out of grid
+
+04.11.
+------------------
+- add title game state and logo
+
+won't fix
+------------------
+- update background - use more squads
+- falling pieces - increase number

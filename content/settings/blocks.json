@@ -1,0 +1,9 @@
+"settings" {
+
+	"timer_pos" : "810,720" ,
+	"score_pos" : "50,720" ,
+	"percentage_pos" : "490,35" ,
+	"laser_start_delay" : "10" ,
+	"laser_waiting_time" : "2"
+
+}

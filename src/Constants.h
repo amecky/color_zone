@@ -23,6 +23,14 @@ const int LASER_PIECES = 16;
 const int STARTX = 110;
 const int STARTY = 150;
 
+const ds::Color BLOCK_COLORS[] = {
+	ds::Color(184,45,45,255) ,
+	ds::Color(82,70,86,255),
+	ds::Color(235,123,89,255),
+	ds::Color(167,197,189,255),
+	ds::Color(128,128,128,255)
+};
+
 const float PARTICLE_ANGLES[] = {135.0f,110.0f,70.0f,45.0f,160.0f,110.0f,70.0f,20.0f,200.0f,200.0f,340.0f,340.0f,225.0f,250.0f,290.0f,325.0f};
 
 const int BLOCK_FILL_ARRAY[] = 
@@ -32,19 +40,12 @@ const int BLOCK_FILL_ARRAY[] =
 	 3,0,2,1,
 	 2,0,3,1};
 
-struct GameSettings {
-	bool coverageMode;
-	int coverage;
-	bool timerMode;
-	int ttl;
-	int level;
-};
-
 struct Score {
+
 	uint32 points;
 	uint32 seconds;
 	uint32 coverage;
 	uint32 level;
-	bool gameOver;
+
 };
 

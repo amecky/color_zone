@@ -10,3 +10,11 @@
 	"id" : "1" ,
 	"file" : "start_dialog" 
 }
+"Credits" {
+	"id" : "2" ,
+	"file" : "credits" 
+}
+"Highscores" {
+	"id" : "3" ,
+	"file" : "highscore" 
+}

@@ -1,15 +1,15 @@
 "dialog" { "name" : "StartDialog" }
 "image" { 
-	"pos" : "200,650" , "rect" : "900,500,400,80" , "centered" : "false" 
+	"id" : "100" , "pos" : "200,700" , "rect" : "330,420,400,84" , "centered" : "false" 
 }
 "image" { 
-	"pos" : "600,650" , "rect" : "900,500,400,80" , "centered" : "false" 
+	"id" : "101" , "pos" : "600,700" , "rect" : "330,420,400,84" , "centered" : "false" 
 }
 "image" { 
-	"pos" : "920,650" , "rect" : "900,500,240,80" , "centered" : "false" 
+	"id" : "102" , "pos" : "920,700" , "rect" : "330,420,240,84" , "centered" : "false" 
 }
 "text" { 
-	"id" : "10" , "pos" : "400,640" , "text" : "Main Menu" , "color" : "100,40,32,255" , "scale" : "1.5" 
+	"id" : "10" , "pos" : "400,690" , "text" : "Main Menu" , "color" : "255,255,255,255" , "scale" : "1.5" 
 }
 "button" { "id" : "0" , "pos" : "400,500" , "text" : "New Game" , "rect" : "510,0,340,50" }
 "button" { "id" : "2" , "pos" : "400,400" , "text" : "Highscores" , "rect" : "510,0,340,50" }
