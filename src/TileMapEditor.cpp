@@ -24,13 +24,14 @@ void TileMapEditor::update(float dt) {
 }
 
 void TileMapEditor::click(int button, int x, int y) {
+	LOG << "button: " << button;
 	if (_mode == EM_EDIT_MAP) {
 		int xp = (x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
 		int yp = ((768 - y) - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
 		LOG << "clicked at: " << xp << " " << yp;
 		if (_map->isValid(xp, yp)) {
 			Tile& t = _map->get(xp, yp);
-			if (t.used) {
+			if (button == 1) {
 				t.used = false;
 				t.state = TS_EMPTY;
 			}
@@ -45,12 +46,9 @@ void TileMapEditor::click(int button, int x, int y) {
 		int yp = ((768 - y) - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
 		LOG << "clicked at: " << xp << " " << yp;
 		if (_map->isValid(xp, yp)) {
-			if (_borders[xp][yp] == -1) {
+			if (button == 0) {
 				_borders[xp][yp] = _currentBorder;
-			}
-			else if (_borders[xp][yp] != _currentBorder) {
-				_borders[xp][y] = _currentBorder;
-			}
+			}			
 			else {
 				_borders[xp][yp] = -1;
 			}
@@ -63,6 +61,7 @@ void TileMapEditor::render() {
 	// draw border selection
 	//for (int i = 0; i < 15; ++i) {
 		v2 p(100, 720);
+		ds::sprites::draw(p, ds::math::buildTexture(0, 44 , 44, 44));
 		ds::sprites::draw(p, ds::math::buildTexture(44, 44 * _currentBorder,44,44));		
 	//}
 	_map->render();
@@ -90,16 +89,15 @@ void TileMapEditor::OnChar(int ascii) {
 	}
 	if (ascii == '+') {
 		++_currentBorder;
-		if (_currentBorder > 15) {
+		if (_currentBorder > 22) {
 			_currentBorder = 0;
 		}
-		LOG << "current: " << _currentBorder;
 	}
 	if (ascii == '-') {
 		--_currentBorder;
 		if (_currentBorder < 0) {
-			_currentBorder = 15;
+			_currentBorder = 22;
 		}
-		LOG << "current: " << _currentBorder;
-	}
+	}	
+	LOG << " index: " << _currentBorder;
 }
