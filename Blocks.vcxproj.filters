@@ -7,21 +7,44 @@
     <Filter Include="game">
       <UniqueIdentifier>{a7e383de-28d7-4477-b66f-130ff855d24f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="levels">
+      <UniqueIdentifier>{f8e64e3c-46b7-41b2-91cc-e1a99c508083}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\TestMe.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
+    <ClCompile Include="src\ColorZone.cpp" />
+    <ClCompile Include="src\TileMapEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="src\TestMe.h" />
     <ClInclude Include="src\TileMap.h" />
     <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\ColorZone.h" />
+    <ClInclude Include="src\TileMapEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Blocks.manifest" />
     <None Include="TODO.txt" />
+    <None Include="levels\Level1.txt">
+      <Filter>levels</Filter>
+    </None>
+    <None Include="levels\Level2.txt">
+      <Filter>levels</Filter>
+    </None>
+    <None Include="levels\Level3.txt">
+      <Filter>levels</Filter>
+    </None>
+    <None Include="levels\Level4.txt">
+      <Filter>levels</Filter>
+    </None>
+    <None Include="levels\Level5.txt">
+      <Filter>levels</Filter>
+    </None>
+    <None Include="levels\Level6.txt">
+      <Filter>levels</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Blocks.rc" />

@@ -25,13 +25,14 @@ struct Tile {
 	TileState state;
 	uint32 color;
 	float timer;
-	int corners;
+	int borders;
 	bool cleared;
 	bool used;
-	int edges;
 	ds::Texture texture;
+	v2 borderOffset;
+	v2 borderScale;
 
-	Tile() : state(TS_EMPTY) , color(0) , timer(0.0f) , corners(0) , cleared(false) , edges(1) , used(false) {}
+	Tile() : state(TS_EMPTY) , color(0) , timer(0.0f) , cleared(false) , used(false) , borderOffset(0,0) , borderScale(0,0) {}
 
 };
 

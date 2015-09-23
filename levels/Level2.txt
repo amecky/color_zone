@@ -1,8 +1,8 @@
 Four holes
 xxxxxxxxxxxxx
-xx--xxxxx--xx
-xx--xxxxx--xx
-xxxxxxxxxxxxx
+x--x--xxx--xx
+x--x--xxx--xx
+x--xxxxxxxxxx
 xxxxxxxxxxxxx
 xx--xxxxx--xx
 xx--xxxxx--xx

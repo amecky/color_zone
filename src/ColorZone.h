@@ -8,16 +8,16 @@
 #include <base\BaseApp.h>
 #include <io\Serializer.h>
 #include "TileMap.h"
+#include "TileMapEditor.h"
 
-class TestMe : public ds::BaseApp {
+class ColorZone : public ds::BaseApp {
 
 public:
-	TestMe();
-	virtual ~TestMe();
+	ColorZone();
+	virtual ~ColorZone();
 	const char* getTitle() {
-		return "Blocks::TestMe";
+		return "ColorZone";
 	}
-	//void initialize();
 	bool loadContent();
 	virtual void OnChar(char ascii, unsigned int keyState);
 	virtual void update(float dt);
@@ -29,5 +29,6 @@ private:
 	int _edgeCount;
 	Edge _edges[128];
 	TileMap* _map;
+	std::unique_ptr<TileMapEditor> _editor;
 };
 
