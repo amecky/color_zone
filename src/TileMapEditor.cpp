@@ -2,17 +2,25 @@
 #include <utils\Log.h>
 #include <sprites\SpriteBatch.h>
 #include <renderer\graphics.h>
+#include <base\GameStateMachine.h>
 
-TileMapEditor::TileMapEditor() {
+TileMapEditor::TileMapEditor(const char* name) : ds::GameState(name) {
 	_map = std::make_unique<TileMap>(MAX_X, MAX_Y);
-	_map->reset();
-	_mode = EM_EDIT_MAP;
-	_currentBorder = 0;
-	_levelIndex = 1;
+	activate();
 }
 
 
 TileMapEditor::~TileMapEditor() {
+}
+
+// --------------------------------------------
+// activate
+// --------------------------------------------
+void TileMapEditor::activate() {
+	_map->reset();
+	_mode = EM_EDIT_MAP;
+	_currentBorder = 0;
+	_levelIndex = 1;
 }
 
 // --------------------------------------------
@@ -41,7 +49,7 @@ int TileMapEditor::selectBorder(int x, int y) {
 // --------------------------------------------
 // click
 // --------------------------------------------
-void TileMapEditor::click(int button, int x, int y) {
+void TileMapEditor::onButtonUp(int button, int x, int y) {
 	int border = selectBorder(x, y);
 	if (border != -1) {
 		_currentBorder = border;
@@ -105,13 +113,14 @@ void TileMapEditor::render() {
 	}
 	// map
 	_map->render();
+	ds::debug::drawDebugMessages();
 	
 }
 
 // --------------------------------------------
 // on char
 // --------------------------------------------
-void TileMapEditor::OnChar(int ascii) {
+void TileMapEditor::onChar(int ascii) {
 	if (ascii == '1') {
 		_mode = EM_EDIT_MAP;
 	}
@@ -132,6 +141,9 @@ void TileMapEditor::OnChar(int ascii) {
 	}
 	if (ascii == 'l') {
 		_map->load(_levelIndex);
+	}
+	if (ascii == 'x') {
+		stateMachine->activate("StartMenu");
 	}
 }
 

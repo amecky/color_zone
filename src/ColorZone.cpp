@@ -1,5 +1,7 @@
 #include "ColorZone.h"
 #include <sprites\SpriteBatch.h>
+#include <base\GameStateMachine.h>
+#include "BasicGameStates.h"
 
 ds::BaseApp *app = new ColorZone();
 
@@ -8,8 +10,10 @@ ColorZone::ColorZone() {
 	m_Width = 1024;
 	m_Height = 768;
 	//m_ClearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
-	_editor = std::make_unique<TileMapEditor>();
-	_game = std::make_unique<MainGame>();
+	//_editor = std::make_unique<TileMapEditor>();
+	stateMachine->add<TileMapEditor>("TileMapEditor");
+	stateMachine->add<MainGame>("MainGame");
+	stateMachine->add(new StartMenuState(&gui));	
 }
 
 
@@ -20,53 +24,29 @@ bool ColorZone::loadContent() {
 	_textureID = ds::renderer::loadTexture("Textures");
 	assert(_textureID != -1);
 	ds::debug::loadSystemFont("Verdana", "Verdana", 14, true);	
-	startGame();
+	ds::BitmapFont* font = ds::renderer::createBitmapFont("xscale");
+	ds::assets::load("xscale", font, ds::CVT_FONT);
+	ds::renderer::initializeBitmapFont(*font, _textureID);
+	initializeGUI();
+	//startGame();
+	//gui.activate("MainMenu");
+	stateMachine->activate("StartMenu");
 	return true;
 }
 
 void ColorZone::startGame() {
-	_mode = GM_MAIN;
-	_game->start();
-}
-
-void ColorZone::OnChar(char ascii, unsigned int keyState) {
-	if (_mode == GM_EDITOR) {
-		_editor->OnChar(ascii);
-	}
-	else {
-		_game->OnChar(ascii);
-	}
+	stateMachine->activate("MainGame");
+	
 }
 
 void ColorZone::update(float dt) {
-	if (_mode == GM_EDITOR) {
-		_editor->update(dt);
-	}
-	else {
-		_game->update(dt);
-	}
 }
 
 void ColorZone::draw() {
-	ds::sprites::begin();
-	if (_mode == GM_EDITOR) {
-		_editor->render();
-	}
-	else {
-		_game->render();
-	}
-	ds::sprites::flush();
-	if (_mode == GM_EDITOR) {
-		ds::debug::drawDebugMessages();
-	}
 }
 
-void ColorZone::OnButtonUp(int button, int x, int y) {
-	if (_mode == GM_EDITOR) {
-		_editor->click(button, x, y);
+void ColorZone::onGUIButton(ds::DialogID dlgID, int button) {
+	if (dlgID == 1 && button == 1) {
+		shutdown();
 	}
-	else {
-		_game->click(button, x, y);
-	}
-	
 }

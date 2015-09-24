@@ -1,8 +1,9 @@
 #pragma once
 #include "TileMap.h"
 #include "Constants.h"
+#include <base\GameState.h>
 
-class TileMapEditor {
+class TileMapEditor : public ds::GameState {
 
 enum EditorMode {
 	EM_EDIT_MAP,
@@ -10,12 +11,13 @@ enum EditorMode {
 };
 
 public:
-	TileMapEditor();
+	TileMapEditor(const char* name);
 	~TileMapEditor();
 	void update(float dt);
 	void render();
-	void click(int button, int x, int y);
-	void OnChar(int ascii);
+	void onButtonUp(int button, int x, int y);
+	void onChar(int ascii);
+	void activate();
 private:
 	int selectBorder(int x, int y);
 	EditorMode _mode;

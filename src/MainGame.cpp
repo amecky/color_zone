@@ -3,7 +3,7 @@
 #include <sprites\SpriteBatch.h>
 #include <renderer\graphics.h>
 
-MainGame::MainGame() {
+MainGame::MainGame(const char* name) : ds::GameState(name) {
 	_map = std::make_unique<TileMap>(MAX_X, MAX_Y);
 	_map->reset();
 	_levelIndex = 1;
@@ -17,7 +17,10 @@ MainGame::MainGame() {
 MainGame::~MainGame() {
 }
 
-void MainGame::start() {
+void MainGame::activate() {
+	_map->reset();
+	_levelIndex = 1;
+	_laser.active = false;
 	_map->load(_levelIndex);
 }
 
@@ -46,7 +49,7 @@ void MainGame::update(float dt) {
 // --------------------------------------------
 // click
 // --------------------------------------------
-void MainGame::click(int button, int x, int y) {
+void MainGame::onButtonUp(int button, int x, int y) {
 	if (button == 0) {
 		if (_map->copyBlock(_mainBlock)) {
 			_mainBlock.copyColors(_previewBlock);
@@ -86,7 +89,7 @@ void MainGame::startLaser() {
 // --------------------------------------------
 // on char
 // --------------------------------------------
-void MainGame::OnChar(int ascii) {
+void MainGame::onChar(int ascii) {
 	if (ascii == '1') {
 		_mainBlock.copyColors(_previewBlock);
 		_previewBlock.pickColors();
@@ -94,8 +97,4 @@ void MainGame::OnChar(int ascii) {
 	if (ascii == 's') {
 		startLaser();
 	}
-	if (ascii == 'r') {
-		_mainBlock.rotate();
-	}
-
 }
