@@ -28,6 +28,7 @@ public:
 	void setBorder(int x, int y, int index);
 	v2 convert(const v2& p);
 	bool copyBlock(const Block& block);
+	void clearColumn(int col);
 private:	
 	int determineEdge(int x, int y);
 	v2 convert(int x, int y);

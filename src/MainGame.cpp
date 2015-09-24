@@ -34,7 +34,7 @@ void MainGame::update(float dt) {
 		_laser.timer += dt;
 		if (_laser.timer > 0.4f) {
 			++_laser.column;
-			// FIXME: clean row
+			_map->clearColumn(_laser.column);
 			_laser.timer = 0.0f;
 			if (_laser.column >= MAX_X) {
 				_laser.active = false;

@@ -4,26 +4,30 @@
 #include <string>
 #include <sprites\SpriteBatch.h>
 
+const int MARK_STEPS[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
+
 bool TileMap::copyBlock(const Block& block) {
 	v2 p = block.getPosition();
 	int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	if (isBlockAvailable(xp, yp)) {
-		Tile& t1 = get(xp, yp);
-		t1.state = TS_MARKED;
-		t1.color = block.getColor(0);
-		Tile& t2 = get(xp + 1, yp);
-		t2.state = TS_MARKED;
-		t2.color = block.getColor(3);
-		Tile& t3 = get(xp, yp + 1);
-		t3.state = TS_MARKED;
-		t3.color = block.getColor(1);
-		Tile& t4 = get(xp + 1, yp + 1);
-		t4.state = TS_MARKED;
-		t4.color = block.getColor(2);
+		for (int i = 0; i < 4; ++i) {
+			Tile& t1 = get(xp + MARK_STEPS[i*2], yp+MARK_STEPS[i*2 +1]);
+			t1.state = TS_MARKED;
+			t1.color = block.getColor(i);
+		}		
 		return true;
 	}
 	return false;
+}
+
+void TileMap::clearColumn(int col) {
+	for (int y = 0; y < MAX_Y; ++y) {
+		Tile& t = get(col, y);
+		if (t.used) {
+			t.state = TS_AVAILABLE;
+		}
+	}
 }
 
 void TileMap::render() {

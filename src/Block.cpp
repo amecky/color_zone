@@ -34,6 +34,9 @@ void Block::pickColors() {
 	_colors[3] = secondColor;
 }
 
+// draw order:
+// 12
+// 03
 void Block::render() {
 	ds::sprites::draw(v2(_position.x, _position.y), _textures[_colors[0]]);
 	ds::sprites::draw(v2(_position.x, _position.y + SQUARE_SIZE), _textures[_colors[1]]);
