@@ -7,6 +7,7 @@ const int MAX_X = 26;
 const int MAX_Y = 16;
 const int HALF_MAX_X = 13;
 const int HALF_MAX_Y = 8;
+const int BORDER_SIZE = 44;
 
 const float ADD_X[4] = { 0.0f, 35.0f , 35.0f ,  0.0f};
 const float ADD_Y[4] = { 0.0f,  0.0f , 35.0f , 35.0f};

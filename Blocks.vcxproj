@@ -227,15 +227,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\ColorZone.cpp" />
+    <ClCompile Include="src\MainGame.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
     <ClCompile Include="src\TileMapEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="src\Block.h" />
     <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
+    <ClInclude Include="src\MainGame.h" />
     <ClInclude Include="src\TileMap.h" />
     <ClInclude Include="src\TileMapEditor.h" />
   </ItemGroup>

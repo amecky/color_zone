@@ -6,13 +6,6 @@
 #include <math\math_types.h>
 #include <renderer\render_types.h>
 
-struct Edge {
-
-	Vector2f position;
-	ds::Texture texture;
-	int bits;
-};
-
 enum TileState {
 	TS_EMPTY,
 	TS_AVAILABLE,

@@ -10,18 +10,17 @@ enum EditorMode {
 };
 
 public:
-	TileMapEditor(int width,int height);
+	TileMapEditor();
 	~TileMapEditor();
 	void update(float dt);
 	void render();
 	void click(int button, int x, int y);
 	void OnChar(int ascii);
 private:
-	int _width;
-	int _height;
+	int selectBorder(int x, int y);
 	EditorMode _mode;
 	std::unique_ptr<TileMap> _map;
-	int _borders[MAX_X][MAX_Y];
 	int _currentBorder;
+	int _levelIndex;
 };
 

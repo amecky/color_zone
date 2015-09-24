@@ -15,6 +15,8 @@
     <ClCompile Include="src\TileMap.cpp" />
     <ClCompile Include="src\ColorZone.cpp" />
     <ClCompile Include="src\TileMapEditor.cpp" />
+    <ClCompile Include="src\MainGame.cpp" />
+    <ClCompile Include="src\Block.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -23,6 +25,8 @@
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
     <ClInclude Include="src\TileMapEditor.h" />
+    <ClInclude Include="src\MainGame.h" />
+    <ClInclude Include="src\Block.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Blocks.manifest" />

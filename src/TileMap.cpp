@@ -4,6 +4,28 @@
 #include <string>
 #include <sprites\SpriteBatch.h>
 
+bool TileMap::copyBlock(const Block& block) {
+	v2 p = block.getPosition();
+	int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	if (isBlockAvailable(xp, yp)) {
+		Tile& t1 = get(xp, yp);
+		t1.state = TS_MARKED;
+		t1.color = block.getColor(0);
+		Tile& t2 = get(xp + 1, yp);
+		t2.state = TS_MARKED;
+		t2.color = block.getColor(3);
+		Tile& t3 = get(xp, yp + 1);
+		t3.state = TS_MARKED;
+		t3.color = block.getColor(1);
+		Tile& t4 = get(xp + 1, yp + 1);
+		t4.state = TS_MARKED;
+		t4.color = block.getColor(2);
+		return true;
+	}
+	return false;
+}
+
 void TileMap::render() {
 	for (int x = 0; x < _width; ++x) {
 		for (int y = 0; y < _height; ++y) {
@@ -12,11 +34,11 @@ void TileMap::render() {
 			if (t.used) {
 				if (t.state == TS_AVAILABLE) {
 					ds::sprites::draw(p, ds::math::buildTexture(0, 0, 36, 36));
+				}				
+				else if (t.state == TS_MARKED) {
+					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36));
 				}
 				/*
-				else if (t.state == TS_MARKED) {
-					ds::sprites::draw(p, ds::math::buildTexture(150, 108, 36, 36), 0.0f, 1.0f, 1.0f, BLOCK_COLORS[t.color]);
-				}
 				else if (t.state == TS_FILLED) {
 					int offset = t.edges * 36;
 					if (t.edges > 0) {
@@ -34,17 +56,29 @@ void TileMap::render() {
 		for (int y = 0; y < MAX_Y; ++y) {
 			const Tile& t = get(x, y);
 			v2 p = v2(START_X + x * SQUARE_SIZE, START_Y + y * SQUARE_SIZE);
-			if ( t.borders != 0 && t.borders != 15 ) {
-				int w = 44 - t.borderScale.x;
-				int h = 44 - t.borderScale.y;
-				p += t.borderOffset;
-				ds::sprites::draw(p, ds::math::buildTexture(44, 44 * t.borders, w, h));
+			if ( t.borders != -1 ) {
+				ds::sprites::draw(p, ds::math::buildTexture(44, 44 * t.borders, BORDER_SIZE, BORDER_SIZE));
 			}
 		}
 	}
-	//for (size_t i = 0; i < _edges.size(); ++i) {
-		//ds::sprites::draw(_edges[i].position, _edges[i].texture);
-	//}
+}
+
+v2 TileMap::convert(const v2& p) {
+	int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	if (xp < 0) {
+		xp = 0;
+	}
+	if (xp >= (MAX_X-1)) {
+		xp = MAX_X - 2;
+	}
+	if (yp < 0) {
+		yp = 0;
+	}
+	if (yp >= (MAX_Y-1)) {
+		yp = MAX_Y - 2;
+	}
+	return convert(xp, yp);
 }
 
 v2 TileMap::convert(int x, int y) {
@@ -130,81 +164,21 @@ bool TileMap::isFree(int gx, int gy) {
 	Tile& t = get(gx, gy);
 	return t.state == TS_AVAILABLE;
 }
-// -------------------------------------------------------
-// load all text levels
-// -------------------------------------------------------
-bool TileMap::loadTextFile(int nr) {
-	TileState state;
-	char buffer[256];
-	sprintf_s(buffer, 256, "levels\\Level%d.txt", nr);
-	std::ifstream myfile(buffer);
-	int y = HALF_MAX_Y - 1;
-	bool first = true;
-	std::string line;
-	if (myfile.is_open()) {
-		while (myfile) {
-			getline(myfile, line);
-			if (first) {
-				//sprintf(level->name, "%s", line.c_str());
-				first = false;
-			}
-			else {
-				if (line.length() > 0) {
-					//assert(line.length() == HALF_MAX_X);
-					if (y >= 0) {
-						for (int x = 0; x < HALF_MAX_X; ++x) {
-							char c = line[x];
-							Tile t;							
-							if (c == 'x') {								
-								t.state = TS_AVAILABLE;
-								t.used = true;
-								
-							}
-							else {
-								t.state = TS_EMPTY;
-								t.used = false;
-							}
-							t.borders = 0;
-							set(x * 2, y * 2, t);
-							set(x * 2 + 1, y * 2, t);
-							set(x * 2 + 1, y * 2 + 1, t);
-							set(x * 2, y * 2 + 1, t);
-						}
-						--y;
-					}
-				}
-			}
-		}
-		myfile.close();
-		determineEdges();
-		return true;
-	}
-	else {
-		LOGE << "Cannot find file: " << buffer;
-	}
-	return false;
-}
 
+// -------------------------------------------------------
+// reset
+// -------------------------------------------------------
 void TileMap::reset() {
 	for (int y = 0; y < MAX_Y; ++y) {
 		for (int x = 0; x < MAX_X; ++x) {
 			Tile& t = _tiles[x + y * MAX_X];
-			t.borders = 0;
+			t.borders = -1;
 			t.used = true;
 			t.state = TS_AVAILABLE;
 		}
 	}
 }
 
-void TileMap::determineEdges() {
-	for (int y = 0; y < MAX_Y; ++y) {
-		for (int x = 0; x < MAX_X; ++x) {
-			Tile& t = _tiles[x + y * MAX_X];
-			t.borders = determineEdge(x, y);			
-			LOG << "x: " << x << " y: " << y << " borders: " << t.borders;
-		}
-	}
-}
 // -------------------------------------------------------
 // determine corners
 // -------------------------------------------------------
@@ -227,13 +201,44 @@ int TileMap::determineEdge(int x, int y) {
 	return set;
 }
 
-void TileMap::save(const char* levelname, int index) {
-	// char[32] name
-	// int map width
-	// int map height
-	// int map data
-	// int num_borders
-	// v2 pos
-	// int textureIndex
-	// ....
+void TileMap::setBorder(int x, int y, int index) {
+	if (x >= 0 && x < MAX_X && y >= 0 && y < MAX_Y) {
+		_tiles[x + y * MAX_X].borders = index;
+	}
+}
+
+// --------------------------------------------
+// save
+// --------------------------------------------
+void TileMap::save(int index) {
+	char buffer[128];
+	sprintf_s(buffer, 128, "levels\\L%d", index);
+	FILE* f = fopen(buffer, "wb");
+	for (int y = 0; y < MAX_Y; ++y) {
+		for (int x = 0; x < MAX_X; ++x) {
+			const Tile& t = get(x, y);
+			fwrite(&t, sizeof(Tile), 1, f);
+		}
+	}
+	fclose(f);
+}
+
+// --------------------------------------------
+// load
+// --------------------------------------------
+void TileMap::load(int index) {
+	char buffer[128];
+	sprintf_s(buffer, 128, "levels\\L%d", index);
+	reset();
+	FILE* f = fopen(buffer, "rb");
+	if (f) {
+		for (int y = 0; y < MAX_Y; ++y) {
+			for (int x = 0; x < MAX_X; ++x) {
+				Tile t;
+				fread(&t, sizeof(Tile), 1, f);
+				set(x, y, t);
+			}
+		}
+	}
+	fclose(f);
 }
