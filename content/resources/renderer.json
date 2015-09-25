@@ -1,9 +1,0 @@
-"renderer" {
-	"texture" {
-		"id" : "0" ,
-		"file" : "Textures"
-	}
-	"render_target" {
-		
-	}
-}
