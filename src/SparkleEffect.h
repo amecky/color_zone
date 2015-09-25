@@ -68,6 +68,7 @@ class SparkleEffect {
 public:
 	SparkleEffect();
 	~SparkleEffect();
+	void start(int x, int y, const ds::Color& color);
 	void update(float dt);
 	void render();
 private:

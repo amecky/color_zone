@@ -9,6 +9,10 @@ SparkleEffect::SparkleEffect() {
 SparkleEffect::~SparkleEffect() {
 }
 
+void SparkleEffect::start(int x, int y, const ds::Color& color) {
+
+}
+
 void SparkleEffect::update(float dt) {
 
 }
