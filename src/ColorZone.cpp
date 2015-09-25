@@ -9,11 +9,14 @@ ColorZone::ColorZone() {
 	//_CrtSetBreakAlloc(12876);
 	m_Width = 1024;
 	m_Height = 768;
-	//m_ClearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
-	//_editor = std::make_unique<TileMapEditor>();
+	_context.fillRate = 0;
+	_context.levelIndex = 2;
+	_context.score = 0;
+	m_ClearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
 	stateMachine->add<TileMapEditor>("TileMapEditor");
-	stateMachine->add<MainGame>("MainGame");
+	stateMachine->add( new MainGame(&_context));
 	stateMachine->add(new StartMenuState(&gui));	
+	stateMachine->add(new GamePauseState(&gui));
 }
 
 
@@ -28,15 +31,12 @@ bool ColorZone::loadContent() {
 	ds::assets::load("xscale", font, ds::CVT_FONT);
 	ds::renderer::initializeBitmapFont(*font, _textureID);
 	initializeGUI();
-	//startGame();
-	//gui.activate("MainMenu");
-	stateMachine->activate("StartMenu");
+	_loader = new SettingsLoader;
+	uint32 convID = ds::assets::registerConverter(_loader);
+	ds::assets::load("color_zone", _loader, convID);
+	_context.settings = _loader->get();
+	stateMachine->activate("GamePause");
 	return true;
-}
-
-void ColorZone::startGame() {
-	stateMachine->activate("MainGame");
-	
 }
 
 void ColorZone::update(float dt) {

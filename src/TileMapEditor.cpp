@@ -5,7 +5,7 @@
 #include <base\GameStateMachine.h>
 
 TileMapEditor::TileMapEditor(const char* name) : ds::GameState(name) {
-	_map = std::make_unique<TileMap>(MAX_X, MAX_Y);
+	_map = std::make_unique<TileMap>();
 	activate();
 }
 

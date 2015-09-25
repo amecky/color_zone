@@ -3,6 +3,8 @@
 #include "TileMap.h"
 #include "Block.h"
 #include <base\GameState.h>
+#include "Common.h"
+#include "SparkleEffect.h"
 
 class MainGame : public ds::GameState {
 
@@ -14,7 +16,7 @@ struct Laser {
 };
 
 public:
-	MainGame(const char* name);
+	MainGame(GameContext* context);
 	~MainGame();
 	void update(float dt);
 	void render();
@@ -24,8 +26,9 @@ public:
 private:	
 	void startLaser();
 	std::unique_ptr<TileMap> _map;
-	int _levelIndex;
+	GameContext* _context;
 	Block _previewBlock;
 	Block _mainBlock;
 	Laser _laser;
+	SparkleEffect* _effect;
 };

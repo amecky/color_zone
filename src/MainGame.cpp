@@ -3,25 +3,28 @@
 #include <sprites\SpriteBatch.h>
 #include <renderer\graphics.h>
 
-MainGame::MainGame(const char* name) : ds::GameState(name) {
-	_map = std::make_unique<TileMap>(MAX_X, MAX_Y);
+MainGame::MainGame(GameContext* context) : ds::GameState("MainGame") , _context(context) {
+	_map = std::make_unique<TileMap>();
 	_map->reset();
-	_levelIndex = 1;
 	_previewBlock.setPosition(v2(512, 700));
 	_laser.active = false;
 	_laser.timer = 0.0f;
 	_laser.column = 0;
 	_laser.texture = ds::math::buildTexture(132, 220, 36, 36);
+	_effect = new SparkleEffect;
 }
 
 MainGame::~MainGame() {
+	delete _effect;
 }
 
 void MainGame::activate() {
 	_map->reset();
-	_levelIndex = 1;
 	_laser.active = false;
-	_map->load(_levelIndex);
+	_laser.timer = _context->settings->laserStartDelay;
+	_map->load(_context->levelIndex);
+	_context->score = 0;
+	_context->fillRate = 0;
 }
 
 // --------------------------------------------
@@ -37,11 +40,26 @@ void MainGame::update(float dt) {
 		_laser.timer += dt;
 		if (_laser.timer > 0.4f) {
 			++_laser.column;
-			_map->clearColumn(_laser.column);
+			if (_laser.column >= 0 && _laser.column < MAX_X) {
+				int cleared = _map->clearColumn(_laser.column);
+				_context->score += cleared * 100;
+				if (cleared > 0) {
+					_context->fillRate = _map->getFillRate();
+					LOG << "new score: " << _context->score;
+					LOG << "fill rate: " << _context->fillRate;
+				}
+			}
 			_laser.timer = 0.0f;
 			if (_laser.column >= MAX_X) {
 				_laser.active = false;
+				_laser.timer = 5.0f;
 			}
+		}
+	}
+	else {
+		_laser.timer -= dt;
+		if (_laser.timer <= 0.0f) {
+			startLaser();
 		}
 	}
 }

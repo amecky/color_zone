@@ -12,27 +12,55 @@ bool TileMap::copyBlock(const Block& block) {
 	int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	if (isBlockAvailable(xp, yp)) {
 		for (int i = 0; i < 4; ++i) {
-			Tile& t1 = get(xp + MARK_STEPS[i*2], yp+MARK_STEPS[i*2 +1]);
-			t1.state = TS_MARKED;
-			t1.color = block.getColor(i);
+			int cx = xp + MARK_STEPS[i * 2];
+			int cy = yp + MARK_STEPS[i * 2 + 1];
+			Tile& t = get(cx,cy);
+			t.state = TS_MARKED;
+			t.color = block.getColor(i);
+			PointList list;
+			check(cx, cy, -1, list, true);
+			list.add(cx, cy);
+			if (list.size() > 2) {
+				//LOG << "connected";
+				t.state = TS_COHERENT;
+				for (size_t j = 0; j < list.size(); ++j){
+					const Point& p = list.get(j);
+					//LOG << j << " = " << p.x << " " << p.y;
+					setState(p.x, p.y, TS_COHERENT);
+				}
+			}
 		}		
 		return true;
 	}
 	return false;
 }
 
-void TileMap::clearColumn(int col) {
+// --------------------------------------------
+// clear column
+// --------------------------------------------
+int TileMap::clearColumn(int col) {
+	int ret = 0;
 	for (int y = 0; y < MAX_Y; ++y) {
 		Tile& t = get(col, y);
 		if (t.used) {
-			t.state = TS_AVAILABLE;
+			if (t.state == TS_COHERENT) {
+				++ret;
+				t.state = TS_FILLED;
+			}
+			else if ( t.state == TS_MARKED ) {
+				t.state = TS_AVAILABLE;
+			}
 		}
 	}
+	return ret;
 }
 
+// --------------------------------------------
+// render
+// --------------------------------------------
 void TileMap::render() {
-	for (int x = 0; x < _width; ++x) {
-		for (int y = 0; y < _height; ++y) {
+	for (int x = 0; x < MAX_X; ++x) {
+		for (int y = 0; y < MAX_Y; ++y) {
 			const Tile& t = get(x, y);
 			v2 p = v2(START_X + x * SQUARE_SIZE, START_Y + y * SQUARE_SIZE);
 			if (t.used) {
@@ -42,17 +70,12 @@ void TileMap::render() {
 				else if (t.state == TS_MARKED) {
 					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36));
 				}
-				/*
+				else if (t.state == TS_COHERENT) {
+					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36),0.0f,0.5f,0.5f);
+				}				
 				else if (t.state == TS_FILLED) {
-					int offset = t.edges * 36;
-					if (t.edges > 0) {
-						ds::sprites::draw(p, ds::math::buildTexture(190, offset, 36, 36), 0.0f, 1.0f, 1.0f, BLOCK_COLORS[t.color]);
-					}
-					else {
-						ds::sprites::draw(p, ds::math::buildTexture(190, 540, 36, 36), 0.0f, 1.0f, 1.0f, BLOCK_COLORS[t.color]);
-					}
+					ds::sprites::draw(p, ds::math::buildTexture(0, 150, 36, 36));					
 				}
-				*/
 			}
 		}
 	}
@@ -67,6 +90,9 @@ void TileMap::render() {
 	}
 }
 
+// --------------------------------------------
+// convert screen pos to aligned screen pos
+// --------------------------------------------
 v2 TileMap::convert(const v2& p) {
 	int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
@@ -85,12 +111,15 @@ v2 TileMap::convert(const v2& p) {
 	return convert(xp, yp);
 }
 
+// --------------------------------------------
+// convert screen pos to grid pos
+// --------------------------------------------
 v2 TileMap::convert(int x, int y) {
 	return v2(START_X + x * SQUARE_SIZE, START_Y + y * SQUARE_SIZE);
 }
 
 const uint32 TileMap::getIndex(uint32 x, uint32 y) const {
-	return x + y * _width;
+	return x + y * MAX_X;
 }
 
 Tile& TileMap::get(int x, int y) {
@@ -105,11 +134,23 @@ void TileMap::set(int x, int y, const Tile& tile) {
 	_tiles[getIndex(x, y)] = tile;
 }
 
+// --------------------------------------------
+// set state
+// --------------------------------------------
+void TileMap::setState(int x, int y, TileState state) {
+	if (isValid(x, y)) {
+		_tiles[getIndex(x, y)].state = state;
+	}
+}
+
+// --------------------------------------------
+// is valid
+// --------------------------------------------
 const bool TileMap::isValid(int x, int y) const {
-	if (x < 0 || x >= _width) {
+	if (x < 0 || x >= MAX_X) {
 		return false;
 	}
-	if (y < 0 || y >= _height) {
+	if (y < 0 || y >= MAX_Y) {
 		return false;
 	}
 	return true;
@@ -140,6 +181,22 @@ bool TileMap::isCoherent(int gx, int gy) {
 }
 
 // --------------------------------------------
+// get fill rate
+// --------------------------------------------
+int TileMap::getFillRate() {
+	int count = 0;
+	for (int y = 0; y < MAX_Y; ++y) {
+		for (int x = 0; x < MAX_X; ++x) {
+			const Tile& t = get(x, y);
+			if (t.state == TS_FILLED) {
+				++count;
+			}
+		}
+	}
+	float per = static_cast<float>(count) / static_cast<float>(_maxAvailable) * 100.0f;
+	return static_cast<int>(per);
+}
+// --------------------------------------------
 //
 // --------------------------------------------
 bool TileMap::isBlockAvailable(int gx, int gy) {
@@ -156,7 +213,7 @@ bool TileMap::isAvailable(int gx, int gy){
 		return false;
 	}
 	Tile& t = get(gx, gy);
-	return t.state == TS_AVAILABLE;
+	return t.state != TS_EMPTY;
 }
 // --------------------------------------------
 //
@@ -166,7 +223,7 @@ bool TileMap::isFree(int gx, int gy) {
 		return true;
 	}
 	Tile& t = get(gx, gy);
-	return t.state == TS_AVAILABLE;
+	return t.state == TS_AVAILABLE || t.state == TS_FILLED;
 }
 
 // -------------------------------------------------------
@@ -177,10 +234,12 @@ void TileMap::reset() {
 		for (int x = 0; x < MAX_X; ++x) {
 			Tile& t = _tiles[x + y * MAX_X];
 			t.borders = -1;
+			t.color = -1;
 			t.used = true;
 			t.state = TS_AVAILABLE;
 		}
 	}
+	_maxAvailable = 0;
 }
 
 // -------------------------------------------------------
@@ -240,9 +299,57 @@ void TileMap::load(int index) {
 			for (int x = 0; x < MAX_X; ++x) {
 				Tile t;
 				fread(&t, sizeof(Tile), 1, f);
+				// make sure color is not set
+				t.color = -1;
+				if (t.state == TS_AVAILABLE) {
+					++_maxAvailable;
+				}
 				set(x, y, t);
 			}
 		}
 	}
 	fclose(f);
+}
+
+bool TileMap::matches(int x, int y, const Tile& t) {
+	return true;
+}
+// -------------------------------------------------------------
+// check recursivley to detect matching pieces
+// -------------------------------------------------------------
+void TileMap::check(int xp, int yp, int lastDir, PointList& list, bool rec) {
+	if (isValid(xp, yp)) {
+		Tile& t = get(xp,yp);
+		int color = t.color;
+		if (color != -1) {
+			for (int i = 0; i < 4; ++i) {
+				if (i != lastDir) {
+					int sx = xp + XM[i];
+					int sy = yp + YM[i];
+					if (isAvailable(sx, sy)) {
+						Tile& nt = get(sx, sy);
+						int nc = nt.color;
+						if (nc != -1) {
+							while (color == nc && color != -1) {
+								bool recheck = !list.contains(sx, sy);
+								list.add(sx, sy);
+								if (recheck && rec) {
+									check(sx, sy, LD[i], list, rec);
+								}
+								sx += XM[i];
+								sy += YM[i];
+								if (isValid(sx, sy)) {
+									Tile& npe = get(sx, sy);
+									nc = npe.color;
+								}
+								else {
+									nc = -1;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

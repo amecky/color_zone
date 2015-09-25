@@ -18,3 +18,7 @@
 	"id" : "3" ,
 	"file" : "highscore" 
 }
+"Pause" {
+	"id" : "4" ,
+	"file" : "pause_dialog" 
+}

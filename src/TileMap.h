@@ -3,11 +3,60 @@
 #include <utils\Log.h>
 #include "Block.h"
 
+// -------------------------------------------------------------
+// Point
+// -------------------------------------------------------------
+struct Point {
+	int x;
+	int y;
+};
+
+// -------------------------------------------------------------
+// Point list
+// -------------------------------------------------------------
+class PointList {
+
+	typedef std::vector<Point> Points;
+
+public:
+	PointList() {}
+	~PointList() {}
+	void add(int x, int y) {
+		if (!contains(x, y)) {
+			Point p;
+			p.x = x;
+			p.y = y;
+			_points.push_back(p);
+		}
+	}
+	bool contains(int x, int y) const {
+		if (x >= 0 && x < MAX_X && y >= 0 && y < MAX_Y) {
+			for (size_t i = 0; i < _points.size(); ++i) {
+				if (_points[i].x == x && _points[i].y == y) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	const Point& get(int index) const {
+		return _points[index];
+	}
+	const size_t size() const {
+		return _points.size();
+	}
+private:
+	Points _points;
+};
+
+// -------------------------------------------------------------
+// Tile map
+// -------------------------------------------------------------
 class TileMap {
 
 public:	
-	TileMap(int w, int h) : _tiles(nullptr) , _width(w), _height(h) {
-		_tiles = std::make_unique<Tile[]>(w * h);
+	TileMap() : _tiles(nullptr) {
+		_tiles = std::make_unique<Tile[]>(MAX_X * MAX_Y);
 	}
 	~TileMap() {
 		LOG << "deleting TileMap";		
@@ -28,12 +77,18 @@ public:
 	void setBorder(int x, int y, int index);
 	v2 convert(const v2& p);
 	bool copyBlock(const Block& block);
-	void clearColumn(int col);
+	int clearColumn(int col);
+	int getFillRate();
 private:	
+	bool matches(int x, int y, const Tile& t);
+	void check(int xp, int yp, int lastDir, PointList& list, bool rec);
 	int determineEdge(int x, int y);
 	v2 convert(int x, int y);
-	int _width;
-	int _height;
+	void setState(int x, int y, TileState state);
+	
 	std::unique_ptr<Tile[]> _tiles;
+	ds::Texture _filledTexture;
+	ds::Texture _availableTexture;
+	int _maxAvailable;
 };
 

@@ -4,9 +4,6 @@
     <Filter Include="states">
       <UniqueIdentifier>{fd32fc8e-15e9-4f94-b883-f23830e3765c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="game">
-      <UniqueIdentifier>{a7e383de-28d7-4477-b66f-130ff855d24f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="levels">
       <UniqueIdentifier>{f8e64e3c-46b7-41b2-91cc-e1a99c508083}</UniqueIdentifier>
     </Filter>
@@ -14,10 +11,18 @@
   <ItemGroup>
     <ClCompile Include="src\TileMap.cpp" />
     <ClCompile Include="src\ColorZone.cpp" />
-    <ClCompile Include="src\TileMapEditor.cpp" />
-    <ClCompile Include="src\MainGame.cpp" />
     <ClCompile Include="src\Block.cpp" />
-    <ClCompile Include="src\BasicGameStates.cpp" />
+    <ClCompile Include="src\BasicGameStates.cpp">
+      <Filter>states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainGame.cpp">
+      <Filter>states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TileMapEditor.cpp">
+      <Filter>states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SettingsConverter.cpp" />
+    <ClCompile Include="src\SparkleEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -25,14 +30,21 @@
     <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
-    <ClInclude Include="src\TileMapEditor.h" />
-    <ClInclude Include="src\MainGame.h" />
     <ClInclude Include="src\Block.h" />
-    <ClInclude Include="src\BasicGameStates.h" />
+    <ClInclude Include="src\BasicGameStates.h">
+      <Filter>states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MainGame.h">
+      <Filter>states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TileMapEditor.h">
+      <Filter>states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SettingsConverter.h" />
+    <ClInclude Include="src\SparkleEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Blocks.manifest" />
-    <None Include="TODO.txt" />
     <None Include="levels\Level1.txt">
       <Filter>levels</Filter>
     </None>
@@ -51,6 +63,7 @@
     <None Include="levels\Level6.txt">
       <Filter>levels</Filter>
     </None>
+    <None Include="TODO.md" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Blocks.rc" />

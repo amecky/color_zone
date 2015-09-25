@@ -83,9 +83,9 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EmbedManifest>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\math;..\Diesel2D;C:\devtools\DirectX_SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\Diesel2D\Debug;C:\devtools\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
-    <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\devtools\DirectX_SDK\Lib\x86;$(ReferencePath)</ReferencePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\math;..\Diesel2D;C:\devtools\DirectX\Include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\Diesel2D\Debug;C:\devtools\DirectX\Lib\x86;$(LibraryPath)</LibraryPath>
+    <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\devtools\DirectX\Lib\x86;$(ReferencePath)</ReferencePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\Diesel2D;C:\Program Files\DirectX_SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">...\Diesel2D\Release;C:\Program Files\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
     <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files\DirectX_SDK\Lib\x86;$(ReferencePath)</ReferencePath>
@@ -231,6 +231,8 @@
     <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\ColorZone.cpp" />
     <ClCompile Include="src\MainGame.cpp" />
+    <ClCompile Include="src\SettingsConverter.cpp" />
+    <ClCompile Include="src\SparkleEffect.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
     <ClCompile Include="src\TileMapEditor.cpp" />
   </ItemGroup>
@@ -242,6 +244,8 @@
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
     <ClInclude Include="src\MainGame.h" />
+    <ClInclude Include="src\SettingsConverter.h" />
+    <ClInclude Include="src\SparkleEffect.h" />
     <ClInclude Include="src\TileMap.h" />
     <ClInclude Include="src\TileMapEditor.h" />
   </ItemGroup>
@@ -253,7 +257,7 @@
     <None Include="levels\Level4.txt" />
     <None Include="levels\Level5.txt" />
     <None Include="levels\Level6.txt" />
-    <None Include="TODO.txt" />
+    <None Include="TODO.md" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Blocks.rc" />

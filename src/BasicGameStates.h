@@ -14,3 +14,14 @@ private:
 	ds::DialogManager* _gui;
 };
 
+class GamePauseState : public ds::GameState {
+
+public:
+	GamePauseState(ds::DialogManager* gui);
+	~GamePauseState() {}
+	void activate();
+	void deactivate();
+	void onGUIButton(ds::DialogID dlgID, int button);
+private:
+	ds::DialogManager* _gui;
+};

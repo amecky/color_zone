@@ -10,6 +10,7 @@
 #include "TileMap.h"
 #include "TileMapEditor.h"
 #include "MainGame.h"
+#include "SettingsConverter.h"
 
 class ColorZone : public ds::BaseApp {
 
@@ -24,7 +25,9 @@ public:
 	void draw();
 	void onGUIButton(ds::DialogID dlgID, int button);
 private:
-	void startGame();
 	int _textureID;
+	GameContext _context;
+	SettingsLoader* _loader;
+	//GameSettings* _settings;
 };
 
