@@ -42,6 +42,7 @@ int TileMap::clearColumn(int col) {
 	int ret = 0;
 	for (int y = 0; y < MAX_Y; ++y) {
 		Tile& t = get(col, y);
+		t.color = -1;
 		if (t.used) {
 			if (t.state == TS_COHERENT) {
 				++ret;
@@ -193,6 +194,7 @@ int TileMap::getFillRate() {
 			}
 		}
 	}
+	LOGC("TileMap") << "max: " << _maxAvailable << " current: " << count;
 	float per = static_cast<float>(count) / static_cast<float>(_maxAvailable) * 100.0f;
 	return static_cast<int>(per);
 }
@@ -290,6 +292,7 @@ void TileMap::save(int index) {
 // load
 // --------------------------------------------
 void TileMap::load(int index) {
+	LOGC("TileMap") << "loading level: " << index;
 	char buffer[128];
 	sprintf_s(buffer, 128, "levels\\L%d", index);
 	reset();
@@ -307,8 +310,9 @@ void TileMap::load(int index) {
 				set(x, y, t);
 			}
 		}
-	}
-	fclose(f);
+		fclose(f);
+	}	
+	LOGC("TileMap") << "max available: " << _maxAvailable;
 }
 
 bool TileMap::matches(int x, int y, const Tile& t) {

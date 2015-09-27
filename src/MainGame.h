@@ -5,6 +5,7 @@
 #include <base\GameState.h>
 #include "Common.h"
 #include "SparkleEffect.h"
+#include <objects\HUD.h>
 
 class MainGame : public ds::GameState {
 
@@ -18,6 +19,7 @@ struct Laser {
 public:
 	MainGame(GameContext* context);
 	~MainGame();
+	void init();
 	void update(float dt);
 	void render();
 	void onButtonUp(int button, int x, int y);
@@ -31,4 +33,5 @@ private:
 	Block _mainBlock;
 	Laser _laser;
 	SparkleEffect* _effect;
+	ds::HUD _hud;
 };

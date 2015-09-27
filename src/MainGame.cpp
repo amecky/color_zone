@@ -18,6 +18,11 @@ MainGame::~MainGame() {
 	delete _effect;
 }
 
+void MainGame::init() {
+	_hud.init(0, "xscale");
+	ds::assets::load("hud", &_hud, ds::CVT_HUD);
+}
+
 void MainGame::activate() {
 	_map->reset();
 	_laser.active = false;
@@ -25,12 +30,16 @@ void MainGame::activate() {
 	_map->load(_context->levelIndex);
 	_context->score = 0;
 	_context->fillRate = 0;
+	_hud.setTimer(2, 0, 0);
+	_hud.setCounterValue(1, 0);
+	_hud.setText(3, "0 %");
 }
 
 // --------------------------------------------
 // update
 // --------------------------------------------
 void MainGame::update(float dt) {
+	_hud.update(dt);
 	// move main block
 	v2 mp = ds::renderer::getMousePosition();
 	v2 converted = _map->convert(mp);
@@ -45,8 +54,10 @@ void MainGame::update(float dt) {
 				_context->score += cleared * 100;
 				if (cleared > 0) {
 					_context->fillRate = _map->getFillRate();
-					LOG << "new score: " << _context->score;
-					LOG << "fill rate: " << _context->fillRate;
+					_hud.setCounterValue(1,_context->score);
+					char buffer[128];
+					sprintf_s(buffer, 128, "%d%%", _context->fillRate);
+					_hud.setText(3, buffer);
 				}
 			}
 			_laser.timer = 0.0f;
@@ -91,6 +102,7 @@ void MainGame::render() {
 	}
 	_previewBlock.render();
 	_mainBlock.render();
+	_hud.render();
 }
 
 // --------------------------------------------

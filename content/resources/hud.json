@@ -6,54 +6,15 @@
 	"scale" : "1.0"
 }
 "timer" {
-	"id" : "1" ,
-	"position" : "860,710" ,
-	"color" : "230,180,0,255" ,
-	"scale" : "1.0"
-}
-"text" {
-	"id" : "1" ,
-	"text" : "S:" ,
-	"position" : "40,710" ,
-	"color" : "0,100,230,255" ,
-	"scale" : "1.0"
-}
-"text" {
 	"id" : "2" ,
-	"text" : "C:" ,
-	"position" : "330,710" ,
-	"color" : "0,100,230,255" ,
+	"position" : "820,710" ,
+	"color" : "230,180,0,255" ,
 	"scale" : "1.0"
 }
 "text" {
 	"id" : "3" ,
-	"text" : "T:" ,
-	"position" : "820,710" ,
-	"color" : "0,100,230,255" ,
-	"scale" : "1.0"
-}
-"text" {
-	"id" : "6" ,
-	"text" : "N:" ,
-	"position" : "560,710" ,
-	"color" : "0,100,230,255" ,
-	"scale" : "1.0"
-}
-"text" {
-	"id" : "4" ,
 	"text" : "0%" ,
-	"position" : "370,710" ,
+	"position" : "480,30" ,
 	"color" : "230,180,0,255" ,
 	"scale" : "1.0"
-}
-"text" {
-	"id" : "5" ,
-	"text" : "Level Name" ,
-	"position" : "400,40" ,
-	"color" : "230,180,0,255" ,
-	"scale" : "1.0"
-}
-"image" {
-	"id" : "1" 	,
-	"position" : "400,40" 
 }
