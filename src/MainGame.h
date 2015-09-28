@@ -20,12 +20,13 @@ public:
 	MainGame(GameContext* context);
 	~MainGame();
 	void init();
-	void update(float dt);
+	int update(float dt);
 	void render();
-	void onButtonUp(int button, int x, int y);
-	void onChar(int ascii);
+	int onButtonUp(int button, int x, int y);
+	int onChar(int ascii);
 	void activate();	
 private:	
+	void moveLaser(float dt);
 	void startLaser();
 	std::unique_ptr<TileMap> _map;
 	GameContext* _context;

@@ -1,6 +1,6 @@
 #pragma once
 #include <Vector.h>
-#include <utils\Color.h>
+#include <renderer\render_types.h>
 
 struct SparkleArray {
 
@@ -9,7 +9,7 @@ struct SparkleArray {
 	v2* scales;
 	float* rotations;
 	float* timers;
-	ds::Color* colors;
+	ds::Texture* textures;
 	char* buffer;
 
 	int count;
@@ -24,14 +24,14 @@ struct SparkleArray {
 	}
 
 	void initialize(unsigned int maxParticles) {
-		int size = maxParticles * (sizeof(v2) * 3 + sizeof(float) * 2 + sizeof(ds::Color));
+		int size = maxParticles * (sizeof(v2) * 3 + sizeof(float) * 2 + sizeof(ds::Texture));
 		buffer = new char[size];
 		positions = (v2*)(buffer);
 		velocities = (v2*)(positions + maxParticles);		
 		scales = (v2*)(velocities + maxParticles);
 		rotations = (float*)(scales + maxParticles);
 		timers = (float*)(rotations + maxParticles);		
-		colors = (ds::Color*)(timers + maxParticles);
+		textures = (ds::Texture*)(timers + maxParticles);
 		count = maxParticles;
 		countAlive = 0;
 	}
@@ -43,7 +43,7 @@ struct SparkleArray {
 			scales[a] = scales[b];
 			rotations[a] = rotations[b];
 			timers[a] = timers[b];
-			colors[a] = colors[b];
+			textures[a] = textures[b];
 		}
 	}
 
@@ -68,7 +68,7 @@ class SparkleEffect {
 public:
 	SparkleEffect();
 	~SparkleEffect();
-	void start(int x, int y, const ds::Color& color);
+	void start(int x, int y, const ds::Rect& r,int pieces);
 	void update(float dt);
 	void render();
 private:

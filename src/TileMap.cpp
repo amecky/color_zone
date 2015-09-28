@@ -35,6 +35,12 @@ bool TileMap::copyBlock(const Block& block) {
 	return false;
 }
 
+void TileMap::getColumn(int col, int* colors) {
+	for (int y = 0; y < MAX_Y; ++y) {
+		Tile& t = get(col, y);
+		colors[y] = t.color;		
+	}
+}
 // --------------------------------------------
 // clear column
 // --------------------------------------------

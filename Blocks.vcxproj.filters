@@ -7,14 +7,17 @@
     <Filter Include="levels">
       <UniqueIdentifier>{f8e64e3c-46b7-41b2-91cc-e1a99c508083}</UniqueIdentifier>
     </Filter>
+    <Filter Include="content">
+      <UniqueIdentifier>{e462d997-bdf3-415b-ba93-a93464ad7f3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\dialogs">
+      <UniqueIdentifier>{b0c69f07-a4ea-4bf5-8041-3c6b107a4845}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TileMap.cpp" />
     <ClCompile Include="src\ColorZone.cpp" />
     <ClCompile Include="src\Block.cpp" />
-    <ClCompile Include="src\BasicGameStates.cpp">
-      <Filter>states</Filter>
-    </ClCompile>
     <ClCompile Include="src\MainGame.cpp">
       <Filter>states</Filter>
     </ClCompile>
@@ -31,9 +34,6 @@
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
     <ClInclude Include="src\Block.h" />
-    <ClInclude Include="src\BasicGameStates.h">
-      <Filter>states</Filter>
-    </ClInclude>
     <ClInclude Include="src\MainGame.h">
       <Filter>states</Filter>
     </ClInclude>
@@ -64,6 +64,21 @@
       <Filter>levels</Filter>
     </None>
     <None Include="TODO.md" />
+    <None Include="content\dialogs\credits.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\game_over.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\highscore.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\pause_dialog.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\start_dialog.json">
+      <Filter>content\dialogs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Blocks.rc" />

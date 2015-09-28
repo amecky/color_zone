@@ -79,6 +79,7 @@ public:
 	bool copyBlock(const Block& block);
 	int clearColumn(int col);
 	int getFillRate();
+	void getColumn(int col,int* colors);
 private:	
 	bool matches(int x, int y, const Tile& t);
 	void check(int xp, int yp, int lastDir, PointList& list, bool rec);

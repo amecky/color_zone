@@ -1,7 +1,6 @@
 #include "ColorZone.h"
 #include <sprites\SpriteBatch.h>
 #include <base\GameStateMachine.h>
-#include "BasicGameStates.h"
 
 ds::BaseApp *app = new ColorZone();
 
@@ -13,10 +12,14 @@ ColorZone::ColorZone() {
 	_context.levelIndex = 2;
 	_context.score = 0;
 	m_ClearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
-	stateMachine->add<TileMapEditor>("TileMapEditor");
+	stateMachine->add(new TileMapEditor());
 	stateMachine->add( new MainGame(&_context));
-	stateMachine->add(new StartMenuState(&gui));	
-	stateMachine->add(new GamePauseState(&gui));
+	stateMachine->add(new ds::BasicMenuGameState("StartMenu", "MainMenu", &gui));
+	stateMachine->add(new ds::BasicMenuGameState("GamePause","Pause",&gui));
+	stateMachine->connect("GamePause", 1, "StartMenu");
+	stateMachine->connect("StartMenu", 1, "MainGame");
+	stateMachine->connect("StartMenu", 2, "TileMapEditor");
+	stateMachine->connect("TileMapEditor", 1, "StartMenu");
 }
 
 
@@ -35,7 +38,7 @@ bool ColorZone::loadContent() {
 	uint32 convID = ds::assets::registerConverter(_loader);
 	ds::assets::load("color_zone", _loader, convID);
 	_context.settings = _loader->get();
-	stateMachine->activate("GamePause");
+	stateMachine->activate("StartMenu");
 	return true;
 }
 
@@ -46,7 +49,7 @@ void ColorZone::draw() {
 }
 
 void ColorZone::onGUIButton(ds::DialogID dlgID, int button) {
-	if (dlgID == 1 && button == 1) {
+	if (dlgID == 1 && button == 3) {
 		shutdown();
 	}
 }

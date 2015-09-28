@@ -4,7 +4,7 @@
 #include <renderer\graphics.h>
 #include <base\GameStateMachine.h>
 
-TileMapEditor::TileMapEditor(const char* name) : ds::GameState(name) {
+TileMapEditor::TileMapEditor() : ds::GameState("TileMapEditor") {
 	_map = std::make_unique<TileMap>();
 	activate();
 }
@@ -26,8 +26,9 @@ void TileMapEditor::activate() {
 // --------------------------------------------
 // update
 // --------------------------------------------
-void TileMapEditor::update(float dt) {
+int TileMapEditor::update(float dt) {
 	// nothing to do
+	return 0;
 }
 
 // --------------------------------------------
@@ -49,7 +50,7 @@ int TileMapEditor::selectBorder(int x, int y) {
 // --------------------------------------------
 // click
 // --------------------------------------------
-void TileMapEditor::onButtonUp(int button, int x, int y) {
+int TileMapEditor::onButtonUp(int button, int x, int y) {
 	int border = selectBorder(x, y);
 	if (border != -1) {
 		_currentBorder = border;
@@ -83,6 +84,7 @@ void TileMapEditor::onButtonUp(int button, int x, int y) {
 			}
 		}
 	}
+	return 0;
 }
 
 // --------------------------------------------
@@ -120,7 +122,7 @@ void TileMapEditor::render() {
 // --------------------------------------------
 // on char
 // --------------------------------------------
-void TileMapEditor::onChar(int ascii) {
+int TileMapEditor::onChar(int ascii) {
 	if (ascii == '1') {
 		_mode = EM_EDIT_MAP;
 	}
@@ -143,7 +145,8 @@ void TileMapEditor::onChar(int ascii) {
 		_map->load(_levelIndex);
 	}
 	if (ascii == 'x') {
-		stateMachine->activate("StartMenu");
+		return 1;
 	}
+	return 0;
 }
 

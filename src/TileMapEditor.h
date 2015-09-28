@@ -11,12 +11,12 @@ enum EditorMode {
 };
 
 public:
-	TileMapEditor(const char* name);
+	TileMapEditor();
 	~TileMapEditor();
-	void update(float dt);
+	int update(float dt);
 	void render();
-	void onButtonUp(int button, int x, int y);
-	void onChar(int ascii);
+	int onButtonUp(int button, int x, int y);
+	int onChar(int ascii);
 	void activate();
 private:
 	int selectBorder(int x, int y);

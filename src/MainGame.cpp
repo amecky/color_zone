@@ -36,25 +36,26 @@ void MainGame::activate() {
 }
 
 // --------------------------------------------
-// update
+// move laser
 // --------------------------------------------
-void MainGame::update(float dt) {
-	_hud.update(dt);
-	// move main block
-	v2 mp = ds::renderer::getMousePosition();
-	v2 converted = _map->convert(mp);
-	_mainBlock.setPosition(converted);
-	// move laser
+void MainGame::moveLaser(float dt) {
 	if (_laser.active) {
 		_laser.timer += dt;
 		if (_laser.timer > 0.4f) {
 			++_laser.column;
 			if (_laser.column >= 0 && _laser.column < MAX_X) {
+				int colors[MAX_Y];
+				_map->getColumn(_laser.column, colors);
+				for (int i = 0; i < MAX_Y; ++i) {
+					if (colors[i] != -1) {
+						_effect->start(_laser.column, i, ds::Rect(170,2 + colors[i]*36,32,32),4);
+					}
+				}
 				int cleared = _map->clearColumn(_laser.column);
 				_context->score += cleared * 100;
 				if (cleared > 0) {
 					_context->fillRate = _map->getFillRate();
-					_hud.setCounterValue(1,_context->score);
+					_hud.setCounterValue(1, _context->score);
 					char buffer[128];
 					sprintf_s(buffer, 128, "%d%%", _context->fillRate);
 					_hud.setText(3, buffer);
@@ -74,11 +75,24 @@ void MainGame::update(float dt) {
 		}
 	}
 }
+// --------------------------------------------
+// update
+// --------------------------------------------
+int MainGame::update(float dt) {
+	_hud.update(dt);
+	// move main block
+	v2 mp = ds::renderer::getMousePosition();
+	v2 converted = _map->convert(mp);
+	_mainBlock.setPosition(converted);
+	moveLaser(dt);	
+	_effect->update(dt);
+	return 0;
+}
 
 // --------------------------------------------
 // click
 // --------------------------------------------
-void MainGame::onButtonUp(int button, int x, int y) {
+int MainGame::onButtonUp(int button, int x, int y) {
 	if (button == 0) {
 		if (_map->copyBlock(_mainBlock)) {
 			_mainBlock.copyColors(_previewBlock);
@@ -88,6 +102,7 @@ void MainGame::onButtonUp(int button, int x, int y) {
 	else if (button == 1) {
 		_mainBlock.rotate();
 	}
+	return 0;
 }
 
 // --------------------------------------------
@@ -100,6 +115,7 @@ void MainGame::render() {
 			ds::sprites::draw(v2(START_X + 36 * _laser.column, START_Y + i * SQUARE_SIZE), _laser.texture);
 		}
 	}
+	_effect->render();
 	_previewBlock.render();
 	_mainBlock.render();
 	_hud.render();
@@ -119,7 +135,7 @@ void MainGame::startLaser() {
 // --------------------------------------------
 // on char
 // --------------------------------------------
-void MainGame::onChar(int ascii) {
+int MainGame::onChar(int ascii) {
 	if (ascii == '1') {
 		_mainBlock.copyColors(_previewBlock);
 		_previewBlock.pickColors();
@@ -127,4 +143,8 @@ void MainGame::onChar(int ascii) {
 	if (ascii == 's') {
 		startLaser();
 	}
+	if (ascii == 'd') {
+		_effect->start(1, 1, ds::Rect(170, 2, 32, 32), 4);
+	}
+	return 0;
 }
