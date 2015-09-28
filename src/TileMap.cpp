@@ -8,8 +8,8 @@ const int MARK_STEPS[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
 
 bool TileMap::copyBlock(const Block& block) {
 	v2 p = block.getPosition();
-	int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
-	int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	int xp = (p.x - _startX + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	int yp = (p.y - _startY + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	if (isBlockAvailable(xp, yp)) {
 		for (int i = 0; i < 4; ++i) {
 			int cx = xp + MARK_STEPS[i * 2];
@@ -65,23 +65,32 @@ int TileMap::clearColumn(int col) {
 // --------------------------------------------
 // render
 // --------------------------------------------
-void TileMap::render() {
+void TileMap::render() {	
+	render(SQUARE_SIZE, 1.0f);
+}
+
+// --------------------------------------------
+// render
+// --------------------------------------------
+void TileMap::render(int squareSize,float scale) {
+	int startX = (1024 - squareSize * MAX_X) / 2;
+	int startY = ( 768 - squareSize * MAX_Y) / 2;
 	for (int x = 0; x < MAX_X; ++x) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			const Tile& t = get(x, y);
-			v2 p = v2(START_X + x * SQUARE_SIZE, START_Y + y * SQUARE_SIZE);
+			v2 p = v2(startX + x * squareSize, startY + y * squareSize);
 			if (t.used) {
 				if (t.state == TS_AVAILABLE) {
-					ds::sprites::draw(p, ds::math::buildTexture(0, 0, 36, 36));
-				}				
+					ds::sprites::draw(p, ds::math::buildTexture(0, 0, 36, 36), 0.0f, scale, scale);
+				}
 				else if (t.state == TS_MARKED) {
-					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36));
+					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36), 0.0f, scale, scale);
 				}
 				else if (t.state == TS_COHERENT) {
-					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36),0.0f,0.5f,0.5f);
-				}				
+					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36), 0.0f, 0.5f, 0.5f);
+				}
 				else if (t.state == TS_FILLED) {
-					ds::sprites::draw(p, ds::math::buildTexture(0, 150, 36, 36));					
+					ds::sprites::draw(p, ds::math::buildTexture(0, 150, 36, 36), 0.0f, scale, scale);
 				}
 			}
 		}
@@ -89,20 +98,38 @@ void TileMap::render() {
 	for (int x = 0; x < MAX_X; ++x) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			const Tile& t = get(x, y);
-			v2 p = v2(START_X + x * SQUARE_SIZE, START_Y + y * SQUARE_SIZE);
-			if ( t.borders != -1 ) {
-				ds::sprites::draw(p, ds::math::buildTexture(44, 44 * t.borders, BORDER_SIZE, BORDER_SIZE));
+			v2 p = v2(startX + x * squareSize, startY + y * squareSize);
+			if (t.borders != -1) {
+				ds::sprites::draw(p, ds::math::buildTexture(44, 44 * t.borders, BORDER_SIZE, BORDER_SIZE), 0.0f, scale, scale);
 			}
 		}
 	}
 }
 
+v2 TileMap::convertToGridPos(int x, int y) {
+	int xp = (x - _startX + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	int yp = (y - _startY + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	if (xp < 0) {
+		xp = 0;
+	}
+	if (xp > (MAX_X - 1)) {
+		xp = MAX_X - 1;
+	}
+	if (yp < 0) {
+		yp = 0;
+	}
+	if (yp > (MAX_Y - 1)) {
+		yp = MAX_Y - 1;
+	}
+	return v2(xp, yp);
+}
 // --------------------------------------------
 // convert screen pos to aligned screen pos
 // --------------------------------------------
 v2 TileMap::convert(const v2& p) {
-	int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
-	int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	
+	int xp = (p.x - _startX + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	int yp = (p.y - _startY+ SQUARE_SIZE / 2) / SQUARE_SIZE;
 	if (xp < 0) {
 		xp = 0;
 	}
@@ -122,7 +149,7 @@ v2 TileMap::convert(const v2& p) {
 // convert screen pos to grid pos
 // --------------------------------------------
 v2 TileMap::convert(int x, int y) {
-	return v2(START_X + x * SQUARE_SIZE, START_Y + y * SQUARE_SIZE);
+	return v2(_startX + x * SQUARE_SIZE, _startY + y * SQUARE_SIZE);
 }
 
 const uint32 TileMap::getIndex(uint32 x, uint32 y) const {

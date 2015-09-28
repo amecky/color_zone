@@ -1,6 +1,7 @@
 #pragma once
 #include <Vector.h>
 #include <renderer\render_types.h>
+#include "Common.h"
 
 struct SparkleArray {
 
@@ -66,12 +67,15 @@ struct SparkleArray {
 class SparkleEffect {
 
 public:
-	SparkleEffect();
+	SparkleEffect(GameContext* context);
 	~SparkleEffect();
 	void start(int x, int y, const ds::Rect& r,int pieces);
 	void update(float dt);
 	void render();
 private:
+	GameContext* _context;
 	SparkleArray _sparkles;
+	int _startX;
+	int _startY;
 };
 

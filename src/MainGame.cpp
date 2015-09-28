@@ -11,7 +11,7 @@ MainGame::MainGame(GameContext* context) : ds::GameState("MainGame") , _context(
 	_laser.timer = 0.0f;
 	_laser.column = 0;
 	_laser.texture = ds::math::buildTexture(132, 220, 36, 36);
-	_effect = new SparkleEffect;
+	_effect = new SparkleEffect(_context);
 }
 
 MainGame::~MainGame() {
@@ -112,7 +112,7 @@ void MainGame::render() {
 	_map->render();
 	if (_laser.active) {
 		for (int i = 0; i < MAX_Y; ++i) {
-			ds::sprites::draw(v2(START_X + 36 * _laser.column, START_Y + i * SQUARE_SIZE), _laser.texture);
+			ds::sprites::draw(_map->convert(_laser.column,i), _laser.texture);
 		}
 	}
 	_effect->render();

@@ -22,3 +22,7 @@
 	"id" : "4" ,
 	"file" : "pause_dialog" 
 }
+"LevelSelector" {
+	"id" : "5" ,
+	"file" : "level_selector" 
+}

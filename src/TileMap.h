@@ -57,11 +57,14 @@ class TileMap {
 public:	
 	TileMap() : _tiles(nullptr) {
 		_tiles = std::make_unique<Tile[]>(MAX_X * MAX_Y);
+		_startX = (1024 - SQUARE_SIZE * MAX_X) / 2;
+		_startY = (768 - SQUARE_SIZE * MAX_Y) / 2;
 	}
 	~TileMap() {
 		LOG << "deleting TileMap";		
 	}
 	void render();
+	void render(int squareSize, float scale);
 	const uint32 getIndex(uint32 x, uint32 y) const;
 	Tile& get(int x, int y);
 	const Tile& get(int x, int y) const;
@@ -80,16 +83,20 @@ public:
 	int clearColumn(int col);
 	int getFillRate();
 	void getColumn(int col,int* colors);
+	v2 convert(int x, int y);
+	v2 convertToGridPos(int x, int y);
 private:	
 	bool matches(int x, int y, const Tile& t);
 	void check(int xp, int yp, int lastDir, PointList& list, bool rec);
 	int determineEdge(int x, int y);
-	v2 convert(int x, int y);
+	
 	void setState(int x, int y, TileState state);
 	
 	std::unique_ptr<Tile[]> _tiles;
 	ds::Texture _filledTexture;
 	ds::Texture _availableTexture;
 	int _maxAvailable;
+	int _startX;
+	int _startY;
 };
 

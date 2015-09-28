@@ -13,6 +13,12 @@
     <Filter Include="content\dialogs">
       <UniqueIdentifier>{b0c69f07-a4ea-4bf5-8041-3c6b107a4845}</UniqueIdentifier>
     </Filter>
+    <Filter Include="content\settings">
+      <UniqueIdentifier>{612ffd42-7601-40e7-ab24-83bc3def3966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="content\resources">
+      <UniqueIdentifier>{0ec58baa-0482-45e0-a299-9a1c3f4ce9fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TileMap.cpp" />
@@ -26,6 +32,9 @@
     </ClCompile>
     <ClCompile Include="src\SettingsConverter.cpp" />
     <ClCompile Include="src\SparkleEffect.cpp" />
+    <ClCompile Include="src\LevelSelectorState.cpp">
+      <Filter>states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -42,6 +51,9 @@
     </ClInclude>
     <ClInclude Include="src\SettingsConverter.h" />
     <ClInclude Include="src\SparkleEffect.h" />
+    <ClInclude Include="src\LevelSelectorState.h">
+      <Filter>states</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blocks.manifest" />
@@ -77,6 +89,21 @@
       <Filter>content\dialogs</Filter>
     </None>
     <None Include="content\dialogs\start_dialog.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\settings\color_zone.json">
+      <Filter>content\settings</Filter>
+    </None>
+    <None Include="content\resources\gui.json">
+      <Filter>content\resources</Filter>
+    </None>
+    <None Include="content\resources\hud.json">
+      <Filter>content\resources</Filter>
+    </None>
+    <None Include="content\resources\xscale.json">
+      <Filter>content\resources</Filter>
+    </None>
+    <None Include="content\dialogs\level_selector.json">
       <Filter>content\dialogs</Filter>
     </None>
   </ItemGroup>

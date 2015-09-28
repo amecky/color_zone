@@ -1,8 +1,10 @@
 "settings" {
-
-	"timer_pos" : "810,720" ,
-	"score_pos" : "50,720" ,
-	"percentage_pos" : "490,35" ,
+	"sparkle_gap" : "2" ,
+	"sparkle_ttl" : "0.6" ,
+	"sparkle_start_scale" : "1.0" ,
+	"sparkle_end_scale" : "0.4" ,
+	"sparkle_velocity" : "20" ,
+	"sparkle_velocity_variance" : "4.0" ,
 	"laser_start_delay" : "10" ,
 	"laser_waiting_time" : "2"
 

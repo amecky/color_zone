@@ -16,8 +16,8 @@ const int XM[4] = { 1, -1, 0, 0 };
 const int YM[4] = { 0, 0, 1, -1 };
 const int LD[4] = { 1, 0, 3, 2 };
 
-const int START_X = 50;
-const int START_Y = 100;
+//const int START_X = 50;
+//const int START_Y = 100;
 const int SQUARE_SIZE = 36;
 
 const int BLOCK_X[4] = {0,1,1,0};

@@ -83,9 +83,9 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EmbedManifest>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\math;..\Diesel2D;C:\devtools\DirectX\Include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\Diesel2D\Debug;C:\devtools\DirectX\Lib\x86;$(LibraryPath)</LibraryPath>
-    <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\devtools\DirectX\Lib\x86;$(ReferencePath)</ReferencePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\math;..\Diesel2D;C:\devtools\DirectX_SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\Diesel2D\Debug;C:\devtools\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
+    <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\devtools\DirectX_SDK\Lib\x86;$(ReferencePath)</ReferencePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\Diesel2D;C:\Program Files\DirectX_SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">...\Diesel2D\Release;C:\Program Files\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
     <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files\DirectX_SDK\Lib\x86;$(ReferencePath)</ReferencePath>
@@ -229,6 +229,7 @@
   <ItemGroup>
     <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\ColorZone.cpp" />
+    <ClCompile Include="src\LevelSelectorState.cpp" />
     <ClCompile Include="src\MainGame.cpp" />
     <ClCompile Include="src\SettingsConverter.cpp" />
     <ClCompile Include="src\SparkleEffect.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
+    <ClInclude Include="src\LevelSelectorState.h" />
     <ClInclude Include="src\MainGame.h" />
     <ClInclude Include="src\SettingsConverter.h" />
     <ClInclude Include="src\SparkleEffect.h" />
@@ -252,8 +254,13 @@
     <None Include="content\dialogs\credits.json" />
     <None Include="content\dialogs\game_over.json" />
     <None Include="content\dialogs\highscore.json" />
+    <None Include="content\dialogs\level_selector.json" />
     <None Include="content\dialogs\pause_dialog.json" />
     <None Include="content\dialogs\start_dialog.json" />
+    <None Include="content\resources\gui.json" />
+    <None Include="content\resources\hud.json" />
+    <None Include="content\resources\xscale.json" />
+    <None Include="content\settings\color_zone.json" />
     <None Include="levels\Level1.txt" />
     <None Include="levels\Level2.txt" />
     <None Include="levels\Level3.txt" />

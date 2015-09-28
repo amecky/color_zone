@@ -56,11 +56,10 @@ int TileMapEditor::onButtonUp(int button, int x, int y) {
 		_currentBorder = border;
 	}	
 	else {
-		if (_mode == EM_EDIT_MAP) {
-			int xp = (x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
-			int yp = ((768 - y) - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
-			if (_map->isValid(xp, yp)) {
-				Tile& t = _map->get(xp, yp);
+		v2 p = _map->convertToGridPos(x, 768 - y);
+		if (_mode == EM_EDIT_MAP) {			
+			if (_map->isValid(p.x, p.y)) {
+				Tile& t = _map->get(p.x, p.y);
 				if (button == 1) {
 					t.used = false;
 					t.state = TS_EMPTY;
@@ -72,14 +71,12 @@ int TileMapEditor::onButtonUp(int button, int x, int y) {
 			}
 		}
 		else if (_mode == EM_BORDERS) {
-			int xp = (x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
-			int yp = ((768 - y) - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
-			if (_map->isValid(xp, yp)) {
+			if (_map->isValid(p.x, p.y)) {
 				if (button == 0) {
-					_map->setBorder(xp,yp, _currentBorder);
+					_map->setBorder(p.x,p.y, _currentBorder);
 				}
 				else {
-					_map->setBorder(xp, yp, -1);
+					_map->setBorder(p.x, p.y, -1);
 				}
 			}
 		}
