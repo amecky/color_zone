@@ -230,6 +230,7 @@
     <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\ColorZone.cpp" />
     <ClCompile Include="src\FileManager.cpp" />
+    <ClCompile Include="src\GameOverState.cpp" />
     <ClCompile Include="src\Highscores.cpp" />
     <ClCompile Include="src\LevelSelectorState.cpp" />
     <ClCompile Include="src\MainGame.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
     <ClInclude Include="src\FileManager.h" />
+    <ClInclude Include="src\GameOverState.h" />
     <ClInclude Include="src\Highscores.h" />
     <ClInclude Include="src\LevelSelectorState.h" />
     <ClInclude Include="src\MainGame.h" />

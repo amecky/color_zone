@@ -37,6 +37,9 @@
     </ClCompile>
     <ClCompile Include="src\FileManager.cpp" />
     <ClCompile Include="src\Highscores.cpp" />
+    <ClCompile Include="src\GameOverState.cpp">
+      <Filter>states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -58,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="src\FileManager.h" />
     <ClInclude Include="src\Highscores.h" />
+    <ClInclude Include="src\GameOverState.h">
+      <Filter>states</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blocks.manifest" />

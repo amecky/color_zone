@@ -2,6 +2,7 @@
 #include <sprites\SpriteBatch.h>
 #include <base\GameStateMachine.h>
 #include "LevelSelectorState.h"
+#include "GameOverState.h"
 
 ds::BaseApp *app = new ColorZone();
 
@@ -21,7 +22,7 @@ ColorZone::ColorZone() {
 	stateMachine->add(new LevelSelectorState(&gui,&_context)); 
 	stateMachine->add(new ds::BasicMenuGameState("StartMenu", "MainMenu", &gui));
 	stateMachine->add(new ds::BasicMenuGameState("GamePause","Pause",&gui));
-	stateMachine->add(new ds::BasicMenuGameState("GameOverState", "GameOver", &gui));
+	stateMachine->add(new GameOverState(&gui,&_context));
 	stateMachine->connect("StartMenu", 1, "LevelSelectorState");
 	stateMachine->connect("StartMenu", 2, "TileMapEditor");
 	stateMachine->connect("TileMapEditor", 1, "StartMenu");

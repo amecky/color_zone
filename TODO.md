@@ -1,6 +1,5 @@
 # TODO
 - [ ] morph effect - when block is copied the underlying piece should grow from 0.5 to 1.0
-- [ ] level selector -> add mode selector 
 - [ ] add game over state and set text
 - [ ] save highscores - 5 per level
 - [ ] add highscore system
@@ -8,6 +7,7 @@
 - [ ] show fillrate as percentage block
 
 29.09.2015
+- [x] level selector -> add mode selector 
 - [x] do not delete fill tiles when cleaning a column
 - [x] coverage mode - player needs to achieve xx % of fillrate
 - [x] timer mode - game will run for x (3) minutes

@@ -39,6 +39,15 @@ void MainGame::activate() {
 	_context->resume = false;
 }
 
+void MainGame::fillHighscore() {
+	_context->currentScore.fillrate = _context->fillRate;
+	_context->currentScore.score = _context->score;
+	_context->currentScore.mode = _context->gameMode;
+	_context->currentScore.level = _context->levelIndex;
+	ds::GameTimer* timer = _hud.getTimer(2);
+	_context->currentScore.minutes = timer->getMinutes();
+	_context->currentScore.seconds = timer->getSeconds();
+}
 // --------------------------------------------
 // move laser
 // --------------------------------------------
@@ -87,6 +96,7 @@ int MainGame::update(float dt) {
 	if (_context->gameMode == GM_TIMER) {
 		ds::GameTimer* timer = _hud.getTimer(2);
 		if (timer->getMinutes() > 0) {
+			fillHighscore();
 			return 666;
 		}
 	}
@@ -97,6 +107,7 @@ int MainGame::update(float dt) {
 	moveLaser(dt);	
 	if (_context->gameMode == GM_COVERAGE) {
 		if (_context->fillRate >= 80) {
+			fillHighscore();
 			return 666;
 		}
 	}

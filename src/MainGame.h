@@ -28,6 +28,7 @@ public:
 private:	
 	void moveLaser(float dt);
 	void startLaser();
+	void fillHighscore();
 	std::unique_ptr<TileMap> _map;
 	GameContext* _context;
 	Block _previewBlock;

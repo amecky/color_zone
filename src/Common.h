@@ -11,6 +11,16 @@ enum GameMode {
 	GM_TIMER
 };
 
+struct Highscore {
+
+	int score;
+	int fillrate;
+	int minutes;
+	int seconds;
+	int level;
+	GameMode mode;
+};
+
 struct GameContext {
 
 	int levelIndex;
@@ -20,6 +30,7 @@ struct GameContext {
 	GameSettings* settings;
 	Filesystem filesystem;
 	GameMode gameMode;
+	Highscore currentScore;
 };
 
 // Bits
