@@ -1,18 +1,23 @@
-"dialog" { "name" : "PauseDialog" }
-"image" { 
-	"id" : "100" , "pos" : "200,700" , "rect" : "330,420,400,84" , "centered" : "false" 
-}
-"image" { 
-	"id" : "101" , "pos" : "600,700" , "rect" : "330,420,400,84" , "centered" : "false" 
-}
-"image" { 
-	"id" : "102" , "pos" : "920,700" , "rect" : "330,420,240,84" , "centered" : "false" 
-}
+"dialog" { "name" : "LevelSelector" }
+
+"image" { "id" : "100" , "pos" : "200,710" , "rect" : "204,0,502,94" }
+
+"image" { "id" : "101" , "pos" : "330,620" , "rect" : "300,500,400,60" , "centered" : "false" }
+"image" { "id" : "102" , "pos" : "700,620" , "rect" : "300,650,350,60" , "centered" : "false" }
+"image" { "id" : "103" , "pos" : "330,570" , "rect" : "730,500,400,60" , "centered" : "false" }
+"image" { "id" : "104" , "pos" : "700,570" , "rect" : "730,650,350,60" , "centered" : "false" }
+
+"image" { "id" : "105" , "pos" : "330,390" , "rect" : "300,500,400,300" , "centered" : "false" }
+"image" { "id" : "106" , "pos" : "700,390" , "rect" : "300,650,350,300" , "centered" : "false" }
+"image" { "id" : "107" , "pos" : "330,230" , "rect" : "730,500,400,60" , "centered" : "false" }
+"image" { "id" : "108" , "pos" : "700,230" , "rect" : "730,650,350,60" , "centered" : "false" }
+
 "text" { 
-	"id" : "10" , "pos" : "400,690" , "text" : "Select Level" , "color" : "255,255,255,255" , "scale" : "1.5" 
+	"id" : "10" , "pos" : "400,700" , "text" : "Select Level" , "color" : "255,255,255,255" , "scale" : "1.5" 
 }
 "text" { "id" : "6" , "pos" : "150,595" , "text" : "Timer mode" }
-"button" { "id" : "1" , "pos" : "400,120" , "text" : "Play" , "rect" : "510,0,340,50" }
+"button" { "id" : "1" , "pos" : "400,160" , "text" : "Play" , "rect" : "510,0,340,50" }
+"button" { "id" : "7" , "pos" : "400,80" , "text" : "Main Menu" , "rect" : "510,0,340,50" }
 "button" { "id" : "2" , "pos" : "200,384" , "rect" : "500,350,62,62" , "centered" : "false"  }
 "button" { "id" : "3" , "pos" : "810,384" , "rect" : "500,420,62,62" , "centered" : "false" }
 "button" { "id" : "4" , "pos" : "200,600" , "rect" : "500,350,62,62" , "centered" : "false"  }

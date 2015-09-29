@@ -1,15 +1,12 @@
 "dialog" { 
-	"name" : "HighscoreDialog" 
+	"name" : "Credits" 
 }
-"image" { 
-	"id" : "100" , "pos" : "200,700" , "rect" : "330,420,400,84" , "centered" : "false" 
-}
-"image" { 
-	"id" : "101" , "pos" : "600,700" , "rect" : "330,420,400,84" , "centered" : "false" 
-}
-"image" { 
-	"id" : "102" , "pos" : "1000,700" , "rect" : "330,420,400,84" , "centered" : "false" 
-}
+"image" { "id" : "100" , "pos" : "200,710" , "rect" : "204,0,502,94" }
+"image" { "id" : "101" , "pos" : "400,445" , "rect" : "300,500,400,120" , "centered" : "false" }
+"image" { "id" : "102" , "pos" : "400,325" , "rect" : "650,500,400,135" , "centered" : "false" }
+"image" { "id" : "103" , "pos" : "660,445" , "rect" : "300,600,400,120" , "centered" : "false" }
+"image" { "id" : "104" , "pos" : "660,325" , "rect" : "650,600,400,135" , "centered" : "false" }
+
 "text" { 
 	"id" : "3" , "pos" : "400,690" , "text" : "Credits" , "color" : "255,255,255,255" , "scale" : "1.5" 
 }
@@ -23,8 +20,6 @@
 "text" { "id" : "22" , "pos" : "500,350" , "text" : "freesounds.org"  , "centered" : "false" }
 "text" { "id" : "23" , "pos" : "500,300" , "text" : "XScale"  , "centered" : "false" }
 
-"button" { 
-	"id" : "1" , "pos" : "400,120" , "text" : "Main Menu" , "rect" : "510,0,340,50" 
-}
+"button" { "id" : "1" , "pos" : "400,120" , "text" : "Main Menu" , "rect" : "510,0,340,50" }
 
 

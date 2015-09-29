@@ -1,15 +1,12 @@
 "dialog" { "name" : "StartDialog" }
 "image" { 
-	"id" : "100" , "pos" : "200,700" , "rect" : "330,420,400,84" , "centered" : "false" 
+	"id" : "100" , "pos" : "200,710" , "rect" : "204,0,502,94"
 }
 "image" { 
-	"id" : "101" , "pos" : "600,700" , "rect" : "330,420,400,84" , "centered" : "false" 
-}
-"image" { 
-	"id" : "102" , "pos" : "920,700" , "rect" : "330,420,240,84" , "centered" : "false" 
+	"id" : "101" , "pos" : "200,350" , "rect" : "300,500,500,485"
 }
 "text" { 
-	"id" : "10" , "pos" : "400,690" , "text" : "Main Menu" , "color" : "255,255,255,255" , "scale" : "1.5" 
+	"id" : "10" , "pos" : "400,700" , "text" : "Main Menu" , "color" : "255,255,255,255" , "scale" : "1.5" 
 }
 "button" { "id" : "1" , "pos" : "400,500" , "text" : "New Game" , "rect" : "510,0,340,50" }
 "button" { "id" : "2" , "pos" : "400,400" , "text" : "Editor" , "rect" : "510,0,340,50" }

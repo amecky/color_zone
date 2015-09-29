@@ -22,16 +22,20 @@ ColorZone::ColorZone() {
 	stateMachine->add(new LevelSelectorState(&gui,&_context)); 
 	stateMachine->add(new ds::BasicMenuGameState("StartMenu", "MainMenu", &gui));
 	stateMachine->add(new ds::BasicMenuGameState("GamePause","Pause",&gui));
+	stateMachine->add(new ds::BasicMenuGameState("Credits", "Credits", &gui));
 	stateMachine->add(new GameOverState(&gui,&_context));
 	stateMachine->connect("StartMenu", 1, "LevelSelectorState");
 	stateMachine->connect("StartMenu", 2, "TileMapEditor");
+	stateMachine->connect("StartMenu", 4, "Credits");
 	stateMachine->connect("TileMapEditor", 1, "StartMenu");
 	stateMachine->connect("LevelSelectorState", 1, "MainGame");
+	stateMachine->connect("LevelSelectorState", 7, "StartMenu");
 	stateMachine->connect("MainGame", 666, "GameOverState");
 	stateMachine->connect("MainGame", 1, "GamePause");
 	stateMachine->connect("GamePause", 1, "MainGame");
 	stateMachine->connect("GameOverState", 1, "MainGame");
 	stateMachine->connect("GameOverState", 2, "StartMenu");
+	stateMachine->connect("Credits", 1, "StartMenu");
 }
 
 
