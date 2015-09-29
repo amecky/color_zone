@@ -1,37 +1,41 @@
 #pragma once
 
 #include "Constants.h"
-//#include <lib\DataArray.h>
-//#include "..\..\math\Vector.h"
-//#include <math\math_types.h>
 #include <renderer\render_types.h>
 #include "SettingsConverter.h"
+#include "FileManager.h"
+#include <math\Bitset.h>
+
+enum GameMode {
+	GM_COVERAGE,
+	GM_TIMER
+};
 
 struct GameContext {
 
 	int levelIndex;
 	int score;
 	int fillRate;
+	bool resume;
 	GameSettings* settings;
+	Filesystem filesystem;
+	GameMode gameMode;
 };
 
-enum TileState {
-	TS_EMPTY,
-	TS_AVAILABLE,
-	TS_MARKED,
-	TS_COHERENT,
-	TS_FILLED
-};
+// Bits
+const int BIT_AVAILABLE = 1;
+const int BIT_MARKED    = 2;
+const int BIT_COHERENT  = 3;
+const int BIT_FILLED    = 4;
 
 struct Tile {
 
-	TileState state;
-	uint32 color;
+	ds::Bits state;
+	int color;
 	int borders;
 	int edges;
-	bool used;
 	ds::Texture texture;
 
-	Tile() : state(TS_EMPTY) , color(0) , used(false) , edges(0) , borders(0) {}
+	Tile() : color(-1) , edges(0) , borders(0) {}
 
 };

@@ -1,9 +1,0 @@
-The plain grid
-xxxxxxxxxxxxx
-xxxxxxxxxxxxx
-xxxxxxxxxxxxx
-xxxxxxxxxxxxx
-xxxxxxxxxxxxx
-xxxxxxxxxxxxx
-xxxxxxxxxxxxx
-xxxxxxxxxxxxx

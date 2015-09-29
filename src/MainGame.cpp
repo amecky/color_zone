@@ -24,15 +24,19 @@ void MainGame::init() {
 }
 
 void MainGame::activate() {
-	_map->reset();
-	_laser.active = false;
-	_laser.timer = _context->settings->laserStartDelay;
-	_map->load(_context->levelIndex);
-	_context->score = 0;
-	_context->fillRate = 0;
-	_hud.setTimer(2, 0, 0);
-	_hud.setCounterValue(1, 0);
-	_hud.setText(3, "0 %");
+	if (!_context->resume) {
+		_map->reset();
+		_laser.active = false;
+		_laser.timer = _context->settings->laserStartDelay;
+		_map->load(_context->levelIndex);
+		_context->score = 0;
+		_context->fillRate = 0;
+		_hud.setTimer(2, 0, 0);
+		_hud.setCounterValue(1, 0);
+		_hud.setText(3, "0 %");
+		_effect->reset();
+	}
+	_context->resume = false;
 }
 
 // --------------------------------------------
@@ -80,11 +84,22 @@ void MainGame::moveLaser(float dt) {
 // --------------------------------------------
 int MainGame::update(float dt) {
 	_hud.update(dt);
+	if (_context->gameMode == GM_TIMER) {
+		ds::GameTimer* timer = _hud.getTimer(2);
+		if (timer->getMinutes() > 0) {
+			return 666;
+		}
+	}
 	// move main block
 	v2 mp = ds::renderer::getMousePosition();
 	v2 converted = _map->convert(mp);
 	_mainBlock.setPosition(converted);
 	moveLaser(dt);	
+	if (_context->gameMode == GM_COVERAGE) {
+		if (_context->fillRate >= 80) {
+			return 666;
+		}
+	}
 	_effect->update(dt);
 	return 0;
 }
@@ -144,7 +159,11 @@ int MainGame::onChar(int ascii) {
 		startLaser();
 	}
 	if (ascii == 'd') {
-		_effect->start(1, 1, ds::Rect(170, 2, 32, 32), 4);
+		_context->resume = true;
+		return 1;
+	}
+	if (ascii == 'x') {
+		return 666;
 	}
 	return 0;
 }

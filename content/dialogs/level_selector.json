@@ -11,4 +11,9 @@
 "text" { 
 	"id" : "10" , "pos" : "400,690" , "text" : "Select Level" , "color" : "255,255,255,255" , "scale" : "1.5" 
 }
+"text" { "id" : "6" , "pos" : "150,595" , "text" : "Timer mode" }
 "button" { "id" : "1" , "pos" : "400,120" , "text" : "Play" , "rect" : "510,0,340,50" }
+"button" { "id" : "2" , "pos" : "200,384" , "rect" : "500,350,62,62" , "centered" : "false"  }
+"button" { "id" : "3" , "pos" : "810,384" , "rect" : "500,420,62,62" , "centered" : "false" }
+"button" { "id" : "4" , "pos" : "200,600" , "rect" : "500,350,62,62" , "centered" : "false"  }
+"button" { "id" : "5" , "pos" : "810,600" , "rect" : "500,420,62,62" , "centered" : "false" }

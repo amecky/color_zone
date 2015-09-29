@@ -12,17 +12,25 @@ ColorZone::ColorZone() {
 	_context.fillRate = 0;
 	_context.levelIndex = 1;
 	_context.score = 0;
+	_context.resume = false;
+	_context.gameMode = GM_TIMER;
+	_context.filesystem.mount("levels");
 	m_ClearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
 	stateMachine->add(new TileMapEditor());
 	stateMachine->add( new MainGame(&_context));
 	stateMachine->add(new LevelSelectorState(&gui,&_context)); 
 	stateMachine->add(new ds::BasicMenuGameState("StartMenu", "MainMenu", &gui));
 	stateMachine->add(new ds::BasicMenuGameState("GamePause","Pause",&gui));
-	stateMachine->connect("GamePause", 1, "StartMenu");
+	stateMachine->add(new ds::BasicMenuGameState("GameOverState", "GameOver", &gui));
 	stateMachine->connect("StartMenu", 1, "LevelSelectorState");
 	stateMachine->connect("StartMenu", 2, "TileMapEditor");
 	stateMachine->connect("TileMapEditor", 1, "StartMenu");
 	stateMachine->connect("LevelSelectorState", 1, "MainGame");
+	stateMachine->connect("MainGame", 666, "GameOverState");
+	stateMachine->connect("MainGame", 1, "GamePause");
+	stateMachine->connect("GamePause", 1, "MainGame");
+	stateMachine->connect("GameOverState", 1, "MainGame");
+	stateMachine->connect("GameOverState", 2, "StartMenu");
 }
 
 
@@ -40,9 +48,12 @@ bool ColorZone::loadContent() {
 	_loader = new SettingsLoader;
 	uint32 convID = ds::assets::registerConverter(_loader);
 	ds::assets::load("color_zone", _loader, convID);
-	_context.settings = _loader->get();
-	stateMachine->activate("TileMapEditor");
+	_context.settings = _loader->get();	
 	return true;
+}
+
+void ColorZone::init() {
+	stateMachine->activate("LevelSelectorState");
 }
 
 void ColorZone::update(float dt) {

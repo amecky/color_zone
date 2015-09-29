@@ -1,2 +1,7 @@
 data/
 TMP/
+Debug/
+ipch/
+Blocks.sdf
+Blocks.opensdf
+Test

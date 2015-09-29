@@ -6,7 +6,6 @@
 
 TileMapEditor::TileMapEditor() : ds::GameState("TileMapEditor") {
 	_map = std::make_unique<TileMap>();
-	activate();
 }
 
 
@@ -61,12 +60,10 @@ int TileMapEditor::onButtonUp(int button, int x, int y) {
 			if (_map->isValid(p.x, p.y)) {
 				Tile& t = _map->get(p.x, p.y);
 				if (button == 1) {
-					t.used = false;
-					t.state = TS_EMPTY;
+					t.state.clear(BIT_AVAILABLE);
 				}
 				else {
-					t.used = true;
-					t.state = TS_AVAILABLE;
+					t.state.set(BIT_AVAILABLE);
 				}
 			}
 		}
@@ -128,6 +125,9 @@ int TileMapEditor::onChar(int ascii) {
 	}	
 	if (ascii == '+') {
 		++_levelIndex;
+		if (_levelIndex >= MAX_LEVELS) {
+			_levelIndex = MAX_LEVELS - 1;
+		}
 	}
 	if (ascii == '-') {
 		--_levelIndex;

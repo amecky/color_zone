@@ -17,5 +17,8 @@ private:
 	std::unique_ptr<TileMap> _map;
 	GameContext* _context;
 	ds::DialogManager* _gui;
+	int _levels[MAX_LEVELS];
+	int _numLevels;
+	int _index;
 };
 

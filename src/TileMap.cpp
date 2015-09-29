@@ -15,18 +15,18 @@ bool TileMap::copyBlock(const Block& block) {
 			int cx = xp + MARK_STEPS[i * 2];
 			int cy = yp + MARK_STEPS[i * 2 + 1];
 			Tile& t = get(cx,cy);
-			t.state = TS_MARKED;
+			t.state.set(BIT_MARKED);
 			t.color = block.getColor(i);
 			PointList list;
 			check(cx, cy, -1, list, true);
 			list.add(cx, cy);
 			if (list.size() > 2) {
 				//LOG << "connected";
-				t.state = TS_COHERENT;
+				t.state.set(BIT_COHERENT);
 				for (size_t j = 0; j < list.size(); ++j){
 					const Point& p = list.get(j);
 					//LOG << j << " = " << p.x << " " << p.y;
-					setState(p.x, p.y, TS_COHERENT);
+					setState(p.x, p.y, BIT_COHERENT);
 				}
 			}
 		}		
@@ -49,14 +49,15 @@ int TileMap::clearColumn(int col) {
 	for (int y = 0; y < MAX_Y; ++y) {
 		Tile& t = get(col, y);
 		t.color = -1;
-		if (t.used) {
-			if (t.state == TS_COHERENT) {
-				++ret;
-				t.state = TS_FILLED;
+		if (t.state.isSet(BIT_AVAILABLE)) {
+			if (!t.state.isSet(BIT_FILLED)) {
+				if (t.state.isSet(BIT_COHERENT)) {
+					++ret;
+					t.state.set(BIT_FILLED);
+				}
 			}
-			else if ( t.state == TS_MARKED ) {
-				t.state = TS_AVAILABLE;
-			}
+			t.state.clear(BIT_MARKED);
+			t.state.clear(BIT_COHERENT);
 		}
 	}
 	return ret;
@@ -79,18 +80,18 @@ void TileMap::render(int squareSize,float scale) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			const Tile& t = get(x, y);
 			v2 p = v2(startX + x * squareSize, startY + y * squareSize);
-			if (t.used) {
-				if (t.state == TS_AVAILABLE) {
-					ds::sprites::draw(p, ds::math::buildTexture(0, 0, 36, 36), 0.0f, scale, scale);
-				}
-				else if (t.state == TS_MARKED) {
-					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36), 0.0f, scale, scale);
-				}
-				else if (t.state == TS_COHERENT) {
+			if (t.state.isSet(BIT_AVAILABLE)) {	
+				if (t.state.isSet(BIT_COHERENT)) {
 					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36), 0.0f, 0.5f, 0.5f);
 				}
-				else if (t.state == TS_FILLED) {
+				else if (t.state.isSet(BIT_MARKED)) {
+					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36), 0.0f, scale, scale);
+				}
+				else if (t.state.isSet(BIT_FILLED)) {
 					ds::sprites::draw(p, ds::math::buildTexture(0, 150, 36, 36), 0.0f, scale, scale);
+				}
+				else {
+					ds::sprites::draw(p, ds::math::buildTexture(0, 0, 36, 36), 0.0f, scale, scale);
 				}
 			}
 		}
@@ -171,9 +172,9 @@ void TileMap::set(int x, int y, const Tile& tile) {
 // --------------------------------------------
 // set state
 // --------------------------------------------
-void TileMap::setState(int x, int y, TileState state) {
+void TileMap::setState(int x, int y,int index) {
 	if (isValid(x, y)) {
-		_tiles[getIndex(x, y)].state = state;
+		_tiles[getIndex(x, y)].state.set(index);
 	}
 }
 
@@ -195,14 +196,14 @@ const bool TileMap::isValid(int x, int y) const {
 // --------------------------------------------
 bool TileMap::isCoherent(int gx, int gy) {
 	Tile& t = get(gx, gy);
-	if (t.state == TS_EMPTY || t.state == TS_AVAILABLE) {
+	if (!t.state.isSet(BIT_AVAILABLE)) {
 		return false;
 	}
 	int color = t.color;
 	int cnt = 0;
 	for (int i = 1; i < 4; ++i) {
 		Tile& n = get(gx + BLOCK_X[i], gy + BLOCK_Y[i]);
-		if (n.state == TS_MARKED || n.state == TS_FILLED) {
+		if (n.state.isSet(BIT_MARKED) || n.state.isSet(BIT_FILLED)) {
 			if (n.color == color) {
 				++cnt;
 			}
@@ -222,7 +223,7 @@ int TileMap::getFillRate() {
 	for (int y = 0; y < MAX_Y; ++y) {
 		for (int x = 0; x < MAX_X; ++x) {
 			const Tile& t = get(x, y);
-			if (t.state == TS_FILLED) {
+			if (t.state.isSet(BIT_FILLED)) {
 				++count;
 			}
 		}
@@ -248,7 +249,7 @@ bool TileMap::isAvailable(int gx, int gy){
 		return false;
 	}
 	Tile& t = get(gx, gy);
-	return t.state != TS_EMPTY;
+	return t.state.isSet(BIT_AVAILABLE);
 }
 // --------------------------------------------
 //
@@ -258,7 +259,7 @@ bool TileMap::isFree(int gx, int gy) {
 		return true;
 	}
 	Tile& t = get(gx, gy);
-	return t.state == TS_AVAILABLE || t.state == TS_FILLED;
+	return t.state.isSet(BIT_AVAILABLE) && !t.state.isSet(BIT_MARKED);
 }
 
 // -------------------------------------------------------
@@ -270,8 +271,8 @@ void TileMap::reset() {
 			Tile& t = _tiles[x + y * MAX_X];
 			t.borders = -1;
 			t.color = -1;
-			t.used = true;
-			t.state = TS_AVAILABLE;
+			t.state.clear();
+			t.state.set(BIT_AVAILABLE);
 		}
 	}
 	_maxAvailable = 0;
@@ -337,7 +338,7 @@ void TileMap::load(int index) {
 				fread(&t, sizeof(Tile), 1, f);
 				// make sure color is not set
 				t.color = -1;
-				if (t.state == TS_AVAILABLE) {
+				if (t.state.isSet(BIT_AVAILABLE)) {
 					++_maxAvailable;
 				}
 				set(x, y, t);

@@ -2,16 +2,16 @@
 	"name" : "GameOverDialog" 
 }
 "image" { 
-	"id" : "100" , "pos" : "200,650" , "rect" : "900,500,400,80" , "centered" : "false" 
+	"id" : "100" , "pos" : "200,700" , "rect" : "330,420,400,84" , "centered" : "false" 
 }
 "image" { 
-	"id" : "101" , "pos" : "600,650" , "rect" : "900,500,400,80" , "centered" : "false" 
+	"id" : "101" , "pos" : "600,700" , "rect" : "330,420,400,84" , "centered" : "false" 
 }
 "image" { 
-	"id" : "102" , "pos" : "920,650" , "rect" : "900,500,240,80" , "centered" : "false" 
+	"id" : "102" , "pos" : "920,700" , "rect" : "330,420,240,84" , "centered" : "false" 
 }
 "text" { 
-	"id" : "3" , "pos" : "400,640" , "text" : "Game Over" , "color" : "100,40,32,255" , "scale" : "1.5" 
+	"id" : "10" , "pos" : "400,690" , "text" : "Game over" , "color" : "255,255,255,255" , "scale" : "1.5" 
 }
 "text" { "id" : "4" , "pos" : "300,450" , "text" : "Coverage:" , "centered" : "false"  }
 "text" { "id" : "5" , "pos" : "300,400" , "text" : "Time:"  , "centered" : "false" }
@@ -22,8 +22,8 @@
 "text" { "id" : "22" , "pos" : "550,350" , "text" : "123456"  , "centered" : "false" }
 
 "button" { 
-	"id" : "0" , "pos" : "400,230" , "text" : "Restart" , "rect" : "510,360,320,50" 
+	"id" : "1" , "pos" : "400,230" , "text" : "Restart" , "rect" : "510,0,340,50" 
 }
 "button" { 
-	"id" : "1" , "pos" : "400,120" , "text" : "Main Menu" , "rect" : "510,360,320,50" 
+	"id" : "2" , "pos" : "400,120" , "text" : "Main Menu" , "rect" : "510,0,340,50" 
 }

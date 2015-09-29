@@ -20,6 +20,7 @@ public:
 	const char* getTitle() {
 		return "ColorZone";
 	}
+	void init();
 	bool loadContent();
 	virtual void update(float dt);
 	void draw();

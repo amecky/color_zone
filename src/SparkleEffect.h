@@ -72,6 +72,9 @@ public:
 	void start(int x, int y, const ds::Rect& r,int pieces);
 	void update(float dt);
 	void render();
+	void reset() {
+		_sparkles.countAlive = 0;
+	}
 private:
 	GameContext* _context;
 	SparkleArray _sparkles;

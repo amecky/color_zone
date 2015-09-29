@@ -90,7 +90,7 @@ private:
 	void check(int xp, int yp, int lastDir, PointList& list, bool rec);
 	int determineEdge(int x, int y);
 	
-	void setState(int x, int y, TileState state);
+	void setState(int x, int y, int index);
 	
 	std::unique_ptr<Tile[]> _tiles;
 	ds::Texture _filledTexture;
