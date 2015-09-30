@@ -2,40 +2,46 @@
 	"name" : "HighscoreDialog" 
 }
 "image" { 
-	"id" : "100" , "pos" : "200,700" , "rect" : "204,0,502,94"
+	"id" : "100" , "pos" : "200,710" , "rect" : "204,0,502,94"
 }
 "text" { 
-	"id" : "3" , "pos" : "400,690" , "text" : "Highscores" , "color" : "255,255,255,255" , "scale" : "1.5" 
+	"id" : "101" , "pos" : "400,700" , "text" : "Highscores" , "color" : "255,255,255,255" , "scale" : "1.5" 
 }
-"text" { "id" : "4" , "pos" : "150,550" , "text" : "1." , "centered" : "false"  }
-"text" { "id" : "5" , "pos" : "150,500" , "text" : "2."  , "centered" : "false" }
-"text" { "id" : "6" , "pos" : "150,450" , "text" : "3."  , "centered" : "false" }
-"text" { "id" : "7" , "pos" : "150,400" , "text" : "4."  , "centered" : "false" }
-"text" { "id" : "8" , "pos" : "150,350" , "text" : "5."  , "centered" : "false" }
-"text" { "id" : "9" , "pos" : "150,300" , "text" : "6."  , "centered" : "false" }
-"text" { "id" : "10" , "pos" : "150,250" , "text" : "7."  , "centered" : "false" }
-"text" { "id" : "11" , "pos" : "150,200" , "text" : "8."  , "centered" : "false" }
+"text" { "id" : "110" , "pos" : "150,610" , "text" : "Level 1" }
+"text" { "id" : "111" , "pos" : "150,570" , "text" : "Timer mode" }
+"image" { "id" : "102" , "pos" : "330,620" , "rect" : "300,500,400,60" , "centered" : "false" }
+"image" { "id" : "103" , "pos" : "700,620" , "rect" : "300,650,350,60" , "centered" : "false" }
+"image" { "id" : "104" , "pos" : "330,570" , "rect" : "730,500,400,60" , "centered" : "false" }
+"image" { "id" : "105" , "pos" : "700,570" , "rect" : "730,650,350,60" , "centered" : "false" }
 
-"text" { "id" : "20" , "pos" : "200,550" , "text" : "First place" , "centered" : "false"  }
-"text" { "id" : "21" , "pos" : "200,500" , "text" : "Second place"  , "centered" : "false" }
-"text" { "id" : "22" , "pos" : "200,450" , "text" : "Third place"  , "centered" : "false" }
-"text" { "id" : "23" , "pos" : "200,400" , "text" : "Fourth place"  , "centered" : "false" }
-"text" { "id" : "24" , "pos" : "200,350" , "text" : "Some Kind of long na"  , "centered" : "false" }
-"text" { "id" : "25" , "pos" : "200,300" , "text" : "1234567890123456789"  , "centered" : "false" }
-"text" { "id" : "26" , "pos" : "200,250" , "text" : "aaaasdsffd"  , "centered" : "false" }
-"text" { "id" : "27" , "pos" : "200,200" , "text" : "sdfsdfsdfdfs"  , "centered" : "false" }
+"button" { "id" : "2" , "pos" : "200,600" , "rect" : "500,350,62,62" , "centered" : "false"  }
+"button" { "id" : "3" , "pos" : "810,600" , "rect" : "500,420,62,62" , "centered" : "false" }
 
-"text" { "id" : "30" , "pos" : "700,550" , "text" : "000000" , "centered" : "false"  }
-"text" { "id" : "31" , "pos" : "700,500" , "text" : "000000"  , "centered" : "false" }
-"text" { "id" : "32" , "pos" : "700,450" , "text" : "000000"  , "centered" : "false" }
-"text" { "id" : "33" , "pos" : "700,400" , "text" : "000000"  , "centered" : "false" }
-"text" { "id" : "34" , "pos" : "700,350" , "text" : "000000"  , "centered" : "false" }
-"text" { "id" : "35" , "pos" : "700,300" , "text" : "000000"  , "centered" : "false" }
-"text" { "id" : "36" , "pos" : "700,250" , "text" : "000000"  , "centered" : "false" }
-"text" { "id" : "37" , "pos" : "700,200" , "text" : "000000"  , "centered" : "false" }
+"image" { "id" : "121" , "pos" : "300,425" , "rect" : "300,500,400,160" , "centered" : "false" }
+"image" { "id" : "122" , "pos" : "300,280" , "rect" : "650,500,400,135" , "centered" : "false" }
+"image" { "id" : "123" , "pos" : "700,425" , "rect" : "300,600,400,160" , "centered" : "false" }
+"image" { "id" : "124" , "pos" : "700,280" , "rect" : "650,600,400,135" , "centered" : "false" }
+
+"text" { "id" : "14" , "pos" : "150,450" , "text" : "1." , "centered" : "false"  }
+"text" { "id" : "15" , "pos" : "150,400" , "text" : "2."  , "centered" : "false" }
+"text" { "id" : "16" , "pos" : "150,350" , "text" : "3."  , "centered" : "false" }
+"text" { "id" : "17" , "pos" : "150,300" , "text" : "4."  , "centered" : "false" }
+"text" { "id" : "18" , "pos" : "150,250" , "text" : "5."  , "centered" : "false" }
+
+"text" { "id" : "20" , "pos" : "200,450" , "text" : "First place" , "centered" : "false"  }
+"text" { "id" : "21" , "pos" : "200,400" , "text" : "Second place"  , "centered" : "false" }
+"text" { "id" : "22" , "pos" : "200,350" , "text" : "Third place"  , "centered" : "false" }
+"text" { "id" : "23" , "pos" : "200,300" , "text" : "Fourth place"  , "centered" : "false" }
+"text" { "id" : "24" , "pos" : "200,250" , "text" : "Some Kind of long na"  , "centered" : "false" }
+
+"text" { "id" : "30" , "pos" : "700,450" , "text" : "000000" , "centered" : "false"  }
+"text" { "id" : "31" , "pos" : "700,400" , "text" : "000000"  , "centered" : "false" }
+"text" { "id" : "32" , "pos" : "700,350" , "text" : "000000"  , "centered" : "false" }
+"text" { "id" : "33" , "pos" : "700,300" , "text" : "000000"  , "centered" : "false" }
+"text" { "id" : "34" , "pos" : "700,250" , "text" : "000000"  , "centered" : "false" }
 
 "button" { 
-	"id" : "0" , "pos" : "400,120" , "text" : "Main Menu" , "rect" : "510,0,340,50" 
+	"id" : "1" , "pos" : "400,120" , "text" : "Main Menu" , "rect" : "510,0,340,50" 
 }
 
 

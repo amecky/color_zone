@@ -174,6 +174,7 @@ int MainGame::onChar(int ascii) {
 		return 1;
 	}
 	if (ascii == 'x') {
+		fillHighscore();
 		return 666;
 	}
 	return 0;

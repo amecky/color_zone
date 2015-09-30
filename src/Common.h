@@ -19,6 +19,9 @@ struct Highscore {
 	int seconds;
 	int level;
 	GameMode mode;
+	char name[10];
+
+	Highscore() : score(0), fillrate(0), minutes(0), seconds(0), level(0), mode(GM_TIMER) {}
 };
 
 struct GameContext {
@@ -31,6 +34,7 @@ struct GameContext {
 	Filesystem filesystem;
 	GameMode gameMode;
 	Highscore currentScore;
+	
 };
 
 // Bits

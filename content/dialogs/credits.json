@@ -8,7 +8,7 @@
 "image" { "id" : "104" , "pos" : "660,325" , "rect" : "650,600,400,135" , "centered" : "false" }
 
 "text" { 
-	"id" : "3" , "pos" : "400,690" , "text" : "Credits" , "color" : "255,255,255,255" , "scale" : "1.5" 
+	"id" : "3" , "pos" : "400,700" , "text" : "Credits" , "color" : "255,255,255,255" , "scale" : "1.5" 
 }
 "text" { "id" : "4" , "pos" : "250,450" , "text" : "Code:" , "centered" : "false"  }
 "text" { "id" : "5" , "pos" : "250,400" , "text" : "Graphics:"  , "centered" : "false" }

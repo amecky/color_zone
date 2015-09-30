@@ -22,6 +22,7 @@ public:
 		return _files.size();
 	}
 	const FSFile& getFile(int index) const;
+	int getAvailableLevels(int* levelArray);
 private:
 	Filesystem(const Filesystem& other) {}
 	const char* _directoryName;

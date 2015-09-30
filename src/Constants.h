@@ -4,7 +4,7 @@ const int MAX_X = 26;
 const int MAX_Y = 16;
 const int BORDER_SIZE = 44;
 
-const int MAX_LEVELS = 32;
+const int MAX_LEVELS = 16;
 
 const int XM[4] = { 1, -1, 0, 0 };
 const int YM[4] = { 0, 0, 1, -1 };
@@ -23,3 +23,4 @@ const float PARTICLE_ANGLES[] = {
 };
 
 
+const int MAX_SCORE_ENTRIES = 5;

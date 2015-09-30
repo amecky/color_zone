@@ -3,6 +3,7 @@
 #include <base\GameStateMachine.h>
 #include "LevelSelectorState.h"
 #include "GameOverState.h"
+#include "HighscoreState.h"
 
 ds::BaseApp *app = new ColorZone();
 
@@ -24,9 +25,11 @@ ColorZone::ColorZone() {
 	stateMachine->add(new ds::BasicMenuGameState("GamePause","Pause",&gui));
 	stateMachine->add(new ds::BasicMenuGameState("Credits", "Credits", &gui));
 	stateMachine->add(new GameOverState(&gui,&_context));
+	stateMachine->add(new HighscoreState(&gui, &_context));
 	stateMachine->connect("StartMenu", 1, "LevelSelectorState");
 	stateMachine->connect("StartMenu", 2, "TileMapEditor");
 	stateMachine->connect("StartMenu", 4, "Credits");
+	stateMachine->connect("StartMenu", 5, "HighscoreState");
 	stateMachine->connect("TileMapEditor", 1, "StartMenu");
 	stateMachine->connect("LevelSelectorState", 1, "MainGame");
 	stateMachine->connect("LevelSelectorState", 7, "StartMenu");
@@ -36,6 +39,7 @@ ColorZone::ColorZone() {
 	stateMachine->connect("GameOverState", 1, "MainGame");
 	stateMachine->connect("GameOverState", 2, "StartMenu");
 	stateMachine->connect("Credits", 1, "StartMenu");
+	stateMachine->connect("HighscoreState", 1, "StartMenu");
 }
 
 
@@ -49,6 +53,7 @@ bool ColorZone::loadContent() {
 	ds::BitmapFont* font = ds::renderer::createBitmapFont("xscale");
 	ds::assets::load("xscale", font, ds::CVT_FONT);
 	ds::renderer::initializeBitmapFont(*font, _textureID);
+	ds::sprites::initializeTextSystem(_textureID, "xscale");
 	initializeGUI();
 	_loader = new SettingsLoader;
 	uint32 convID = ds::assets::registerConverter(_loader);
@@ -58,13 +63,14 @@ bool ColorZone::loadContent() {
 }
 
 void ColorZone::init() {
-	stateMachine->activate("LevelSelectorState");
+	stateMachine->activate("StartMenu");
 }
 
 void ColorZone::update(float dt) {
 }
 
 void ColorZone::draw() {
+	ds::sprites::drawText(100,100,"Hello world");	
 }
 
 void ColorZone::onGUIButton(ds::DialogID dlgID, int button) {

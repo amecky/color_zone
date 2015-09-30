@@ -1,10 +1,18 @@
 # TODO
 - [ ] morph effect - when block is copied the underlying piece should grow from 0.5 to 1.0
-- [ ] add game over state and set text
-- [ ] save highscores - 5 per level
 - [ ] add highscore system
-- [ ] highscore state with tiny map and selector to show highscores for different levels
-- [ ] show fillrate as percentage block
+- [ ] add input box to enter username for new highscore
+- [ ] probaly build better shuffle algorithm for preview block
+- [ ] LevelSelector -> use method from filesystem to get available levels
+- [ ] add boxes to HUD
+- [ ] HSS - add rank to the list
+
+30.09.2015
+- [x] WONTFIX: highscore state with tiny map and selector to show highscores for different levels
+- [x] save highscores - 5 per level / mode
+- [x] HSS: determine available levels
+- [x] HSS: scroll through available highscore lists (only available levels)
+- [x] add game over state and set text
 
 29.09.2015
 - [x] level selector -> add mode selector 

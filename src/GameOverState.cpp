@@ -16,6 +16,22 @@ GameOverState::~GameOverState() {
 // --------------------------------------------
 void GameOverState::activate() {
 	_gui->activate("GameOver");	
+	ds::GUIDialog* dlg = _gui->get("GameOver");
+	std::string str;
+	ds::string::formatInt(_context->levelIndex, str);
+	dlg->updateText(20, str);
+	if (_context->gameMode == GM_TIMER) {
+		dlg->updateText(21, "Timer mode");
+	}
+	else {
+		dlg->updateText(21, "Coverage mode");
+	}
+	ds::string::formatInt(_context->currentScore.fillrate,str);
+	dlg->updateText(22, str + "%");
+	ds::string::formatTime(_context->currentScore.minutes, _context->currentScore.seconds, str);
+	dlg->updateText(23, str);
+	ds::string::formatInt(_context->currentScore.score, str, 6);	
+	dlg->updateText(24, str);
 }
 
 // --------------------------------------------
@@ -37,8 +53,7 @@ int GameOverState::update(float dt) {
 // click
 // --------------------------------------------
 int GameOverState::onGUIButton(ds::DialogID dlgID, int button) {
-	//ds::GUIDialog* dlg = _gui->get("GameOver");
-	//dlg->updateText(6, "Coverage mode");
+	
 	return button;
 }
 

@@ -232,6 +232,7 @@
     <ClCompile Include="src\FileManager.cpp" />
     <ClCompile Include="src\GameOverState.cpp" />
     <ClCompile Include="src\Highscores.cpp" />
+    <ClCompile Include="src\HighscoreState.cpp" />
     <ClCompile Include="src\LevelSelectorState.cpp" />
     <ClCompile Include="src\MainGame.cpp" />
     <ClCompile Include="src\SettingsConverter.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="src\FileManager.h" />
     <ClInclude Include="src\GameOverState.h" />
     <ClInclude Include="src\Highscores.h" />
+    <ClInclude Include="src\HighscoreState.h" />
     <ClInclude Include="src\LevelSelectorState.h" />
     <ClInclude Include="src\MainGame.h" />
     <ClInclude Include="src\SettingsConverter.h" />

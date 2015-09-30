@@ -44,3 +44,13 @@ const FSFile& Filesystem::getFile(int index) const {
 	return _files[index];
 }
 
+int Filesystem::getAvailableLevels(int* levelArray) {
+	int cnt = 0;
+	char buffer[128];
+	for (size_t i = 0; i < numFiles(); ++i) {
+		const FSFile& f = getFile(i);
+		strcpy(buffer, f.name + 1);
+		levelArray[cnt++] = atoi(buffer);
+	}
+	return cnt;
+}

@@ -19,6 +19,9 @@
     <Filter Include="content\resources">
       <UniqueIdentifier>{0ec58baa-0482-45e0-a299-9a1c3f4ce9fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{55e341dc-bac7-452c-98c4-6aea137a19c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TileMap.cpp" />
@@ -30,15 +33,26 @@
     <ClCompile Include="src\TileMapEditor.cpp">
       <Filter>states</Filter>
     </ClCompile>
-    <ClCompile Include="src\SettingsConverter.cpp" />
-    <ClCompile Include="src\SparkleEffect.cpp" />
     <ClCompile Include="src\LevelSelectorState.cpp">
       <Filter>states</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileManager.cpp" />
-    <ClCompile Include="src\Highscores.cpp" />
     <ClCompile Include="src\GameOverState.cpp">
       <Filter>states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HighscoreState.cpp">
+      <Filter>states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SparkleEffect.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SettingsConverter.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Highscores.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileManager.cpp">
+      <Filter>utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,15 +68,26 @@
     <ClInclude Include="src\TileMapEditor.h">
       <Filter>states</Filter>
     </ClInclude>
-    <ClInclude Include="src\SettingsConverter.h" />
-    <ClInclude Include="src\SparkleEffect.h" />
     <ClInclude Include="src\LevelSelectorState.h">
       <Filter>states</Filter>
     </ClInclude>
-    <ClInclude Include="src\FileManager.h" />
-    <ClInclude Include="src\Highscores.h" />
     <ClInclude Include="src\GameOverState.h">
       <Filter>states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HighscoreState.h">
+      <Filter>states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SparkleEffect.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SettingsConverter.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Highscores.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FileManager.h">
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
