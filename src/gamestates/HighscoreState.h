@@ -1,8 +1,8 @@
 #pragma once
-#include "TileMap.h"
-#include "Constants.h"
+#include "..\TileMap.h"
+#include "..\Constants.h"
 #include <base\GameState.h>
-#include "Highscores.h"
+#include "..\Highscores.h"
 
 class HighscoreState : public ds::GameState {
 

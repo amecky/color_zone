@@ -230,15 +230,17 @@
     <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\ColorZone.cpp" />
     <ClCompile Include="src\FileManager.cpp" />
-    <ClCompile Include="src\GameOverState.cpp" />
+    <ClCompile Include="src\gamestates\GameOverState.cpp" />
+    <ClCompile Include="src\gamestates\HighscoreState.cpp" />
+    <ClCompile Include="src\gamestates\InputNameState.cpp" />
+    <ClCompile Include="src\gamestates\IntroState.cpp" />
+    <ClCompile Include="src\gamestates\LevelSelectorState.cpp" />
+    <ClCompile Include="src\gamestates\MainGame.cpp" />
+    <ClCompile Include="src\gamestates\TileMapEditor.cpp" />
     <ClCompile Include="src\Highscores.cpp" />
-    <ClCompile Include="src\HighscoreState.cpp" />
-    <ClCompile Include="src\LevelSelectorState.cpp" />
-    <ClCompile Include="src\MainGame.cpp" />
     <ClCompile Include="src\SettingsConverter.cpp" />
     <ClCompile Include="src\SparkleEffect.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
-    <ClCompile Include="src\TileMapEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -247,15 +249,17 @@
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
     <ClInclude Include="src\FileManager.h" />
-    <ClInclude Include="src\GameOverState.h" />
+    <ClInclude Include="src\gamestates\GameOverState.h" />
+    <ClInclude Include="src\gamestates\HighscoreState.h" />
+    <ClInclude Include="src\gamestates\InputNameState.h" />
+    <ClInclude Include="src\gamestates\IntroState.h" />
+    <ClInclude Include="src\gamestates\LevelSelectorState.h" />
+    <ClInclude Include="src\gamestates\MainGame.h" />
+    <ClInclude Include="src\gamestates\TileMapEditor.h" />
     <ClInclude Include="src\Highscores.h" />
-    <ClInclude Include="src\HighscoreState.h" />
-    <ClInclude Include="src\LevelSelectorState.h" />
-    <ClInclude Include="src\MainGame.h" />
     <ClInclude Include="src\SettingsConverter.h" />
     <ClInclude Include="src\SparkleEffect.h" />
     <ClInclude Include="src\TileMap.h" />
-    <ClInclude Include="src\TileMapEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Blocks.manifest" />
@@ -265,6 +269,7 @@
     <None Include="content\dialogs\level_selector.json" />
     <None Include="content\dialogs\pause_dialog.json" />
     <None Include="content\dialogs\start_dialog.json" />
+    <None Include="content\dialogs\username.json" />
     <None Include="content\resources\gui.json" />
     <None Include="content\resources\hud.json" />
     <None Include="content\resources\xscale.json" />

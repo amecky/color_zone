@@ -12,6 +12,12 @@ struct GameSettings {
 	float sparkleEndScale;
 	float sparkleVelocity;
 	float sparkleVelocityVariance;
+	float introWarmupTimer;
+	float introTTL;
+	float introStartScale;
+	float introEndScale;
+	float introVelocity;
+	float introVelocityVariance;
 };
 
 class SettingsLoader : public ds::Serializer, public ds::Converter {
@@ -25,6 +31,12 @@ public:
 		m_SettingsTranslator.add("sparkle_end_scale", &GameSettings::sparkleEndScale);
 		m_SettingsTranslator.add("sparkle_velocity", &GameSettings::sparkleVelocity);
 		m_SettingsTranslator.add("sparkle_velocity_variance", &GameSettings::sparkleVelocityVariance);
+		m_SettingsTranslator.add("intro_warmup_timer", &GameSettings::introWarmupTimer);
+		m_SettingsTranslator.add("intro_ttl", &GameSettings::introTTL);
+		m_SettingsTranslator.add("intro_start_scale", &GameSettings::introStartScale);
+		m_SettingsTranslator.add("intro_end_scale", &GameSettings::introEndScale);
+		m_SettingsTranslator.add("intro_velocity", &GameSettings::introVelocity);
+		m_SettingsTranslator.add("intro_velocity_variance", &GameSettings::introVelocityVariance);
 	}
 	void load(BinaryLoader* loader);
 	void convert(JSONReader& reader, BinaryWriter& writer);

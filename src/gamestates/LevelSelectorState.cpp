@@ -20,14 +20,8 @@ void LevelSelectorState::activate() {
 	_map->load(_context->levelIndex);
 	_gui->activate("LevelSelector");
 	_context->filesystem.refresh();
-	_numLevels = 0;
-	_index = 0;
-	char buffer[128];
-	for (size_t i = 0; i < _context->filesystem.numFiles(); ++i) {
-		const FSFile& f = _context->filesystem.getFile(i);
-		strcpy(buffer, f.name + 1);
-		_levels[_numLevels++] = atoi(buffer);
-	}
+	_numLevels = _context->filesystem.getAvailableLevels(_levels);
+	_index = 0;	
 	LOG << "available levels: " << _numLevels;
 }
 

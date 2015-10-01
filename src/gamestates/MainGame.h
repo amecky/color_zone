@@ -1,10 +1,10 @@
 #pragma once
-#include "Constants.h"
-#include "TileMap.h"
-#include "Block.h"
+#include "..\Constants.h"
+#include "..\TileMap.h"
+#include "..\Block.h"
 #include <base\GameState.h>
-#include "Common.h"
-#include "SparkleEffect.h"
+#include "..\Common.h"
+#include "..\SparkleEffect.h"
 #include <objects\HUD.h>
 
 class MainGame : public ds::GameState {

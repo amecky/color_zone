@@ -1,0 +1,19 @@
+"dialog" { 
+	"name" : "UsernameDialog" 
+}
+"image" { "id" : "102" , "pos" : "280,500" , "rect" : "570,0,200,110" , "centered" : "false" }
+"image" { "id" : "103" , "pos" : "740,500" , "rect" : "570,200,200,110" , "centered" : "false" }
+"image" { "id" : "104" , "pos" : "510,500" , "rect" : "570,100,260,110" , "centered" : "false" }
+"image" { "id" : "105" , "pos" : "280,390" , "rect" : "850,0,200,120" , "centered" : "false" }
+"image" { "id" : "106" , "pos" : "740,390" , "rect" : "850,200,200,120" , "centered" : "false" }
+"image" { "id" : "107" , "pos" : "510,390" , "rect" : "850,100,260,120" , "centered" : "false" }
+"text" { "id" : "110" , "pos" : "150,510" , "text" : "Please enter your username" }
+
+"image" { "id" : "116" , "pos" : "500,460" , "rect" : "100,560,300,50" , "centered" : "false" }
+"text" { "id" : "111" , "pos" : "370,450" , "text" : "UsernameXX" , "centered" : "false" }
+
+"button" { 
+	"id" : "1" , "pos" : "400,380" , "text" : "OK" , "rect" : "100,350,200,50" 
+}
+
+

@@ -68,17 +68,33 @@ class SparkleEffect {
 
 public:
 	SparkleEffect(GameContext* context);
-	~SparkleEffect();
-	void start(int x, int y, const ds::Rect& r,int pieces);
-	void update(float dt);
+	virtual ~SparkleEffect();
+	void start(int x, int y, const ds::Rect& r,int pieces);	
+	virtual void update(float dt);
 	void render();
 	void reset() {
 		_sparkles.countAlive = 0;
 	}
-private:
+protected:
 	GameContext* _context;
 	SparkleArray _sparkles;
+private:
 	int _startX;
 	int _startY;
 };
 
+
+class IntroEffect : public SparkleEffect {
+
+public:
+	IntroEffect(GameContext* context);
+	~IntroEffect() {}
+	void start(int x, int y, const ds::Rect& r, int stepX, int stepY, float gap);
+	virtual void update(float dt);
+	bool isRunning() {
+		return _running;
+	}
+private:
+	float _warmUpTimer;
+	bool _running;
+};

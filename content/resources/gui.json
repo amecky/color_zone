@@ -26,3 +26,7 @@
 	"id" : "5" ,
 	"file" : "level_selector" 
 }
+"Username" {
+	"id" : "6" ,
+	"file" : "username" 
+}

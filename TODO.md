@@ -1,11 +1,18 @@
 # TODO
 - [ ] morph effect - when block is copied the underlying piece should grow from 0.5 to 1.0
-- [ ] add highscore system
-- [ ] add input box to enter username for new highscore
 - [ ] probaly build better shuffle algorithm for preview block
-- [ ] LevelSelector -> use method from filesystem to get available levels
 - [ ] add boxes to HUD
 - [ ] HSS - add rank to the list
+- [ ] show username on start menu
+- [ ] add change username button on startmenu
+- [ ] Input name state - show blinking cursor
+
+01.01.2015
+- [x] intro state - if all sparkles killed switch to InputNameState
+- [x] Intro state with color_zone Logo exploding
+- [x] add highscore system
+- [x] LevelSelector -> use method from filesystem to get available levels
+- [x] add input box to enter username for new highscore
 
 30.09.2015
 - [x] WONTFIX: highscore state with tiny map and selector to show highscores for different levels

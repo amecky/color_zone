@@ -1,6 +1,6 @@
 #pragma once
-#include "TileMap.h"
-#include "Constants.h"
+#include "..\TileMap.h"
+#include "..\Constants.h"
 #include <base\GameState.h>
 
 class LevelSelectorState : public ds::GameState {

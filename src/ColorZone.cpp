@@ -1,9 +1,13 @@
 #include "ColorZone.h"
 #include <sprites\SpriteBatch.h>
 #include <base\GameStateMachine.h>
-#include "LevelSelectorState.h"
-#include "GameOverState.h"
-#include "HighscoreState.h"
+#include "gamestates\LevelSelectorState.h"
+#include "gamestates\GameOverState.h"
+#include "gamestates\HighscoreState.h"
+#include "gamestates\InputNameState.h"
+#include "gamestates\TileMapEditor.h"
+#include "gamestates\MainGame.h"
+#include "gamestates\IntroState.h"
 
 ds::BaseApp *app = new ColorZone();
 
@@ -24,8 +28,10 @@ ColorZone::ColorZone() {
 	stateMachine->add(new ds::BasicMenuGameState("StartMenu", "MainMenu", &gui));
 	stateMachine->add(new ds::BasicMenuGameState("GamePause","Pause",&gui));
 	stateMachine->add(new ds::BasicMenuGameState("Credits", "Credits", &gui));
+	stateMachine->add(new InputNameState(&gui, &_context));
 	stateMachine->add(new GameOverState(&gui,&_context));
 	stateMachine->add(new HighscoreState(&gui, &_context));
+	stateMachine->add(new IntroState(&_context));
 	stateMachine->connect("StartMenu", 1, "LevelSelectorState");
 	stateMachine->connect("StartMenu", 2, "TileMapEditor");
 	stateMachine->connect("StartMenu", 4, "Credits");
@@ -40,6 +46,8 @@ ColorZone::ColorZone() {
 	stateMachine->connect("GameOverState", 2, "StartMenu");
 	stateMachine->connect("Credits", 1, "StartMenu");
 	stateMachine->connect("HighscoreState", 1, "StartMenu");
+	stateMachine->connect("InputNameState", 1, "StartMenu");
+	stateMachine->connect("IntroState", 1, "InputNameState");
 }
 
 
@@ -63,14 +71,14 @@ bool ColorZone::loadContent() {
 }
 
 void ColorZone::init() {
-	stateMachine->activate("StartMenu");
+	stateMachine->activate("IntroState");
 }
 
 void ColorZone::update(float dt) {
 }
 
 void ColorZone::draw() {
-	ds::sprites::drawText(100,100,"Hello world");	
+	//ds::sprites::drawText(100,100,"Hello world");	
 }
 
 void ColorZone::onGUIButton(ds::DialogID dlgID, int button) {

@@ -7,10 +7,8 @@
 #pragma once
 #include <base\BaseApp.h>
 #include <io\Serializer.h>
-#include "TileMap.h"
-#include "TileMapEditor.h"
-#include "MainGame.h"
 #include "SettingsConverter.h"
+#include "Common.h"
 
 class ColorZone : public ds::BaseApp {
 
