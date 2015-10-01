@@ -32,6 +32,10 @@ void Block::pickColors() {
 	_colors[1] = firstColor;
 	_colors[2] = secondColor;
 	_colors[3] = secondColor;
+	int r = ds::math::random(0, 3);
+	for (int i = 0; i < r; ++i) {
+		rotate();
+	}
 }
 
 // draw order:

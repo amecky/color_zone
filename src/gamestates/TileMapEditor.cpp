@@ -4,7 +4,7 @@
 #include <renderer\graphics.h>
 #include <base\GameStateMachine.h>
 
-TileMapEditor::TileMapEditor() : ds::GameState("TileMapEditor") {
+TileMapEditor::TileMapEditor(ds::DialogManager* gui, GameContext* context) : ds::GameState("TileMapEditor") , _gui(gui) , _context(context) {
 	_map = std::make_unique<TileMap>();
 }
 
@@ -20,6 +20,11 @@ void TileMapEditor::activate() {
 	_mode = EM_EDIT_MAP;
 	_currentBorder = 0;
 	_levelIndex = 1;
+	_gui->activate("Editor");
+}
+
+void TileMapEditor::deactivate() {
+	_gui->deactivate("Editor");
 }
 
 // --------------------------------------------
@@ -85,15 +90,17 @@ int TileMapEditor::onButtonUp(int button, int x, int y) {
 // render
 // --------------------------------------------
 void TileMapEditor::render() {
+	/*
 	if (_mode == EM_EDIT_MAP) {
 		ds::debug::debug(80, 10, "Edit mode: MAP");
 	}
 	else {
 		ds::debug::debug(80, 10, "Edit mode: BORDER");
 	}
-	char buffer[127];
-	sprintf_s(buffer, 127, "Level: %d", _levelIndex);
-	ds::debug::debug(300, 10, buffer);
+	*/
+	//char buffer[127];
+	//sprintf_s(buffer, 127, "Level: %d", _levelIndex);
+	//ds::debug::debug(300, 10, buffer);
 	// draw icons
 	// map/border mode / csr left / number / csr right / load / save
 	// draw border selection
@@ -117,33 +124,51 @@ void TileMapEditor::render() {
 // on char
 // --------------------------------------------
 int TileMapEditor::onChar(int ascii) {
+	ds::GUIDialog* dlg = _gui->get("Editor");
 	if (ascii == '1') {
 		_mode = EM_EDIT_MAP;
+		dlg->updateText(110, "Edit mode: Map");
 	}
 	if (ascii == '2') {
-		_mode = EM_BORDERS;
+		_mode = EM_BORDERS;		
+		dlg->updateText(110,"Edit mode: Border");
 	}	
 	if (ascii == '+') {
 		++_levelIndex;
 		if (_levelIndex >= MAX_LEVELS) {
 			_levelIndex = MAX_LEVELS - 1;
 		}
+		char buffer[32];
+		sprintf_s(buffer, 32, "Level: %d", _levelIndex);
+		dlg->updateText(111, buffer);
 	}
 	if (ascii == '-') {
 		--_levelIndex;
 		if (_levelIndex < 1) {
 			_levelIndex = 1;
 		}
-	}
-	if (ascii == 's') {
-		_map->save(_levelIndex);
-	}
-	if (ascii == 'l') {
-		_map->load(_levelIndex);
-	}
-	if (ascii == 'x') {
-		return 1;
+		char buffer[32];
+		sprintf_s(buffer, 32, "Level: %d", _levelIndex);
+		dlg->updateText(111, buffer);
 	}
 	return 0;
 }
 
+int TileMapEditor::onGUIButton(ds::DialogID dlgID, int button) {
+	if (button == 1) {
+		return 1;
+	}
+	if (button == 2) {
+		_map->save(_levelIndex);
+		return 0;
+	}
+	if (button == 3) {
+		_map->load(_levelIndex);
+		return 0;
+	}
+	if (button == 4) {
+		_map->reset();
+		return 0;
+	}
+	return button;
+}

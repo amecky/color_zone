@@ -1,13 +1,13 @@
 # TODO
 - [ ] morph effect - when block is copied the underlying piece should grow from 0.5 to 1.0
-- [ ] probaly build better shuffle algorithm for preview block
-- [ ] add boxes to HUD
 - [ ] HSS - add rank to the list
 - [ ] show username on start menu
 - [ ] add change username button on startmenu
 - [ ] Input name state - show blinking cursor
 
 01.01.2015
+- [x] probaly build better shuffle algorithm for preview block
+- [x] add boxes to HUD
 - [x] intro state - if all sparkles killed switch to InputNameState
 - [x] Intro state with color_zone Logo exploding
 - [x] add highscore system

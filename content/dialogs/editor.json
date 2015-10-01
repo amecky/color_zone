@@ -1,0 +1,28 @@
+"dialog" { 
+	"name" : "EditorDialog" 
+}
+"image" { "id" : "102" , "pos" : "220,730" , "rect" : "300,500,400,60" , "centered" : "false" }
+"image" { "id" : "103" , "pos" : "800,730" , "rect" : "300,650,350,60" , "centered" : "false" }
+"image" { "id" : "104" , "pos" : "520,730" , "rect" : "300,600,210,60" , "centered" : "false" }
+
+"image" { "id" : "105" , "pos" : "220,690" , "rect" : "730,500,400,60" , "centered" : "false" }
+"image" { "id" : "106" , "pos" : "800,690" , "rect" : "730,650,350,60" , "centered" : "false" }
+"image" { "id" : "107" , "pos" : "520,690" , "rect" : "730,600,210,60" , "centered" : "false" }
+
+"text" { "id" : "110" , "pos" : "40,730" , "text" : "Edit mode: map" , "centered" : "false" }
+"text" { "id" : "111" , "pos" : "640,730" , "text" : "Level: 1" , "centered" : "false" }
+
+"button" { 
+	"id" : "1" , "pos" : "860,40" , "text" : "exit" , "rect" : "100,350,200,50" , "centered" : "false"
+}
+"button" { 
+	"id" : "2" , "pos" : "140,40" , "text" : "save" , "rect" : "100,350,200,50" , "centered" : "false"
+}
+"button" { 
+	"id" : "3" , "pos" : "380,40" , "text" : "load" , "rect" : "100,350,200,50" , "centered" : "false"
+}
+"button" { 
+	"id" : "4" , "pos" : "620,40" , "text" : "clear" , "rect" : "100,350,200,50" , "centered" : "false"
+}
+
+

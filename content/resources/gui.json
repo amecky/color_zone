@@ -30,3 +30,7 @@
 	"id" : "6" ,
 	"file" : "username" 
 }
+"Editor" {
+	"id" : "7" ,
+	"file" : "editor" 
+}

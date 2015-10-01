@@ -22,7 +22,7 @@ ColorZone::ColorZone() {
 	_context.gameMode = GM_TIMER;
 	_context.filesystem.mount("levels");
 	m_ClearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
-	stateMachine->add(new TileMapEditor());
+	stateMachine->add(new TileMapEditor(&gui, &_context));
 	stateMachine->add( new MainGame(&_context));
 	stateMachine->add(new LevelSelectorState(&gui,&_context)); 
 	stateMachine->add(new ds::BasicMenuGameState("StartMenu", "MainMenu", &gui));
@@ -71,7 +71,7 @@ bool ColorZone::loadContent() {
 }
 
 void ColorZone::init() {
-	stateMachine->activate("IntroState");
+	stateMachine->activate("TileMapEditor");
 }
 
 void ColorZone::update(float dt) {

@@ -44,6 +44,7 @@ void MainGame::fillHighscore() {
 	_context->currentScore.score = _context->score;
 	_context->currentScore.mode = _context->gameMode;
 	_context->currentScore.level = _context->levelIndex;
+	sprintf_s(_context->currentScore.name, 10,"%s",_context->name.c_str());
 	ds::GameTimer* timer = _hud.getTimer(2);
 	_context->currentScore.minutes = timer->getMinutes();
 	_context->currentScore.seconds = timer->getSeconds();

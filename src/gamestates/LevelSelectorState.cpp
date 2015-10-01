@@ -21,7 +21,12 @@ void LevelSelectorState::activate() {
 	_gui->activate("LevelSelector");
 	_context->filesystem.refresh();
 	_numLevels = _context->filesystem.getAvailableLevels(_levels);
-	_index = 0;	
+	_index = 0;
+	for (int i = 0; i < _numLevels; ++i) {
+		if (_levels[i] == _context->levelIndex) {
+			_index = i;
+		}
+	}	
 	LOG << "available levels: " << _numLevels;
 }
 

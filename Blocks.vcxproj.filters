@@ -156,6 +156,9 @@
     <None Include="content\dialogs\username.json">
       <Filter>content\dialogs</Filter>
     </None>
+    <None Include="content\dialogs\editor.json">
+      <Filter>content\dialogs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Blocks.rc" />
