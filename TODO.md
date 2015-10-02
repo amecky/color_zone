@@ -1,9 +1,13 @@
 # TODO
-- [ ] morph effect - when block is copied the underlying piece should grow from 0.5 to 1.0
 - [ ] HSS - add rank to the list
 - [ ] show username on start menu
-- [ ] add change username button on startmenu
-- [ ] Input name state - show blinking cursor
+- [ ] redo all menu using the big box
+
+02.10.2015
+- [x] add change username button on startmenu
+- [x] outline marked pieces
+- [x] WONTFIX: morph effect - when block is copied the underlying piece should grow from 0.5 to 1.0
+- [x] Input name state - show blinking cursor
 
 01.01.2015
 - [x] probaly build better shuffle algorithm for preview block

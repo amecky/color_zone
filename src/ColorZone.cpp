@@ -13,15 +13,16 @@ ds::BaseApp *app = new ColorZone();
 
 ColorZone::ColorZone() {
 	//_CrtSetBreakAlloc(12876);
-	m_Width = 1024;
-	m_Height = 768;
+	_settings.screenWidth = 1024;
+	_settings.screenHeight = 768;
+	_settings.clearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
 	_context.fillRate = 0;
 	_context.levelIndex = 1;
 	_context.score = 0;
 	_context.resume = false;
 	_context.gameMode = GM_TIMER;
+	_context.name = "";
 	_context.filesystem.mount("levels");
-	m_ClearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
 	stateMachine->add(new TileMapEditor(&gui, &_context));
 	stateMachine->add( new MainGame(&_context));
 	stateMachine->add(new LevelSelectorState(&gui,&_context)); 
@@ -36,6 +37,7 @@ ColorZone::ColorZone() {
 	stateMachine->connect("StartMenu", 2, "TileMapEditor");
 	stateMachine->connect("StartMenu", 4, "Credits");
 	stateMachine->connect("StartMenu", 5, "HighscoreState");
+	stateMachine->connect("StartMenu", 6, "InputNameState");
 	stateMachine->connect("TileMapEditor", 1, "StartMenu");
 	stateMachine->connect("LevelSelectorState", 1, "MainGame");
 	stateMachine->connect("LevelSelectorState", 7, "StartMenu");
@@ -71,7 +73,7 @@ bool ColorZone::loadContent() {
 }
 
 void ColorZone::init() {
-	stateMachine->activate("TileMapEditor");
+	stateMachine->activate("StartMenu");
 }
 
 void ColorZone::update(float dt) {

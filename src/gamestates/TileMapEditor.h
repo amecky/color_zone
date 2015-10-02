@@ -21,6 +21,8 @@ public:
 	void deactivate();
 	int onGUIButton(ds::DialogID dlgID, int button);
 private:
+	void updateLevelLabel();
+	void updateModeLabel();
 	int selectBorder(int x, int y);
 	EditorMode _mode;
 	std::unique_ptr<TileMap> _map;
@@ -28,5 +30,6 @@ private:
 	int _levelIndex;
 	ds::DialogManager* _gui;
 	GameContext* _context;
+	ds::GUIDialog* _dialog;
 };
 

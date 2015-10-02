@@ -16,11 +16,14 @@ TileMapEditor::~TileMapEditor() {
 // activate
 // --------------------------------------------
 void TileMapEditor::activate() {
+	_dialog = _gui->get("Editor");
 	_map->reset();
 	_mode = EM_EDIT_MAP;
 	_currentBorder = 0;
 	_levelIndex = 1;
 	_gui->activate("Editor");
+	updateLevelLabel();
+	updateModeLabel();
 }
 
 void TileMapEditor::deactivate() {
@@ -90,19 +93,6 @@ int TileMapEditor::onButtonUp(int button, int x, int y) {
 // render
 // --------------------------------------------
 void TileMapEditor::render() {
-	/*
-	if (_mode == EM_EDIT_MAP) {
-		ds::debug::debug(80, 10, "Edit mode: MAP");
-	}
-	else {
-		ds::debug::debug(80, 10, "Edit mode: BORDER");
-	}
-	*/
-	//char buffer[127];
-	//sprintf_s(buffer, 127, "Level: %d", _levelIndex);
-	//ds::debug::debug(300, 10, buffer);
-	// draw icons
-	// map/border mode / csr left / number / csr right / load / save
 	// draw border selection
 	for (int i = 0; i < 21; ++i) {
 		v2 p(92 + i * 40, 700);
@@ -120,6 +110,20 @@ void TileMapEditor::render() {
 	
 }
 
+void TileMapEditor::updateModeLabel() {
+	if (_mode == EM_EDIT_MAP) {	
+		_dialog->updateText(110, "Edit mode: Map");
+	}
+	else {
+		_dialog->updateText(110, "Edit mode: Border");
+	}
+}
+
+void TileMapEditor::updateLevelLabel() {
+	char buffer[32];
+	sprintf_s(buffer, 32, "Level: %d", _levelIndex);
+	_dialog->updateText(111, buffer);
+}
 // --------------------------------------------
 // on char
 // --------------------------------------------
@@ -127,29 +131,25 @@ int TileMapEditor::onChar(int ascii) {
 	ds::GUIDialog* dlg = _gui->get("Editor");
 	if (ascii == '1') {
 		_mode = EM_EDIT_MAP;
-		dlg->updateText(110, "Edit mode: Map");
+		updateModeLabel();
 	}
 	if (ascii == '2') {
 		_mode = EM_BORDERS;		
-		dlg->updateText(110,"Edit mode: Border");
+		updateModeLabel();
 	}	
 	if (ascii == '+') {
 		++_levelIndex;
 		if (_levelIndex >= MAX_LEVELS) {
 			_levelIndex = MAX_LEVELS - 1;
 		}
-		char buffer[32];
-		sprintf_s(buffer, 32, "Level: %d", _levelIndex);
-		dlg->updateText(111, buffer);
+		updateLevelLabel();
 	}
 	if (ascii == '-') {
 		--_levelIndex;
 		if (_levelIndex < 1) {
 			_levelIndex = 1;
 		}
-		char buffer[32];
-		sprintf_s(buffer, 32, "Level: %d", _levelIndex);
-		dlg->updateText(111, buffer);
+		updateLevelLabel();
 	}
 	return 0;
 }

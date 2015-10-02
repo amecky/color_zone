@@ -88,8 +88,8 @@ public:
 private:	
 	bool matches(int x, int y, const Tile& t);
 	void check(int xp, int yp, int lastDir, PointList& list, bool rec);
-	int determineEdge(int x, int y);
-	
+	int determineEdge(int x, int y, const Tile& t);
+	void determineEdges();
 	void setState(int x, int y, int index);
 	
 	std::unique_ptr<Tile[]> _tiles;

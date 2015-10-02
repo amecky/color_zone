@@ -19,5 +19,9 @@ private:
 	GameContext* _context;
 	ds::DialogManager* _gui;
 	ds::GUIDialog* _dialog;
+	ds::Texture _texture;
+	float _timer;
+	bool _visible;
+	int _length;
 };
 

@@ -29,7 +29,8 @@ bool TileMap::copyBlock(const Block& block) {
 					setState(p.x, p.y, BIT_COHERENT);
 				}
 			}
-		}		
+		}	
+		determineEdges();
 		return true;
 	}
 	return false;
@@ -58,6 +59,8 @@ int TileMap::clearColumn(int col) {
 			}
 			t.state.clear(BIT_MARKED);
 			t.state.clear(BIT_COHERENT);
+			t.borders = -1;
+			t.edges = -1;
 		}
 	}
 	return ret;
@@ -82,10 +85,13 @@ void TileMap::render(int squareSize,float scale) {
 			v2 p = v2(startX + x * squareSize, startY + y * squareSize);
 			if (t.state.isSet(BIT_AVAILABLE)) {	
 				if (t.state.isSet(BIT_COHERENT)) {
-					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36), 0.0f, 0.5f, 0.5f);
+					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36), 0.0f, scale, scale);
+					if (t.edges > 0) {
+						ds::sprites::draw(p, ds::math::buildTexture(168, 410 + t.edges * 36, 36, 36), 0.0f, scale, scale);
+					}
 				}
 				else if (t.state.isSet(BIT_MARKED)) {
-					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36), 0.0f, scale, scale);
+					ds::sprites::draw(p, ds::math::buildTexture(168, 200 + t.color * 36, 36, 36), 0.0f, scale, scale);
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
 					ds::sprites::draw(p, ds::math::buildTexture(0, 150, 36, 36), 0.0f, scale, scale);
@@ -271,6 +277,7 @@ void TileMap::reset() {
 			Tile& t = _tiles[x + y * MAX_X];
 			t.borders = -1;
 			t.color = -1;
+			t.edges = -1;
 			t.state.clear();
 			t.state.set(BIT_AVAILABLE);
 		}
@@ -279,21 +286,45 @@ void TileMap::reset() {
 }
 
 // -------------------------------------------------------
-// determine corners
+// determine all edges for coherent pieces
 // -------------------------------------------------------
-int TileMap::determineEdge(int x, int y) {
+void TileMap::determineEdges() {
+	for (int y = 0; y < MAX_Y; ++y) {
+		for (int x = 0; x < MAX_X; ++x) {
+			Tile& t = _tiles[x + y * MAX_X];
+			if (t.state.isSet(BIT_COHERENT)) {
+				t.edges = determineEdge(x, y, t);
+			}
+		}
+	}
+}
+
+bool TileMap::matches(int x, int y, const Tile& t) {
+	if (!isAvailable(x, y)) {
+		return false;
+	}
+	Tile& other = _tiles[x + y * MAX_X];
+	return t.color == other.color;
+}
+// -------------------------------------------------------
+// determine edges
+//   8
+// 1    2
+//   4
+// -------------------------------------------------------
+int TileMap::determineEdge(int x, int y,const Tile& t) {
 	int set = 0;
 	if (isAvailable(x, y)) {
-		if (isAvailable(x - 1, y)) {
+		if (matches(x - 1, y, t)) {
 			set |= 1;
 		}
-		if (isAvailable(x + 1, y)) {
+		if (matches(x + 1, y, t)) {
 			set |= 2;
 		}
-		if (isAvailable(x, y - 1)) {
+		if (matches(x, y - 1, t)) {
 			set |= 4;
 		}
-		if (isAvailable(x, y + 1)) {
+		if (matches(x, y + 1, t)) {
 			set |= 8;
 		}
 	}
@@ -349,9 +380,7 @@ void TileMap::load(int index) {
 	LOGC("TileMap") << "max available: " << _maxAvailable;
 }
 
-bool TileMap::matches(int x, int y, const Tile& t) {
-	return true;
-}
+
 // -------------------------------------------------------------
 // check recursivley to detect matching pieces
 // -------------------------------------------------------------

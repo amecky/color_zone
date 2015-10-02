@@ -105,7 +105,8 @@ int MainGame::update(float dt) {
 	v2 mp = ds::renderer::getMousePosition();
 	v2 converted = _map->convert(mp);
 	_mainBlock.setPosition(converted);
-	moveLaser(dt);	
+	// FIXME: disabled for testen
+	//moveLaser(dt);	
 	if (_context->gameMode == GM_COVERAGE) {
 		if (_context->fillRate >= 80) {
 			fillHighscore();
