@@ -19,6 +19,13 @@
 "text" { "id" : "23" , "pos" : "550,400" , "text" : "02:56"  , "centered" : "false" }
 "text" { "id" : "24" , "pos" : "550,350" , "text" : "123456"  , "centered" : "false" }
 
+"image" { "id" : "121" , "pos" : "380,580" , "rect" : "230,510,290,40" , "centered" : "false" }
+"image" { "id" : "122" , "pos" : "670,580" , "rect" : "230,720,290,40" , "centered" : "false" }
+"image" { "id" : "123" , "pos" : "380,330" , "rect" : "272,510,290,40" , "centered" : "false" }
+"image" { "id" : "124" , "pos" : "670,330" , "rect" : "272,720,290,40" , "centered" : "false" }
+"image" { "id" : "125" , "pos" : "238,455" , "rect" : "316,510,6,210" , "centered" : "false" }
+"image" { "id" : "126" , "pos" : "812,455" , "rect" : "316,510,6,210" , "centered" : "false" }
+
 "button" { 
 	"id" : "1" , "pos" : "400,230" , "text" : "Restart" , "rect" : "510,0,340,50" 
 }

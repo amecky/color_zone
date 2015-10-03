@@ -9,18 +9,22 @@
 }
 "text" { "id" : "110" , "pos" : "150,610" , "text" : "Level 1" }
 "text" { "id" : "111" , "pos" : "150,570" , "text" : "Timer mode" }
-"image" { "id" : "102" , "pos" : "330,620" , "rect" : "300,500,400,60" , "centered" : "false" }
-"image" { "id" : "103" , "pos" : "700,620" , "rect" : "300,650,350,60" , "centered" : "false" }
-"image" { "id" : "104" , "pos" : "330,570" , "rect" : "730,500,400,60" , "centered" : "false" }
-"image" { "id" : "105" , "pos" : "700,570" , "rect" : "730,650,350,60" , "centered" : "false" }
+"image" { "id" : "102" , "pos" : "335,630" , "rect" : "230,510,450,40" , "centered" : "false" }
+"image" { "id" : "103" , "pos" : "750,630" , "rect" : "230,670,380,40" , "centered" : "false" }
+"image" { "id" : "104" , "pos" : "335,560" , "rect" : "272,510,450,40" , "centered" : "false" }
+"image" { "id" : "105" , "pos" : "750,560" , "rect" : "272,670,380,40" , "centered" : "false" }
+"image" { "id" : "106" , "pos" : "113,595" , "rect" : "316,510,6,30" , "centered" : "false" }
+"image" { "id" : "107" , "pos" : "897,595" , "rect" : "316,510,6,30" , "centered" : "false" }
 
 "button" { "id" : "2" , "pos" : "200,600" , "rect" : "500,350,62,62" , "centered" : "false"  }
 "button" { "id" : "3" , "pos" : "810,600" , "rect" : "500,420,62,62" , "centered" : "false" }
 
-"image" { "id" : "121" , "pos" : "300,425" , "rect" : "300,500,400,160" , "centered" : "false" }
-"image" { "id" : "122" , "pos" : "300,280" , "rect" : "650,500,400,135" , "centered" : "false" }
-"image" { "id" : "123" , "pos" : "700,425" , "rect" : "300,600,400,160" , "centered" : "false" }
-"image" { "id" : "124" , "pos" : "700,280" , "rect" : "650,600,400,135" , "centered" : "false" }
+"image" { "id" : "121" , "pos" : "335,480" , "rect" : "230,510,450,40" , "centered" : "false" }
+"image" { "id" : "122" , "pos" : "750,480" , "rect" : "230,670,380,40" , "centered" : "false" }
+"image" { "id" : "123" , "pos" : "335,230" , "rect" : "272,510,450,40" , "centered" : "false" }
+"image" { "id" : "124" , "pos" : "750,230" , "rect" : "272,670,380,40" , "centered" : "false" }
+"image" { "id" : "125" , "pos" : "113,355" , "rect" : "316,510,6,210" , "centered" : "false" }
+"image" { "id" : "126" , "pos" : "897,355" , "rect" : "316,510,6,210" , "centered" : "false" }
 
 "text" { "id" : "14" , "pos" : "150,450" , "text" : "1." , "centered" : "false"  }
 "text" { "id" : "15" , "pos" : "150,400" , "text" : "2."  , "centered" : "false" }

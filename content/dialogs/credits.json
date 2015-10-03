@@ -2,10 +2,13 @@
 	"name" : "Credits" 
 }
 "image" { "id" : "100" , "pos" : "200,710" , "rect" : "204,0,502,94" }
-"image" { "id" : "101" , "pos" : "400,445" , "rect" : "300,500,400,120" , "centered" : "false" }
-"image" { "id" : "102" , "pos" : "400,325" , "rect" : "650,500,400,135" , "centered" : "false" }
-"image" { "id" : "103" , "pos" : "660,445" , "rect" : "300,600,400,120" , "centered" : "false" }
-"image" { "id" : "104" , "pos" : "660,325" , "rect" : "650,600,400,135" , "centered" : "false" }
+
+"image" { "id" : "101" , "pos" : "400,490" , "rect" : "230,510,400,40" , "centered" : "false" }
+"image" { "id" : "102" , "pos" : "400,280" , "rect" : "272,510,400,40" , "centered" : "false" }
+"image" { "id" : "103" , "pos" : "203,385" , "rect" : "316,510,6,170" , "centered" : "false" }
+"image" { "id" : "104" , "pos" : "847,385" , "rect" : "316,510,6,170" , "centered" : "false" }
+"image" { "id" : "105" , "pos" : "725,490" , "rect" : "230,760,250,40" , "centered" : "false" }
+"image" { "id" : "106" , "pos" : "725,280" , "rect" : "272,760,250,40" , "centered" : "false" }
 
 "text" { 
 	"id" : "3" , "pos" : "400,700" , "text" : "Credits" , "color" : "255,255,255,255" , "scale" : "1.5" 

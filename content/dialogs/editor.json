@@ -1,13 +1,16 @@
 "dialog" { 
 	"name" : "EditorDialog" 
 }
-"image" { "id" : "102" , "pos" : "220,730" , "rect" : "300,500,400,60" , "centered" : "false" }
-"image" { "id" : "103" , "pos" : "800,730" , "rect" : "300,650,350,60" , "centered" : "false" }
-"image" { "id" : "104" , "pos" : "520,730" , "rect" : "300,600,210,60" , "centered" : "false" }
+"image" { "id" : "102" , "pos" : "245,740" , "rect" : "230,510,450,40" , "centered" : "false" }
+"image" { "id" : "103" , "pos" : "800,740" , "rect" : "230,610,450,40" , "centered" : "false" }
+"image" { "id" : "104" , "pos" : "520,740" , "rect" : "230,610,120,40" , "centered" : "false" }
 
-"image" { "id" : "105" , "pos" : "220,690" , "rect" : "730,500,400,60" , "centered" : "false" }
-"image" { "id" : "106" , "pos" : "800,690" , "rect" : "730,650,350,60" , "centered" : "false" }
-"image" { "id" : "107" , "pos" : "520,690" , "rect" : "730,600,210,60" , "centered" : "false" }
+"image" { "id" : "105" , "pos" : "245,680" , "rect" : "272,510,450,40" , "centered" : "false" }
+"image" { "id" : "106" , "pos" : "800,680" , "rect" : "272,610,450,40" , "centered" : "false" }
+"image" { "id" : "107" , "pos" : "520,680" , "rect" : "272,610,120,40" , "centered" : "false" }
+
+"image" { "id" : "108" , "pos" : "23,710" , "rect" : "316,510,6,20" , "centered" : "false" }
+"image" { "id" : "109" , "pos" : "972,710" , "rect" : "316,510,6,20" , "centered" : "false" }
 
 "text" { "id" : "110" , "pos" : "40,730" , "text" : "Edit mode: map" , "centered" : "false" }
 "text" { "id" : "111" , "pos" : "640,730" , "text" : "Level: 1" , "centered" : "false" }

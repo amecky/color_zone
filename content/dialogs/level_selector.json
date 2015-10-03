@@ -2,15 +2,19 @@
 
 "image" { "id" : "100" , "pos" : "200,710" , "rect" : "204,0,502,94" }
 
-"image" { "id" : "101" , "pos" : "330,620" , "rect" : "300,500,400,60" , "centered" : "false" }
-"image" { "id" : "102" , "pos" : "700,620" , "rect" : "300,650,350,60" , "centered" : "false" }
-"image" { "id" : "103" , "pos" : "330,570" , "rect" : "730,500,400,60" , "centered" : "false" }
-"image" { "id" : "104" , "pos" : "700,570" , "rect" : "730,650,350,60" , "centered" : "false" }
+"image" { "id" : "101" , "pos" : "330,630" , "rect" : "230,510,400,40" , "centered" : "false" }
+"image" { "id" : "102" , "pos" : "700,630" , "rect" : "230,650,360,40" , "centered" : "false" }
+"image" { "id" : "103" , "pos" : "330,570" , "rect" : "272,510,400,40" , "centered" : "false" }
+"image" { "id" : "104" , "pos" : "700,570" , "rect" : "272,650,360,40" , "centered" : "false" }
+"image" { "id" : "111" , "pos" : "133,600" , "rect" : "316,510,6,20" , "centered" : "false" }
+"image" { "id" : "112" , "pos" : "877,600" , "rect" : "316,510,6,20" , "centered" : "false" }
 
-"image" { "id" : "105" , "pos" : "330,390" , "rect" : "300,500,400,300" , "centered" : "false" }
-"image" { "id" : "106" , "pos" : "700,390" , "rect" : "300,650,350,300" , "centered" : "false" }
-"image" { "id" : "107" , "pos" : "330,230" , "rect" : "730,500,400,60" , "centered" : "false" }
-"image" { "id" : "108" , "pos" : "700,230" , "rect" : "730,650,350,60" , "centered" : "false" }
+"image" { "id" : "105" , "pos" : "330,520" , "rect" : "230,510,400,40" , "centered" : "false" }
+"image" { "id" : "106" , "pos" : "700,520" , "rect" : "230,650,360,40" , "centered" : "false" }
+"image" { "id" : "107" , "pos" : "330,230" , "rect" : "272,510,400,40" , "centered" : "false" }
+"image" { "id" : "108" , "pos" : "700,230" , "rect" : "272,650,360,40" , "centered" : "false" }
+"image" { "id" : "109" , "pos" : "133,375" , "rect" : "316,510,6,250" , "centered" : "false" }
+"image" { "id" : "110" , "pos" : "878,375" , "rect" : "316,510,6,250" , "centered" : "false" }
 
 "text" { 
 	"id" : "10" , "pos" : "400,700" , "text" : "Select Level" , "color" : "255,255,255,255" , "scale" : "1.5" 

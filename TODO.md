@@ -1,7 +1,9 @@
 # TODO
 - [ ] HSS - add rank to the list
 - [ ] show username on start menu
-- [ ] redo all menu using the big box
+
+03.10.2015
+- [x] redo all menu using the big box
 
 02.10.2015
 - [x] add change username button on startmenu
