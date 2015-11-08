@@ -19,8 +19,6 @@ MainGame::~MainGame() {
 }
 
 void MainGame::init() {
-	_hud.init(0, "xscale");
-	ds::assets::load("hud", &_hud, ds::CVT_HUD);
 }
 
 void MainGame::activate() {
@@ -31,9 +29,9 @@ void MainGame::activate() {
 		_map->load(_context->levelIndex);
 		_context->score = 0;
 		_context->fillRate = 0;
-		_hud.setTimer(2, 0, 0);
-		_hud.setCounterValue(1, 0);
-		_hud.setText(3, "0 %");
+		//_hud.setTimer(2, 0, 0);
+		//_hud.setCounterValue(1, 0);
+		//_hud.setText(3, "0 %");
 		_effect->reset();
 	}
 	_context->resume = false;
@@ -45,9 +43,9 @@ void MainGame::fillHighscore() {
 	_context->currentScore.mode = _context->gameMode;
 	_context->currentScore.level = _context->levelIndex;
 	sprintf_s(_context->currentScore.name, 10,"%s",_context->name.c_str());
-	ds::GameTimer* timer = _hud.getTimer(2);
-	_context->currentScore.minutes = timer->getMinutes();
-	_context->currentScore.seconds = timer->getSeconds();
+	//ds::GameTimer* timer = _hud.getTimer(2);
+	//_context->currentScore.minutes = timer->getMinutes();
+	//_context->currentScore.seconds = timer->getSeconds();
 }
 // --------------------------------------------
 // move laser
@@ -69,10 +67,10 @@ void MainGame::moveLaser(float dt) {
 				_context->score += cleared * 100;
 				if (cleared > 0) {
 					_context->fillRate = _map->getFillRate();
-					_hud.setCounterValue(1, _context->score);
+					//_hud.setCounterValue(1, _context->score);
 					char buffer[128];
 					sprintf_s(buffer, 128, "%d%%", _context->fillRate);
-					_hud.setText(3, buffer);
+					//_hud.setText(3, buffer);
 				}
 			}
 			_laser.timer = 0.0f;
@@ -93,13 +91,13 @@ void MainGame::moveLaser(float dt) {
 // update
 // --------------------------------------------
 int MainGame::update(float dt) {
-	_hud.update(dt);
+	//_hud.update(dt);
 	if (_context->gameMode == GM_TIMER) {
-		ds::GameTimer* timer = _hud.getTimer(2);
-		if (timer->getMinutes() > 0) {
-			fillHighscore();
-			return 666;
-		}
+		//ds::GameTimer* timer = _hud.getTimer(2);
+		//if (timer->getMinutes() > 0) {
+			//fillHighscore();
+			//return 666;
+		//}
 	}
 	// move main block
 	v2 mp = ds::renderer::getMousePosition();
@@ -146,7 +144,7 @@ void MainGame::render() {
 	_effect->render();
 	_previewBlock.render();
 	_mainBlock.render();
-	_hud.render();
+	//_hud.render();
 }
 
 // --------------------------------------------

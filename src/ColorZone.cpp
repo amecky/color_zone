@@ -16,6 +16,7 @@ ColorZone::ColorZone() {
 	_settings.screenWidth = 1024;
 	_settings.screenHeight = 768;
 	_settings.clearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
+	_settings.showEditor = true;
 	_context.fillRate = 0;
 	_context.levelIndex = 1;
 	_context.score = 0;
@@ -62,8 +63,9 @@ bool ColorZone::loadContent() {
 	ds::debug::loadSystemFont("Verdana", "Verdana", 14, true);	
 	ds::BitmapFont* font = ds::renderer::createBitmapFont("xscale");
 	ds::assets::load("xscale", font, ds::CVT_FONT);
-	ds::renderer::initializeBitmapFont(*font, _textureID);
+	ds::renderer::initializeBitmapFont(font, _textureID);
 	ds::sprites::initializeTextSystem(_textureID, "xscale");
+	gui::initialize();
 	initializeGUI();
 	_loader = new SettingsLoader;
 	uint32 convID = ds::assets::registerConverter(_loader);
