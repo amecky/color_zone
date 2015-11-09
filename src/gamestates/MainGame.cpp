@@ -19,9 +19,11 @@ MainGame::~MainGame() {
 }
 
 void MainGame::init() {
+	
 }
 
 void MainGame::activate() {
+	_context->hud->activate();
 	if (!_context->resume) {
 		_map->reset();
 		_laser.active = false;
@@ -29,12 +31,16 @@ void MainGame::activate() {
 		_map->load(_context->levelIndex);
 		_context->score = 0;
 		_context->fillRate = 0;
-		//_hud.setTimer(2, 0, 0);
-		//_hud.setCounterValue(1, 0);
-		//_hud.setText(3, "0 %");
+		_context->hud->resetTimer(5);
+		_context->hud->setNumber(4, 0);
+		_context->hud->updateText(3, "0 %");
 		_effect->reset();
 	}
 	_context->resume = false;
+}
+
+void MainGame::deactivate() {
+	_context->hud->deactivate();
 }
 
 void MainGame::fillHighscore() {
@@ -67,10 +73,10 @@ void MainGame::moveLaser(float dt) {
 				_context->score += cleared * 100;
 				if (cleared > 0) {
 					_context->fillRate = _map->getFillRate();
-					//_hud.setCounterValue(1, _context->score);
+					_context->hud->setNumber(4, _context->score);
 					char buffer[128];
 					sprintf_s(buffer, 128, "%d%%", _context->fillRate);
-					//_hud.setText(3, buffer);
+					_context->hud->updateText(3, buffer);
 				}
 			}
 			_laser.timer = 0.0f;
@@ -91,7 +97,7 @@ void MainGame::moveLaser(float dt) {
 // update
 // --------------------------------------------
 int MainGame::update(float dt) {
-	//_hud.update(dt);
+	_context->hud->tick(dt);
 	if (_context->gameMode == GM_TIMER) {
 		//ds::GameTimer* timer = _hud.getTimer(2);
 		//if (timer->getMinutes() > 0) {
@@ -100,11 +106,12 @@ int MainGame::update(float dt) {
 		//}
 	}
 	// move main block
+	_mainBlock.update(dt);
 	v2 mp = ds::renderer::getMousePosition();
 	v2 converted = _map->convert(mp);
 	_mainBlock.setPosition(converted);
 	// FIXME: disabled for testen
-	//moveLaser(dt);	
+	moveLaser(dt);	
 	if (_context->gameMode == GM_COVERAGE) {
 		if (_context->fillRate >= 80) {
 			fillHighscore();

@@ -69,6 +69,7 @@ bool ColorZone::loadContent() {
 	ds::sprites::initializeTextSystem(_textureID, "xscale");
 	gui::initialize();
 	initializeGUI();
+	_context.hud = gui.get("HUD");
 	_loader = new SettingsLoader;
 	uint32 convID = ds::assets::registerConverter(_loader);
 	ds::assets::load("color_zone", _loader, convID);
@@ -93,7 +94,8 @@ void ColorZone::draw() {
 }
 
 void ColorZone::onGUIButton(ds::DialogID dlgID, int button) {
-	if (dlgID == 1 && button == 3) {
+	LOG << "dialog: " << dlgID << " button: " << button;
+	if (dlgID == 3 && button == 3) {
 		shutdown();
 	}
 }

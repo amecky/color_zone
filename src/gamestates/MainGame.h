@@ -24,6 +24,7 @@ public:
 	int onButtonUp(int button, int x, int y);
 	int onChar(int ascii);
 	void activate();	
+	void deactivate();
 private:	
 	void moveLaser(float dt);
 	void startLaser();
