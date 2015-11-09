@@ -14,9 +14,13 @@ public:
 	void copyColors(const Block& other);
 	int getColor(int index) const;
 	void rotate();
+	void update(float dt);
 private:
 	v2 _position;
 	int _colors[4];
 	ds::Texture _textures[5];
+	bool _rotating;
+	float _rotationTimer;
+	float _rotationRadius;
 };
 

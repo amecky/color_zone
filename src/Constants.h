@@ -11,6 +11,7 @@ const int YM[4] = { 0, 0, 1, -1 };
 const int LD[4] = { 1, 0, 3, 2 };
 
 const int SQUARE_SIZE = 36;
+const float HALF_SQUARE_SIZE = 18.0f;
 
 const int BLOCK_X[4] = {0,1,1,0};
 const int BLOCK_Y[4] = {0,0,1,1};

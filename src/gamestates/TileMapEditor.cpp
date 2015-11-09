@@ -112,17 +112,17 @@ void TileMapEditor::render() {
 
 void TileMapEditor::updateModeLabel() {
 	if (_mode == EM_EDIT_MAP) {	
-		_dialog->updateText(110, "Edit mode: Map");
+		_dialog->updateText(18, "Edit mode: Map");
 	}
 	else {
-		_dialog->updateText(110, "Edit mode: Border");
+		_dialog->updateText(18, "Edit mode: Border");
 	}
 }
 
 void TileMapEditor::updateLevelLabel() {
 	char buffer[32];
 	sprintf_s(buffer, 32, "Level: %d", _levelIndex);
-	_dialog->updateText(111, buffer);
+	_dialog->updateText(19, buffer);
 }
 // --------------------------------------------
 // on char

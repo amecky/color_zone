@@ -3,6 +3,13 @@
 #include <sprites\SpriteBatch.h>
 #include "Constants.h"
 
+const float ROTATION_TIME = 0.2f;
+
+const float STARTING_ANGLES[] = { DEGTORAD(225.0f), DEGTORAD(135.0f) , DEGTORAD(45.0f) , DEGTORAD(315.0f) };
+
+// -----------------------------------------------------------------
+//
+// -----------------------------------------------------------------
 Block::Block() {
 	_position = v2(512, 384);
 	for (int i = 0; i < 5; ++i) {
@@ -12,22 +19,33 @@ Block::Block() {
 		_colors[i] = 0;
 	}
 	pickColors();
+	_rotating = false;
+	_rotationRadius = length(v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE));
 }
 
 Block::~Block() {
 }
 
+// -----------------------------------------------------------------
+// set position
+// -----------------------------------------------------------------
 void Block::setPosition(const v2& p) {
 	_position = p;
 }
 
+// -----------------------------------------------------------------
+// get position
+// -----------------------------------------------------------------
 const v2& Block::getPosition() const {
 	return _position;
 }
 
+// -----------------------------------------------------------------
+// pick 4 random colors
+// -----------------------------------------------------------------
 void Block::pickColors() {
-	int firstColor = ds::math::random(0, 4);
-	int secondColor = ds::math::random(0, 4);
+	int firstColor = ds::math::random(0, 3);
+	int secondColor = ds::math::random(0, 3);
 	_colors[0] = firstColor;
 	_colors[1] = firstColor;
 	_colors[2] = secondColor;
@@ -38,30 +56,66 @@ void Block::pickColors() {
 	}
 }
 
+// -----------------------------------------------------------------
+// render
+// -----------------------------------------------------------------
 // draw order:
 // 12
 // 03
 void Block::render() {
-	ds::sprites::draw(v2(_position.x, _position.y), _textures[_colors[0]]);
-	ds::sprites::draw(v2(_position.x, _position.y + SQUARE_SIZE), _textures[_colors[1]]);
-	ds::sprites::draw(v2(_position.x + SQUARE_SIZE, _position.y + SQUARE_SIZE), _textures[_colors[2]]);
-	ds::sprites::draw(v2(_position.x + SQUARE_SIZE, _position.y), _textures[_colors[3]]);
+	v2 p = _position + v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
+	float norm = _rotationTimer / ROTATION_TIME;
+	for (int i = 0; i < 4; ++i) {
+		float angle = STARTING_ANGLES[i];
+		if (_rotating) {
+			angle += norm * HALF_PI;
+		}
+		v2 pp = ds::math::getDistantPosition(p, angle, _rotationRadius);
+		ds::sprites::draw(pp, _textures[_colors[i]], angle + DEGTORAD(45.0f));
+	}
 }
 
+// -----------------------------------------------------------------
+// get color by index
+// -----------------------------------------------------------------
 int Block::getColor(int index) const {
 	return _colors[index];
 }
 
+// -----------------------------------------------------------------
+// copy colors
+// ----------------------------------------------------------------- 
 void Block::copyColors(const Block& other) {
 	for (int i = 0; i < 4; ++i) {
 		_colors[i] = other.getColor(i);
 	}
 }
 
-void Block::rotate() {
-	int tmp = _colors[0];
-	for (int i = 0; i < 3; ++i) {
-		_colors[i] = _colors[i + 1];
+// -----------------------------------------------------------------
+// rotate
+// -----------------------------------------------------------------
+void Block::rotate() {	
+	if (!_rotating) {
+		_rotating = true;
+		_rotationTimer = 0.0f;
 	}
-	_colors[3] = tmp;
+}
+
+// -----------------------------------------------------------------
+// update
+// -----------------------------------------------------------------
+void Block::update(float dt) {
+	if (_rotating) {
+		_rotationTimer += dt;
+		float norm = _rotationTimer / ROTATION_TIME;
+		v2 center = _position + v2(HALF_SQUARE_SIZE);
+		if (norm >= 1.0f) {
+			int tmp = _colors[0];
+			for (int i = 0; i < 3; ++i) {
+				_colors[i] = _colors[i + 1];
+			}
+			_colors[3] = tmp;
+			_rotating = false;
+		}		
+	}
 }

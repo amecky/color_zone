@@ -47,12 +47,12 @@ void HighscoreState::updateText() {
 	ds::GUIDialog* dlg = _gui->get("Highscores");
 	std::string str;
 	ds::string::formatInt(_availableLevels[_index], str);
-	dlg->updateText(110, "Level " + str);
+	dlg->updateText(10, "Level " + str);
 	if (_mode == GM_TIMER) {
-		dlg->updateText(111, "Timer mode");
+		dlg->updateText(11, "Timer mode");
 	}
 	else {
-		dlg->updateText(111, "Coverage mode");
+		dlg->updateText(11, "Coverage mode");
 	}
 	Highscore scores[MAX_SCORE_ENTRIES];
 	_highscores.get(_availableLevels[_index], _mode, scores);
@@ -62,12 +62,12 @@ void HighscoreState::updateText() {
 		if (current.score > 0) {
 			dlg->updateText(20 + i, current.name);
 			ds::string::formatInt(current.score, nr, 6);
-			dlg->updateText(30 + i, nr);
+			dlg->updateText(40 + i, nr);
 		}
 		else {
 			dlg->updateText(20 + i, "---");
 			ds::string::formatInt(0, nr, 6);
-			dlg->updateText(30 + i, nr);
+			dlg->updateText(40 + i, nr);
 		}
 	}
 }

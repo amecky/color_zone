@@ -33,6 +33,9 @@ bool TileMap::copyBlock(const Block& block) {
 		determineEdges();
 		return true;
 	}
+	else {
+		LOG << "Block is not available";
+	}
 	return false;
 }
 
@@ -83,6 +86,7 @@ void TileMap::render(int squareSize,float scale) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			const Tile& t = get(x, y);
 			v2 p = v2(startX + x * squareSize, startY + y * squareSize);
+			//ds::sprites::draw(p, ds::math::buildTexture(0, 0, 36, 36), 0.0f, scale, scale);
 			if (t.state.isSet(BIT_AVAILABLE)) {	
 				if (t.state.isSet(BIT_COHERENT)) {
 					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36), 0.0f, scale, scale);
@@ -102,6 +106,7 @@ void TileMap::render(int squareSize,float scale) {
 			}
 		}
 	}
+	/*
 	for (int x = 0; x < MAX_X; ++x) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			const Tile& t = get(x, y);
@@ -111,6 +116,7 @@ void TileMap::render(int squareSize,float scale) {
 			}
 		}
 	}
+	*/
 }
 
 v2 TileMap::convertToGridPos(int x, int y) {

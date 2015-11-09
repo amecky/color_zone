@@ -8,6 +8,7 @@
 #include "gamestates\TileMapEditor.h"
 #include "gamestates\MainGame.h"
 #include "gamestates\IntroState.h"
+#include "gamestates\TestState.h"
 
 ds::BaseApp *app = new ColorZone();
 
@@ -34,6 +35,7 @@ ColorZone::ColorZone() {
 	stateMachine->add(new GameOverState(&gui,&_context));
 	stateMachine->add(new HighscoreState(&gui, &_context));
 	stateMachine->add(new IntroState(&_context));
+	stateMachine->add(new TestState(&_context));
 	stateMachine->connect("StartMenu", 1, "LevelSelectorState");
 	stateMachine->connect("StartMenu", 2, "TileMapEditor");
 	stateMachine->connect("StartMenu", 4, "Credits");
@@ -71,6 +73,11 @@ bool ColorZone::loadContent() {
 	uint32 convID = ds::assets::registerConverter(_loader);
 	ds::assets::load("color_zone", _loader, convID);
 	_context.settings = _loader->get();	
+	ds::GUIDialog* dlg = gui.get("MainMenu");
+	dlg->setTransition(1, 3, 0.5f);
+	dlg->setTransition(2, 2, 0.5f);
+	dlg->setTransition(4, 1, 0.5f);
+	dlg->setTransition(3, 4, 0.5f);
 	return true;
 }
 
