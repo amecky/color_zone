@@ -18,12 +18,12 @@ IntroState::~IntroState() {
 // activate
 // --------------------------------------------
 void IntroState::activate() {
-	_effect->start(0, 0, ds::Rect(790, 410, 550, 90), 55, 18 , 0.0f);
+	_effect->start(0, 0, ds::Rect(801, 401, 620, 80), 55, 18 , 0.0f);
 }
 
 int IntroState::onChar(int ascii) {
 	if (ascii == 'r') {
-		_effect->start(0, 0, ds::Rect(790, 410, 550, 90), 55, 18, 0.0f);
+		_effect->start(0, 0, ds::Rect(801, 401, 620, 80), 55, 18, 0.0f);
 	}
 	return 0;
 }
@@ -32,9 +32,9 @@ int IntroState::onChar(int ascii) {
 // --------------------------------------------
 int IntroState::update(float dt) {
 	_effect->update(dt);
-	if (!_effect->isRunning()) {
-		return 1;
-	}
+	//if (!_effect->isRunning()) {
+		//return 1;
+	//}
 	return 0;
 }
 
@@ -44,6 +44,7 @@ int IntroState::update(float dt) {
 void IntroState::render() {
 	//ds::sprites::draw(v2(512, 384), _texture);
 	_effect->render();
+	_context->settings->showDialog();
 }
 
 

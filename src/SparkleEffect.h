@@ -71,7 +71,7 @@ public:
 	virtual ~SparkleEffect();
 	void start(int x, int y, const ds::Rect& r,int pieces);	
 	virtual void update(float dt);
-	void render();
+	virtual void render();
 	void reset() {
 		_sparkles.countAlive = 0;
 	}
@@ -94,7 +94,9 @@ public:
 	bool isRunning() {
 		return _running;
 	}
+	virtual void render();
 private:
+	ds::Texture _texture;
 	float _warmUpTimer;
 	bool _running;
 };

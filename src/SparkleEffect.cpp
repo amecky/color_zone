@@ -80,6 +80,7 @@ IntroEffect::IntroEffect(GameContext* context) : SparkleEffect(context) , _warmU
 // start
 // --------------------------------------------
 void IntroEffect::start(int xp, int yp, const ds::Rect& r, int stepX, int stepY, float gap) {
+	_texture = ds::math::buildTexture(r);
 	int total = stepX * stepY;
 	float dx = r.width() / stepX;
 	float dy = r.height() / stepY;
@@ -98,7 +99,8 @@ void IntroEffect::start(int xp, int yp, const ds::Rect& r, int stepX, int stepY,
 				_sparkles.positions[cnt] = v2(np.x + (dx + gap) * x, np.y - (dy + gap) * y);
 				_sparkles.timers[cnt] = 0.0f;
 				_sparkles.textures[cnt] = ds::math::buildTexture(r.top + dy * y, r.left + dx * x, dx, dy);
-				float angle = ds::math::getTargetAngle(_sparkles.positions[cnt], v2(512, 384));
+				//float angle = ds::math::getTargetAngle(_sparkles.positions[cnt], v2(512, 384));
+				float angle = ds::math::random(0.0f, TWO_PI);
 				float v = _context->settings->introVelocity + ds::math::random(-_context->settings->introVelocityVariance, _context->settings->introVelocityVariance);
 				_sparkles.velocities[cnt] = ds::math::getRadialVelocity(RADTODEG(angle), v);
 				_sparkles.scales[cnt] = v2(1, 1);
@@ -110,6 +112,16 @@ void IntroEffect::start(int xp, int yp, const ds::Rect& r, int stepX, int stepY,
 	_running = true;
 }
 
+void IntroEffect::render() {
+	if (_running) {
+		if (_warmUpTimer > 0.0f) {
+			ds::sprites::draw(v2(512, 384), _texture);
+		}
+		else {
+			SparkleEffect::render();
+		}
+	}
+}
 // --------------------------------------------
 // update
 // --------------------------------------------

@@ -25,3 +25,7 @@ const float PARTICLE_ANGLES[] = {
 
 
 const int MAX_SCORE_ENTRIES = 5;
+
+const int HUD_TIMER = 5;
+const int HUD_PERCENTAGE = 3;
+const int HUD_SCORE = 4;

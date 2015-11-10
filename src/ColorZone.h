@@ -7,7 +7,6 @@
 #pragma once
 #include <base\BaseApp.h>
 #include <io\Serializer.h>
-#include "SettingsConverter.h"
 #include "Common.h"
 
 class ColorZone : public ds::BaseApp {
@@ -26,7 +25,5 @@ public:
 private:
 	int _textureID;
 	GameContext _context;
-	SettingsLoader* _loader;
-	//GameSettings* _settings;
 };
 

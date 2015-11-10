@@ -31,9 +31,9 @@ void MainGame::activate() {
 		_map->load(_context->levelIndex);
 		_context->score = 0;
 		_context->fillRate = 0;
-		_context->hud->resetTimer(5);
-		_context->hud->setNumber(4, 0);
-		_context->hud->updateText(3, "0 %");
+		_context->hud->resetTimer(HUD_TIMER);
+		_context->hud->setNumber(HUD_SCORE, 0);
+		_context->hud->updateText(HUD_PERCENTAGE, "0 %");
 		_effect->reset();
 	}
 	_context->resume = false;
@@ -49,9 +49,9 @@ void MainGame::fillHighscore() {
 	_context->currentScore.mode = _context->gameMode;
 	_context->currentScore.level = _context->levelIndex;
 	sprintf_s(_context->currentScore.name, 10,"%s",_context->name.c_str());
-	//ds::GameTimer* timer = _hud.getTimer(2);
-	//_context->currentScore.minutes = timer->getMinutes();
-	//_context->currentScore.seconds = timer->getSeconds();
+	ds::GameTimer* timer = _context->hud->getTimer(HUD_TIMER);
+	_context->currentScore.minutes = timer->getMinutes();
+	_context->currentScore.seconds = timer->getSeconds();
 }
 // --------------------------------------------
 // move laser
@@ -73,10 +73,10 @@ void MainGame::moveLaser(float dt) {
 				_context->score += cleared * 100;
 				if (cleared > 0) {
 					_context->fillRate = _map->getFillRate();
-					_context->hud->setNumber(4, _context->score);
+					_context->hud->setNumber(HUD_SCORE, _context->score);
 					char buffer[128];
 					sprintf_s(buffer, 128, "%d%%", _context->fillRate);
-					_context->hud->updateText(3, buffer);
+					_context->hud->updateText(HUD_PERCENTAGE, buffer);
 				}
 			}
 			_laser.timer = 0.0f;
@@ -99,11 +99,11 @@ void MainGame::moveLaser(float dt) {
 int MainGame::update(float dt) {
 	_context->hud->tick(dt);
 	if (_context->gameMode == GM_TIMER) {
-		//ds::GameTimer* timer = _hud.getTimer(2);
-		//if (timer->getMinutes() > 0) {
-			//fillHighscore();
-			//return 666;
-		//}
+		ds::GameTimer* timer = _context->hud->getTimer(HUD_TIMER);
+		if (timer->getMinutes() > 2) {
+			fillHighscore();
+			return 666;
+		}
 	}
 	// move main block
 	_mainBlock.update(dt);
@@ -151,7 +151,8 @@ void MainGame::render() {
 	_effect->render();
 	_previewBlock.render();
 	_mainBlock.render();
-	//_hud.render();
+
+	_context->settings->showDialog();
 }
 
 // --------------------------------------------
@@ -172,9 +173,6 @@ int MainGame::onChar(int ascii) {
 	if (ascii == '1') {
 		_mainBlock.copyColors(_previewBlock);
 		_previewBlock.pickColors();
-	}
-	if (ascii == 's') {
-		startLaser();
 	}
 	if (ascii == 'd') {
 		_context->resume = true;

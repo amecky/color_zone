@@ -53,10 +53,14 @@ ColorZone::ColorZone() {
 	stateMachine->connect("HighscoreState", 1, "StartMenu");
 	stateMachine->connect("InputNameState", 1, "StartMenu");
 	stateMachine->connect("IntroState", 1, "InputNameState");
+
+	_context.settings = new MyGameSettings;
+	_context.settings->load();
 }
 
 
 ColorZone::~ColorZone() {
+	delete _context.settings;
 }
 
 bool ColorZone::loadContent() {
@@ -70,27 +74,24 @@ bool ColorZone::loadContent() {
 	gui::initialize();
 	initializeGUI();
 	_context.hud = gui.get("HUD");
-	_loader = new SettingsLoader;
-	uint32 convID = ds::assets::registerConverter(_loader);
-	ds::assets::load("color_zone", _loader, convID);
-	_context.settings = _loader->get();	
 	ds::GUIDialog* dlg = gui.get("MainMenu");
 	dlg->setTransition(1, 3, 0.5f);
 	dlg->setTransition(2, 2, 0.5f);
-	dlg->setTransition(4, 1, 0.5f);
+	dlg->setTransition(5, 1, 0.5f);
+	dlg->setTransition(4, 2, 0.5f);
+	dlg->setTransition(6, 1, 0.5f);
 	dlg->setTransition(3, 4, 0.5f);
 	return true;
 }
 
 void ColorZone::init() {
-	stateMachine->activate("StartMenu");
+	stateMachine->activate("IntroState");
 }
 
 void ColorZone::update(float dt) {
 }
 
 void ColorZone::draw() {
-	//ds::sprites::drawText(100,100,"Hello world");	
 }
 
 void ColorZone::onGUIButton(ds::DialogID dlgID, int button) {

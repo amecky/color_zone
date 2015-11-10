@@ -1,0 +1,16 @@
+"settings" { 
+    "laserStartDelay" : "10.00" , 
+    "sparkle_gap" : "2.00" , 
+    "sparkle_ttl" : "0.60" , 
+    "sparkle_start_scale" : "1.00" , 
+    "sparkle_end_scale" : "0.40" , 
+    "sparkle_velocity" : "20.00" , 
+    "sparkle_velocity_variance" : "4.00" , 
+    "laser_start_delay" : "10.00" , 
+    "intro_warmup_timer" : "2.00" , 
+    "intro_ttl" : "3.00" , 
+    "intro_start_scale" : "1.00" , 
+    "intro_end_scale" : "0.10" , 
+    "intro_velocity" : "140.00" , 
+    "intro_velocity_variance" : "60.00"    
+}

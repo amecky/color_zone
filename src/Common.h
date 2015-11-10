@@ -2,11 +2,11 @@
 
 #include "Constants.h"
 #include <renderer\render_types.h>
-#include "SettingsConverter.h"
 #include "FileManager.h"
 #include <math\Bitset.h>
 #include <string>
 #include <dialogs\GUIDialog.h>
+#include "utils\DynamicGameSettings.h"
 
 enum GameMode {
 	GM_COVERAGE,
@@ -32,12 +32,12 @@ struct GameContext {
 	int score;
 	int fillRate;
 	bool resume;
-	GameSettings* settings;
 	Filesystem filesystem;
 	GameMode gameMode;
 	Highscore currentScore;
 	std::string name;
 	ds::GUIDialog* hud;
+	MyGameSettings* settings;
 };
 
 // Bits
