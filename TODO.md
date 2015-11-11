@@ -1,5 +1,5 @@
 # TODO
-- [ ] rebuild levels
+- [ ] rebuild levels -> pro
 - [ ] add name to level
 - [ ] create "new level dialog" with name
 - [ ] improve laser design
