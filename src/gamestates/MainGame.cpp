@@ -97,7 +97,7 @@ void MainGame::moveLaser(float dt) {
 // update
 // --------------------------------------------
 int MainGame::update(float dt) {
-	_context->hud->tick(dt);
+	//_context->hud->tick(dt);
 	if (_context->gameMode == GM_TIMER) {
 		ds::GameTimer* timer = _context->hud->getTimer(HUD_TIMER);
 		if (timer->getMinutes() > 2) {
@@ -111,7 +111,7 @@ int MainGame::update(float dt) {
 	v2 converted = _map->convert(mp);
 	_mainBlock.setPosition(converted);
 	// FIXME: disabled for testen
-	moveLaser(dt);	
+	//moveLaser(dt);	
 	if (_context->gameMode == GM_COVERAGE) {
 		if (_context->fillRate >= 80) {
 			fillHighscore();

@@ -67,12 +67,10 @@ bool ColorZone::loadContent() {
 	_textureID = ds::renderer::loadTexture("Textures");
 	assert(_textureID != -1);
 	ds::debug::loadSystemFont("Verdana", "Verdana", 14, true);	
-	ds::BitmapFont* font = ds::renderer::createBitmapFont("xscale");
-	ds::assets::load("xscale", font, ds::CVT_FONT);
-	ds::renderer::initializeBitmapFont(font, _textureID);
-	ds::sprites::initializeTextSystem(_textureID, "xscale");
+	ds::BitmapFont* font = ds::assets::loadFont("xscale",_textureID);
+	ds::sprites::initializeTextSystem(font);
 	gui::initialize();
-	initializeGUI();
+	initializeGUI(font);
 	_context.hud = gui.get("HUD");
 	ds::GUIDialog* dlg = gui.get("MainMenu");
 	dlg->setTransition(1, 3, 0.5f);
@@ -85,7 +83,7 @@ bool ColorZone::loadContent() {
 }
 
 void ColorZone::init() {
-	stateMachine->activate("IntroState");
+	stateMachine->activate("MainGame");
 }
 
 void ColorZone::update(float dt) {

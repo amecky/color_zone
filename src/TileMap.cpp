@@ -62,7 +62,7 @@ int TileMap::clearColumn(int col) {
 			}
 			t.state.clear(BIT_MARKED);
 			t.state.clear(BIT_COHERENT);
-			t.borders = -1;
+			//t.borders = -1;
 			t.edges = -1;
 		}
 	}
@@ -88,9 +88,8 @@ void TileMap::render(int squareSize,float scale) {
 			v2 p = v2(startX + x * squareSize, startY + y * squareSize);
 			if (t.state.isSet(BIT_AVAILABLE)) {	
 				if (t.state.isSet(BIT_COHERENT)) {
-					ds::sprites::draw(p, ds::math::buildTexture(168, t.color * 36, 36, 36), 0.0f, scale, scale);
 					if (t.edges > 0) {
-						ds::sprites::draw(p, ds::math::buildTexture(168, 410 + t.edges * 36, 36, 36), 0.0f, scale, scale);
+						ds::sprites::draw(p, ds::math::buildTexture(168, 410 + t.edges * 36, 36, 36), 0.0f, scale, scale,TILE_COLORS[t.color]);
 					}
 				}
 				else if (t.state.isSet(BIT_MARKED)) {

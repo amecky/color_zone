@@ -1,6 +1,11 @@
 # TODO
+- [ ] rebuild levels
+- [ ] add name to level
+- [ ] create "new level dialog" with name
+- [ ] improve laser design
 - [ ] HSS - add rank to the list
 - [ ] show username on start menu
+- [ ] fix game over item IDs
 
 03.10.2015
 - [x] redo all menu using the big box

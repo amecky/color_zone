@@ -1,4 +1,5 @@
 #pragma once
+#include <utils\Color.h>
 
 const int MAX_X = 26;
 const int MAX_Y = 16;
@@ -29,3 +30,10 @@ const int MAX_SCORE_ENTRIES = 5;
 const int HUD_TIMER = 5;
 const int HUD_PERCENTAGE = 3;
 const int HUD_SCORE = 4;
+
+const ds::Color TILE_COLORS[] = {
+	ds::Color(217, 48, 79, 255),
+	ds::Color( 26, 49, 64, 255),
+	ds::Color(101,159,166, 255),
+	ds::Color(242,120,109, 255)
+};
