@@ -1,10 +1,15 @@
 # TODO
 - [ ] rebuild levels -> probably 8 or 10
-- [ ] add name to level
 - [ ] create "new level dialog" with name
 - [ ] improve laser design
 - [ ] HSS - add rank to the list
 - [ ] show username on start menu
+- [ ] editor - add buttons for level navigation
+- [ ] editor - add button for new level
+- [ ] editor - add button to toggle edit mode
+
+12.11.2015
+- [x] add name to level - WONTFIX
 
 11.11.2015
 - [x] fix game over item IDs
