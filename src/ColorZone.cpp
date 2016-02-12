@@ -9,6 +9,7 @@
 #include "gamestates\MainGame.h"
 #include "gamestates\IntroState.h"
 #include "gamestates\TestState.h"
+#include <data\DynamicSettingsEditor.h>
 
 ds::BaseApp *app = new ColorZone();
 
@@ -61,6 +62,9 @@ bool ColorZone::loadContent() {
 
 	_context.settings = new MyGameSettings;
 	_context.settings->load();
+
+	assetEditors->add(new ds::DynamicSettingsEditor(_context.settings));
+
 	_context.hud = gui->get("HUD");
 	/*
 	ds::GUIDialog* dlg = gui->get("MainMenu");

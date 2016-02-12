@@ -16,7 +16,7 @@ Highscores {
 }
 Pause {
 	id : 4
-	file : "pause_dialog" 
+	file : "Pause" 
 }
 LevelSelector {
 	id : 5

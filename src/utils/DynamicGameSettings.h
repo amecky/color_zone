@@ -23,7 +23,6 @@ struct MyGameSettings : public ds::DynamicGameSettings {
 	float introVelocityVariance;
 
 	MyGameSettings() : ds::DynamicGameSettings() {
-		addFloat("laserStartDelay", &laserStartDelay, 2.0f);
 		addFloat("sparkle_gap", &sparkleGap, 2.0f);
 		addFloat("sparkle_ttl", &sparkleTTL, 0.6f);
 		addFloat("sparkle_start_scale", &sparkleStartScale, 1.0f);
