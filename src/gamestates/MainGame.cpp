@@ -151,8 +151,8 @@ void MainGame::render() {
 	_effect->render();
 	_previewBlock.render();
 	_mainBlock.render();
-
-	_context->settings->showDialog();
+	v2 p(10, 750);
+	_context->settings->showDialog(&p);
 }
 
 // --------------------------------------------

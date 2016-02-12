@@ -1,31 +1,76 @@
-"dialog" { 
-	"name" : "EditorDialog" 
+text { 
+    id : 18
+    pos : 200,730
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    text : "Edit mode: Border"
 }
-"image" { "id" : "10" , "pos" : "245,740" , "rect" : "230,510,450,40" , "centered" : "false" }
-"image" { "id" : "11" , "pos" : "800,740" , "rect" : "230,610,450,40" , "centered" : "false" }
-"image" { "id" : "12" , "pos" : "520,740" , "rect" : "230,610,120,40" , "centered" : "false" }
-
-"image" { "id" : "13" , "pos" : "245,680" , "rect" : "272,510,450,40" , "centered" : "false" }
-"image" { "id" : "14" , "pos" : "800,680" , "rect" : "272,610,450,40" , "centered" : "false" }
-"image" { "id" : "15" , "pos" : "520,680" , "rect" : "272,610,120,40" , "centered" : "false" }
-
-"image" { "id" : "16" , "pos" : "23,710" , "rect" : "316,510,6,20" , "centered" : "false" }
-"image" { "id" : "17" , "pos" : "972,710" , "rect" : "316,510,6,20" , "centered" : "false" }
-
-"text" { "id" : "18" , "pos" : "40,730" , "text" : "Edit mode: map" , "centered" : "false" }
-"text" { "id" : "19" , "pos" : "640,730" , "text" : "Level: 1" , "centered" : "false" }
-
-"button" { 
-	"id" : "1" , "pos" : "860,40" , "text" : "exit" , "rect" : "100,350,200,50" , "centered" : "false"
+text { 
+    id : 19
+    pos : 760,730
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    text : "Level: 2"
 }
-"button" { 
-	"id" : "2" , "pos" : "140,40" , "text" : "save" , "rect" : "100,350,200,50" , "centered" : "false"
+button { 
+    id : 1
+    pos : 860,40
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 100,350,200,50
+    text : "exit"
 }
-"button" { 
-	"id" : "3" , "pos" : "380,40" , "text" : "load" , "rect" : "100,350,200,50" , "centered" : "false"
+button { 
+    id : 2
+    pos : 140,40
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 100,350,200,50
+    text : "save"
 }
-"button" { 
-	"id" : "4" , "pos" : "620,40" , "text" : "clear" , "rect" : "100,350,200,50" , "centered" : "false"
+button { 
+    id : 3
+    pos : 380,40
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 100,350,200,50
+    text : "load"
 }
-
-
+button { 
+    id : 4
+    pos : 620,40
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 100,350,200,50
+    text : "clear"
+}
+image_button { 
+    id : 20
+    pos : 900,735
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 500,420,60,60
+}
+image_button { 
+    id : 21
+    pos : 620,735
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 500,350,60,60
+}
+image_button { 
+    id : 22
+    pos : 420,735
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 500,420,60,60
+}

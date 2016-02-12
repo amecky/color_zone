@@ -14,48 +14,7 @@ ds::BaseApp *app = new ColorZone();
 
 ColorZone::ColorZone() {
 	//_CrtSetBreakAlloc(12876);
-	_settings.screenWidth = 1024;
-	_settings.screenHeight = 768;
-	_settings.clearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
-	_settings.showEditor = true;
-	_context.fillRate = 0;
-	_context.levelIndex = 1;
-	_context.score = 0;
-	_context.resume = false;
-	_context.gameMode = GM_TIMER;
-	_context.name = "";
-	_context.filesystem.mount("levels");
-	stateMachine->add(new TileMapEditor(&gui, &_context));
-	stateMachine->add( new MainGame(&_context));
-	stateMachine->add(new LevelSelectorState(&gui,&_context)); 
-	stateMachine->add(new ds::BasicMenuGameState("StartMenu", "MainMenu", &gui));
-	stateMachine->add(new ds::BasicMenuGameState("GamePause","Pause",&gui));
-	stateMachine->add(new ds::BasicMenuGameState("Credits", "Credits", &gui));
-	stateMachine->add(new InputNameState(&gui, &_context));
-	stateMachine->add(new GameOverState(&gui,&_context));
-	stateMachine->add(new HighscoreState(&gui, &_context));
-	stateMachine->add(new IntroState(&_context));
-	stateMachine->add(new TestState(&_context));
-	stateMachine->connect("StartMenu", 1, "LevelSelectorState");
-	stateMachine->connect("StartMenu", 2, "TileMapEditor");
-	stateMachine->connect("StartMenu", 4, "Credits");
-	stateMachine->connect("StartMenu", 5, "HighscoreState");
-	stateMachine->connect("StartMenu", 6, "InputNameState");
-	stateMachine->connect("TileMapEditor", 1, "StartMenu");
-	stateMachine->connect("LevelSelectorState", 1, "MainGame");
-	stateMachine->connect("LevelSelectorState", 7, "StartMenu");
-	stateMachine->connect("MainGame", 666, "GameOverState");
-	stateMachine->connect("MainGame", 1, "GamePause");
-	stateMachine->connect("GamePause", 1, "MainGame");
-	stateMachine->connect("GameOverState", 1, "MainGame");
-	stateMachine->connect("GameOverState", 2, "StartMenu");
-	stateMachine->connect("Credits", 1, "StartMenu");
-	stateMachine->connect("HighscoreState", 1, "StartMenu");
-	stateMachine->connect("InputNameState", 1, "StartMenu");
-	stateMachine->connect("IntroState", 1, "InputNameState");
-
-	_context.settings = new MyGameSettings;
-	_context.settings->load();
+	
 }
 
 
@@ -64,26 +23,59 @@ ColorZone::~ColorZone() {
 }
 
 bool ColorZone::loadContent() {
-	_textureID = ds::renderer::loadTexture("Textures");
-	assert(_textureID != -1);
-	ds::debug::loadSystemFont("Verdana", "Verdana", 14, true);	
-	ds::BitmapFont* font = ds::assets::loadFont("xscale",_textureID);
-	ds::sprites::initializeTextSystem(font);
-	gui::initialize();
-	initializeGUI(font);
-	_context.hud = gui.get("HUD");
-	ds::GUIDialog* dlg = gui.get("MainMenu");
+	_context.fillRate = 0;
+	_context.levelIndex = 1;
+	_context.score = 0;
+	_context.resume = false;
+	_context.gameMode = GM_TIMER;
+	_context.name = "";
+	_context.filesystem.mount("levels");
+	addGameState(new TileMapEditor(gui, &_context));
+	addGameState(new MainGame(&_context));
+	addGameState(new LevelSelectorState(gui, &_context));
+	addGameState(new ds::BasicMenuGameState("StartMenu", "MainMenu", gui));
+	addGameState(new ds::BasicMenuGameState("GamePause", "Pause", gui));
+	addGameState(new ds::BasicMenuGameState("Credits", "Credits", gui));
+	addGameState(new InputNameState(gui, &_context));
+	addGameState(new GameOverState(gui, &_context));
+	addGameState(new HighscoreState(gui, &_context));
+	addGameState(new IntroState(&_context));
+	addGameState(new TestState(&_context));
+	connectGameStates("StartMenu", 1, "LevelSelectorState");
+	connectGameStates("StartMenu", 2, "TileMapEditor");
+	connectGameStates("StartMenu", 4, "Credits");
+	connectGameStates("StartMenu", 5, "HighscoreState");
+	connectGameStates("StartMenu", 6, "InputNameState");
+	connectGameStates("TileMapEditor", 1, "StartMenu");
+	connectGameStates("LevelSelectorState", 1, "MainGame");
+	connectGameStates("LevelSelectorState", 7, "StartMenu");
+	connectGameStates("MainGame", 666, "GameOverState");
+	connectGameStates("MainGame", 1, "GamePause");
+	connectGameStates("GamePause", 1, "MainGame");
+	connectGameStates("GameOverState", 1, "MainGame");
+	connectGameStates("GameOverState", 2, "StartMenu");
+	connectGameStates("Credits", 1, "StartMenu");
+	connectGameStates("HighscoreState", 1, "StartMenu");
+	connectGameStates("InputNameState", 1, "StartMenu");
+	connectGameStates("IntroState", 1, "InputNameState");
+
+	_context.settings = new MyGameSettings;
+	_context.settings->load();
+	_context.hud = gui->get("HUD");
+	/*
+	ds::GUIDialog* dlg = gui->get("MainMenu");
 	dlg->setTransition(1, 3, 0.5f);
 	dlg->setTransition(2, 2, 0.5f);
 	dlg->setTransition(5, 1, 0.5f);
 	dlg->setTransition(4, 2, 0.5f);
 	dlg->setTransition(6, 1, 0.5f);
 	dlg->setTransition(3, 4, 0.5f);
+	*/
 	return true;
 }
 
 void ColorZone::init() {
-	stateMachine->activate("MainGame");
+	activate("StartMenu");
 }
 
 void ColorZone::update(float dt) {

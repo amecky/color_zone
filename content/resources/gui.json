@@ -1,36 +1,36 @@
-"gui" {
-	"texture_id" : "0" ,
-	"font" : "xscale"
+GameOver {
+	id : 0
+	file : "GameOver"
 }
-"GameOver" {
-	"id" : "0" ,
-	"file" : "game_over" 
+MainMenu {
+	id : 1
+	file : "MainMenu" 
 }
-"MainMenu" {
-	"id" : "1" ,
-	"file" : "start_dialog" 
+Credits {
+	id : 2
+	file : "Credits" 
 }
-"Credits" {
-	"id" : "2" ,
-	"file" : "credits" 
+Highscores {
+	id : 3
+	file : "Highscore" 
 }
-"Highscores" {
-	"id" : "3" ,
-	"file" : "highscore" 
+Pause {
+	id : 4
+	file : "pause_dialog" 
 }
-"Pause" {
-	"id" : "4" ,
-	"file" : "pause_dialog" 
+LevelSelector {
+	id : 5
+	file : "LevelSelector" 
 }
-"LevelSelector" {
-	"id" : "5" ,
-	"file" : "level_selector" 
+Username {
+	id : 6
+	file : "username" 
 }
-"Username" {
-	"id" : "6" ,
-	"file" : "username" 
+Editor {
+	id : 7
+	file : "editor" 
 }
-"Editor" {
-	"id" : "7" ,
-	"file" : "editor" 
+HUD {
+	id : 8
+	file : "HUD" 
 }

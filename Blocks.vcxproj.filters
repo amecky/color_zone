@@ -30,9 +30,6 @@
     <ClCompile Include="src\SparkleEffect.cpp">
       <Filter>utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\SettingsConverter.cpp">
-      <Filter>utils</Filter>
-    </ClCompile>
     <ClCompile Include="src\Highscores.cpp">
       <Filter>utils</Filter>
     </ClCompile>
@@ -60,6 +57,9 @@
     <ClCompile Include="src\gamestates\IntroState.cpp">
       <Filter>states</Filter>
     </ClCompile>
+    <ClCompile Include="src\gamestates\TestState.cpp">
+      <Filter>states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -69,9 +69,6 @@
     <ClInclude Include="src\ColorZone.h" />
     <ClInclude Include="src\Block.h" />
     <ClInclude Include="src\SparkleEffect.h">
-      <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SettingsConverter.h">
       <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="src\Highscores.h">
@@ -101,6 +98,12 @@
     <ClInclude Include="src\gamestates\IntroState.h">
       <Filter>states</Filter>
     </ClInclude>
+    <ClInclude Include="src\gamestates\TestState.h">
+      <Filter>states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\DynamicGameSettings.h">
+      <Filter>utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blocks.manifest" />
@@ -123,21 +126,6 @@
       <Filter>levels</Filter>
     </None>
     <None Include="TODO.md" />
-    <None Include="content\dialogs\credits.json">
-      <Filter>content\dialogs</Filter>
-    </None>
-    <None Include="content\dialogs\game_over.json">
-      <Filter>content\dialogs</Filter>
-    </None>
-    <None Include="content\dialogs\highscore.json">
-      <Filter>content\dialogs</Filter>
-    </None>
-    <None Include="content\dialogs\pause_dialog.json">
-      <Filter>content\dialogs</Filter>
-    </None>
-    <None Include="content\dialogs\start_dialog.json">
-      <Filter>content\dialogs</Filter>
-    </None>
     <None Include="content\settings\color_zone.json">
       <Filter>content\settings</Filter>
     </None>
@@ -150,13 +138,37 @@
     <None Include="content\resources\xscale.json">
       <Filter>content\resources</Filter>
     </None>
-    <None Include="content\dialogs\level_selector.json">
+    <None Include="content\engine_settings.json">
+      <Filter>content</Filter>
+    </None>
+    <None Include="content\settings.json">
+      <Filter>content</Filter>
+    </None>
+    <None Include="content\dialogs\Credits.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\editor.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\GameOver.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\Highscores.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\LevelSelector.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\MainMenu.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\pause_dialog.json">
       <Filter>content\dialogs</Filter>
     </None>
     <None Include="content\dialogs\username.json">
       <Filter>content\dialogs</Filter>
     </None>
-    <None Include="content\dialogs\editor.json">
+    <None Include="content\dialogs\HUD.json">
       <Filter>content\dialogs</Filter>
     </None>
   </ItemGroup>

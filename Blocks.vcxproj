@@ -236,9 +236,9 @@
     <ClCompile Include="src\gamestates\IntroState.cpp" />
     <ClCompile Include="src\gamestates\LevelSelectorState.cpp" />
     <ClCompile Include="src\gamestates\MainGame.cpp" />
+    <ClCompile Include="src\gamestates\TestState.cpp" />
     <ClCompile Include="src\gamestates\TileMapEditor.cpp" />
     <ClCompile Include="src\Highscores.cpp" />
-    <ClCompile Include="src\SettingsConverter.cpp" />
     <ClCompile Include="src\SparkleEffect.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
   </ItemGroup>
@@ -255,24 +255,29 @@
     <ClInclude Include="src\gamestates\IntroState.h" />
     <ClInclude Include="src\gamestates\LevelSelectorState.h" />
     <ClInclude Include="src\gamestates\MainGame.h" />
+    <ClInclude Include="src\gamestates\TestState.h" />
     <ClInclude Include="src\gamestates\TileMapEditor.h" />
     <ClInclude Include="src\Highscores.h" />
-    <ClInclude Include="src\SettingsConverter.h" />
     <ClInclude Include="src\SparkleEffect.h" />
     <ClInclude Include="src\TileMap.h" />
+    <ClInclude Include="src\utils\DynamicGameSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Blocks.manifest" />
-    <None Include="content\dialogs\credits.json" />
-    <None Include="content\dialogs\game_over.json" />
-    <None Include="content\dialogs\highscore.json" />
-    <None Include="content\dialogs\level_selector.json" />
+    <None Include="content\dialogs\Credits.json" />
+    <None Include="content\dialogs\editor.json" />
+    <None Include="content\dialogs\GameOver.json" />
+    <None Include="content\dialogs\Highscores.json" />
+    <None Include="content\dialogs\HUD.json" />
+    <None Include="content\dialogs\LevelSelector.json" />
+    <None Include="content\dialogs\MainMenu.json" />
     <None Include="content\dialogs\pause_dialog.json" />
-    <None Include="content\dialogs\start_dialog.json" />
     <None Include="content\dialogs\username.json" />
+    <None Include="content\engine_settings.json" />
     <None Include="content\resources\gui.json" />
     <None Include="content\resources\hud.json" />
     <None Include="content\resources\xscale.json" />
+    <None Include="content\settings.json" />
     <None Include="content\settings\color_zone.json" />
     <None Include="levels\Level1.txt" />
     <None Include="levels\Level2.txt" />

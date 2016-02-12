@@ -1,20 +1,118 @@
-"dialog" { "name" : "StartDialog" }
-"image" { 
-	"id" : "10" , "pos" : "200,710" , "rect" : "204,0,502,94"
+image { 
+    id : 10
+    pos : 200,710
+    color : 255,255,255,255
+    centered : true
+    scale : 1
+    rect : 204,0,502,94
 }
-"image" { "id" : "11" , "pos" : "512,600" , "rect" : "230,510,500,40" , "centered" : "false" }
-"image" { "id" : "12" , "pos" : "512,100" , "rect" : "272,510,500,40" , "centered" : "false" }
-"image" { "id" : "13" , "pos" : "265,380" , "rect" : "316,510,6,400" , "centered" : "false" }
-"image" { "id" : "15" , "pos" : "265,150" , "rect" : "316,510,6,60" , "centered" : "false" }
-"image" { "id" : "14" , "pos" : "759,380" , "rect" : "316,510,6,400" , "centered" : "false" }
-"image" { "id" : "16" , "pos" : "759,150" , "rect" : "316,510,6,60" , "centered" : "false" }
-"text" { 
-	"id" : "7" , "pos" : "400,700" , "text" : "Main Menu" , "color" : "255,255,255,255" , "scale" : "1.5" 
+image { 
+    id : 11
+    pos : 512,600
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 230,510,500,40
 }
-"button" { "id" : "1" , "pos" : "400,560" , "text" : "New Game" , "rect" : "510,0,340,50" }
-"button" { "id" : "2" , "pos" : "400,480" , "text" : "Editor" , "rect" : "510,0,340,50" }
-"button" { "id" : "5" , "pos" : "400,400" , "text" : "Highscores" , "rect" : "510,0,340,50" }
-"button" { "id" : "4" , "pos" : "400,320" , "text" : "Credits" , "rect" : "510,0,340,50" }
-"button" { "id" : "3" , "pos" : "400,140" , "text" : "Exit" , "rect" : "510,0,340,50" }
-"button" { "id" : "6" , "pos" : "400,240" , "text" : "Change name" , "rect" : "510,0,340,50" }
-
+image { 
+    id : 12
+    pos : 512,100
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 272,510,500,40
+}
+image { 
+    id : 13
+    pos : 265,380
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 316,510,6,400
+}
+image { 
+    id : 15
+    pos : 265,150
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 316,510,6,60
+}
+image { 
+    id : 14
+    pos : 759,380
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 316,510,6,400
+}
+image { 
+    id : 16
+    pos : 759,150
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 316,510,6,60
+}
+text { 
+    id : 7
+    pos : 400,710
+    color : 255,255,255,255
+    centered : true
+    scale : 1.5
+    text : "Main Menu"
+}
+button { 
+    id : 1
+    pos : 400,560
+    color : 255,255,255,255
+    centered : true
+    scale : 1
+    rect : 510,0,340,50
+    text : "New Game"
+}
+button { 
+    id : 2
+    pos : 400,480
+    color : 255,255,255,255
+    centered : true
+    scale : 1
+    rect : 510,0,340,50
+    text : "Editor"
+}
+button { 
+    id : 5
+    pos : 400,400
+    color : 255,255,255,255
+    centered : true
+    scale : 1
+    rect : 510,0,340,50
+    text : "Highscores"
+}
+button { 
+    id : 4
+    pos : 400,320
+    color : 255,255,255,255
+    centered : true
+    scale : 1
+    rect : 510,0,340,50
+    text : "Credits"
+}
+button { 
+    id : 3
+    pos : 400,140
+    color : 255,255,255,255
+    centered : true
+    scale : 1
+    rect : 510,0,340,50
+    text : "Exit"
+}
+button { 
+    id : 6
+    pos : 400,240
+    color : 255,255,255,255
+    centered : true
+    scale : 1
+    rect : 510,0,340,50
+    text : "Change name"
+}

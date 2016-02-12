@@ -8,7 +8,7 @@ bool Filesystem::mount(const char* directoryName) {
 	HANDLE hFind = FindFirstFileA(directoryName, &ffd);
 
 	if (INVALID_HANDLE_VALUE == hFind) {
-		LOGEC("Filesystem") << "Cannot mount directory '" << directoryName << "'";
+		LOGE << "Cannot mount directory '" << directoryName << "'";
 		return false;
 	}
 	_directoryName = directoryName;

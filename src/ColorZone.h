@@ -6,7 +6,6 @@
 
 #pragma once
 #include <base\BaseApp.h>
-#include <io\Serializer.h>
 #include "Common.h"
 
 class ColorZone : public ds::BaseApp {

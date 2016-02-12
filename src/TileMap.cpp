@@ -243,7 +243,7 @@ int TileMap::getFillRate() {
 			}
 		}
 	}
-	LOGC("TileMap") << "max: " << _maxAvailable << " current: " << count;
+	LOG << "max: " << _maxAvailable << " current: " << count;
 	float per = static_cast<float>(count) / static_cast<float>(_maxAvailable) * 100.0f;
 	return static_cast<int>(per);
 }
@@ -366,7 +366,7 @@ void TileMap::save(int index) {
 // load
 // --------------------------------------------
 void TileMap::load(int index) {
-	LOGC("TileMap") << "loading level: " << index;
+	LOG << "loading level: " << index;
 	char buffer[128];
 	sprintf_s(buffer, 128, "levels\\L%d", index);
 	reset();
@@ -386,7 +386,7 @@ void TileMap::load(int index) {
 		}
 		fclose(f);
 	}	
-	LOGC("TileMap") << "max available: " << _maxAvailable;
+	LOG << "max available: " << _maxAvailable;
 }
 
 

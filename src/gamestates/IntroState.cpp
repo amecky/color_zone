@@ -44,7 +44,7 @@ int IntroState::update(float dt) {
 void IntroState::render() {
 	//ds::sprites::draw(v2(512, 384), _texture);
 	_effect->render();
-	_context->settings->showDialog();
+	//_context->settings->showDialog();
 }
 
 

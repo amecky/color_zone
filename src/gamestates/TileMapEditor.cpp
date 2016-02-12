@@ -16,18 +16,18 @@ TileMapEditor::~TileMapEditor() {
 // activate
 // --------------------------------------------
 void TileMapEditor::activate() {
-	_dialog = _gui->get("Editor");
+	_dialog = _gui->get("editor");
 	_map->reset();
 	_mode = EM_EDIT_MAP;
 	_currentBorder = 0;
 	_levelIndex = 1;
-	_gui->activate("Editor");
+	_gui->activate("editor");
 	updateLevelLabel();
 	updateModeLabel();
 }
 
 void TileMapEditor::deactivate() {
-	_gui->deactivate("Editor");
+	_gui->deactivate("editor");
 }
 
 // --------------------------------------------
@@ -95,7 +95,7 @@ int TileMapEditor::onButtonUp(int button, int x, int y) {
 void TileMapEditor::render() {
 	// draw border selection
 	for (int i = 0; i < 21; ++i) {
-		v2 p(92 + i * 40, 700);
+		v2 p(92 + i * 40, 680);
 		if (i == _currentBorder) {
 			ds::sprites::draw(p, ds::math::buildTexture(0, 88, 44, 44), 0.0f, 0.75f, 0.75f);
 		}
@@ -106,7 +106,7 @@ void TileMapEditor::render() {
 	}
 	// map
 	_map->render();
-	ds::debug::drawDebugMessages();
+	//ds::renderer::drawDebugMessages();
 	
 }
 
@@ -128,29 +128,6 @@ void TileMapEditor::updateLevelLabel() {
 // on char
 // --------------------------------------------
 int TileMapEditor::onChar(int ascii) {
-	ds::GUIDialog* dlg = _gui->get("Editor");
-	if (ascii == '1') {
-		_mode = EM_EDIT_MAP;
-		updateModeLabel();
-	}
-	if (ascii == '2') {
-		_mode = EM_BORDERS;		
-		updateModeLabel();
-	}	
-	if (ascii == '+') {
-		++_levelIndex;
-		if (_levelIndex >= MAX_LEVELS) {
-			_levelIndex = MAX_LEVELS - 1;
-		}
-		updateLevelLabel();
-	}
-	if (ascii == '-') {
-		--_levelIndex;
-		if (_levelIndex < 1) {
-			_levelIndex = 1;
-		}
-		updateLevelLabel();
-	}
 	return 0;
 }
 
@@ -169,6 +146,30 @@ int TileMapEditor::onGUIButton(ds::DialogID dlgID, int button) {
 	if (button == 4) {
 		_map->reset();
 		return 0;
+	}
+	if (button == 20) {
+		++_levelIndex;
+		if (_levelIndex >= MAX_LEVELS) {
+			_levelIndex = MAX_LEVELS - 1;
+		}
+		updateLevelLabel();
+	}
+	if (button == 21) {
+		--_levelIndex;
+		if (_levelIndex < 1) {
+			_levelIndex = 1;
+		}
+		updateLevelLabel();
+	}
+	if (button == 22) {
+		if ( _mode == EM_BORDERS) {
+			_mode = EM_EDIT_MAP;
+			updateModeLabel();
+		}
+		else {
+			_mode = EM_BORDERS;
+			updateModeLabel();
+		}
 	}
 	return button;
 }

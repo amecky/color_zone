@@ -38,4 +38,8 @@ struct MyGameSettings : public ds::DynamicGameSettings {
 		addFloat("intro_velocity", &introVelocity, 100.0f);
 		addFloat("intro_velocity_variance", &introVelocityVariance, 30.0f);
 	}
+
+	const char* getFileName() const {
+		return "settings.json";
+	}
 };
