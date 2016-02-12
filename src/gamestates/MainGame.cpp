@@ -18,10 +18,15 @@ MainGame::~MainGame() {
 	delete _effect;
 }
 
-void MainGame::init() {
-	
+// --------------------------------------------
+// init
+// --------------------------------------------
+void MainGame::init() {	
 }
 
+// --------------------------------------------
+// activate
+// --------------------------------------------
 void MainGame::activate() {
 	_context->hud->activate();
 	if (!_context->resume) {
@@ -39,16 +44,22 @@ void MainGame::activate() {
 	_context->resume = false;
 }
 
+// --------------------------------------------
+// deactivate
+// --------------------------------------------
 void MainGame::deactivate() {
 	_context->hud->deactivate();
 }
 
+// --------------------------------------------
+// fill highscore
+// --------------------------------------------
 void MainGame::fillHighscore() {
 	_context->currentScore.fillrate = _context->fillRate;
 	_context->currentScore.score = _context->score;
 	_context->currentScore.mode = _context->gameMode;
 	_context->currentScore.level = _context->levelIndex;
-	sprintf_s(_context->currentScore.name, 10,"%s",_context->name.c_str());
+	sprintf_s(_context->currentScore.name, 10,"%s",_context->name);
 	ds::GameTimer* timer = _context->hud->getTimer(HUD_TIMER);
 	_context->currentScore.minutes = timer->getMinutes();
 	_context->currentScore.seconds = timer->getSeconds();
@@ -59,6 +70,8 @@ void MainGame::fillHighscore() {
 void MainGame::moveLaser(float dt) {
 	if (_laser.active) {
 		_laser.timer += dt;
+		// FIXME: color should be pulsing
+		// FIXME: take this one from settings
 		if (_laser.timer > 0.4f) {
 			++_laser.column;
 			if (_laser.column >= 0 && _laser.column < MAX_X) {
@@ -97,7 +110,6 @@ void MainGame::moveLaser(float dt) {
 // update
 // --------------------------------------------
 int MainGame::update(float dt) {
-	//_context->hud->tick(dt);
 	if (_context->gameMode == GM_TIMER) {
 		ds::GameTimer* timer = _context->hud->getTimer(HUD_TIMER);
 		if (timer->getMinutes() > 2) {
@@ -110,7 +122,6 @@ int MainGame::update(float dt) {
 	v2 mp = ds::renderer::getMousePosition();
 	v2 converted = _map->convert(mp);
 	_mainBlock.setPosition(converted);
-	// FIXME: disabled for testen
 	moveLaser(dt);	
 	if (_context->gameMode == GM_COVERAGE) {
 		if (_context->fillRate >= 80) {
@@ -151,8 +162,7 @@ void MainGame::render() {
 	_effect->render();
 	_previewBlock.render();
 	_mainBlock.render();
-	//v2 p(10, 750);
-	//_context->settings->showDialog(&p);
+
 }
 
 // --------------------------------------------

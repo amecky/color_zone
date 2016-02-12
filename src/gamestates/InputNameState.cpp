@@ -18,7 +18,7 @@ InputNameState::~InputNameState() {
 void InputNameState::activate() {
 	_dialog = _gui->get("username");
 	_gui->activate("username");
-	_dialog->updateText(111, _context->name);
+	_dialog->updateText(111, _context->name.c_str());
 	_visible = true;
 	_timer = 0.0f;
 	v2 l = _dialog->getTextSize(111);
@@ -64,7 +64,7 @@ void InputNameState::render() {
 int InputNameState::onChar(int ascii) {
 	if (_context->name.length() < 10) {
 		_context->name.push_back((char)ascii);
-		_dialog->updateText(111, _context->name);
+		_dialog->updateText(111, _context->name.c_str());
 		v2 l = _dialog->getTextSize(111);
 		_length = l.x;
 	}
@@ -75,7 +75,7 @@ int InputNameState::onKeyUp(WPARAM virtualKey) {
 	if (virtualKey == VK_BACK)  {
 		if (_context->name.length() > 0) {
 			_context->name = _context->name.substr(0, _context->name.length() - 2);
-			_dialog->updateText(111, _context->name);
+			_dialog->updateText(111, _context->name.c_str());
 			v2 l = _dialog->getTextSize(111);
 			_length = l.x;
 		}

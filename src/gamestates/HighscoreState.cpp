@@ -45,9 +45,9 @@ int HighscoreState::update(float dt) {
 
 void HighscoreState::updateText() {
 	ds::GUIDialog* dlg = _gui->get("Highscores");
-	std::string str;
-	ds::string::formatInt(_availableLevels[_index], str);
-	dlg->updateText(10, "Level " + str);
+	char buffer[32];
+	sprintf_s(buffer, 32, "Level %d", _availableLevels[_index]);
+	dlg->updateText(10, buffer);
 	if (_mode == GM_TIMER) {
 		dlg->updateText(11, "Timer mode");
 	}
@@ -56,18 +56,17 @@ void HighscoreState::updateText() {
 	}
 	Highscore scores[MAX_SCORE_ENTRIES];
 	_highscores.get(_availableLevels[_index], _mode, scores);
-	std::string nr;
 	for (int i = 0; i < 5; ++i) {
 		const Highscore& current = scores[i];
 		if (current.score > 0) {
 			dlg->updateText(20 + i, current.name);
-			ds::string::formatInt(current.score, nr, 6);
-			dlg->updateText(40 + i, nr);
+			ds::string::formatInt(current.score, buffer, 6);
+			dlg->updateText(40 + i, buffer);
 		}
 		else {
 			dlg->updateText(20 + i, "---");
-			ds::string::formatInt(0, nr, 6);
-			dlg->updateText(40 + i, nr);
+			ds::string::formatInt(0, buffer, 6);
+			dlg->updateText(40 + i, buffer);
 		}
 	}
 }

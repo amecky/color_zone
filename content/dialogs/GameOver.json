@@ -1,162 +1,162 @@
-"button" { 
-    "id" : "1" , 
-    "pos" : "400,230" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "true" , 
-    "scale" : "1.00" , 
-    "rect" : "510,0,340,50" , 
-    "text" : "Restart"    
+button { 
+    id : 1 
+    pos : 400,230 
+    color : 255,255,255,255 
+    centered : true 
+    scale : 1.00 
+    rect : 510,0,340,50 
+    text : "Restart"    
 }
-"button" { 
-    "id" : "2" , 
-    "pos" : "400,120" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "true" , 
-    "scale" : "1.00" , 
-    "rect" : "510,0,340,50" , 
-    "text" : "Main Menu"    
+button { 
+    id : 2 
+    pos : 400,120 
+    color : 255,255,255,255 
+    centered : true 
+    scale : 1.00 
+    rect : 510,0,340,50 
+    text : "Main Menu"    
 }
-"image" { 
-    "id" : "3" , 
-    "pos" : "200,710" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "true" , 
-    "scale" : "1.00" , 
-    "rect" : "204,0,502,94"    
+image { 
+    id : 3 
+    pos : 200,710 
+    color : 255,255,255,255 
+    centered : true 
+    scale : 1.00 
+    rect : 204,0,502,94    
 }
-"text" { 
-    "id" : "4" , 
-    "pos" : "400,710" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "true" , 
-    "scale" : "1.50" , 
-    "text" : "Game over"    
+text { 
+    id : 4 
+    pos : 400,710 
+    color : 255,255,255,255 
+    centered : true 
+    scale : 1.50 
+    text : "Game over"    
 }
-"text" { 
-    "id" : "5" , 
-    "pos" : "300,550" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "text" : "Level:"    
+text { 
+    id : 5 
+    pos : 300,550 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    text : "Level:"
 }
-"text" { 
-    "id" : "6" , 
-    "pos" : "300,500" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "text" : "Mode:"    
+text { 
+    id : 6 
+    pos : 300,500 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    text : "Mode:"    
 }
-"text" { 
-    "id" : "7" , 
-    "pos" : "300,450" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "text" : "Coverage:"    
+text { 
+    id : 7 
+    pos : 300,450 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    text : "Coverage:"    
 }
-"text" { 
-    "id" : "8" , 
-    "pos" : "300,400" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "text" : "Time:"    
+text { 
+    id : 8 
+    pos : 300,400 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    text : "Time:"    
 }
-"text" { 
-    "id" : "9" , 
-    "pos" : "300,350" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "text" : "Points:"    
+text { 
+    id : 9 
+    pos : 300,350 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    text : "Points:"    
 }
-"text" { 
-    "id" : "10" , 
-    "pos" : "550,550" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "text" : "1"    
+text { 
+    id : 10 
+    pos : 550,550 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    text : "1"    
 }
-"text" { 
-    "id" : "11" , 
-    "pos" : "550,500" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "text" : "Timer mode"    
+text { 
+    id : 11 
+    pos : 550,500 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    text : "Timer mode"    
 }
-"text" { 
-    "id" : "12" , 
-    "pos" : "550,450" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "text" : "32per"    
+text { 
+    id : 12 
+    pos : 550,450 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    text : "32per"    
 }
-"text" { 
-    "id" : "13" , 
-    "pos" : "550,400" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "text" : "02:56"    
+text { 
+    id : 13 
+    pos : 550,400 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    text : "02:56"    
 }
-"text" { 
-    "id" : "14" , 
-    "pos" : "550,350" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "text" : "123456"    
+text { 
+    id : 14 
+    pos : 550,350 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    text : "123456"    
 }
-"image" { 
-    "id" : "15" , 
-    "pos" : "380,580" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "rect" : "230,510,290,40"    
+image { 
+    id : 15 
+    pos : 380,580 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    rect : 230,510,290,40    
 }
-"image" { 
-    "id" : "16" , 
-    "pos" : "670,580" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "rect" : "230,720,290,40"    
+image { 
+    id : 16 
+    pos : 670,580 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    rect : 230,720,290,40    
 }
-"image" { 
-    "id" : "17" , 
-    "pos" : "380,330" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "rect" : "272,510,290,40"    
+image { 
+    id : 17 
+    pos : 380,330 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    rect : 272,510,290,40    
 }
-"image" { 
-    "id" : "18" , 
-    "pos" : "670,330" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "rect" : "272,720,290,40"    
+image { 
+    id : 18 
+    pos : 670,330 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    rect : 272,720,290,40    
 }
-"image" { 
-    "id" : "19" , 
-    "pos" : "238,455" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "rect" : "316,510,6,210"    
+image { 
+    id : 19 
+    pos : 238,455 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    rect : 316,510,6,210    
 }
-"image" { 
-    "id" : "20" , 
-    "pos" : "812,455" , 
-    "color" : "255,255,255,255" , 
-    "centered" : "false" , 
-    "scale" : "1.00" , 
-    "rect" : "316,510,6,210"    
+image { 
+    id : 20 
+    pos : 812,455 
+    color : 255,255,255,255 
+    centered : false 
+    scale : 1.00 
+    rect : 316,510,6,210    
 }

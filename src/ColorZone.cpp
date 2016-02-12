@@ -29,7 +29,7 @@ bool ColorZone::loadContent() {
 	_context.score = 0;
 	_context.resume = false;
 	_context.gameMode = GM_TIMER;
-	_context.name = "";
+	_context.name[0] = '\0';
 	_context.filesystem.mount("levels");
 	addGameState(new TileMapEditor(gui, &_context));
 	addGameState(new MainGame(&_context));

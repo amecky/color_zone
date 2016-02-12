@@ -19,7 +19,7 @@ void GameOverState::activate() {
 	ds::GUIDialog* dlg = _gui->get("GameOver");
 	std::string str;
 	ds::string::formatInt(_context->levelIndex, str);
-	dlg->updateText(10, str);
+	dlg->updateText(10, str.c_str());
 	if (_context->gameMode == GM_TIMER) {
 		dlg->updateText(11, "Timer mode");
 	}
@@ -27,11 +27,12 @@ void GameOverState::activate() {
 		dlg->updateText(11, "Coverage mode");
 	}
 	ds::string::formatInt(_context->currentScore.fillrate,str);
-	dlg->updateText(12, str + "%");
+	str += "%";
+	dlg->updateText(12, str.c_str());
 	ds::string::formatTime(_context->currentScore.minutes, _context->currentScore.seconds, str);
-	dlg->updateText(13, str);
+	dlg->updateText(13, str.c_str());
 	ds::string::formatInt(_context->currentScore.score, str, 6);	
-	dlg->updateText(14, str);
+	dlg->updateText(14, str.c_str());
 }
 
 // --------------------------------------------
