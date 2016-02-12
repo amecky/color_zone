@@ -1,19 +1,80 @@
-"dialog" { 
-	"name" : "UsernameDialog" 
+image { 
+    id : 102
+    pos : 268,500
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 570,0,176,110
 }
-"image" { "id" : "102" , "pos" : "268,500" , "rect" : "570,0,176,110" , "centered" : "false" }
-"image" { "id" : "103" , "pos" : "744,500" , "rect" : "570,200,200,110" , "centered" : "false" }
-"image" { "id" : "104" , "pos" : "500,520" , "rect" : "570,100,290,70" , "centered" : "false" }
-"image" { "id" : "105" , "pos" : "268,390" , "rect" : "850,0,176,120" , "centered" : "false" }
-"image" { "id" : "106" , "pos" : "744,390" , "rect" : "850,200,200,120" , "centered" : "false" }
-"image" { "id" : "107" , "pos" : "500,385" , "rect" : "860,100,290,110" , "centered" : "false" }
-"text" { "id" : "110" , "pos" : "150,510" , "text" : "Please enter your username" }
-
-"image" { "id" : "116" , "pos" : "500,460" , "rect" : "100,560,300,50" , "centered" : "false" }
-"text" { "id" : "111" , "pos" : "370,450" , "text" : "UsernameXX" , "centered" : "false" }
-
-"button" { 
-	"id" : "1" , "pos" : "400,380" , "text" : "OK" , "rect" : "100,350,200,50" 
+image { 
+    id : 103
+    pos : 744,500
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 570,200,200,110
 }
-
-
+image { 
+    id : 104
+    pos : 500,520
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 570,100,290,70
+}
+image { 
+    id : 105
+    pos : 268,390
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 850,0,176,120
+}
+image { 
+    id : 106
+    pos : 744,390
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 850,200,200,120
+}
+image { 
+    id : 107
+    pos : 500,385
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 860,100,290,110
+}
+text { 
+    id : 110
+    pos : 150,510
+    color : 255,255,255,255
+    centered : true
+    scale : 1
+    text : "Please enter your username"
+}
+image { 
+    id : 116
+    pos : 500,460
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    rect : 100,560,300,50
+}
+text { 
+    id : 111
+    pos : 370,450
+    color : 255,255,255,255
+    centered : false
+    scale : 1
+    text : "UsernameXX"
+}
+image_button { 
+    id : 1
+    pos : 400,380
+    color : 255,255,255,255
+    centered : true
+    scale : 1
+    rect : 100,350,200,50
+}

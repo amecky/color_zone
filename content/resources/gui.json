@@ -12,7 +12,7 @@ Credits {
 }
 Highscores {
 	id : 3
-	file : "Highscore" 
+	file : "Highscores" 
 }
 Pause {
 	id : 4

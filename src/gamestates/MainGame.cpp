@@ -111,7 +111,7 @@ int MainGame::update(float dt) {
 	v2 converted = _map->convert(mp);
 	_mainBlock.setPosition(converted);
 	// FIXME: disabled for testen
-	//moveLaser(dt);	
+	moveLaser(dt);	
 	if (_context->gameMode == GM_COVERAGE) {
 		if (_context->fillRate >= 80) {
 			fillHighscore();
@@ -151,8 +151,8 @@ void MainGame::render() {
 	_effect->render();
 	_previewBlock.render();
 	_mainBlock.render();
-	v2 p(10, 750);
-	_context->settings->showDialog(&p);
+	//v2 p(10, 750);
+	//_context->settings->showDialog(&p);
 }
 
 // --------------------------------------------

@@ -16,8 +16,8 @@ InputNameState::~InputNameState() {
 // activate
 // --------------------------------------------
 void InputNameState::activate() {
-	_dialog = _gui->get("Username");
-	_gui->activate("Username");
+	_dialog = _gui->get("username");
+	_gui->activate("username");
 	_dialog->updateText(111, _context->name);
 	_visible = true;
 	_timer = 0.0f;
@@ -29,7 +29,7 @@ void InputNameState::activate() {
 // activate
 // --------------------------------------------
 void InputNameState::deactivate() {
-	_gui->deactivate("Username");
+	_gui->deactivate("username");
 }
 
 // --------------------------------------------

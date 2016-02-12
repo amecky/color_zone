@@ -1,6 +1,6 @@
 numbers { 
     id : 4
-    pos : 100,710
+    pos : 160,720
     color : 230,180,0,255
     centered : false
     scale : 1
@@ -9,16 +9,16 @@ numbers {
 }
 timer { 
     id : 5
-    pos : 780,710
+    pos : 800,720
     color : 230,180,0,255
     centered : false
     scale : 1
 }
 text { 
     id : 3
-    pos : 480,30
+    pos : 480,40
     color : 230,180,0,255
-    centered : false
+    centered : true
     scale : 1
     text : "0%"
 }
@@ -34,7 +34,7 @@ image {
     id : 2
     pos : 512,40
     color : 255,255,255,255
-    centered : false
+    centered : true
     scale : 1
     rect : 100,560,300,50
 }
