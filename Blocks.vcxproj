@@ -83,8 +83,8 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EmbedManifest>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\math;..\Diesel2D;C:\devtools\DirectX\Include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\Diesel2D\Debug;C:\devtools\DirectX\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath);$(DXSDK_DIR)Include;..\math;..\D11</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);$(DXSDK_DIR)Lib\x86;..\D11\Debug</LibraryPath>
     <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\devtools\DirectX\Lib\x86;$(ReferencePath)</ReferencePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\Diesel2D;C:\Program Files\DirectX_SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">...\Diesel2D\Release;C:\Program Files\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
@@ -93,7 +93,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Diesel2D</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\D11</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>
@@ -106,7 +106,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>d3dxof.lib;dxguid.lib;d3dx9d.lib;d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxerr.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)Blocks.exe</OutputFile>
       <GenerateManifest>false</GenerateManifest>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -116,7 +116,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>..\Diesel2D\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\D11\Debug</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -230,14 +230,7 @@
     <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\ColorZone.cpp" />
     <ClCompile Include="src\FileManager.cpp" />
-    <ClCompile Include="src\gamestates\GameOverState.cpp" />
-    <ClCompile Include="src\gamestates\HighscoreState.cpp" />
-    <ClCompile Include="src\gamestates\InputNameState.cpp" />
-    <ClCompile Include="src\gamestates\IntroState.cpp" />
-    <ClCompile Include="src\gamestates\LevelSelectorState.cpp" />
-    <ClCompile Include="src\gamestates\MainGame.cpp" />
     <ClCompile Include="src\gamestates\TestState.cpp" />
-    <ClCompile Include="src\gamestates\TileMapEditor.cpp" />
     <ClCompile Include="src\Highscores.cpp" />
     <ClCompile Include="src\SparkleEffect.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
@@ -249,14 +242,7 @@
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
     <ClInclude Include="src\FileManager.h" />
-    <ClInclude Include="src\gamestates\GameOverState.h" />
-    <ClInclude Include="src\gamestates\HighscoreState.h" />
-    <ClInclude Include="src\gamestates\InputNameState.h" />
-    <ClInclude Include="src\gamestates\IntroState.h" />
-    <ClInclude Include="src\gamestates\LevelSelectorState.h" />
-    <ClInclude Include="src\gamestates\MainGame.h" />
     <ClInclude Include="src\gamestates\TestState.h" />
-    <ClInclude Include="src\gamestates\TileMapEditor.h" />
     <ClInclude Include="src\Highscores.h" />
     <ClInclude Include="src\SparkleEffect.h" />
     <ClInclude Include="src\TileMap.h" />
@@ -271,9 +257,10 @@
     <None Include="content\dialogs\HUD.json" />
     <None Include="content\dialogs\LevelSelector.json" />
     <None Include="content\dialogs\MainMenu.json" />
-    <None Include="content\dialogs\pause_dialog.json" />
+    <None Include="content\dialogs\Pause.json" />
     <None Include="content\dialogs\username.json" />
     <None Include="content\engine_settings.json" />
+    <None Include="content\resources.json" />
     <None Include="content\resources\gui.json" />
     <None Include="content\resources\hud.json" />
     <None Include="content\resources\xscale.json" />

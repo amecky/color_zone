@@ -2,7 +2,7 @@
 #include "..\Constants.h"
 #include "..\TileMap.h"
 #include "..\Block.h"
-#include <base\GameState.h>
+#include <gamestates\GameState.h>
 #include "..\Common.h"
 #include "..\SparkleEffect.h"
 
@@ -16,7 +16,7 @@ struct Laser {
 };
 
 public:
-	TestState(GameContext* context);
+	TestState(GameContext* context, ds::Game* game);
 	~TestState();
 	void init();
 	int update(float dt);
@@ -28,7 +28,7 @@ private:
 	void moveLaser(float dt);
 	void startLaser();
 	void fillHighscore();
-	std::unique_ptr<TileMap> _map;
+	TileMap* _map;
 	GameContext* _context;
 	Block _previewBlock;
 	Block _mainBlock;

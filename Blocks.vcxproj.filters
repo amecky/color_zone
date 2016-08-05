@@ -36,27 +36,6 @@
     <ClCompile Include="src\FileManager.cpp">
       <Filter>utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\gamestates\GameOverState.cpp">
-      <Filter>states</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gamestates\HighscoreState.cpp">
-      <Filter>states</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gamestates\InputNameState.cpp">
-      <Filter>states</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gamestates\LevelSelectorState.cpp">
-      <Filter>states</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gamestates\MainGame.cpp">
-      <Filter>states</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gamestates\TileMapEditor.cpp">
-      <Filter>states</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gamestates\IntroState.cpp">
-      <Filter>states</Filter>
-    </ClCompile>
     <ClCompile Include="src\gamestates\TestState.cpp">
       <Filter>states</Filter>
     </ClCompile>
@@ -76,27 +55,6 @@
     </ClInclude>
     <ClInclude Include="src\FileManager.h">
       <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gamestates\GameOverState.h">
-      <Filter>states</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gamestates\HighscoreState.h">
-      <Filter>states</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gamestates\InputNameState.h">
-      <Filter>states</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gamestates\LevelSelectorState.h">
-      <Filter>states</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gamestates\MainGame.h">
-      <Filter>states</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gamestates\TileMapEditor.h">
-      <Filter>states</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gamestates\IntroState.h">
-      <Filter>states</Filter>
     </ClInclude>
     <ClInclude Include="src\gamestates\TestState.h">
       <Filter>states</Filter>
@@ -162,14 +120,17 @@
     <None Include="content\dialogs\MainMenu.json">
       <Filter>content\dialogs</Filter>
     </None>
-    <None Include="content\dialogs\pause_dialog.json">
-      <Filter>content\dialogs</Filter>
-    </None>
     <None Include="content\dialogs\username.json">
       <Filter>content\dialogs</Filter>
     </None>
     <None Include="content\dialogs\HUD.json">
       <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\dialogs\Pause.json">
+      <Filter>content\dialogs</Filter>
+    </None>
+    <None Include="content\resources.json">
+      <Filter>content</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

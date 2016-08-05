@@ -1,4 +1,4 @@
-#pragma comment(lib, "Diesel2D.lib")
+#pragma comment(lib, "D11.lib")
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dsound.lib")
 #pragma comment(lib, "dxerr.lib")
@@ -16,12 +16,16 @@ public:
 	const char* getTitle() {
 		return "ColorZone";
 	}
+	bool initialize() {
+		return true;
+	}
 	void init();
 	bool loadContent();
-	virtual void update(float dt);
-	void draw();
-	void onGUIButton(ds::DialogID dlgID, int button);
+	void update(float dt);
+	void render();
+	//void onGUIButton(ds::DialogID dlgID, int button);
 private:
+	void prepare(ds::Settings* settings);
 	int _textureID;
 	GameContext _context;
 };

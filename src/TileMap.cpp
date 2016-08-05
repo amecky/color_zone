@@ -2,7 +2,6 @@
 #include<iostream>
 #include<fstream>
 #include <string>
-#include <sprites\SpriteBatch.h>
 
 const int MARK_STEPS[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
 
@@ -24,7 +23,7 @@ bool TileMap::copyBlock(const Block& block) {
 				//LOG << "connected";
 				t.state.set(BIT_COHERENT);
 				for (size_t j = 0; j < list.size(); ++j){
-					const Point& p = list.get(j);
+					const p2i& p = list.get(j);
 					//LOG << j << " = " << p.x << " " << p.y;
 					setState(p.x, p.y, BIT_COHERENT);
 				}
@@ -84,6 +83,8 @@ void TileMap::render(int squareSize,float scale) {
 	int startY = ( 768 - squareSize * MAX_Y) / 2;
 	ds::Color clr = ds::Color::WHITE;
 	ds::Texture tex;
+	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
+	sprites->begin();
 	for (int x = 0; x < MAX_X; ++x) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			clr = ds::Color::WHITE;
@@ -93,20 +94,20 @@ void TileMap::render(int squareSize,float scale) {
 				if (t.state.isSet(BIT_COHERENT)) {
 					if (t.edges > 0) {
 						clr = TILE_COLORS[t.color];
-						tex = ds::math::buildTexture(168, 410 + t.edges * 36, 36, 36);
+						tex = math::buildTexture(168, 410 + t.edges * 36, 36, 36);
 					}
 				}
 				else if (t.state.isSet(BIT_MARKED)) {
-					tex = ds::math::buildTexture(168, 200 + t.color * 36, 36, 36);
+					tex = math::buildTexture(168, 200 + t.color * 36, 36, 36);
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
-					tex = ds::math::buildTexture(0, 150, 36, 36);
+					tex = math::buildTexture(0, 150, 36, 36);
 				}
 				else {
-					tex = ds::math::buildTexture(0, 0, 36, 36);
+					tex = math::buildTexture(0, 0, 36, 36);
 				}
 
-				ds::sprites::draw(p, tex, 0.0f, scale, scale, clr);
+				sprites->draw(p, tex, 0.0f, v2(scale, scale), clr);
 
 			}
 		}
@@ -116,10 +117,11 @@ void TileMap::render(int squareSize,float scale) {
 			const Tile& t = get(x, y);
 			v2 p = v2(startX + x * squareSize, startY + y * squareSize);
 			if (t.borders != -1) {
-				ds::sprites::draw(p, ds::math::buildTexture(44, 44 * t.borders, BORDER_SIZE, BORDER_SIZE), 0.0f, scale, scale);
+				sprites->draw(p, math::buildTexture(44, 44 * t.borders, BORDER_SIZE, BORDER_SIZE), 0.0f, v2(scale, scale));
 			}
 		}
 	}
+	sprites->end();
 }
 
 v2 TileMap::convertToGridPos(int x, int y) {
@@ -168,7 +170,7 @@ v2 TileMap::convert(int x, int y) {
 	return v2(_startX + x * SQUARE_SIZE, _startY + y * SQUARE_SIZE);
 }
 
-const uint32 TileMap::getIndex(uint32 x, uint32 y) const {
+const uint32_t TileMap::getIndex(uint32_t x, uint32_t y) const {
 	return x + y * MAX_X;
 }
 

@@ -2,6 +2,7 @@
 #include <Vector.h>
 #include <renderer\render_types.h>
 #include "Common.h"
+#include <stdint.h>
 
 struct SparkleArray {
 
@@ -37,7 +38,7 @@ struct SparkleArray {
 		countAlive = 0;
 	}
 
-	void swapData(uint32 a, uint32 b) {
+	void swapData(uint32_t a, uint32_t b) {
 		if (a != b) {
 			positions[a] = positions[b];
 			velocities[a] = velocities[b];
@@ -48,14 +49,14 @@ struct SparkleArray {
 		}
 	}
 
-	void kill(uint32 id) {
+	void kill(uint32_t id) {
 		if (countAlive > 0) {
 			swapData(id, countAlive - 1);
 			--countAlive;
 		}
 	}
 
-	void wake(uint32 id) {
+	void wake(uint32_t id) {
 		if (countAlive < count)	{
 			swapData(id, countAlive);
 			++countAlive;

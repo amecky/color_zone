@@ -1,0 +1,79 @@
+quad_index_buffer {
+	name : "SpriteQuadBuffer"
+	size : 6144
+}
+sampler_state {
+	name : "ClampSamplerState"
+	addressU : "CLAMP"
+	addressV : "CLAMP"
+	addressW : "CLAMP"
+}
+texture {
+	name : "TextureArray" 
+	file : "Textures.png"
+}
+font {
+	name : "xscale"
+	file : "xscale.json"
+}
+font {
+	name : "gui_font"
+	file : "gui_font.json"
+}
+//particles {
+//	sprite_buffer : 8
+//}
+dialog {
+    name : "MainMenu"
+    font : "xscale"
+    file : "MainMenu"
+}
+dialog {
+    name : "GameOver"
+    file : "GameOver" 
+    font : "xscale"
+}
+dialog {
+    name : "Highscores"
+    file : "Highscores"
+    font : "xscale"
+}
+dialog {
+    name : "HUD"
+    file : "HUD"
+    font : "xscale"
+}
+dialog {
+    name : "ModeSelection"
+    file : "ModeSelection"
+    font : "xscale"
+}
+dialog {
+    name : "Credits"
+    file : "Credits"
+    font : "xscale"
+}
+particle_manager {
+	name : "ParticleManager"
+
+}
+render_target {
+	name : "RT1"
+	width : 1024
+	height : 768
+	clear_color : 0,0,0,0
+}
+render_target {
+	name : "RT2"
+	width : 1024
+	height : 768
+	clear_color : 0,0,0,0
+}
+material {
+	name : "RTMtrl"
+	diffuse : 255,255,255,255
+	ambient : 32,32,32,2555
+	blend_state : "SpriteBlendState"
+	shader : "SpriteShader"
+	render_target : "RT1"
+}

@@ -2,28 +2,20 @@
 #include "Common.h"
 #include <utils\Log.h>
 #include "Block.h"
-
-// -------------------------------------------------------------
-// Point
-// -------------------------------------------------------------
-struct Point {
-	int x;
-	int y;
-};
-
+#include <stdint.h>
 // -------------------------------------------------------------
 // Point list
 // -------------------------------------------------------------
 class PointList {
 
-	typedef std::vector<Point> Points;
+	typedef std::vector<p2i> Points;
 
 public:
 	PointList() {}
 	~PointList() {}
 	void add(int x, int y) {
 		if (!contains(x, y)) {
-			Point p;
+			p2i p;
 			p.x = x;
 			p.y = y;
 			_points.push_back(p);
@@ -39,7 +31,7 @@ public:
 		}
 		return false;
 	}
-	const Point& get(int index) const {
+	const p2i& get(int index) const {
 		return _points[index];
 	}
 	const size_t size() const {
@@ -56,7 +48,7 @@ class TileMap {
 
 public:	
 	TileMap() : _tiles(nullptr) {
-		_tiles = std::make_unique<Tile[]>(MAX_X * MAX_Y);
+		_tiles = new Tile[MAX_X * MAX_Y];
 		_startX = (1024 - SQUARE_SIZE * MAX_X) / 2;
 		_startY = (768 - SQUARE_SIZE * MAX_Y) / 2;
 	}
@@ -65,7 +57,7 @@ public:
 	}
 	void render();
 	void render(int squareSize, float scale);
-	const uint32 getIndex(uint32 x, uint32 y) const;
+	const uint32_t getIndex(uint32_t x, uint32_t y) const;
 	Tile& get(int x, int y);
 	const Tile& get(int x, int y) const;
 	void set(int x, int y, const Tile& tile);
@@ -92,7 +84,7 @@ private:
 	void determineEdges();
 	void setState(int x, int y, int index);
 	
-	std::unique_ptr<Tile[]> _tiles;
+	Tile* _tiles;
 	ds::Texture _filledTexture;
 	ds::Texture _availableTexture;
 	int _maxAvailable;

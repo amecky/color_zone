@@ -1,16 +1,16 @@
 #include "TestState.h"
 #include <utils\Log.h>
-#include <sprites\SpriteBatch.h>
 #include <renderer\graphics.h>
+#include <base\InputSystem.h>
 
-TestState::TestState(GameContext* context) : ds::GameState("TestState"), _context(context) {
-	_map = std::make_unique<TileMap>();
+TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("TestState", game), _context(context) {
+	_map = new TileMap;
 	_map->reset();
 	_previewBlock.setPosition(v2(512, 700));
 	_laser.active = false;
 	_laser.timer = 0.0f;
 	_laser.column = 0;
-	_laser.texture = ds::math::buildTexture(132, 220, 36, 36);
+	_laser.texture = math::buildTexture(132, 220, 36, 36);
 	_effect = new SparkleEffect(_context);
 }
 
@@ -26,7 +26,7 @@ void TestState::activate() {
 		_map->reset();
 		//_laser.active = false;
 		//_laser.timer = _context->settings->laserStartDelay;
-		//_map->load(_context->levelIndex);
+		_map->load(1);
 		//_context->score = 0;
 		//_context->fillRate = 0;
 		//_hud.setTimer(2, 0, 0);
@@ -95,7 +95,7 @@ int TestState::update(float dt) {
 		//}
 	}
 	// move main block
-	v2 mp = ds::renderer::getMousePosition();
+	v2 mp = ds::input::getMousePosition();
 	v2 converted = _map->convert(mp);
 	_mainBlock.setPosition(converted);
 	// FIXME: disabled for testen
@@ -130,7 +130,7 @@ int TestState::onButtonUp(int button, int x, int y) {
 // render
 // --------------------------------------------
 void TestState::render() {
-	_map->render();
+	//_map->render();
 	/*
 	if (_laser.active) {
 		for (int i = 0; i < MAX_Y; ++i) {
@@ -140,7 +140,7 @@ void TestState::render() {
 	_effect->render();
 	*/
 	_previewBlock.render();
-	_mainBlock.render();
+	//_mainBlock.render();
 	//_hud.render();
 }
 

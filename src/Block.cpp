@@ -1,7 +1,9 @@
 #include "Block.h"
 #include <math\GameMath.h>
-#include <sprites\SpriteBatch.h>
 #include "Constants.h"
+#include <math\math.h>
+#include <renderer\graphics.h>
+#include <renderer\sprites.h>
 
 const float ROTATION_TIME = 0.2f;
 
@@ -13,7 +15,7 @@ const float STARTING_ANGLES[] = { DEGTORAD(225.0f), DEGTORAD(135.0f) , DEGTORAD(
 Block::Block() {
 	_position = v2(512, 384);
 	for (int i = 0; i < 5; ++i) {
-		_textures[i] = ds::math::buildTexture(132, i * 36, 36, 36);
+		_textures[i] = math::buildTexture(132, i * 36, 36, 36);
 	}
 	for (int i = 0; i < 4; ++i) {
 		_colors[i] = 0;
@@ -44,13 +46,13 @@ const v2& Block::getPosition() const {
 // pick 4 random colors
 // -----------------------------------------------------------------
 void Block::pickColors() {
-	int firstColor = ds::math::random(0, 3);
-	int secondColor = ds::math::random(0, 3);
+	int firstColor = math::random(0, 3);
+	int secondColor = math::random(0, 3);
 	_colors[0] = firstColor;
 	_colors[1] = firstColor;
 	_colors[2] = secondColor;
 	_colors[3] = secondColor;
-	int r = ds::math::random(0, 3);
+	int r = math::random(0, 3);
 	for (int i = 0; i < r; ++i) {
 		rotate();
 	}
@@ -63,6 +65,8 @@ void Block::pickColors() {
 // 12
 // 03
 void Block::render() {
+	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
+	sprites->begin();
 	v2 p = _position + v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
 	float norm = _rotationTimer / ROTATION_TIME;
 	for (int i = 0; i < 4; ++i) {
@@ -71,8 +75,13 @@ void Block::render() {
 			angle += norm * HALF_PI;
 		}
 		v2 pp = ds::math::getDistantPosition(p, angle, _rotationRadius);
-		ds::sprites::draw(pp, _textures[_colors[i]], angle + DEGTORAD(45.0f));
+		sprites->draw(pp, _textures[_colors[i]], angle + DEGTORAD(45.0f));
 	}
+	for (int i = 0; i < 8; ++i) {
+		float a = 45.0f * (float)i;
+		sprites->draw(v2(300 + i * 50, 384), _textures[0], DEGTORAD(a));
+	}
+	sprites->end();
 }
 
 // -----------------------------------------------------------------
