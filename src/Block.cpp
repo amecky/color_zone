@@ -65,6 +65,7 @@ void Block::pickColors() {
 // 12
 // 03
 void Block::render() {
+	graphics::setCamera(graphics::getOrthoCamera());
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 	sprites->begin();
 	v2 p = _position + v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
@@ -77,10 +78,13 @@ void Block::render() {
 		v2 pp = ds::math::getDistantPosition(p, angle, _rotationRadius);
 		sprites->draw(pp, _textures[_colors[i]], angle + DEGTORAD(45.0f));
 	}
+	/*
 	for (int i = 0; i < 8; ++i) {
-		float a = 45.0f * (float)i;
+		float a = 15.0f * (float)i;
 		sprites->draw(v2(300 + i * 50, 384), _textures[0], DEGTORAD(a));
 	}
+	*/
+	//sprites->draw(v2(512, 384), math::buildTexture(600,0,256,256),DEGTORAD(45.0f));
 	sprites->end();
 }
 

@@ -26,7 +26,7 @@ void TestState::activate() {
 		_map->reset();
 		//_laser.active = false;
 		//_laser.timer = _context->settings->laserStartDelay;
-		_map->load(1);
+		//_map->load(1);
 		//_context->score = 0;
 		//_context->fillRate = 0;
 		//_hud.setTimer(2, 0, 0);
@@ -130,7 +130,7 @@ int TestState::onButtonUp(int button, int x, int y) {
 // render
 // --------------------------------------------
 void TestState::render() {
-	//_map->render();
+	_map->render();
 	/*
 	if (_laser.active) {
 		for (int i = 0; i < MAX_Y; ++i) {
@@ -140,7 +140,7 @@ void TestState::render() {
 	_effect->render();
 	*/
 	_previewBlock.render();
-	//_mainBlock.render();
+	_mainBlock.render();
 	//_hud.render();
 }
 
