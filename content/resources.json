@@ -44,8 +44,8 @@ dialog {
     font : "xscale"
 }
 dialog {
-    name : "ModeSelection"
-    file : "ModeSelection"
+    name : "editor"
+    file : "editor"
     font : "xscale"
 }
 dialog {
