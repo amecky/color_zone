@@ -76,7 +76,7 @@ public:
 	int getFillRate();
 	void getColumn(int col,int* colors);
 	v2 convert(int x, int y);
-	v2 convertToGridPos(int x, int y);
+	p2i convertToGridPos(int x, int y);
 private:	
 	bool matches(int x, int y, const Tile& t);
 	void check(int xp, int yp, int lastDir, PointList& list, bool rec);

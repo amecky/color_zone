@@ -5,6 +5,9 @@
 
 const int MARK_STEPS[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
 
+// --------------------------------------------
+// copy column
+// --------------------------------------------
 bool TileMap::copyBlock(const Block& block) {
 	v2 p = block.getPosition();
 	int xp = (p.x - _startX + SQUARE_SIZE / 2) / SQUARE_SIZE;
@@ -38,12 +41,16 @@ bool TileMap::copyBlock(const Block& block) {
 	return false;
 }
 
+// --------------------------------------------
+// get column
+// --------------------------------------------
 void TileMap::getColumn(int col, int* colors) {
 	for (int y = 0; y < MAX_Y; ++y) {
 		Tile& t = get(col, y);
 		colors[y] = t.color;		
 	}
 }
+
 // --------------------------------------------
 // clear column
 // --------------------------------------------
@@ -124,7 +131,10 @@ void TileMap::render(int squareSize,float scale) {
 	sprites->end();
 }
 
-v2 TileMap::convertToGridPos(int x, int y) {
+// --------------------------------------------
+// convert to grid pos
+// --------------------------------------------
+p2i TileMap::convertToGridPos(int x, int y) {
 	int xp = (x - _startX + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	int yp = (y - _startY + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	if (xp < 0) {
@@ -139,8 +149,9 @@ v2 TileMap::convertToGridPos(int x, int y) {
 	if (yp > (MAX_Y - 1)) {
 		yp = MAX_Y - 1;
 	}
-	return v2(xp, yp);
+	return p2i(xp, yp);
 }
+
 // --------------------------------------------
 // convert screen pos to aligned screen pos
 // --------------------------------------------
@@ -170,18 +181,30 @@ v2 TileMap::convert(int x, int y) {
 	return v2(_startX + x * SQUARE_SIZE, _startY + y * SQUARE_SIZE);
 }
 
+// --------------------------------------------
+// get index
+// --------------------------------------------
 const uint32_t TileMap::getIndex(uint32_t x, uint32_t y) const {
 	return x + y * MAX_X;
 }
 
+// --------------------------------------------
+// get
+// --------------------------------------------
 Tile& TileMap::get(int x, int y) {
 	return _tiles[getIndex(x, y)];
 }
 
+// --------------------------------------------
+// get - const version
+// --------------------------------------------
 const Tile& TileMap::get(int x, int y) const {
 	return _tiles[getIndex(x, y)];
 }
 
+// --------------------------------------------
+// set
+// --------------------------------------------
 void TileMap::set(int x, int y, const Tile& tile) {
 	_tiles[getIndex(x, y)] = tile;
 }
@@ -261,6 +284,9 @@ bool TileMap::isBlockAvailable(int gx, int gy) {
 	return true;
 }
 
+// --------------------------------------------
+// is available
+// --------------------------------------------
 bool TileMap::isAvailable(int gx, int gy){
 	if (!isValid(gx, gy)) {
 		return false;
@@ -268,6 +294,7 @@ bool TileMap::isAvailable(int gx, int gy){
 	Tile& t = get(gx, gy);
 	return t.state.isSet(BIT_AVAILABLE);
 }
+
 // --------------------------------------------
 //
 // --------------------------------------------
@@ -310,6 +337,9 @@ void TileMap::determineEdges() {
 	}
 }
 
+// --------------------------------------------
+// matches
+// --------------------------------------------
 bool TileMap::matches(int x, int y, const Tile& t) {
 	if (!isAvailable(x, y)) {
 		return false;
@@ -317,6 +347,7 @@ bool TileMap::matches(int x, int y, const Tile& t) {
 	Tile& other = _tiles[x + y * MAX_X];
 	return t.color == other.color;
 }
+
 // -------------------------------------------------------
 // determine edges
 //   8
@@ -342,6 +373,9 @@ int TileMap::determineEdge(int x, int y,const Tile& t) {
 	return set;
 }
 
+// --------------------------------------------
+// set borders
+// --------------------------------------------
 void TileMap::setBorder(int x, int y, int index) {
 	if (x >= 0 && x < MAX_X && y >= 0 && y < MAX_Y) {
 		_tiles[x + y * MAX_X].borders = index;

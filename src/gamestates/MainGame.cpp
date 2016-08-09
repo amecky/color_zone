@@ -1,16 +1,16 @@
 #include "MainGame.h"
 #include <utils\Log.h>
-#include <sprites\SpriteBatch.h>
 #include <renderer\graphics.h>
+#include <base\InputSystem.h>
 
-MainGame::MainGame(GameContext* context) : ds::GameState("MainGame") , _context(context) {
-	_map = std::make_unique<TileMap>();
+MainGame::MainGame(GameContext* context, ds::Game* game) : ds::GameState("MainGame", game), _context(context) {
+	_map = new TileMap;
 	_map->reset();
 	_previewBlock.setPosition(v2(512, 700));
 	_laser.active = false;
 	_laser.timer = 0.0f;
 	_laser.column = 0;
-	_laser.texture = ds::math::buildTexture(132, 220, 36, 36);
+	_laser.texture = math::buildTexture(132, 220, 36, 36);
 	_effect = new SparkleEffect(_context);
 }
 
@@ -119,7 +119,7 @@ int MainGame::update(float dt) {
 	}
 	// move main block
 	_mainBlock.update(dt);
-	v2 mp = ds::renderer::getMousePosition();
+	v2 mp = ds::input::getMousePosition();
 	v2 converted = _map->convert(mp);
 	_mainBlock.setPosition(converted);
 	moveLaser(dt);	
@@ -156,7 +156,7 @@ void MainGame::render() {
 	_map->render();
 	if (_laser.active) {
 		for (int i = 0; i < MAX_Y; ++i) {
-			ds::sprites::draw(_map->convert(_laser.column,i), _laser.texture);
+			//ds::sprites::draw(_map->convert(_laser.column,i), _laser.texture);
 		}
 	}
 	_effect->render();

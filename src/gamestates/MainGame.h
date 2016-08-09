@@ -16,7 +16,7 @@ struct Laser {
 };
 
 public:
-	MainGame(GameContext* context);
+	MainGame(GameContext* context, ds::Game* game);
 	~MainGame();
 	void init();
 	int update(float dt);
