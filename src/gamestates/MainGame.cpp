@@ -6,11 +6,7 @@
 MainGame::MainGame(GameContext* context, ds::Game* game) : ds::GameState("MainGame", game), _context(context) {
 	_map = new TileMap;
 	_map->reset();
-	_previewBlock.setPosition(v2(512, 700));
-	_laser.active = false;
-	_laser.timer = 0.0f;
-	_laser.column = 0;
-	_laser.texture = math::buildTexture(132, 220, 36, 36);
+	_previewBlock.setPosition(v2(512, 700));	
 	_effect = new SparkleEffect(_context);
 }
 
@@ -31,8 +27,8 @@ void MainGame::activate() {
 	_context->hud->activate();
 	if (!_context->resume) {
 		_map->reset();
-		_laser.active = false;
-		_laser.timer = _context->settings->laserStartDelay;
+		_laser.reset();
+		//_laser.timer = _context->settings->laserStartDelay;
 		_map->load(_context->levelIndex);
 		_context->score = 0;
 		_context->fillRate = 0;
@@ -49,6 +45,7 @@ void MainGame::activate() {
 // --------------------------------------------
 void MainGame::deactivate() {
 	_context->hud->deactivate();
+	_laser.reset();
 }
 
 // --------------------------------------------
@@ -68,43 +65,26 @@ void MainGame::fillHighscore() {
 // move laser
 // --------------------------------------------
 void MainGame::moveLaser(float dt) {
-	if (_laser.active) {
-		_laser.timer += dt;
-		// FIXME: color should be pulsing
-		// FIXME: take this one from settings
-		if (_laser.timer > 0.4f) {
-			++_laser.column;
-			if (_laser.column >= 0 && _laser.column < MAX_X) {
-				int colors[MAX_Y];
-				_map->getColumn(_laser.column, colors);
-				for (int i = 0; i < MAX_Y; ++i) {
-					if (colors[i] != -1) {
-						_effect->start(_laser.column, i, ds::Rect(170,2 + colors[i]*36,32,32),4);
-					}
-				}
-				int cleared = _map->clearColumn(_laser.column);
-				_context->score += cleared * 100;
-				if (cleared > 0) {
-					_context->fillRate = _map->getFillRate();
-					_context->hud->setNumber(HUD_SCORE, _context->score);
-					char buffer[128];
-					sprintf_s(buffer, 128, "%d%%", _context->fillRate);
-					_context->hud->updateText(HUD_PERCENTAGE, buffer);
-				}
-			}
-			_laser.timer = 0.0f;
-			if (_laser.column >= MAX_X) {
-				_laser.active = false;
-				_laser.timer = 5.0f;
+	int column = -1;
+	if (_laser.move(dt, &column)) {
+		int colors[MAX_Y];
+		_map->getColumn(column, colors);
+		for (int i = 0; i < MAX_Y; ++i) {
+			if (colors[i] != -1) {
+				_effect->start(column, i, ds::Rect(170, 2 + colors[i] * 36, 32, 32), 4);
 			}
 		}
-	}
-	else {
-		_laser.timer -= dt;
-		if (_laser.timer <= 0.0f) {
-			startLaser();
+		int cleared = _map->clearColumn(column);
+		_context->score += cleared * 100;
+		if (cleared > 0) {
+			_context->fillRate = _map->getFillRate();
+			_context->hud->setNumber(HUD_SCORE, _context->score);
+			char buffer[128];
+			sprintf_s(buffer, 128, "%d%%", _context->fillRate);
+			_context->hud->updateText(HUD_PERCENTAGE, buffer);
 		}
 	}
+	_laser.tick(dt);
 }
 // --------------------------------------------
 // update
@@ -120,7 +100,7 @@ int MainGame::update(float dt) {
 	// move main block
 	_mainBlock.update(dt);
 	v2 mp = ds::input::getMousePosition();
-	v2 converted = _map->convert(mp);
+	v2 converted = map::convert(mp);
 	_mainBlock.setPosition(converted);
 	moveLaser(dt);	
 	if (_context->gameMode == GM_COVERAGE) {
@@ -154,26 +134,11 @@ int MainGame::onButtonUp(int button, int x, int y) {
 // --------------------------------------------
 void MainGame::render() {
 	_map->render();
-	if (_laser.active) {
-		for (int i = 0; i < MAX_Y; ++i) {
-			//ds::sprites::draw(_map->convert(_laser.column,i), _laser.texture);
-		}
-	}
+	_laser.render();
 	_effect->render();
 	_previewBlock.render();
 	_mainBlock.render();
 
-}
-
-// --------------------------------------------
-// start laser
-// --------------------------------------------
-void MainGame::startLaser() {
-	if (!_laser.active) {
-		_laser.active = true;
-		_laser.column = -1;
-		_laser.timer = 0.0f;
-	}
 }
 
 // --------------------------------------------

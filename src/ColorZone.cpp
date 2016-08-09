@@ -37,7 +37,7 @@ bool ColorZone::loadContent() {
 	_context.filesystem.mount("levels");	
 	addGameState(new TestState(&_context, game));
 	addGameState(new TileMapEditor(&_context, game));
-	_context.settings = new MyGameSettings;
+	_context.settings = new GameSettings;
 	_context.settings->load();
 
 	RID _material = ds::res::find("SpriteMaterial", ds::ResourceType::MATERIAL);
@@ -48,7 +48,7 @@ bool ColorZone::loadContent() {
 }
 
 void ColorZone::init() {
-	activate("TileMapEditor");
+	activate("TestState");
 }
 
 

@@ -10,8 +10,8 @@ const int MARK_STEPS[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
 // --------------------------------------------
 bool TileMap::copyBlock(const Block& block) {
 	v2 p = block.getPosition();
-	int xp = (p.x - _startX + SQUARE_SIZE / 2) / SQUARE_SIZE;
-	int yp = (p.y - _startY + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
+	int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	if (isBlockAvailable(xp, yp)) {
 		for (int i = 0; i < 4; ++i) {
 			int cx = xp + MARK_STEPS[i * 2];
@@ -91,7 +91,6 @@ void TileMap::render(int squareSize,float scale) {
 	ds::Color clr = ds::Color::WHITE;
 	ds::Texture tex;
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
-	sprites->begin();
 	for (int x = 0; x < MAX_X; ++x) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			clr = ds::Color::WHITE;
@@ -128,57 +127,6 @@ void TileMap::render(int squareSize,float scale) {
 			}
 		}
 	}
-	sprites->end();
-}
-
-// --------------------------------------------
-// convert to grid pos
-// --------------------------------------------
-p2i TileMap::convertToGridPos(int x, int y) {
-	int xp = (x - _startX + SQUARE_SIZE / 2) / SQUARE_SIZE;
-	int yp = (y - _startY + SQUARE_SIZE / 2) / SQUARE_SIZE;
-	if (xp < 0) {
-		xp = 0;
-	}
-	if (xp > (MAX_X - 1)) {
-		xp = MAX_X - 1;
-	}
-	if (yp < 0) {
-		yp = 0;
-	}
-	if (yp > (MAX_Y - 1)) {
-		yp = MAX_Y - 1;
-	}
-	return p2i(xp, yp);
-}
-
-// --------------------------------------------
-// convert screen pos to aligned screen pos
-// --------------------------------------------
-v2 TileMap::convert(const v2& p) {
-	
-	int xp = (p.x - _startX + SQUARE_SIZE / 2) / SQUARE_SIZE;
-	int yp = (p.y - _startY+ SQUARE_SIZE / 2) / SQUARE_SIZE;
-	if (xp < 0) {
-		xp = 0;
-	}
-	if (xp >= (MAX_X-1)) {
-		xp = MAX_X - 2;
-	}
-	if (yp < 0) {
-		yp = 0;
-	}
-	if (yp >= (MAX_Y-1)) {
-		yp = MAX_Y - 2;
-	}
-	return convert(xp, yp);
-}
-
-// --------------------------------------------
-// convert screen pos to grid pos
-// --------------------------------------------
-v2 TileMap::convert(int x, int y) {
-	return v2(_startX + x * SQUARE_SIZE, _startY + y * SQUARE_SIZE);
 }
 
 // --------------------------------------------
@@ -231,6 +179,9 @@ const bool TileMap::isValid(int x, int y) const {
 	return true;
 }
 
+const bool TileMap::isValid(const p2i& p) const {
+	return isValid(p.x, p.y);
+}
 // --------------------------------------------
 //
 // --------------------------------------------
@@ -320,7 +271,7 @@ void TileMap::reset() {
 			t.state.set(BIT_AVAILABLE);
 		}
 	}
-	_maxAvailable = 0;
+	_maxAvailable = MAX_X * MAX_Y;
 }
 
 // -------------------------------------------------------
@@ -463,5 +414,58 @@ void TileMap::check(int xp, int yp, int lastDir, PointList& list, bool rec) {
 				}
 			}
 		}
+	}
+}
+
+namespace map {
+
+	// --------------------------------------------
+	// convert screen pos to aligned screen pos
+	// --------------------------------------------
+	v2 convert(const v2& p) {
+
+		int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
+		int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
+		if (xp < 0) {
+			xp = 0;
+		}
+		if (xp >= (MAX_X - 1)) {
+			xp = MAX_X - 2;
+		}
+		if (yp < 0) {
+			yp = 0;
+		}
+		if (yp >= (MAX_Y - 1)) {
+			yp = MAX_Y - 2;
+		}
+		return convert(xp, yp);
+	}
+
+	// --------------------------------------------
+	// convert screen pos to grid pos
+	// --------------------------------------------
+	v2 convert(int x, int y) {
+		return v2(START_X + x * SQUARE_SIZE, START_Y + y * SQUARE_SIZE);
+	}
+
+	// --------------------------------------------
+	// convert to grid pos
+	// --------------------------------------------
+	p2i convertToGridPos(int x, int y) {
+		int xp = (x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
+		int yp = (y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
+		if (xp < 0) {
+			xp = 0;
+		}
+		if (xp >(MAX_X - 1)) {
+			xp = MAX_X - 1;
+		}
+		if (yp < 0) {
+			yp = 0;
+		}
+		if (yp >(MAX_Y - 1)) {
+			yp = MAX_Y - 1;
+		}
+		return p2i(xp, yp);
 	}
 }

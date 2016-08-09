@@ -4,6 +4,10 @@
 const int MAX_X = 26;
 const int MAX_Y = 16;
 const int BORDER_SIZE = 44;
+const int SQUARE_SIZE = 36;
+const float HALF_SQUARE_SIZE = 18.0f;
+const int START_X = (1024 - SQUARE_SIZE * MAX_X) / 2;
+const int START_Y = (768 - SQUARE_SIZE * MAX_Y) / 2;
 
 const int MAX_LEVELS = 16;
 
@@ -11,8 +15,7 @@ const int XM[4] = { 1, -1, 0, 0 };
 const int YM[4] = { 0, 0, 1, -1 };
 const int LD[4] = { 1, 0, 3, 2 };
 
-const int SQUARE_SIZE = 36;
-const float HALF_SQUARE_SIZE = 18.0f;
+
 
 const int BLOCK_X[4] = {0,1,1,0};
 const int BLOCK_Y[4] = {0,0,1,1};

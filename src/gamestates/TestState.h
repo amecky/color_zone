@@ -1,19 +1,13 @@
 #pragma once
 #include "..\Constants.h"
 #include "..\TileMap.h"
-#include "..\Block.h"
+#include "..\objects\Block.h"
 #include <gamestates\GameState.h>
 #include "..\Common.h"
 #include "..\SparkleEffect.h"
+#include "..\objects\Laser.h"
 
 class TestState : public ds::GameState {
-
-struct Laser {
-	bool active;
-	float timer;
-	int column;
-	ds::Texture texture;
-};
 
 public:
 	TestState(GameContext* context, ds::Game* game);

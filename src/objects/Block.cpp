@@ -1,6 +1,6 @@
 #include "Block.h"
 #include <math\GameMath.h>
-#include "Constants.h"
+#include "..\Constants.h"
 #include <math\math.h>
 #include <renderer\graphics.h>
 #include <renderer\sprites.h>
@@ -65,9 +65,7 @@ void Block::pickColors() {
 // 12
 // 03
 void Block::render() {
-	graphics::setCamera(graphics::getOrthoCamera());
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
-	sprites->begin();
 	v2 p = _position + v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
 	float norm = _rotationTimer / ROTATION_TIME;
 	for (int i = 0; i < 4; ++i) {
@@ -85,7 +83,6 @@ void Block::render() {
 	}
 	*/
 	//sprites->draw(v2(512, 384), math::buildTexture(600,0,256,256),DEGTORAD(45.0f));
-	sprites->end();
 }
 
 // -----------------------------------------------------------------

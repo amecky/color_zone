@@ -7,10 +7,6 @@ TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("Test
 	_map = new TileMap;
 	_map->reset();
 	_previewBlock.setPosition(v2(512, 700));
-	_laser.active = false;
-	_laser.timer = 0.0f;
-	_laser.column = 0;
-	_laser.texture = math::buildTexture(132, 220, 36, 36);
 	_effect = new SparkleEffect(_context);
 }
 
@@ -43,41 +39,27 @@ void TestState::fillHighscore() {
 // move laser
 // --------------------------------------------
 void TestState::moveLaser(float dt) {
-	if (_laser.active) {
-		_laser.timer += dt;
-		if (_laser.timer > 0.4f) {
-			++_laser.column;
-			if (_laser.column >= 0 && _laser.column < MAX_X) {
-				int colors[MAX_Y];
-				_map->getColumn(_laser.column, colors);
-				for (int i = 0; i < MAX_Y; ++i) {
-					if (colors[i] != -1) {
-						_effect->start(_laser.column, i, ds::Rect(170,2 + colors[i]*36,32,32),4);
-					}
-				}
-				int cleared = _map->clearColumn(_laser.column);
-				_context->score += cleared * 100;
-				if (cleared > 0) {
-					_context->fillRate = _map->getFillRate();
-					//_hud.setCounterValue(1, _context->score);
-					char buffer[128];
-					sprintf_s(buffer, 128, "%d%%", _context->fillRate);
-					//_hud.setText(3, buffer);
-				}
-			}
-			_laser.timer = 0.0f;
-			if (_laser.column >= MAX_X) {
-				_laser.active = false;
-				_laser.timer = 5.0f;
+	int column = -1;
+	if (_laser.move(dt, &column)) {
+		int colors[MAX_Y];
+		_map->getColumn(column, colors);
+		for (int i = 0; i < MAX_Y; ++i) {
+			if (colors[i] != -1) {
+				_effect->start(column, i, ds::Rect(170, 2 + colors[i] * 36, 32, 32), 4);
 			}
 		}
-	}
-	else {
-		_laser.timer -= dt;
-		if (_laser.timer <= 0.0f) {
-			startLaser();
+		int cleared = _map->clearColumn(column);
+		_context->score += cleared * 100;
+		if (cleared > 0) {
+			_context->fillRate = _map->getFillRate();
+			LOG << "fillRate: " << _context->fillRate;
+			//_context->hud->setNumber(HUD_SCORE, _context->score);
+			char buffer[128];
+			sprintf_s(buffer, 128, "%d%%", _context->fillRate);
+			//_context->hud->updateText(HUD_PERCENTAGE, buffer);
 		}
 	}
+	//_laser.tick(dt);
 }
 // --------------------------------------------
 // update
@@ -96,10 +78,10 @@ int TestState::update(float dt) {
 	}
 	// move main block
 	v2 mp = ds::input::getMousePosition();
-	v2 converted = _map->convert(mp);
+	v2 converted = map::convert(mp);
 	_mainBlock.setPosition(converted);
 	// FIXME: disabled for testen
-	//moveLaser(dt);	
+	moveLaser(dt);	
 	if (_context->gameMode == GM_COVERAGE) {
 		if (_context->fillRate >= 80) {
 			fillHighscore();
@@ -130,29 +112,15 @@ int TestState::onButtonUp(int button, int x, int y) {
 // render
 // --------------------------------------------
 void TestState::render() {
+	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
+	sprites->begin();
 	_map->render();
-	/*
-	if (_laser.active) {
-		for (int i = 0; i < MAX_Y; ++i) {
-			ds::sprites::draw(_map->convert(_laser.column,i), _laser.texture);
-		}
-	}
-	_effect->render();
-	*/
+	//_effect->render();
 	_previewBlock.render();
 	_mainBlock.render();
+	_laser.render();
 	//_hud.render();
-}
-
-// --------------------------------------------
-// start laser
-// --------------------------------------------
-void TestState::startLaser() {
-	if (!_laser.active) {
-		_laser.active = true;
-		_laser.column = -1;
-		_laser.timer = 0.0f;
-	}
+	sprites->end();
 }
 
 // --------------------------------------------
@@ -164,7 +132,7 @@ int TestState::onChar(int ascii) {
 		_previewBlock.pickColors();
 	}
 	if (ascii == 's') {
-		startLaser();
+		_laser.start();
 	}
 	if (ascii == 'd') {
 		_context->resume = true;

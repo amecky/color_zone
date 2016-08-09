@@ -6,7 +6,7 @@
 // -------------------------------------------------------
 // game settings
 // -------------------------------------------------------
-struct MyGameSettings : public ds::DynamicGameSettings {
+struct GameSettings : public ds::DynamicGameSettings {
 
 	float laserStartDelay;
 	float sparkleGap;
@@ -22,7 +22,7 @@ struct MyGameSettings : public ds::DynamicGameSettings {
 	float introVelocity;
 	float introVelocityVariance;
 
-	MyGameSettings() : ds::DynamicGameSettings() {
+	GameSettings() : ds::DynamicGameSettings() {
 		add("sparkle_gap", &sparkleGap, 2.0f);
 		add("sparkle_ttl", &sparkleTTL, 0.6f);
 		add("sparkle_start_scale", &sparkleStartScale, 1.0f);
