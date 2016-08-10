@@ -7,6 +7,12 @@
 // -----------------------------------------------------------------
 class Laser {
 
+enum LaserState {
+	LS_RUNNING,
+	LS_WARMING_UP,
+	LS_IDLE
+};
+
 public:
 	Laser(GameSettings* settings);
 	~Laser();
@@ -17,11 +23,10 @@ public:
 	void start();
 private:
 	ds::Color _color;
-	bool _warmUp;
-	bool _active;
 	float _timer;
 	int _column;
 	ds::Texture _texture;
 	GameSettings* _settings;
+	LaserState _state;
 };
 

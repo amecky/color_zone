@@ -1,48 +1,24 @@
 numbers { 
     id : 4
     pos : 160,720
-    color : 230,180,0,255
     centered : false
-    scale : 1
+    scale : 1.5,1.5
     value : 0
     length : 6
+	color : 230,180,0,255
 }
 timer { 
     id : 5
     pos : 800,720
     color : 230,180,0,255
     centered : false
-    scale : 1
+    scale : 1.5,1.5
 }
 text { 
     id : 3
     pos : 480,40
     color : 230,180,0,255
     centered : true
-    scale : 1
-    text : "0%"
-}
-image { 
-    id : 1
-    pos : 170,720
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 100,560,300,50
-}
-image { 
-    id : 2
-    pos : 512,40
-    color : 255,255,255,255
-    centered : true
-    scale : 1
-    rect : 100,560,300,50
-}
-image { 
-    id : 6
-    pos : 820,720
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 100,560,300,50
+    scale : 1.5,1.5
+    text : "1200%"
 }

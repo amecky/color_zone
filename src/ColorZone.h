@@ -21,9 +21,8 @@ public:
 	}
 	void init();
 	bool loadContent();
-	void update(float dt);
-	void render();
-	//void onGUIButton(ds::DialogID dlgID, int button);
+	void update(float dt) {}
+	void render() {}
 private:
 	void prepare(ds::Settings* settings);
 	int _textureID;

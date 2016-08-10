@@ -27,6 +27,9 @@ void ColorZone::prepare(ds::Settings* settings) {
 	settings->logTypes = ds::LogTypes::LT_CONSOLE | ds::LogTypes::LT_FILE;
 }
 
+// -------------------------------------------------------
+// load content
+// -------------------------------------------------------
 bool ColorZone::loadContent() {
 	_context.fillRate = 0;
 	_context.levelIndex = 1;
@@ -34,33 +37,21 @@ bool ColorZone::loadContent() {
 	_context.resume = false;
 	_context.gameMode = GM_TIMER;
 	_context.name[0] = '\0';
-	_context.filesystem.mount("levels");	
-	addGameState(new TestState(&_context, game));
-	addGameState(new TileMapEditor(&_context, game));
 	_context.settings = new GameSettings;
 	_context.settings->load();
+	addGameState(new TestState(&_context, game));
+	addGameState(new TileMapEditor(&_context, game));
+	
 
 	RID _material = ds::res::find("SpriteMaterial", ds::ResourceType::MATERIAL);
 	ds::Material* m = ds::res::getMaterial(_material);
 	m->texture = ds::res::find("TextureArray", ds::ResourceType::TEXTURE);
-
-	ds::FlatJSONReader fjr;
-	fjr.parse("content\\resources\\test.json");
-	float v;
-	fjr.get_float("first.second.third", &v);
-
 	return true;
 }
 
+// -------------------------------------------------------
+// init
+// -------------------------------------------------------
 void ColorZone::init() {
 	activate("TestState");
 }
-
-
-
-void ColorZone::update(float dt) {
-}
-
-void ColorZone::render() {
-}
-

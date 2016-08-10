@@ -1,5 +1,6 @@
 #include "SparkleEffect.h"
 #include "Constants.h"
+#include <renderer\sprites.h>
 
 // --------------------------------------------
 // Sparkle effect
@@ -65,8 +66,9 @@ void SparkleEffect::update(float dt) {
 // render
 // --------------------------------------------
 void SparkleEffect::render() {
+	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 	for (int i = 0; i < _sparkles.countAlive; ++i) {
-		//ds::sprites::draw(_sparkles.positions[i], _sparkles.textures[i],0.0f,_sparkles.scales[i].x,_sparkles.scales[i].y);
+		sprites->draw(_sparkles.positions[i], _sparkles.textures[i],0.0f,_sparkles.scales[i]);
 	}
 }
 

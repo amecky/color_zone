@@ -20,12 +20,12 @@ public:
 	void activate();	
 private:	
 	void moveLaser(float dt);
-	void startLaser();
 	void fillHighscore();
+	ds::GUIDialog* _hud;
 	TileMap* _map;
 	GameContext* _context;
-	Block _previewBlock;
-	Block _mainBlock;
+	Block* _previewBlock;
+	Block* _mainBlock;
 	Laser* _laser;
 	SparkleEffect* _effect;
 };

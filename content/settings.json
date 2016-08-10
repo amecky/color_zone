@@ -3,8 +3,8 @@ sparkle {
     ttl : 0.60 
     start_scale : 1.00 
     end_scale : 0.40 
-    velocity : 20.00 
-    velocity_variance : 4.00 
+    velocity : 30.00 
+    velocity_variance : 10.00 
 }
 intro {
     warmup_timer : 2.00 

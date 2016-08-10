@@ -12,10 +12,10 @@ const float STARTING_ANGLES[] = { DEGTORAD(225.0f), DEGTORAD(135.0f) , DEGTORAD(
 // -----------------------------------------------------------------
 //
 // -----------------------------------------------------------------
-Block::Block() {
+Block::Block(GameSettings* settings, bool showBorder) : _settings(settings) , _showBorder(showBorder) {
 	_position = v2(512, 384);
 	for (int i = 0; i < 5; ++i) {
-		_textures[i] = math::buildTexture(132, i * 36, 36, 36);
+		_textures[i] = math::buildTexture(96, i * 36, 36, 36);
 	}
 	for (int i = 0; i < 4; ++i) {
 		_colors[i] = 0;
@@ -76,13 +76,13 @@ void Block::render() {
 		v2 pp = ds::math::getDistantPosition(p, angle, _rotationRadius);
 		sprites->draw(pp, _textures[_colors[i]], angle + DEGTORAD(45.0f));
 	}
-	/*
-	for (int i = 0; i < 8; ++i) {
-		float a = 15.0f * (float)i;
-		sprites->draw(v2(300 + i * 50, 384), _textures[0], DEGTORAD(a));
+	if (_showBorder) {
+		float r = 0.0f;
+		if (_rotating) {
+			r = norm * HALF_PI;
+		}
+		sprites->draw(p, math::buildTexture(0, 935, 78, 78),r);
 	}
-	*/
-	//sprites->draw(v2(512, 384), math::buildTexture(600,0,256,256),DEGTORAD(45.0f));
 }
 
 // -----------------------------------------------------------------
@@ -95,9 +95,9 @@ int Block::getColor(int index) const {
 // -----------------------------------------------------------------
 // copy colors
 // ----------------------------------------------------------------- 
-void Block::copyColors(const Block& other) {
+void Block::copyColors(const Block* other) {
 	for (int i = 0; i < 4; ++i) {
-		_colors[i] = other.getColor(i);
+		_colors[i] = other->getColor(i);
 	}
 }
 

@@ -68,7 +68,7 @@ public:
 	void save(int index);
 	void setBorder(int x, int y, int index);
 	
-	bool copyBlock(const Block& block);
+	bool copyBlock(const Block* block);
 	int clearColumn(int col);
 	int getFillRate();
 	void getColumn(int col,int* colors);

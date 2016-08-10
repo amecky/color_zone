@@ -2,7 +2,6 @@
 
 #include "Constants.h"
 #include <renderer\render_types.h>
-#include "FileManager.h"
 #include <math\Bitset.h>
 #include <string>
 #include <dialogs\GUIDialog.h>
@@ -32,7 +31,6 @@ struct GameContext {
 	int score;
 	int fillRate;
 	bool resume;
-	Filesystem filesystem;
 	GameMode gameMode;
 	Highscore currentScore;
 	std::string name;
