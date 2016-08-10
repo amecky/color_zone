@@ -44,6 +44,11 @@ bool ColorZone::loadContent() {
 	ds::Material* m = ds::res::getMaterial(_material);
 	m->texture = ds::res::find("TextureArray", ds::ResourceType::TEXTURE);
 
+	ds::FlatJSONReader fjr;
+	fjr.parse("content\\resources\\test.json");
+	float v;
+	fjr.get_float("first.second.third", &v);
+
 	return true;
 }
 

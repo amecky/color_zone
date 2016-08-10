@@ -4,6 +4,7 @@
 #include <base\InputSystem.h>
 
 MainGame::MainGame(GameContext* context, ds::Game* game) : ds::GameState("MainGame", game), _context(context) {
+	_laser = new Laser(context->settings);
 	_map = new TileMap;
 	_map->reset();
 	_previewBlock.setPosition(v2(512, 700));	
@@ -11,6 +12,8 @@ MainGame::MainGame(GameContext* context, ds::Game* game) : ds::GameState("MainGa
 }
 
 MainGame::~MainGame() {
+	delete _laser;
+	delete _map;
 	delete _effect;
 }
 
@@ -27,7 +30,7 @@ void MainGame::activate() {
 	_context->hud->activate();
 	if (!_context->resume) {
 		_map->reset();
-		_laser.reset();
+		_laser->reset();
 		//_laser.timer = _context->settings->laserStartDelay;
 		_map->load(_context->levelIndex);
 		_context->score = 0;
@@ -45,7 +48,7 @@ void MainGame::activate() {
 // --------------------------------------------
 void MainGame::deactivate() {
 	_context->hud->deactivate();
-	_laser.reset();
+	_laser->reset();
 }
 
 // --------------------------------------------
@@ -66,7 +69,7 @@ void MainGame::fillHighscore() {
 // --------------------------------------------
 void MainGame::moveLaser(float dt) {
 	int column = -1;
-	if (_laser.move(dt, &column)) {
+	if (_laser->move(dt, &column)) {
 		int colors[MAX_Y];
 		_map->getColumn(column, colors);
 		for (int i = 0; i < MAX_Y; ++i) {
@@ -84,7 +87,7 @@ void MainGame::moveLaser(float dt) {
 			_context->hud->updateText(HUD_PERCENTAGE, buffer);
 		}
 	}
-	_laser.tick(dt);
+	_laser->tick(dt);
 }
 // --------------------------------------------
 // update
@@ -134,7 +137,7 @@ int MainGame::onButtonUp(int button, int x, int y) {
 // --------------------------------------------
 void MainGame::render() {
 	_map->render();
-	_laser.render();
+	_laser->render();
 	_effect->render();
 	_previewBlock.render();
 	_mainBlock.render();

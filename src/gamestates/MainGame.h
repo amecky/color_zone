@@ -26,6 +26,6 @@ private:
 	GameContext* _context;
 	Block _previewBlock;
 	Block _mainBlock;
-	Laser _laser;
+	Laser* _laser;
 	SparkleEffect* _effect;
 };

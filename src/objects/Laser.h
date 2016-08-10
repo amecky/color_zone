@@ -1,7 +1,10 @@
 #pragma once
 #include <renderer\render_types.h>
-#include "..\utils\DynamicGameSettings.h"
+#include "..\utils\GameSettings.h"
 
+// -----------------------------------------------------------------
+//
+// -----------------------------------------------------------------
 class Laser {
 
 public:

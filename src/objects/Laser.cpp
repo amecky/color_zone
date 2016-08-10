@@ -8,28 +8,34 @@ Laser::Laser(GameSettings* settings) : _settings(settings) {
 	_active = false;
 	_timer = 0.0f;
 	_column = 0;
-	_texture = math::buildTexture(132, 220, 36, 36);
+	_texture = math::buildTexture(132, 260, 36, 36);
+	_color = ds::Color(0, 210, 210);
 }
 
 Laser::~Laser() {
 }
 
+// -----------------------------------------------------------------
+// reset
+// -----------------------------------------------------------------
 void Laser::reset() {
 	_active = false;
 	_timer = 1.0f; // FIXME: get from settings
 	_warmUp = true;
 }
 
+// -----------------------------------------------------------------
+// move
+// -----------------------------------------------------------------
 bool Laser::move(float dt, int* column) {
 	*column = -1;
 	bool ret = false;
 	if (_active) {
 		_timer += dt;
-		float c = 0.7f + sin(_timer / 0.4f * TWO_PI * 1.0f) * 0.3f;
-		_color.r = 0.0f;
-		_color.g = c;
-		_color.b = 0.0f;
-		// FIXME: color should be pulsing
+		float c = 0.7f + sin(_timer / 0.4f * TWO_PI) * 0.3f;
+		//_color.r = 0.0f;
+		_color.a = c;
+		//_color.b = 0.0f;
 		// FIXME: take this one from settings
 		if (_timer > 0.4f) {
 			++_column;

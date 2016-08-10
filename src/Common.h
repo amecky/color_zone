@@ -6,7 +6,7 @@
 #include <math\Bitset.h>
 #include <string>
 #include <dialogs\GUIDialog.h>
-#include "utils\DynamicGameSettings.h"
+#include "utils\GameSettings.h"
 
 enum GameMode {
 	GM_COVERAGE,
@@ -37,7 +37,7 @@ struct GameContext {
 	Highscore currentScore;
 	std::string name;
 	ds::GUIDialog* hud;
-	MyGameSettings* settings;
+	GameSettings* settings;
 };
 
 // Bits

@@ -5,13 +5,16 @@
 
 TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("TestState", game), _context(context) {
 	_map = new TileMap;
+	_laser = new Laser(context->settings);
 	_map->reset();
 	_previewBlock.setPosition(v2(512, 700));
 	_effect = new SparkleEffect(_context);
 }
 
-TestState::~TestState() {
+TestState::~TestState() {	
 	delete _effect;
+	delete _laser;
+	delete _map;
 }
 
 void TestState::init() {
@@ -40,7 +43,7 @@ void TestState::fillHighscore() {
 // --------------------------------------------
 void TestState::moveLaser(float dt) {
 	int column = -1;
-	if (_laser.move(dt, &column)) {
+	if (_laser->move(dt, &column)) {
 		int colors[MAX_Y];
 		_map->getColumn(column, colors);
 		for (int i = 0; i < MAX_Y; ++i) {
@@ -118,7 +121,7 @@ void TestState::render() {
 	//_effect->render();
 	_previewBlock.render();
 	_mainBlock.render();
-	_laser.render();
+	_laser->render();
 	//_hud.render();
 	sprites->end();
 }
@@ -132,7 +135,7 @@ int TestState::onChar(int ascii) {
 		_previewBlock.pickColors();
 	}
 	if (ascii == 's') {
-		_laser.start();
+		_laser->start();
 	}
 	if (ascii == 'd') {
 		_context->resume = true;
