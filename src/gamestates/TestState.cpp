@@ -4,12 +4,12 @@
 #include <base\InputSystem.h>
 
 TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("TestState", game), _context(context) {
-	_map = new TileMap;
+	_map = new TileMap(_context);
 	_laser = new Laser(context->settings);
 	_map->reset();
-	_previewBlock = new Block(_context->settings, false);
+	_previewBlock = new Block(_context, false);
 	_previewBlock->setPosition(v2(512, 700));
-	_mainBlock = new Block(_context->settings, true);
+	_mainBlock = new Block(_context, true);
 	_effect = new SparkleEffect(_context);
 	_hud = new HUD(_context->settings);
 }
@@ -27,23 +27,13 @@ void TestState::init() {
 }
 
 void TestState::activate() {
-	//if (!_context->resume) {
-		_map->reset();
-		_laser->start();
-		_hud->start();
-		//_hud->setScore(891255);
-		//_hud->setCoverage(89);
-		//_hud->activate();
-		//_map->load(1);
-		//_context->score = 0;
-		//_context->fillRate = 0;
-		//_hud->resetTimer(HUD_TIMER);
-		//_hud->startTimer(HUD_TIMER);
-		//_hud->setNumber(HUD_SCORE, 0);
-		//_hud->updateText(HUD_PERCENTAGE, "0 %");
-		_effect->reset();
-	//}
-	//_context->resume = false;
+	_context->pick_colors();
+	_map->reset();
+	_laser->start();
+	_hud->start();
+	//_map->load(1);
+	_context->score = 0;
+	_effect->reset();	
 }
 
 void TestState::fillHighscore() {	
@@ -150,6 +140,9 @@ int TestState::onChar(int ascii) {
 	}
 	if (ascii == 'r') {
 		_context->settings->load();
+	}
+	if (ascii == 'k') {
+		_context->pick_colors();
 	}
 	return 0;
 }

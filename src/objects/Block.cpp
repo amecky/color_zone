@@ -12,10 +12,11 @@ const float STARTING_ANGLES[] = { DEGTORAD(225.0f), DEGTORAD(135.0f) , DEGTORAD(
 // -----------------------------------------------------------------
 //
 // -----------------------------------------------------------------
-Block::Block(GameSettings* settings, bool showBorder) : _settings(settings) , _showBorder(showBorder) {
+Block::Block(GameContext* context, bool showBorder) : _ctx(context) , _showBorder(showBorder) {
 	_position = v2(512, 384);
 	for (int i = 0; i < 5; ++i) {
-		_textures[i] = math::buildTexture(96, i * 36, 36, 36);
+		//_textures[i] = math::buildTexture(96, i * 36, 36, 36);
+		_textures[i] = math::buildTexture(0, 36, 36, 36);
 	}
 	for (int i = 0; i < 4; ++i) {
 		_colors[i] = 0;
@@ -74,7 +75,7 @@ void Block::render() {
 			angle += norm * HALF_PI;
 		}
 		v2 pp = ds::math::getDistantPosition(p, angle, _rotationRadius);
-		sprites->draw(pp, _textures[_colors[i]], angle + DEGTORAD(45.0f));
+		sprites->draw(pp, _textures[_colors[i]], angle + DEGTORAD(45.0f),v2(1,1),_ctx->colors[_colors[i]]);
 	}
 	if (_showBorder) {
 		float r = 0.0f;

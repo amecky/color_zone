@@ -27,6 +27,7 @@ void ColorZone::prepare(ds::Settings* settings) {
 	settings->logTypes = ds::LogTypes::LT_CONSOLE | ds::LogTypes::LT_FILE;
 }
 
+
 // -------------------------------------------------------
 // load content
 // -------------------------------------------------------
@@ -38,6 +39,7 @@ bool ColorZone::loadContent() {
 	_context.name[0] = '\0';
 	_context.settings = new GameSettings;
 	_context.settings->load();
+
 	addGameState(new TestState(&_context, game));
 	addGameState(new TileMapEditor(&_context, game));
 	

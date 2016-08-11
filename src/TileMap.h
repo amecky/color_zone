@@ -47,7 +47,7 @@ private:
 class TileMap {
 
 public:	
-	TileMap() : _tiles(nullptr) {
+	TileMap(GameContext* context) : _tiles(0) , _ctx(context) {
 		_tiles = new Tile[MAX_X * MAX_Y];		
 	}
 	~TileMap() {}
@@ -79,7 +79,7 @@ private:
 	int determineEdge(int x, int y, const Tile& t);
 	void determineEdges();
 	void setState(int x, int y, int index);
-	
+	GameContext* _ctx;
 	Tile* _tiles;
 	ds::Texture _filledTexture;
 	ds::Texture _availableTexture;

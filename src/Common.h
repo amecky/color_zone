@@ -29,6 +29,22 @@ struct GameContext {
 	std::string name;
 	ds::GUIDialog* hud;
 	GameSettings* settings;
+	ds::Color colors[4];
+
+	// http://devmag.org.za/2012/07/29/how-to-choose-colours-procedurally-algorithms/
+	void pick_colors() {
+		// prepare colors
+		float goldenRatioConjugate = 0.618033988749895f;
+		float currentHue = math::random(0.0f, 1.0f);
+		for (int i = 0; i < 4; i++) {
+			ds::HSL hslColor = ds::HSL(currentHue * 360.0f, 50.0f, 50.0f);
+			colors[i] = ds::color::convert(hslColor);
+			currentHue += goldenRatioConjugate;
+			if (currentHue > 1.0f) {
+				currentHue -= 1.0f;
+			}
+		}
+	}
 };
 
 // Bits

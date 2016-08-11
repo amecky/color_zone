@@ -99,12 +99,14 @@ void TileMap::render(int squareSize,float scale) {
 			if (t.state.isSet(BIT_AVAILABLE)) {	
 				if (t.state.isSet(BIT_COHERENT)) {
 					if (t.edges > 0) {
-						clr = TILE_COLORS[t.color];
+						clr = _ctx->colors[t.color]; //TILE_COLORS[t.color];
 						tex = math::buildTexture(168, 410 + t.edges * 36, 36, 36);
 					}
 				}
 				else if (t.state.isSet(BIT_MARKED)) {
-					tex = math::buildTexture(168, 200 + t.color * 36, 36, 36);
+					clr = _ctx->colors[t.color];
+					//tex = math::buildTexture(168, 200 + t.color * 36, 36, 36);
+					tex = math::buildTexture(0, 36, 36, 36);
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
 					tex = math::buildTexture(0, 150, 36, 36);

@@ -1,12 +1,12 @@
 #pragma once
 #include <Vector.h>
 #include <renderer\render_types.h>
-#include "..\utils\GameSettings.h"
+#include "..\Common.h"
 
 class Block {
 
 public:
-	Block(GameSettings* settings, bool showBorder);
+	Block(GameContext* context, bool showBorder);
 	~Block();
 	void render();
 	void pickColors();
@@ -18,7 +18,7 @@ public:
 	void update(float dt);
 private:
 	bool _showBorder;
-	GameSettings* _settings;
+	GameContext* _ctx;
 	v2 _position;
 	int _colors[4];
 	ds::Texture _textures[5];
