@@ -15,11 +15,7 @@ Highscores::~Highscores() {
 int Highscores::add(const Highscore& score) {
 	int idx = -1;
 	if (score.score > 0) {
-		int m = 0;
-		if (score.mode == GM_COVERAGE) {
-			m = 1;
-		}
-		int index = 2 * MAX_SCORE_ENTRIES * (score.level - 1) + m * MAX_SCORE_ENTRIES;
+		int index = 2 * MAX_SCORE_ENTRIES * (score.level - 1);
 		for (int i = 0; i < MAX_SCORE_ENTRIES; ++i) {
 			if (idx == -1 && score.score >= _scores[i + index].score) {
 				idx = i;
@@ -36,12 +32,8 @@ int Highscores::add(const Highscore& score) {
 // --------------------------------------------
 // get entries by level and mode
 // --------------------------------------------
-void Highscores::get(int level, GameMode mode, Highscore* scores) {
-	int m = 0;
-	if (mode == GM_COVERAGE) {
-		m = 1;
-	}
-	int index = 2 * MAX_SCORE_ENTRIES * (level - 1) + m * MAX_SCORE_ENTRIES;
+void Highscores::get(int level, Highscore* scores) {
+	int index = 2 * MAX_SCORE_ENTRIES * (level - 1);
 	for (int i = 0; i < MAX_SCORE_ENTRIES; ++i) {
 		scores[i] = _scores[i + index];
 	}

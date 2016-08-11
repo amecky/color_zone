@@ -7,11 +7,6 @@
 #include <dialogs\GUIDialog.h>
 #include "utils\GameSettings.h"
 
-enum GameMode {
-	GM_COVERAGE,
-	GM_TIMER
-};
-
 struct Highscore {
 
 	int score;
@@ -19,10 +14,9 @@ struct Highscore {
 	int minutes;
 	int seconds;
 	int level;
-	GameMode mode;
 	char name[12];
 
-	Highscore() : score(0), fillrate(0), minutes(0), seconds(0), level(0), mode(GM_TIMER) {}
+	Highscore() : score(0), fillrate(0), minutes(0), seconds(0), level(0) {}
 };
 
 struct GameContext {
@@ -31,7 +25,6 @@ struct GameContext {
 	int score;
 	int fillRate;
 	bool resume;
-	GameMode gameMode;
 	Highscore currentScore;
 	std::string name;
 	ds::GUIDialog* hud;

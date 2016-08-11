@@ -11,10 +11,11 @@ TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("Test
 	_previewBlock->setPosition(v2(512, 700));
 	_mainBlock = new Block(_context->settings, true);
 	_effect = new SparkleEffect(_context);
-	_hud = ds::res::getGUIDialog("HUD");
+	_hud = new HUD(_context->settings);
 }
 
-TestState::~TestState() {	
+TestState::~TestState() {
+	delete _hud;
 	delete _mainBlock;
 	delete _previewBlock;
 	delete _effect;
@@ -29,14 +30,17 @@ void TestState::activate() {
 	//if (!_context->resume) {
 		_map->reset();
 		_laser->start();
-		_hud->activate();
+		_hud->start();
+		//_hud->setScore(891255);
+		//_hud->setCoverage(89);
+		//_hud->activate();
 		//_map->load(1);
 		//_context->score = 0;
 		//_context->fillRate = 0;
-		_hud->resetTimer(HUD_TIMER);
-		_hud->startTimer(HUD_TIMER);
-		_hud->setNumber(HUD_SCORE, 0);
-		_hud->updateText(HUD_PERCENTAGE, "0 %");
+		//_hud->resetTimer(HUD_TIMER);
+		//_hud->startTimer(HUD_TIMER);
+		//_hud->setNumber(HUD_SCORE, 0);
+		//_hud->updateText(HUD_PERCENTAGE, "0 %");
 		_effect->reset();
 	//}
 	//_context->resume = false;
@@ -62,10 +66,8 @@ void TestState::moveLaser(float dt) {
 		if (cleared > 0) {
 			_context->fillRate = _map->getFillRate();
 			LOG << "fillRate: " << _context->fillRate;
-			_hud->setNumber(HUD_SCORE, _context->score);
-			char buffer[128];
-			sprintf_s(buffer, 128, "%d%%", _context->fillRate);
-			_hud->updateText(HUD_PERCENTAGE, buffer);
+			_hud->setScore(_context->score);
+			_hud->setCoverage(_context->fillRate);
 		}
 	}
 	_laser->tick(dt);
@@ -75,30 +77,24 @@ void TestState::moveLaser(float dt) {
 // --------------------------------------------
 int TestState::update(float dt) {
 
-	_mainBlock->update(dt);
-
-	_hud->tick(dt);
-	if (_context->gameMode == GM_TIMER) {
-		//ds::GameTimer* timer = _hud.getTimer(2);
-		//if (timer->getMinutes() > 0) {
-			//fillHighscore();
-			//return 666;
-		//}
-	}
 	// move main block
 	v2 mp = ds::input::getMousePosition();
 	v2 converted = map::convert(mp);
 	_mainBlock->setPosition(converted);
-	// FIXME: disabled for testen
+	_mainBlock->update(dt);
+
+	_hud->tick(dt);
+	
+	const ds::GameTimer& timer = _hud->getTimer();
+	if (timer.getMinutes() > 0) {
+		//fillHighscore();
+		//return 666;
+	}
+
 	moveLaser(dt);	
 
-	if (_context->gameMode == GM_COVERAGE) {
-		if (_context->fillRate >= 80) {
-			fillHighscore();
-			return 666;
-		}
-	}
 	_effect->update(dt);
+
 	return 0;
 }
 
@@ -129,8 +125,8 @@ void TestState::render() {
 	_previewBlock->render();
 	_mainBlock->render();
 	_laser->render();	
-	sprites->end();
 	_hud->render();
+	sprites->end();
 }
 
 // --------------------------------------------
@@ -153,7 +149,7 @@ int TestState::onChar(int ascii) {
 		return 666;
 	}
 	if (ascii == 'r') {
-		_hud->load();
+		_context->settings->load();
 	}
 	return 0;
 }

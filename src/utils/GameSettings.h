@@ -26,6 +26,13 @@ struct GameSettings : public ds::DynamicGameSettings {
 	float introVelocity;
 	float introVelocityVariance;
 
+	// HUD
+	struct HUD {
+		int padding;
+		v2 scorePosition;
+		v2 coveragePosition;
+	} hud;
+
 	GameSettings() : ds::DynamicGameSettings() {
 		// sparkles
 		add("sparkle.gap", &sparkleGap, 2.0f);
@@ -44,6 +51,10 @@ struct GameSettings : public ds::DynamicGameSettings {
 		add("intro.end_scale", &introEndScale, 0.1f);
 		add("intro.velocity", &introVelocity, 100.0f);
 		add("intro.velocity_variance", &introVelocityVariance, 30.0f);
+		// HUD
+		add("hud.padding", &hud.padding, 5);
+		add("hud.score_position", &hud.scorePosition, v2(100, 100));
+		add("hud.coverage_position", &hud.coveragePosition, v2(100, 400));
 	}
 
 	const char* getFileName() const {

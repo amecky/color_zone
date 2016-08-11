@@ -9,7 +9,7 @@ public:
 	Highscores();
 	~Highscores();
 	int add(const Highscore& score);
-	void get(int level, GameMode mode, Highscore* scores);
+	void get(int level, Highscore* scores);
 	void save();
 	void load();
 private:	

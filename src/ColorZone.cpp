@@ -35,7 +35,6 @@ bool ColorZone::loadContent() {
 	_context.levelIndex = 1;
 	_context.score = 0;
 	_context.resume = false;
-	_context.gameMode = GM_TIMER;
 	_context.name[0] = '\0';
 	_context.settings = new GameSettings;
 	_context.settings->load();
