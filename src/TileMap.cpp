@@ -226,25 +226,27 @@ void TileMap::buildBorders() {
 int TileMap::getEdges(const p2i& p) {
 	int ret = 0;
 	if (isValid(p)) {
-		for (int i = 0; i < 4; ++i) {
-			p2i current = p + EDGE_OFFSET[i];
-			if (isValid(current)) {
-				const Tile& n = get(current);
-				if (!n.state.isSet(BIT_AVAILABLE)) {
-					ret |= 1 << i;					
+		Tile& t = get(p);
+		if (t.state.isSet(BIT_AVAILABLE)) {
+			for (int i = 0; i < 4; ++i) {
+				p2i current = p + EDGE_OFFSET[i];
+				if (isValid(current)) {
+					const Tile& n = get(current);
+					if (!n.state.isSet(BIT_AVAILABLE)) {
+						ret |= 1 << i;
+					}
+				}
+				else {
+					ret |= 1 << i;
 				}
 			}
-			else {
-				ret |= 1 << i;
+			if (ret > 0) {
+				Border b;
+				b.pos = p;
+				b.type = ret;
+				_border.push_back(b);
 			}
 		}
-		if (ret > 0) {
-			Border b;
-			b.pos = p;
-			b.type = ret;
-			_border.push_back(b);
-		}
-		Tile& t = get(p);
 		t.borders = ret;
 	}	
 	return ret;
