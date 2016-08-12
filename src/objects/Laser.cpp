@@ -86,7 +86,7 @@ void Laser::render() {
 	if (_state == LS_RUNNING) {
 		ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 		for (int i = 0; i < MAX_Y; ++i) {
-			sprites->draw(map::convert(_column, i), _texture,0.0f,v2(1,1),_color);
+			sprites->draw(map::screen2grid(_column, i), _texture, 0.0f, v2(1, 1), _color);
 		}
 	}
 }

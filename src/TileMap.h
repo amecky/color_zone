@@ -46,6 +46,11 @@ private:
 // -------------------------------------------------------------
 class TileMap {
 
+	struct Border {
+		p2i pos;
+		int type;
+	};
+
 public:	
 	TileMap(GameContext* context) : _tiles(0) , _ctx(context) {
 		_tiles = new Tile[MAX_X * MAX_Y];		
@@ -55,6 +60,7 @@ public:
 	void render(int squareSize, float scale);
 	const uint32_t getIndex(uint32_t x, uint32_t y) const;
 	Tile& get(int x, int y);
+	Tile& get(const p2i& p);
 	const Tile& get(int x, int y) const;
 	void set(int x, int y, const Tile& tile);
 	const bool isValid(int x, int y) const;
@@ -63,6 +69,8 @@ public:
 	bool isBlockAvailable(int gx, int gy);
 	bool isAvailable(int gx, int gy);
 	bool isFree(int gx, int gy);
+	int getEdges(const p2i& p);
+	void buildBorders();
 	void reset();
 	void load(int index);
 	void save(int index);
@@ -72,7 +80,9 @@ public:
 	int clearColumn(int col);
 	int getFillRate();
 	void getColumn(int col,int* colors);
-	
+
+	void removeBlock(const p2i& gridPos);
+	void debug();
 private:	
 	bool matches(int x, int y, const Tile& t);
 	void check(int xp, int yp, int lastDir, PointList& list, bool rec);
@@ -84,15 +94,18 @@ private:
 	ds::Texture _filledTexture;
 	ds::Texture _availableTexture;
 	int _maxAvailable;
+	ds::Array<Border> _border;
 };
 
 namespace map {
 
-	v2 convert(int x, int y);
+	p2i screen2grid(int x, int y);
 
-	v2 convert(const v2& p);
+	p2i screen2grid(const v2& p);
 
-	p2i convertToGridPos(int x, int y);
+	p2i grid2screen(const p2i& p);
+
+	//p2i screen2grid(int x, int y);
 
 }
 

@@ -64,7 +64,7 @@ int TileMapEditor::onButtonUp(int button, int x, int y) {
 		_currentBorder = border;
 	}	
 	else {
-		p2i p = map::convertToGridPos(x, y);
+		p2i p = map::screen2grid(x, y);
 		if (_mode == EM_EDIT_MAP) {			
 			if (_map->isValid(p)) {
 				Tile& t = _map->get(p.x, p.y);

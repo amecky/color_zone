@@ -18,8 +18,8 @@ ColorZone::~ColorZone() {
 // prepare
 // -------------------------------------------------------
 void ColorZone::prepare(ds::Settings* settings) {
-	settings->screenWidth = 1024;
-	settings->screenHeight = 768;
+	settings->screenWidth = 1280;
+	settings->screenHeight = 720;
 	settings->clearColor = ds::Color(0, 0, 0, 255);
 	settings->fullScreen = false;
 	settings->reportingDirectory = "reports";

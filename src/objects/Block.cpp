@@ -13,11 +13,8 @@ const float STARTING_ANGLES[] = { DEGTORAD(225.0f), DEGTORAD(135.0f) , DEGTORAD(
 //
 // -----------------------------------------------------------------
 Block::Block(GameContext* context, bool showBorder) : _ctx(context) , _showBorder(showBorder) {
-	_position = v2(512, 384);
-	for (int i = 0; i < 5; ++i) {
-		//_textures[i] = math::buildTexture(96, i * 36, 36, 36);
-		_textures[i] = math::buildTexture(0, 36, 36, 36);
-	}
+	_position = p2i(512, 384);
+	_texture = math::buildTexture(0, 36, 36, 36);
 	for (int i = 0; i < 4; ++i) {
 		_colors[i] = 0;
 	}
@@ -32,14 +29,14 @@ Block::~Block() {
 // -----------------------------------------------------------------
 // set position
 // -----------------------------------------------------------------
-void Block::setPosition(const v2& p) {
+void Block::setPosition(const p2i& p) {
 	_position = p;
 }
 
 // -----------------------------------------------------------------
 // get position
 // -----------------------------------------------------------------
-const v2& Block::getPosition() const {
+const p2i& Block::getPosition() const {
 	return _position;
 }
 
@@ -67,7 +64,7 @@ void Block::pickColors() {
 // 03
 void Block::render() {
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
-	v2 p = _position + v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
+	v2 p = v2(_position.x,_position.y) + v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
 	float norm = _rotationTimer / ROTATION_TIME;
 	for (int i = 0; i < 4; ++i) {
 		float angle = STARTING_ANGLES[i];
@@ -75,7 +72,7 @@ void Block::render() {
 			angle += norm * HALF_PI;
 		}
 		v2 pp = ds::math::getDistantPosition(p, angle, _rotationRadius);
-		sprites->draw(pp, _textures[_colors[i]], angle + DEGTORAD(45.0f),v2(1,1),_ctx->colors[_colors[i]]);
+		sprites->draw(pp, _texture, angle + DEGTORAD(45.0f),v2(1,1),_ctx->colors[_colors[i]]);
 	}
 	if (_showBorder) {
 		float r = 0.0f;
@@ -119,7 +116,6 @@ void Block::update(float dt) {
 	if (_rotating) {
 		_rotationTimer += dt;
 		float norm = _rotationTimer / ROTATION_TIME;
-		v2 center = _position + v2(HALF_SQUARE_SIZE);
 		if (norm >= 1.0f) {
 			int tmp = _colors[0];
 			for (int i = 0; i < 3; ++i) {

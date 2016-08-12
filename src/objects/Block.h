@@ -10,8 +10,8 @@ public:
 	~Block();
 	void render();
 	void pickColors();
-	void setPosition(const v2& p);
-	const v2& getPosition() const;
+	void setPosition(const p2i& p);
+	const p2i& getPosition() const;
 	void copyColors(const Block* other);
 	int getColor(int index) const;
 	void rotate();
@@ -19,9 +19,9 @@ public:
 private:
 	bool _showBorder;
 	GameContext* _ctx;
-	v2 _position;
+	p2i _position;
 	int _colors[4];
-	ds::Texture _textures[5];
+	ds::Texture _texture;
 	bool _rotating;
 	float _rotationTimer;
 	float _rotationRadius;

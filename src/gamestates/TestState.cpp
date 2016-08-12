@@ -8,7 +8,7 @@ TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("Test
 	_laser = new Laser(context->settings);
 	_map->reset();
 	_previewBlock = new Block(_context, false);
-	_previewBlock->setPosition(v2(512, 700));
+	_previewBlock->setPosition(p2i(512, 700));
 	_mainBlock = new Block(_context, true);
 	_effect = new SparkleEffect(_context);
 	_hud = new HUD(_context->settings);
@@ -29,6 +29,14 @@ void TestState::init() {
 void TestState::activate() {
 	_context->pick_colors();
 	_map->reset();
+	_map->removeBlock(p2i(0, 7));
+	_map->removeBlock(p2i(0, 9));	
+	_map->removeBlock(p2i(7, 7));
+	_map->removeBlock(p2i(9, 9));
+	LOG << "edges: " << _map->getEdges(p2i(0, 0));
+	LOG << "edges: " << _map->getEdges(p2i(1, 0));
+	_map->buildBorders();
+	_map->debug();
 	_laser->start();
 	_hud->start();
 	//_map->load(1);
@@ -69,7 +77,7 @@ int TestState::update(float dt) {
 
 	// move main block
 	v2 mp = ds::input::getMousePosition();
-	v2 converted = map::convert(mp);
+	p2i converted = map::screen2grid(mp);
 	_mainBlock->setPosition(converted);
 	_mainBlock->update(dt);
 

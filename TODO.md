@@ -1,12 +1,25 @@
 # TODO
 - [ ] rebuild levels -> probably 8 or 10
 - [ ] create "new level dialog" with name
-- [ ] improve laser design
 - [ ] HSS - add rank to the list
 - [ ] show username on start menu
 - [ ] editor - add buttons for level navigation
 - [ ] editor - add button for new level
 - [ ] editor - add button to toggle edit mode
+- [ ] adjust HUD and preview block
+- [ ] take preview block pos from settings
+- [ ] sparkle effect - use colors from constants
+- [ ] sparkle effect - just use plain white texture
+- [ ] sparkle effect - improve effect and use more pieces(?)
+- [ ] TileMap - automatically create borders
+- [ ] Game - Levels -> save list of blocks to remove from TileMap
+- [ ] HUD - add scale flashing to points and coverage
+- [ ] HUD - check colors / take from settings
+- [ ] HUD - show timer
+
+12.08.2106
+- [x] TileMap - add removeBlock method to remove blocks from grid
+- [x] improve laser design
 
 12.11.2015
 - [x] add name to level - WONTFIX

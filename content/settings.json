@@ -22,4 +22,5 @@ hud {
 	padding : 6
 	score_position : 100,720
 	coverage_position : 512,40
+    timer_position : 800,720
 }
