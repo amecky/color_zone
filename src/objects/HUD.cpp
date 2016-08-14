@@ -3,7 +3,8 @@
 #include <math\math.h>
 
 const NumberDef DEFINITIONS[] = {
-	{ 410, 36 }, { 456, 24 }, { 492, 33 }, { 536, 28 }, { 574, 33 }, { 618, 34 }, { 662, 34 }, { 705, 34 }, { 746, 34 }, { 789, 34 }
+	//{ 410, 36 }, { 456, 24 }, { 492, 33 }, { 536, 28 }, { 574, 33 }, { 618, 34 }, { 662, 34 }, { 705, 34 }, { 746, 34 }, { 789, 34 }
+	{ 410, 36 },{ 456, 24 },{ 492, 33 },{ 536, 28 },{ 574, 33 },{ 618, 34 },{ 662, 34 },{ 705, 34 },{ 746, 34 },{ 789, 34 }
 };
 
 HUD::HUD(GameSettings* settings) : _settings(settings) {
@@ -11,13 +12,14 @@ HUD::HUD(GameSettings* settings) : _settings(settings) {
 		_score_digits[i] = i;
 	}
 	for (int i = 0; i < 10; ++i) {
-		_textures[i] = math::buildTexture(0, DEFINITIONS[i].offset, DEFINITIONS[i].width, 32);
+		//_textures[i] = math::buildTexture(0, DEFINITIONS[i].offset, DEFINITIONS[i].width, 32);		
+		_textures[i] = math::buildTexture(96, i * 36, 36, 26);
 	}
 	for (int i = 0; i < 3; ++i) {
 		_coverage_digits[i] = 0;
 	}
-	_delimiterTexture = math::buildTexture(0, 906, 22, 32);
-	_perTexture = math::buildTexture(0, 832, 64, 32);
+	_delimiterTexture = math::buildTexture(96, 448, 16, 26);
+	_perTexture = math::buildTexture(96, 376, 54, 26);
 }
 
 
@@ -62,7 +64,8 @@ void HUD::render() {
 	v2 p = _settings->hud.scorePosition;
 	for (int i = 0; i < 6; ++i) {
 		sprites->draw(p, _textures[_score_digits[i]]);
-		p.x += DEFINITIONS[_score_digits[i]].width + _settings->hud.padding;
+		//p.x += DEFINITIONS[_score_digits[i]].width + _settings->hud.padding;
+		p.x += 36 + _settings->hud.padding;
 	}
 	// coverage
 	p = _settings->hud.coveragePosition;
@@ -74,7 +77,8 @@ void HUD::render() {
 		}
 		if ( draw) {
 			sprites->draw(p, _textures[_coverage_digits[i]]);
-			p.x += DEFINITIONS[_coverage_digits[i]].width + _settings->hud.padding;
+			//p.x += DEFINITIONS[_coverage_digits[i]].width + _settings->hud.padding;
+			p.x += 36 + _settings->hud.padding;
 		}		
 	}
 	p.x += 20;

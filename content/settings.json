@@ -3,8 +3,8 @@ sparkle {
     ttl : 0.60 
     start_scale : 1.00 
     end_scale : 0.40 
-    velocity : 30.00 
-    velocity_variance : 10.00 
+    velocity : 80.00 
+    velocity_variance : 60.00 
 }
 intro {
     warmup_timer : 2.00 
@@ -20,7 +20,7 @@ laser {
 }
 hud {
 	padding : 6
-	score_position : 100,720
-	coverage_position : 512,40
+	score_position : 100,680
+	coverage_position : 512,30
     timer_position : 800,720
 }

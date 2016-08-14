@@ -136,20 +136,11 @@ void TileMap::render(int squareSize,float scale) {
 		}
 	}
 	/*
-	for (int x = 0; x < MAX_X; ++x) {
-		for (int y = 0; y < MAX_Y; ++y) {
-			const Tile& t = get(x, y);
-			v2 p = v2(START_X + x * squareSize, START_Y + y * squareSize);
-			if (t.borders != -1) {
-				sprites->draw(p, math::buildTexture(44, 44 * t.borders, BORDER_SIZE, BORDER_SIZE), 0.0f, v2(scale, scale));
-			}
-		}
-	}
-	*/
 	for (uint32_t i = 0; i < _border.size(); ++i) {
 		const Border& b = _border[i];
 		sprites->draw(map::grid2screen(b.pos) - p2i(2,2), math::buildTexture(44, 44 * b.type, BORDER_SIZE, BORDER_SIZE), 0.0f, v2(scale, scale));
 	}
+	*/
 }
 
 // --------------------------------------------

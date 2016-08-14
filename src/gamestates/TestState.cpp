@@ -8,7 +8,7 @@ TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("Test
 	_laser = new Laser(context->settings);
 	_map->reset();
 	_previewBlock = new Block(_context, false);
-	_previewBlock->setPosition(p2i(512, 700));
+	_previewBlock->setPosition(p2i(640, 660));
 	_mainBlock = new Block(_context, true);
 	_effect = new SparkleEffect(_context);
 	_hud = new HUD(_context->settings);
@@ -56,7 +56,7 @@ void TestState::moveLaser(float dt) {
 		_map->getColumn(column, colors);
 		for (int i = 0; i < MAX_Y; ++i) {
 			if (colors[i] != -1) {
-				_effect->start(column, i, ds::Rect(170, 2 + colors[i] * 36, 32, 32), 4);
+				_effect->start(p2i(column, i), colors[i]);
 			}
 		}
 		int cleared = _map->clearColumn(column);
@@ -151,6 +151,9 @@ int TestState::onChar(int ascii) {
 	}
 	if (ascii == 'k') {
 		_context->pick_colors();
+	}
+	if (ascii == 'p') {
+		_effect->start(p2i(8, 8), 1);
 	}
 	return 0;
 }
