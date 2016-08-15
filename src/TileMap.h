@@ -72,11 +72,7 @@ public:
 	bool isBlockAvailable(int gx, int gy);
 	bool isAvailable(int gx, int gy);
 	bool isFree(int gx, int gy);
-	int getEdges(const p2i& p);
-	void buildBorders();
 	void reset();
-	void load(int index);
-	void save(int index);
 	void setBorder(int x, int y, int index);
 	
 	bool copyBlock(const Block* block);
@@ -86,7 +82,12 @@ public:
 
 	void removeBlock(const p2i& gridPos);
 	void setBlock(const p2i& gridPos);
+
+	void build(int index);
+	void save(int index);
+
 	void debug();
+
 private:	
 	bool matches(int x, int y, const Tile& t);
 	void check(int xp, int yp, int lastDir, PointList& list, bool rec);

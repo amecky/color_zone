@@ -1,6 +1,7 @@
 #include "ColorZone.h"
 #include "gamestates\TestState.h"
 #include "gamestates\TileMapEditor.h"
+#include "objects\Levels.h"
 
 ds::BaseApp *app = new ColorZone();
 
@@ -39,9 +40,12 @@ bool ColorZone::loadContent() {
 	_context.name[0] = '\0';
 	_context.settings = new GameSettings;
 	_context.settings->load();
+	_context.levels = new Levels;
+	_context.levels->load();
 
 	addGameState(new TestState(&_context, game));
 	addGameState(new TileMapEditor(&_context, game));
+	addGameState(new ds::BasicMenuGameState("MainMenu", "MainMenu", game));
 	connectGameStates("TileMapEditor", 1, "TestState");
 
 	RID _material = ds::res::find("SpriteMaterial", ds::ResourceType::MATERIAL);

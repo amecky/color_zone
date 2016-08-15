@@ -1,65 +1,9 @@
-image { 
-    id : 10
-    pos : 200,710
-    color : 255,255,255,255
-    centered : true
-    scale : 1
-    rect : 204,0,502,94
-}
-image { 
-    id : 11
-    pos : 512,600
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 230,510,500,40
-}
-image { 
-    id : 12
-    pos : 512,100
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 272,510,500,40
-}
-image { 
-    id : 13
-    pos : 265,380
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,400
-}
-image { 
-    id : 15
-    pos : 265,150
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,60
-}
-image { 
-    id : 14
-    pos : 759,380
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,400
-}
-image { 
-    id : 16
-    pos : 759,150
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,60
-}
 text { 
     id : 7
-    pos : 400,710
+    pos : 400,680
     color : 255,255,255,255
     centered : true
-    scale : 1.5
+    scale : 1,1
     text : "Main Menu"
 }
 button { 
@@ -67,8 +11,8 @@ button {
     pos : 400,560
     color : 255,255,255,255
     centered : true
-    scale : 1
-    rect : 510,0,340,50
+    scale : 1,1
+    rect : 568,0,300,50
     text : "New Game"
 }
 button { 
@@ -76,8 +20,8 @@ button {
     pos : 400,480
     color : 255,255,255,255
     centered : true
-    scale : 1
-    rect : 510,0,340,50
+    scale : 1,1
+    rect : 568,0,300,50
     text : "Editor"
 }
 button { 
@@ -86,7 +30,7 @@ button {
     color : 255,255,255,255
     centered : true
     scale : 1
-    rect : 510,0,340,50
+    rect : 568,0,300,50
     text : "Highscores"
 }
 button { 
@@ -94,8 +38,8 @@ button {
     pos : 400,320
     color : 255,255,255,255
     centered : true
-    scale : 1
-    rect : 510,0,340,50
+    scale : 1,1
+    rect : 568,0,300,50
     text : "Credits"
 }
 button { 
@@ -103,8 +47,8 @@ button {
     pos : 400,140
     color : 255,255,255,255
     centered : true
-    scale : 1
-    rect : 510,0,340,50
+    scale : 1,1
+    rect : 500,0,300,50
     text : "Exit"
 }
 button { 
@@ -112,7 +56,7 @@ button {
     pos : 400,240
     color : 255,255,255,255
     centered : true
-    scale : 1
-    rect : 510,0,340,50
+    scale : 1,1
+    rect : 568,0,300,50
     text : "Change name"
 }

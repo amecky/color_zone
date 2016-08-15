@@ -29,7 +29,7 @@ void TestState::init() {
 void TestState::activate() {
 	_context->pick_colors();
 	_map->reset();
-	_map->load(1);
+	_map->build(0);
 	_laser->start();
 	_hud->start();
 	//_map->load(1);

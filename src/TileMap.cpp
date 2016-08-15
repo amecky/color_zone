@@ -2,6 +2,7 @@
 #include<iostream>
 #include<fstream>
 #include <string>
+#include "objects\Levels.h"
 
 const int MARK_STEPS[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
 
@@ -40,6 +41,16 @@ bool TileMap::copyBlock(const Block* block) {
 		LOG << "Block is not available";
 	}
 	return false;
+}
+
+void TileMap::build(int index) {
+	assert(index >= 0 && index < MAX_LEVELS);
+	_ctx->levels->copy(index, _tiles);
+}
+
+void TileMap::save(int index) {
+	assert(index >= 0 && index < MAX_LEVELS);
+	_ctx->levels->update(index, _tiles);
 }
 
 // --------------------------------------------
@@ -230,50 +241,7 @@ const bool TileMap::isValid(const p2i& p) const {
 	return isValid(p.x, p.y);
 }
 
-void TileMap::buildBorders() {
-	_border.clear();
-	for (int y = 0; y < MAX_Y; ++y) {
-		for (int x = 0; x < MAX_X; ++x) {
-			getEdges(p2i(x, y));
-		}
-	}
-	LOG << "border pieces: " << _border.size();
-}
 
-int TileMap::getEdges(const p2i& p) {
-	int ret = 0;
-	if (isValid(p)) {
-		Tile& t = get(p);
-		if (t.state.isSet(BIT_AVAILABLE)) {
-			for (int i = 0; i < 4; ++i) {
-				p2i current = p + EDGE_OFFSET[i];
-				if (isValid(current)) {
-					const Tile& n = get(current);
-					if (!n.state.isSet(BIT_AVAILABLE)) {
-						ret |= 1 << i;
-					}
-				}
-				else {
-					ret |= 1 << i;
-				}
-			}
-			if (ret > 0) {
-				Border b;
-				b.pos = p;
-				b.type = ret;
-				if (map::isOuterRim(p)) {
-					b.inside = false;
-				}
-				else {
-					b.inside = true;
-				}
-				_border.push_back(b);
-			}
-		}
-		t.borders = ret;
-	}	
-	return ret;
-}
 // --------------------------------------------
 //
 // --------------------------------------------
@@ -424,50 +392,6 @@ void TileMap::setBorder(int x, int y, int index) {
 		_tiles[x + y * MAX_X].borders = index;
 	}
 }
-
-// --------------------------------------------
-// save
-// --------------------------------------------
-void TileMap::save(int index) {
-	char buffer[128];
-	sprintf_s(buffer, 128, "levels\\L%d", index);
-	FILE* f = fopen(buffer, "wb");
-	for (int y = 0; y < MAX_Y; ++y) {
-		for (int x = 0; x < MAX_X; ++x) {
-			const Tile& t = get(x, y);
-			fwrite(&t, sizeof(Tile), 1, f);
-		}
-	}
-	fclose(f);
-}
-
-// --------------------------------------------
-// load
-// --------------------------------------------
-void TileMap::load(int index) {
-	LOG << "loading level: " << index;
-	char buffer[128];
-	sprintf_s(buffer, 128, "levels\\L%d", index);
-	reset();
-	FILE* f = fopen(buffer, "rb");
-	if (f) {
-		for (int y = 0; y < MAX_Y; ++y) {
-			for (int x = 0; x < MAX_X; ++x) {
-				Tile t;
-				fread(&t, sizeof(Tile), 1, f);
-				// make sure color is not set
-				t.color = -1;
-				if (t.state.isSet(BIT_AVAILABLE)) {
-					++_maxAvailable;
-				}
-				set(x, y, t);
-			}
-		}
-		fclose(f);
-	}	
-	LOG << "max available: " << _maxAvailable;
-}
-
 
 // -------------------------------------------------------------
 // check recursivley to detect matching pieces

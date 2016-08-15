@@ -2,6 +2,7 @@
 #include <utils\Log.h>
 #include <renderer\graphics.h>
 #include <gamestates\GameStateMachine.h>
+#include "..\objects\Levels.h"
 
 TileMapEditor::TileMapEditor(GameContext* context, ds::Game* game) : ds::BasicMenuGameState("TileMapEditor", "editor", game), _context(context) {
 	_map = new TileMap(_context);
@@ -19,6 +20,7 @@ void TileMapEditor::activate() {
 	_mode = EM_EDIT_MAP;
 	_currentBorder = 0;
 	_levelIndex = 1;
+	_map->build(_levelIndex - 1);
 	//_gui->activate("editor");
 	_dialog->activate();
 	updateLevelLabel();
@@ -140,11 +142,13 @@ int TileMapEditor::onGUIButton(int button) {
 		return 1;
 	}
 	if (button == 2) {
-		_map->save(_levelIndex);
+		_map->save(_levelIndex - 1);
+		_context->levels->save();
 		return 0;
 	}
 	if (button == 3) {
-		_map->load(_levelIndex);
+		_context->levels->load();
+		_map->build(_levelIndex - 1);
 		return 0;
 	}
 	if (button == 4) {
@@ -157,6 +161,7 @@ int TileMapEditor::onGUIButton(int button) {
 			_levelIndex = MAX_LEVELS - 1;
 		}
 		updateLevelLabel();
+		_map->build(_levelIndex - 1);
 	}
 	if (button == 21) {
 		--_levelIndex;
@@ -164,6 +169,7 @@ int TileMapEditor::onGUIButton(int button) {
 			_levelIndex = 1;
 		}
 		updateLevelLabel();
+		_map->build(_levelIndex - 1);
 	}
 	if (button == 22) {
 		if ( _mode == EM_BORDERS) {

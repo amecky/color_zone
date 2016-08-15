@@ -19,6 +19,8 @@ struct Highscore {
 	Highscore() : score(0), fillrate(0), minutes(0), seconds(0), level(0) {}
 };
 
+class Levels;
+
 struct GameContext {
 
 	int levelIndex;
@@ -30,6 +32,7 @@ struct GameContext {
 	ds::GUIDialog* hud;
 	GameSettings* settings;
 	ds::Color colors[4];
+	Levels* levels;
 
 	// http://devmag.org.za/2012/07/29/how-to-choose-colours-procedurally-algorithms/
 	void pick_colors() {

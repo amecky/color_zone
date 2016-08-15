@@ -1,6 +1,7 @@
 #pragma once
 #include <utils\Color.h>
 
+const int MAX_LEVELS = 10;
 const int MAX_X = 28;
 const int MAX_Y = 16;
 const int BORDER_SIZE = 44;
@@ -8,8 +9,6 @@ const int SQUARE_SIZE = 36;
 const float HALF_SQUARE_SIZE = 18.0f;
 const int START_X = (1280 - SQUARE_SIZE * MAX_X) / 2;
 const int START_Y = (720 - SQUARE_SIZE * MAX_Y) / 2;
-
-const int MAX_LEVELS = 16;
 
 const int XM[4] = { 1, -1, 0, 0 };
 const int YM[4] = { 0, 0, 1, -1 };
