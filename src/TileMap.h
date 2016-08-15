@@ -49,6 +49,9 @@ class TileMap {
 	struct Border {
 		p2i pos;
 		int type;
+		bool inside;
+
+		Border() : pos(0, 0), type(0), inside(true) {}
 	};
 
 public:	
@@ -82,6 +85,7 @@ public:
 	void getColumn(int col,int* colors);
 
 	void removeBlock(const p2i& gridPos);
+	void setBlock(const p2i& gridPos);
 	void debug();
 private:	
 	bool matches(int x, int y, const Tile& t);
@@ -104,6 +108,10 @@ namespace map {
 	p2i screen2grid(const v2& p);
 
 	p2i grid2screen(const p2i& p);
+
+	bool isOuterRim(const p2i& p);
+
+	bool is_inside(int x, int y);
 
 	//p2i screen2grid(int x, int y);
 

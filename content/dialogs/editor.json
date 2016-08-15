@@ -1,76 +1,87 @@
 text { 
     id : 18
-    pos : 200,730
+    pos : 60,350
     color : 255,255,255,255
     centered : false
-    scale : 1
-    text : "Edit mode: Border"
+    scale : 1,1
+    text : "BRD"
+}
+text { 
+    id : 17
+    pos : 60,400
+    color : 255,255,255,255
+    centered : false
+    scale : 1,1
+    text : "Mode:"
 }
 text { 
     id : 19
-    pos : 760,730
+    pos : 60,550
     color : 255,255,255,255
     centered : false
-    scale : 1
-    text : "Level: 2"
+    scale : 1,1
+    text : "L: 20"
 }
 button { 
     id : 1
-    pos : 860,40
+    pos : 1000,25
     color : 255,255,255,255
     centered : false
-    scale : 1
-    rect : 100,350,200,50
+    scale : 1,1
+    rect : 168,0,200,40
     text : "exit"
 }
 button { 
     id : 2
-    pos : 140,40
+    pos : 280,25
     color : 255,255,255,255
     centered : false
-    scale : 1
-    rect : 100,350,200,50
+    scale : 1,1
+    rect : 168,0,200,40
     text : "save"
 }
 button { 
     id : 3
-    pos : 380,40
+    pos : 520,25
     color : 255,255,255,255
     centered : false
-    scale : 1
-    rect : 100,350,200,50
+    scale : 1,1
+    rect : 168,0,200,40
     text : "load"
 }
 button { 
     id : 4
-    pos : 620,40
+    pos : 760,25
     color : 255,255,255,255
     centered : false
-    scale : 1
-    rect : 100,350,200,50
+    scale : 1,1
+    rect : 168,0,200,40
     text : "clear"
 }
-image_button { 
+button { 
     id : 20
-    pos : 900,735
+    pos : 60,600
     color : 255,255,255,255
     centered : false
-    scale : 1
-    rect : 500,420,60,60
+    scale : 1,1
+    rect : 210,0,40,40
+	text : "+"
 }
-image_button { 
+button { 
     id : 21
-    pos : 620,735
+    pos : 60,500
     color : 255,255,255,255
     centered : false
-    scale : 1
-    rect : 500,350,60,60
+    scale : 1,1
+    rect : 210,0,40,40
+	text : "-"
 }
-image_button { 
+button { 
     id : 22
-    pos : 420,735
+    pos : 60,300
     color : 255,255,255,255
     centered : false
-    scale : 1
-    rect : 500,420,60,60
+    scale : 1,1
+    rect : 210,0,40,40
+	text : "T"
 }

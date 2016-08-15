@@ -68,6 +68,24 @@ void TileMap::removeBlock(const p2i& gridPos) {
 		}
 	}
 }
+
+// --------------------------------------------
+// remove block from grid
+// --------------------------------------------
+void TileMap::setBlock(const p2i& gridPos) {
+	for (int x = 0; x < 2; ++x) {
+		for (int y = 0; y < 2; ++y) {
+			p2i current = p2i(gridPos.x + x, gridPos.y + y);
+			if (isValid(current)) {
+				Tile& t = get(current);
+				if (!t.state.isSet(BIT_AVAILABLE)) {
+					t.state.toggle(BIT_AVAILABLE);
+				}
+			}
+		}
+	}
+}
+
 // --------------------------------------------
 // clear column
 // --------------------------------------------
@@ -110,7 +128,7 @@ void TileMap::render(int squareSize,float scale) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			clr = ds::Color::WHITE;
 			const Tile& t = get(x, y);
-			v2 p = v2(START_X + x * squareSize, START_Y + y * squareSize);
+			p2i p = map::grid2screen(p2i(x, y));// v2(START_X + x * squareSize, START_Y + y * squareSize);
 			if (t.state.isSet(BIT_AVAILABLE)) {	
 				if (t.state.isSet(BIT_COHERENT)) {
 					if (t.edges > 0) {
@@ -133,12 +151,20 @@ void TileMap::render(int squareSize,float scale) {
 				sprites->draw(p, tex, 0.0f, v2(scale, scale), clr);
 
 			}
+			if (t.borders != -1) {
+				sprites->draw(p, math::buildTexture(44, 44 * t.borders, 44, 44), 0.0f, v2(scale, scale));
+			}
 		}
 	}
 	/*
 	for (uint32_t i = 0; i < _border.size(); ++i) {
 		const Border& b = _border[i];
-		sprites->draw(map::grid2screen(b.pos) - p2i(2,2), math::buildTexture(44, 44 * b.type, BORDER_SIZE, BORDER_SIZE), 0.0f, v2(scale, scale));
+		//if (b.inside) {
+			sprites->draw(map::grid2screen(b.pos), math::buildTexture(700, 36 * b.type, 36, 36), 0.0f, v2(scale, scale));
+		//}
+		//else {
+			//sprites->draw(map::grid2screen(b.pos) - p2i(2, 2), math::buildTexture(600, 44 * b.type, BORDER_SIZE, BORDER_SIZE), 0.0f, v2(scale, scale));
+		//}
 	}
 	*/
 }
@@ -235,6 +261,12 @@ int TileMap::getEdges(const p2i& p) {
 				Border b;
 				b.pos = p;
 				b.type = ret;
+				if (map::isOuterRim(p)) {
+					b.inside = false;
+				}
+				else {
+					b.inside = true;
+				}
 				_border.push_back(b);
 			}
 		}
@@ -495,6 +527,25 @@ void TileMap::debug() {
 
 namespace map {
 
+	bool is_inside(int x, int y) {
+		int left = START_X - SQUARE_SIZE / 2;
+		if (x < left) {
+			return false;
+		}
+		int right = left + MAX_X * SQUARE_SIZE;
+		if (x > right) {
+			return false;
+		}
+		int bottom = START_Y - SQUARE_SIZE / 2;
+		if (y < bottom) {
+			return false;
+		}
+		int top = bottom + MAX_Y * SQUARE_SIZE;
+		if (y > top) {
+			return false;
+		}
+		return true;
+	}
 	// --------------------------------------------
 	// convert screen pos to aligned screen pos
 	// --------------------------------------------
@@ -505,29 +556,35 @@ namespace map {
 		if (xp < 0) {
 			xp = 0;
 		}
-		if (xp >= (MAX_X - 1)) {
-			xp = MAX_X - 2;
+		if (xp >= MAX_X) {
+			xp = MAX_X - 1;
 		}
 		if (yp < 0) {
 			yp = 0;
 		}
-		if (yp >= (MAX_Y - 1)) {
-			yp = MAX_Y - 2;
+		if (yp >= MAX_Y) {
+			yp = MAX_Y - 1;
 		}
-		return screen2grid(xp, yp);
+		return p2i(xp, yp);
 	}
 
 	// --------------------------------------------
 	// convert screen pos to grid pos
 	// --------------------------------------------
 	p2i screen2grid(int x, int y) {
-		return p2i(START_X + x * SQUARE_SIZE, START_Y + y * SQUARE_SIZE);
+		return screen2grid(v2(x, y));
 	}
 
 	p2i grid2screen(const p2i& p) {
 		return p2i(START_X + p.x * SQUARE_SIZE, START_Y + p.y * SQUARE_SIZE);
 	}
 
+	bool isOuterRim(const p2i& p) {
+		if ((p.x == 0 || p.x == (MAX_X - 1)) || (p.y == 0 || p.y == (MAX_Y - 1))) {
+			return true;
+		}
+		return false;
+	}
 	// --------------------------------------------
 	// convert to grid pos
 	// --------------------------------------------

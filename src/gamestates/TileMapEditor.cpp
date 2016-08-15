@@ -42,13 +42,12 @@ int TileMapEditor::update(float dt) {
 // select border icon
 // --------------------------------------------
 int TileMapEditor::selectBorder(int x, int y) {
-	int my = 768 - y;
-	if (my < 680 || my > 720) {
+	if (y < 655 || y > 690) {
 		return -1;
 	}
 	// x - start_x - icon_size / 2
-	int xp = (x - 72) / 40;
-	if (xp >= 0) {
+	int xp = (x - 212) / 50;
+	if (xp >= 0 && xp < 16) {
 		return xp;
 	}
 	return -1;
@@ -66,18 +65,15 @@ int TileMapEditor::onButtonUp(int button, int x, int y) {
 	else {
 		p2i p = map::screen2grid(x, y);
 		if (_mode == EM_EDIT_MAP) {			
-			if (_map->isValid(p)) {
-				Tile& t = _map->get(p.x, p.y);
-				if (button == 1) {
-					t.state.clear(BIT_AVAILABLE);
-				}
-				else {
-					t.state.set(BIT_AVAILABLE);
-				}
+			if (button == 1) {
+				_map->removeBlock(p);
+			}
+			else {
+				_map->setBlock(p);
 			}
 		}
 		else if (_mode == EM_BORDERS) {
-			if (_map->isValid(p)) {
+			if (map::is_inside(x,y)) {
 				if (button == 0) {
 					_map->setBorder(p.x,p.y, _currentBorder);
 				}
@@ -94,47 +90,48 @@ int TileMapEditor::onButtonUp(int button, int x, int y) {
 // render
 // --------------------------------------------
 void TileMapEditor::render() {
-	// draw border selection
-	
 	graphics::setCamera(graphics::getOrthoCamera());
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 	sprites->begin();
-	for (int i = 0; i < 21; ++i) {
-		v2 p(92 + i * 40, 680);
+	for (int i = 0; i < 16; ++i) {
+		v2 p(232 + i * 50, 670);
 		if (i == _currentBorder) {
-			sprites->draw(p, math::buildTexture(0, 88, 44, 44), 0.0f, v2(0.75f, 0.75f));
+			sprites->draw(p, math::buildTexture(175, 210, 44, 44));
 		}
 		else {
-			sprites->draw(p, math::buildTexture(0, 44, 44, 44), 0.0f, v2(0.75f, 0.75f));
+			sprites->draw(p, math::buildTexture(175, 254, 44, 44));
 		}
-		sprites->draw(p, math::buildTexture(44, 44 * i, 44, 44), 0.0f, v2(0.75f, 0.75f));
+		sprites->draw(p, math::buildTexture(44, 44 * i, 44, 44));
 	}
 	// map
 	_map->render();
 	sprites->end();
 	_dialog->render();
-	//ds::renderer::drawDebugMessages();
 	
 }
 
 void TileMapEditor::updateModeLabel() {
 	if (_mode == EM_EDIT_MAP) {	
-		_dialog->updateText(18, "Edit mode: Map");
+		_dialog->updateText(18, "Map");
 	}
 	else {
-		_dialog->updateText(18, "Edit mode: Border");
+		_dialog->updateText(18, "BRD");
 	}
 }
 
 void TileMapEditor::updateLevelLabel() {
 	char buffer[32];
-	sprintf_s(buffer, 32, "Level: %d", _levelIndex);
+	sprintf_s(buffer, 32, "L:%2d", _levelIndex);
 	_dialog->updateText(19, buffer);
 }
+
 // --------------------------------------------
 // on char
 // --------------------------------------------
 int TileMapEditor::onChar(int ascii) {
+	if (ascii == 'r') {
+		_dialog->load();
+	}
 	return 0;
 }
 

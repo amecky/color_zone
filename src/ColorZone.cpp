@@ -42,7 +42,7 @@ bool ColorZone::loadContent() {
 
 	addGameState(new TestState(&_context, game));
 	addGameState(new TileMapEditor(&_context, game));
-	
+	connectGameStates("TileMapEditor", 1, "TestState");
 
 	RID _material = ds::res::find("SpriteMaterial", ds::ResourceType::MATERIAL);
 	ds::Material* m = ds::res::getMaterial(_material);
@@ -54,5 +54,5 @@ bool ColorZone::loadContent() {
 // init
 // -------------------------------------------------------
 void ColorZone::init() {
-	activate("TestState");
+	activate("TileMapEditor");
 }

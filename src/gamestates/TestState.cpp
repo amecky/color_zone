@@ -29,14 +29,7 @@ void TestState::init() {
 void TestState::activate() {
 	_context->pick_colors();
 	_map->reset();
-	_map->removeBlock(p2i(0, 7));
-	_map->removeBlock(p2i(0, 9));	
-	_map->removeBlock(p2i(7, 7));
-	_map->removeBlock(p2i(9, 9));
-	LOG << "edges: " << _map->getEdges(p2i(0, 0));
-	LOG << "edges: " << _map->getEdges(p2i(1, 0));
-	_map->buildBorders();
-	_map->debug();
+	_map->load(1);
 	_laser->start();
 	_hud->start();
 	//_map->load(1);
