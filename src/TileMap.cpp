@@ -163,7 +163,7 @@ void TileMap::render(int squareSize,float scale) {
 
 			}
 			if (t.borders != -1) {
-				sprites->draw(p, math::buildTexture(44, 44 * t.borders, 44, 44), 0.0f, v2(scale, scale));
+				sprites->draw(p, math::buildTexture(44, 44 * t.borders, 44, 44), 0.0f, v2(scale, scale),ds::Color(32,32,32));
 			}
 		}
 	}
