@@ -22,22 +22,36 @@
     <Filter Include="utils">
       <UniqueIdentifier>{55e341dc-bac7-452c-98c4-6aea137a19c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="objects">
+      <UniqueIdentifier>{b630773a-cabd-43d1-9872-6c3997cddd24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TileMap.cpp" />
     <ClCompile Include="src\ColorZone.cpp" />
-    <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\SparkleEffect.cpp">
       <Filter>utils</Filter>
     </ClCompile>
     <ClCompile Include="src\Highscores.cpp">
       <Filter>utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileManager.cpp">
-      <Filter>utils</Filter>
-    </ClCompile>
     <ClCompile Include="src\gamestates\TestState.cpp">
       <Filter>states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamestates\TileMapEditor.cpp">
+      <Filter>states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Block.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Laser.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\HUD.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Levels.cpp">
+      <Filter>objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,21 +60,32 @@
     <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
-    <ClInclude Include="src\Block.h" />
     <ClInclude Include="src\SparkleEffect.h">
       <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="src\Highscores.h">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\FileManager.h">
-      <Filter>utils</Filter>
-    </ClInclude>
     <ClInclude Include="src\gamestates\TestState.h">
       <Filter>states</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils\DynamicGameSettings.h">
+    <ClInclude Include="src\gamestates\TileMapEditor.h">
+      <Filter>states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\Block.h">
+      <Filter>objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\Laser.h">
+      <Filter>objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\GameSettings.h">
       <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\HUD.h">
+      <Filter>objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\Levels.h">
+      <Filter>objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -88,9 +113,6 @@
       <Filter>content\settings</Filter>
     </None>
     <None Include="content\resources\gui.json">
-      <Filter>content\resources</Filter>
-    </None>
-    <None Include="content\resources\hud.json">
       <Filter>content\resources</Filter>
     </None>
     <None Include="content\resources\xscale.json">
