@@ -59,7 +59,10 @@ int TileMapEditor::selectBorder(int x, int y) {
 // click
 // --------------------------------------------
 int TileMapEditor::onButtonUp(int button, int x, int y) {
-	ds::BasicMenuGameState::onButtonUp(button, x, y);
+	int btn = ds::BasicMenuGameState::onButtonUp(button, x, y);
+	if (btn != -1) {
+		return btn;
+	}
 	int border = selectBorder(x, y);
 	if (border != -1) {
 		_currentBorder = border;

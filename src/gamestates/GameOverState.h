@@ -6,11 +6,8 @@
 class GameOverState : public ds::GameState {
 
 public:
-	GameOverState(GameContext* context);
+	GameOverState(GameContext* context, ds::Game* game);
 	~GameOverState();
-	int update(float dt);
-	void render();
-	int onGUIButton(int button);
 	void activate();
 	void deactivate();
 private:

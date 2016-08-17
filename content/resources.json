@@ -53,10 +53,9 @@ dialog {
     file : "Credits"
     font : "xscale"
 }
-particle_manager {
-	name : "ParticleManager"
-
-}
+//particle_manager {
+//	name : "ParticleManager"
+//}
 render_target {
 	name : "RT1"
 	width : 1024
