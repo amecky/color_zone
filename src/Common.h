@@ -6,6 +6,7 @@
 #include <string>
 #include <dialogs\GUIDialog.h>
 #include "utils\GameSettings.h"
+#include <renderer\SpriteSheet.h>
 
 struct Highscore {
 
@@ -33,6 +34,7 @@ struct GameContext {
 	GameSettings* settings;
 	ds::Color colors[4];
 	Levels* levels;
+	ds::SpriteSheet* spriteSheet;
 
 	// http://devmag.org.za/2012/07/29/how-to-choose-colours-procedurally-algorithms/
 	void pick_colors() {

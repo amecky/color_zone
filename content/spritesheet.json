@@ -1,0 +1,28 @@
+sprite {
+    name : "marked_tile"
+    rect : 0,0,36,36
+}
+sprite {
+    name : "filled_tile"
+    rect : 0,150,36,36
+}
+sprite {
+    name : "basic_border"
+    rect : 44,0,44,44
+}
+sprite {
+    name : "tile"
+    rect : 168,410,36,36
+}
+sprite {
+    name : "block"
+    rect : 0,36,36,36
+}
+sprite {
+    name : "block_box"
+    rect : 0,935,78,78
+}
+sprite {
+    name : "laser"
+    rect : 132,260,36,36
+}

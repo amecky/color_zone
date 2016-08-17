@@ -21,7 +21,8 @@ private:
 	GameContext* _ctx;
 	p2i _position;
 	int _colors[4];
-	ds::Texture _texture;
+	int _texture;
+	int _boxTexture;
 	bool _rotating;
 	float _rotationTimer;
 	float _rotationRadius;

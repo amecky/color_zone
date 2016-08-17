@@ -55,9 +55,7 @@ class TileMap {
 	};
 
 public:	
-	TileMap(GameContext* context) : _tiles(0) , _ctx(context) {
-		_tiles = new Tile[MAX_X * MAX_Y];		
-	}
+	TileMap(GameContext* context);
 	~TileMap() {}
 	void render();
 	void render(int squareSize, float scale);
@@ -96,10 +94,13 @@ private:
 	void setState(int x, int y, int index);
 	GameContext* _ctx;
 	Tile* _tiles;
-	ds::Texture _filledTexture;
-	ds::Texture _availableTexture;
 	int _maxAvailable;
 	ds::Array<Border> _border;
+
+	int _tile;
+	int _markedTile;
+	int _filledTile;
+	int _basicBorder;
 };
 
 namespace map {

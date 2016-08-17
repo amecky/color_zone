@@ -4,6 +4,7 @@
 #include <math\math.h>
 #include <renderer\graphics.h>
 #include <renderer\sprites.h>
+#include <resources\ResourceContainer.h>
 
 const float ROTATION_TIME = 0.2f;
 
@@ -14,7 +15,8 @@ const float STARTING_ANGLES[] = { DEGTORAD(225.0f), DEGTORAD(135.0f) , DEGTORAD(
 // -----------------------------------------------------------------
 Block::Block(GameContext* context, bool showBorder) : _ctx(context) , _showBorder(showBorder) {
 	_position = p2i(512, 384);
-	_texture = math::buildTexture(0, 36, 36, 36);
+	_texture = _ctx->spriteSheet->findIndex("block");
+	_boxTexture = _ctx->spriteSheet->findIndex("block_box");
 	for (int i = 0; i < 4; ++i) {
 		_colors[i] = 0;
 	}
@@ -66,20 +68,22 @@ void Block::render() {
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 	v2 p = v2(_position.x,_position.y) + v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
 	float norm = _rotationTimer / ROTATION_TIME;
+	ds::Texture t = _ctx->spriteSheet->get(_texture);
 	for (int i = 0; i < 4; ++i) {
 		float angle = STARTING_ANGLES[i];
 		if (_rotating) {
 			angle += norm * HALF_PI;
 		}
 		v2 pp = ds::math::getDistantPosition(p, angle, _rotationRadius);
-		sprites->draw(pp, _texture, angle + DEGTORAD(45.0f),v2(1,1),_ctx->colors[_colors[i]]);
+		sprites->draw(pp, t, angle + DEGTORAD(45.0f),v2(1,1),_ctx->colors[_colors[i]]);
 	}
 	if (_showBorder) {
 		float r = 0.0f;
+		ds::Texture bt = _ctx->spriteSheet->get(_boxTexture);
 		if (_rotating) {
 			r = norm * HALF_PI;
 		}
-		sprites->draw(p, math::buildTexture(0, 935, 78, 78),r);
+		sprites->draw(p, bt,r);
 	}
 }
 

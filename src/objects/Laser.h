@@ -1,6 +1,6 @@
 #pragma once
 #include <renderer\render_types.h>
-#include "..\utils\GameSettings.h"
+#include "..\Common.h"
 
 // -----------------------------------------------------------------
 //
@@ -14,7 +14,7 @@ enum LaserState {
 };
 
 public:
-	Laser(GameSettings* settings);
+	Laser(GameContext* context);
 	~Laser();
 	void reset();
 	bool move(float dt,int* column);
@@ -25,8 +25,8 @@ private:
 	ds::Color _color;
 	float _timer;
 	int _column;
-	ds::Texture _texture;
-	GameSettings* _settings;
+	int _texture;
+	GameContext* _context;
 	LaserState _state;
 };
 

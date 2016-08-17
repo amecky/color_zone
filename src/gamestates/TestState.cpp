@@ -5,7 +5,7 @@
 
 TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("TestState", game), _context(context) {
 	_map = new TileMap(_context);
-	_laser = new Laser(context->settings);
+	_laser = new Laser(_context);
 	_map->reset();
 	_previewBlock = new Block(_context, false);
 	_previewBlock->setPosition(p2i(640, 660));

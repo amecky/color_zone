@@ -77,3 +77,6 @@ material {
 	shader : "SpriteShader"
 	render_target : "RT1"
 }
+spritesheet {
+	name : "spritesheet"
+}

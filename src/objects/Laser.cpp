@@ -5,11 +5,11 @@
 #include "..\TileMap.h"
 #include <utils\Log.h>
 
-Laser::Laser(GameSettings* settings) : _settings(settings) {
+Laser::Laser(GameContext* context) : _context(context) {
 	_state = LS_IDLE;
 	_timer = 0.0f;
 	_column = 0;
-	_texture = math::buildTexture(132, 260, 36, 36);
+	_texture = _context->spriteSheet->findIndex("laser");
 	_color = ds::Color(0, 210, 210);
 }
 
@@ -22,7 +22,7 @@ Laser::~Laser() {
 void Laser::reset() {
 	LOG << "Laser reset";
 	_state = LS_IDLE;
-	_timer = _settings->laserStartDelay;
+	_timer = _context->settings->laserStartDelay;
 }
 
 // -----------------------------------------------------------------
@@ -33,11 +33,11 @@ bool Laser::move(float dt, int* column) {
 	bool ret = false;
 	if (_state == LS_RUNNING) {
 		_timer += dt;
-		float c = 0.7f + sin(_timer / _settings->laserStepDelay * TWO_PI) * 0.3f;
+		float c = 0.7f + sin(_timer / _context->settings->laserStepDelay * TWO_PI) * 0.3f;
 		//_color.r = 0.0f;
 		_color.a = c;
 		//_color.b = 0.0f;
-		if (_timer > _settings->laserStepDelay) {
+		if (_timer > _context->settings->laserStepDelay) {
 			++_column;
 			if (_column >= 0 && _column < MAX_X) {
 				*column = _column;
@@ -47,7 +47,7 @@ bool Laser::move(float dt, int* column) {
 			if (_column >= MAX_X) {
 				LOG << "Laser state set to warming up";
 				_state = LS_WARMING_UP;
-				_timer = _settings->laserStartDelay;
+				_timer = _context->settings->laserStartDelay;
 			}
 		}
 	}
@@ -75,7 +75,7 @@ void Laser::tick(float dt) {
 void Laser::start() {
 	LOG << "starting laser";
 	_state = LS_WARMING_UP;
-	_timer = _settings->laserStartDelay;
+	_timer = _context->settings->laserStartDelay;
 	_column = -1;
 }
 
@@ -84,9 +84,10 @@ void Laser::start() {
 // -----------------------------------------------------------------
 void Laser::render() {
 	if (_state == LS_RUNNING) {
+		ds::Texture t = _context->spriteSheet->get(_texture);
 		ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 		for (int i = 0; i < MAX_Y; ++i) {
-			sprites->draw(map::screen2grid(_column, i), _texture, 0.0f, v2(1, 1), _color);
+			sprites->draw(map::screen2grid(_column, i), t, 0.0f, v2(1, 1), _color);
 		}
 	}
 }

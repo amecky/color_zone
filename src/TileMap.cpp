@@ -7,6 +7,14 @@
 const int MARK_STEPS[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
 
 const p2i EDGE_OFFSET[] = { p2i(0, 1), p2i(1, 0), p2i(0, -1), p2i(-1, 0) };
+
+TileMap::TileMap(GameContext* context) : _tiles(0), _ctx(context) {
+	_tiles = new Tile[MAX_X * MAX_Y];
+	_tile = _ctx->spriteSheet->findIndex("tile");
+	_markedTile = _ctx->spriteSheet->findIndex("marked_tile");
+	_filledTile = _ctx->spriteSheet->findIndex("filled_tile");
+	_basicBorder = _ctx->spriteSheet->findIndex("basic_border");
+}
 // --------------------------------------------
 // copy column
 // --------------------------------------------
@@ -139,45 +147,36 @@ void TileMap::render(int squareSize,float scale) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			clr = ds::Color::WHITE;
 			const Tile& t = get(x, y);
-			p2i p = map::grid2screen(p2i(x, y));// v2(START_X + x * squareSize, START_Y + y * squareSize);
+			p2i p = map::grid2screen(p2i(x, y));
 			if (t.state.isSet(BIT_AVAILABLE)) {	
 				if (t.state.isSet(BIT_COHERENT)) {
 					if (t.edges > 0) {
-						clr = _ctx->colors[t.color]; //TILE_COLORS[t.color];
-						tex = math::buildTexture(168, 410 + t.edges * 36, 36, 36);
+						clr = _ctx->colors[t.color];
+						tex = _ctx->spriteSheet->get(_tile);
+						tex.move(t.edges * 36, 0);
 					}
 				}
 				else if (t.state.isSet(BIT_MARKED)) {
 					clr = _ctx->colors[t.color];
-					//tex = math::buildTexture(168, 200 + t.color * 36, 36, 36);
-					tex = math::buildTexture(0, 36, 36, 36);
+					tex = _ctx->spriteSheet->get(_markedTile);
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
-					tex = math::buildTexture(0, 150, 36, 36);
+					tex = _ctx->spriteSheet->get(_filledTile);
 				}
 				else {
-					tex = math::buildTexture(0, 0, 36, 36);
+					tex = _ctx->spriteSheet->get(_markedTile);
 				}
 
 				sprites->draw(p, tex, 0.0f, v2(scale, scale), clr);
 
 			}
 			if (t.borders != -1) {
-				sprites->draw(p, math::buildTexture(44, 44 * t.borders, 44, 44), 0.0f, v2(scale, scale),ds::Color(32,32,32));
+				tex = _ctx->spriteSheet->get(_basicBorder);
+				tex.move(44 * t.borders, 0);
+				sprites->draw(p, tex, 0.0f, v2(scale, scale),ds::Color(32,32,32));
 			}
 		}
 	}
-	/*
-	for (uint32_t i = 0; i < _border.size(); ++i) {
-		const Border& b = _border[i];
-		//if (b.inside) {
-			sprites->draw(map::grid2screen(b.pos), math::buildTexture(700, 36 * b.type, 36, 36), 0.0f, v2(scale, scale));
-		//}
-		//else {
-			//sprites->draw(map::grid2screen(b.pos) - p2i(2, 2), math::buildTexture(600, 44 * b.type, BORDER_SIZE, BORDER_SIZE), 0.0f, v2(scale, scale));
-		//}
-	}
-	*/
 }
 
 // --------------------------------------------

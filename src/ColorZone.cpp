@@ -42,6 +42,7 @@ bool ColorZone::loadContent() {
 	_context.settings->load();
 	_context.levels = new Levels;
 	_context.levels->load();
+	_context.spriteSheet = ds::res::getSpriteSheet("spritesheet");
 
 	addGameState(new TestState(&_context, game));
 	addGameState(new TileMapEditor(&_context, game));
