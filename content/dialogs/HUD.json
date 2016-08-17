@@ -16,7 +16,7 @@ timer {
 }
 text { 
     id : 3
-    pos : 480,40
+    pos : 640,40
     color : 230,180,0,255
     centered : true
     scale : 1.5,1.5

@@ -20,7 +20,7 @@ laser {
 }
 hud {
 	padding : 6
-	score_position : 100,680
-	coverage_position : 512,30
-    timer_position : 800,720
+	score_position : 130,680
+	coverage_position : 640,30
+    timer_position : 940,680
 }

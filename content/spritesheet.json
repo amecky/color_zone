@@ -4,7 +4,7 @@ sprite {
 }
 sprite {
     name : "filled_tile"
-    rect : 0,150,36,36
+    rect : 0,72,36,36
 }
 sprite {
     name : "basic_border"

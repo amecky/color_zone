@@ -158,7 +158,7 @@ void TileMap::render(int squareSize,float scale) {
 				}
 				else if (t.state.isSet(BIT_MARKED)) {
 					clr = _ctx->colors[t.color];
-					tex = _ctx->spriteSheet->get(_markedTile);
+					tex = _ctx->spriteSheet->get(_tile);
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
 					tex = _ctx->spriteSheet->get(_filledTile);

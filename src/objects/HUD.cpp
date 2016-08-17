@@ -86,4 +86,21 @@ void HUD::render() {
 	// time
 	int sec = _timer.getSeconds();
 	int min = _timer.getMinutes();
+	p = _settings->hud.timerPosition;
+	int f = min / 10;
+	sprites->draw(p, _textures[f]);
+	p.x += 36 + _settings->hud.padding;
+	int s = min - f * 10;
+	sprites->draw(p, _textures[s]);
+	p.x += 36 + _settings->hud.padding;
+
+	sprites->draw(p, _delimiterTexture);
+	p.x += 36 + _settings->hud.padding;
+
+	f = sec / 10;
+	sprites->draw(p, _textures[f]);
+	p.x += 36 + _settings->hud.padding;
+	s = sec - f * 10;
+	sprites->draw(p, _textures[s]);
+	p.x += 36 + _settings->hud.padding;
 }

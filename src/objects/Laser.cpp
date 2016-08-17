@@ -87,7 +87,9 @@ void Laser::render() {
 		ds::Texture t = _context->spriteSheet->get(_texture);
 		ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 		for (int i = 0; i < MAX_Y; ++i) {
-			sprites->draw(map::screen2grid(_column, i), t, 0.0f, v2(1, 1), _color);
+			p2i tmp = map::screen2grid(v2(_column,i));
+			p2i converted = map::grid2screen(p2i(_column, i));
+			sprites->draw(converted, t, 0.0f, v2(1, 1), _color);
 		}
 	}
 }

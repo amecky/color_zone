@@ -31,9 +31,10 @@ struct GameSettings : public ds::DynamicGameSettings {
 		int padding;
 		v2 scorePosition;
 		v2 coveragePosition;
+		v2 timerPosition;
 	} hud;
 
-	GameSettings() : ds::DynamicGameSettings() {
+	GameSettings() : ds::DynamicGameSettings("content\\settings.json") {
 		// sparkles
 		add("sparkle.gap", &sparkleGap, 2.0f);
 		add("sparkle.ttl", &sparkleTTL, 0.6f);
@@ -55,6 +56,7 @@ struct GameSettings : public ds::DynamicGameSettings {
 		add("hud.padding", &hud.padding, 5);
 		add("hud.score_position", &hud.scorePosition, v2(100, 100));
 		add("hud.coverage_position", &hud.coveragePosition, v2(100, 400));
+		add("hud.timer_position", &hud.timerPosition, v2(100, 400));
 	}
 
 	const char* getFileName() const {

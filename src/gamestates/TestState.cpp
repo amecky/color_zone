@@ -70,7 +70,8 @@ int TestState::update(float dt) {
 
 	// move main block
 	v2 mp = ds::input::getMousePosition();
-	p2i converted = map::screen2grid(mp);
+	p2i tmp = map::screen2grid(mp);
+	p2i converted = map::grid2screen(tmp);
 	_mainBlock->setPosition(converted);
 	_mainBlock->update(dt);
 
