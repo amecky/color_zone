@@ -14,7 +14,7 @@ texture {
 }
 font {
 	name : "xscale"
-	file : "xscale.json"
+	file : "nullshock.json"
 }
 font {
 	name : "gui_font"

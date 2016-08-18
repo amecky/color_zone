@@ -59,5 +59,5 @@ bool ColorZone::loadContent() {
 // init
 // -------------------------------------------------------
 void ColorZone::init() {
-	activate("TileMapEditor");
+	activate("TestState");
 }

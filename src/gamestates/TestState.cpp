@@ -8,14 +8,15 @@ TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("Test
 	_laser = new Laser(_context);
 	_map->reset();
 	_previewBlock = new Block(_context, false);
-	_previewBlock->setPosition(p2i(640, 660));
+	_previewBlock->setPosition(p2i(760, 660));
 	_mainBlock = new Block(_context, true);
 	_effect = new SparkleEffect(_context);
-	_hud = new HUD(_context->settings);
+	//_hud = new HUD(_context->settings);
+	_hud = ds::res::getGUIDialog("HUD");
 }
 
 TestState::~TestState() {
-	delete _hud;
+	//delete _hud;
 	delete _mainBlock;
 	delete _previewBlock;
 	delete _effect;
@@ -31,7 +32,8 @@ void TestState::activate() {
 	_map->reset();
 	_map->build(0);
 	_laser->start();
-	_hud->start();
+	//_hud->start();
+	_hud->activate();
 	//_map->load(1);
 	_context->score = 0;
 	_effect->reset();	
@@ -57,8 +59,8 @@ void TestState::moveLaser(float dt) {
 		if (cleared > 0) {
 			_context->fillRate = _map->getFillRate();
 			LOG << "fillRate: " << _context->fillRate;
-			_hud->setScore(_context->score);
-			_hud->setCoverage(_context->fillRate);
+			//_hud->setScore(_context->score);
+			//_hud->setCoverage(_context->fillRate);
 		}
 	}
 	_laser->tick(dt);
@@ -77,8 +79,8 @@ int TestState::update(float dt) {
 
 	_hud->tick(dt);
 	
-	const ds::GameTimer& timer = _hud->getTimer();
-	if (timer.getMinutes() > 0) {
+	const ds::GameTimer* timer = _hud->getTimer(5);
+	if (timer->getMinutes() > 0) {
 		//fillHighscore();
 		//return 666;
 	}
@@ -116,9 +118,9 @@ void TestState::render() {
 	_effect->render();
 	_previewBlock->render();
 	_mainBlock->render();
-	_laser->render();	
-	_hud->render();
+	_laser->render();		
 	sprites->end();
+	_hud->render();
 }
 
 // --------------------------------------------

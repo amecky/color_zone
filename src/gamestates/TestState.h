@@ -27,6 +27,7 @@ private:
 	Block* _previewBlock;
 	Block* _mainBlock;
 	Laser* _laser;
-	HUD* _hud;
+	//HUD* _hud;
+	ds::GUIDialog* _hud;
 	SparkleEffect* _effect;
 };
