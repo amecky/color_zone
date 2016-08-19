@@ -19,7 +19,7 @@ TileMap::TileMap(GameContext* context) : _tiles(0), _ctx(context) {
 // copy column
 // --------------------------------------------
 bool TileMap::copyBlock(const Block* block) {
-	p2i p = block->getPosition();
+	p2i p = block->position;
 	int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	if (isBlockAvailable(xp, yp)) {
@@ -28,7 +28,7 @@ bool TileMap::copyBlock(const Block* block) {
 			int cy = yp + MARK_STEPS[i * 2 + 1];
 			Tile& t = get(cx,cy);
 			t.state.set(BIT_MARKED);
-			t.color = block->getColor(i);
+			t.color = block->colors[i];
 			PointList list;
 			check(cx, cy, -1, list, true);
 			list.add(cx, cy);

@@ -6,7 +6,6 @@
 #include "..\Common.h"
 #include "..\SparkleEffect.h"
 #include "..\objects\Laser.h"
-#include "..\objects\HUD.h"
 
 class TestState : public ds::GameState {
 
@@ -24,10 +23,9 @@ private:
 	void fillHighscore();
 	TileMap* _map;
 	GameContext* _context;
-	Block* _previewBlock;
-	Block* _mainBlock;
+	Block _previewBlock;
+	Block _mainBlock;
 	Laser* _laser;
-	//HUD* _hud;
 	ds::GUIDialog* _hud;
 	SparkleEffect* _effect;
 };

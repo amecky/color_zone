@@ -29,9 +29,12 @@ const float PARTICLE_ANGLES[] = {
 
 const int MAX_SCORE_ENTRIES = 5;
 
-const int HUD_TIMER = 5;
-const int HUD_PERCENTAGE = 3;
-const int HUD_SCORE = 4;
+const int HUD_TIMER           = 5;
+const int HUD_PERCENTAGE      = 3;
+const int HUD_SCORE           = 4;
+const int HUD_SCORE_TEXT      = 10;
+const int HUD_PERCENTAGE_TEXT = 11;
+const int HUD_TIMER_TEXT      = 12;
 
 const ds::Color TILE_COLORS[] = {
 	ds::Color(217, 48, 79, 255),

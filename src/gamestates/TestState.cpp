@@ -7,9 +7,11 @@ TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("Test
 	_map = new TileMap(_context);
 	_laser = new Laser(_context);
 	_map->reset();
-	_previewBlock = new Block(_context, false);
-	_previewBlock->setPosition(p2i(760, 660));
-	_mainBlock = new Block(_context, true);
+	block::init(&_previewBlock);
+	_previewBlock.position = p2i(760, 660);
+	//_previewBlock = new Block(_context, false);
+	//_previewBlock->setPosition(p2i(760, 660));
+	block::init(&_mainBlock);
 	_effect = new SparkleEffect(_context);
 	//_hud = new HUD(_context->settings);
 	_hud = ds::res::getGUIDialog("HUD");
@@ -17,8 +19,8 @@ TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("Test
 
 TestState::~TestState() {
 	//delete _hud;
-	delete _mainBlock;
-	delete _previewBlock;
+	//delete _mainBlock;
+	//delete _previewBlock;
 	delete _effect;
 	delete _laser;
 	delete _map;
@@ -37,6 +39,11 @@ void TestState::activate() {
 	//_map->load(1);
 	_context->score = 0;
 	_effect->reset();	
+	block::pick_colors(&_previewBlock);
+	block::copy_colors(&_mainBlock, &_previewBlock);
+	block::pick_colors(&_previewBlock);
+	_previewBlock.flashing = true;
+	_previewBlock.flashTimer = 0.0f;
 }
 
 void TestState::fillHighscore() {	
@@ -70,12 +77,12 @@ void TestState::moveLaser(float dt) {
 // --------------------------------------------
 int TestState::update(float dt) {
 
-	// move main block
-	v2 mp = ds::input::getMousePosition();
-	p2i tmp = map::screen2grid(mp);
-	p2i converted = map::grid2screen(tmp);
-	_mainBlock->setPosition(converted);
-	_mainBlock->update(dt);
+	block::follow_mouse(&_mainBlock);
+
+	block::update(&_mainBlock, dt);
+	if (_previewBlock.flashing) {
+		block::flash_scale(&_previewBlock, dt, 1.0f);
+	}
 
 	_hud->tick(dt);
 	
@@ -97,13 +104,13 @@ int TestState::update(float dt) {
 // --------------------------------------------
 int TestState::onButtonUp(int button, int x, int y) {
 	if (button == 0) {
-		if (_map->copyBlock(_mainBlock)) {
-			_mainBlock->copyColors(_previewBlock);
-			_previewBlock->pickColors();
+		if (_map->copyBlock(&_mainBlock)) {
+			block::copy_colors(&_mainBlock,&_previewBlock);
+			block::pick_colors(&_previewBlock);
 		}
 	}
 	else if (button == 1) {
-		_mainBlock->rotate();
+		block::start_rotating(&_mainBlock);
 	}
 	return 0;
 }
@@ -116,8 +123,8 @@ void TestState::render() {
 	sprites->begin();
 	_map->render();
 	_effect->render();
-	_previewBlock->render();
-	_mainBlock->render();
+	block::render(&_previewBlock, _context->colors);
+	block::render_boxed(&_mainBlock, _context->colors);
 	_laser->render();		
 	sprites->end();
 	_hud->render();
@@ -128,8 +135,8 @@ void TestState::render() {
 // --------------------------------------------
 int TestState::onChar(int ascii) {
 	if (ascii == '1') {
-		_mainBlock->copyColors(_previewBlock);
-		_previewBlock->pickColors();
+		block::copy_colors(&_mainBlock,&_previewBlock);
+		block::pick_colors(&_previewBlock);
 	}
 	if (ascii == 's') {
 		_laser->start();
