@@ -81,7 +81,7 @@ int TestState::update(float dt) {
 
 	block::update(&_mainBlock, dt);
 	if (_previewBlock.flashing) {
-		block::flash_scale(&_previewBlock, dt, 1.0f);
+		block::flash_scale(&_previewBlock, dt, 0.2f);
 	}
 
 	_hud->tick(dt);
@@ -107,6 +107,8 @@ int TestState::onButtonUp(int button, int x, int y) {
 		if (_map->copyBlock(&_mainBlock)) {
 			block::copy_colors(&_mainBlock,&_previewBlock);
 			block::pick_colors(&_previewBlock);
+			_previewBlock.flashing = true;
+			_previewBlock.flashTimer = 0.0f;
 		}
 	}
 	else if (button == 1) {
@@ -137,6 +139,8 @@ int TestState::onChar(int ascii) {
 	if (ascii == '1') {
 		block::copy_colors(&_mainBlock,&_previewBlock);
 		block::pick_colors(&_previewBlock);
+		_previewBlock.flashing = true;
+		_previewBlock.flashTimer = 0.0f;
 	}
 	if (ascii == 's') {
 		_laser->start();

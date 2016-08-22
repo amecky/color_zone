@@ -67,7 +67,7 @@ namespace block {
 				block->flashing = false;
 			}
 			else {
-				float norm = 0.4f + block->flashTimer / flashTTL * 0.6f;
+				float norm = 0.2f + block->flashTimer / flashTTL * 0.8f;
 				block->scale = v2(norm, norm);
 			}
 		}
