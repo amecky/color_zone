@@ -24,6 +24,12 @@ namespace block {
 		}
 	}
 
+	void copy_array(const int* src, int* dest, int num) {
+		for (int i = 0; i < num; ++i) {
+			dest[i] = src[i];
+		}
+	}
+
 	void pick_colors(Block* block) {
 		int firstColor = math::random(0, 3);
 		int secondColor = math::random(0, 3);
@@ -31,7 +37,7 @@ namespace block {
 		block->colors[1] = firstColor;
 		block->colors[2] = secondColor;
 		block->colors[3] = secondColor;
-		int r = math::random(0, 3);
+		int r = math::random(0, 6);
 		for (int i = 0; i < r; ++i) {
 			shift_array(block->colors, 4);
 		}
@@ -54,10 +60,8 @@ namespace block {
 		block->flashing = false;
 	}
 
-	void copy_colors(Block* block, const Block* other) {
-		for (int i = 0; i < 4; ++i) {
-			block->colors[i] = other->colors[i];
-		}
+	void copy_colors(Block* dest, const Block* src) {
+		copy_array(src->colors, dest->colors, 4);
 	}
 
 	void flash_scale(Block* block, float dt, float flashTTL) {

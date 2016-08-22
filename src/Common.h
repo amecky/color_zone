@@ -32,7 +32,7 @@ struct GameContext {
 	std::string name;
 	ds::GUIDialog* hud;
 	GameSettings* settings;
-	ds::Color colors[4];
+	ds::Color colors[8];
 	Levels* levels;
 	ds::SpriteSheet* spriteSheet;
 
@@ -41,7 +41,7 @@ struct GameContext {
 		// prepare colors
 		float goldenRatioConjugate = 0.618033988749895f;
 		float currentHue = math::random(0.0f, 1.0f);
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 8; i++) {
 			ds::HSL hslColor = ds::HSL(currentHue * 360.0f, 50.0f, 50.0f);
 			colors[i] = ds::color::hsl2rgb(hslColor);
 			currentHue += goldenRatioConjugate;

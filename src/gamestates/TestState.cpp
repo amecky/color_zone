@@ -38,12 +38,17 @@ void TestState::activate() {
 	_hud->activate();
 	//_map->load(1);
 	_context->score = 0;
+	_context->fillRate = 0;
 	_effect->reset();	
 	block::pick_colors(&_previewBlock);
 	block::copy_colors(&_mainBlock, &_previewBlock);
 	block::pick_colors(&_previewBlock);
 	_previewBlock.flashing = true;
 	_previewBlock.flashTimer = 0.0f;
+	_hud->setNumber(HUD_SCORE, _context->score);
+	char buffer[32];
+	sprintf_s(buffer, 32, "%d%%", _context->fillRate);
+	_hud->updateText(HUD_PERCENTAGE, buffer);
 }
 
 void TestState::fillHighscore() {	
@@ -66,7 +71,10 @@ void TestState::moveLaser(float dt) {
 		if (cleared > 0) {
 			_context->fillRate = _map->getFillRate();
 			LOG << "fillRate: " << _context->fillRate;
-			//_hud->setScore(_context->score);
+			_hud->setNumber(HUD_SCORE,_context->score);
+			char buffer[32];
+			sprintf_s(buffer, 32, "%d%%", _context->fillRate);
+			_hud->updateText(HUD_PERCENTAGE, buffer);
 			//_hud->setCoverage(_context->fillRate);
 		}
 	}
@@ -128,6 +136,8 @@ void TestState::render() {
 	block::render(&_previewBlock, _context->colors);
 	block::render_boxed(&_mainBlock, _context->colors);
 	_laser->render();		
+
+
 	sprites->end();
 	_hud->render();
 }

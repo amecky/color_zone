@@ -48,10 +48,16 @@ bool ColorZone::loadContent() {
 	addGameState(new TileMapEditor(&_context, game));
 	addGameState(new ds::BasicMenuGameState("MainMenu", "MainMenu", game));
 	connectGameStates("TileMapEditor", 1, "TestState");
+	connectGameStates("MainMenu", 1, "TestState");
 
 	RID _material = ds::res::find("SpriteMaterial", ds::ResourceType::MATERIAL);
 	ds::Material* m = ds::res::getMaterial(_material);
 	m->texture = ds::res::find("TextureArray", ds::ResourceType::TEXTURE);
+
+	//for (int i = 0; i < 20; ++i) {
+		//int r = math::random(0, 3);
+		//LOG << i << " = " << r;
+	//}
 	return true;
 }
 
