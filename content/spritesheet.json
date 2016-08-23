@@ -12,7 +12,7 @@ sprite {
 }
 sprite {
     name : "tile"
-    rect : 168,410,36,36
+    rect : 100,0,36,36
 }
 sprite {
     name : "block"
@@ -24,5 +24,9 @@ sprite {
 }
 sprite {
     name : "laser"
-    rect : 132,260,36,36
+    rect : 0,322,36,36
+}
+sprite {
+    name : "background"
+    rect : 620,320,640,360
 }

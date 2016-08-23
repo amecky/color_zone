@@ -3,7 +3,7 @@
 #include "..\Constants.h"
 #include <gamestates\GameState.h>
 
-class GameOverState : public ds::GameState {
+class GameOverState : public ds::BasicMenuGameState {
 
 public:
 	GameOverState(GameContext* context, ds::Game* game);

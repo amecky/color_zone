@@ -161,7 +161,7 @@ void TileMap::render(int squareSize,float scale) {
 					tex = _ctx->spriteSheet->get(_tile);
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
-					clr = _ctx->colors[6];
+					//clr = _ctx->colors[6];
 					tex = _ctx->spriteSheet->get(_filledTile);
 				}
 				else {
@@ -174,7 +174,7 @@ void TileMap::render(int squareSize,float scale) {
 			if (t.borders != -1) {
 				tex = _ctx->spriteSheet->get(_basicBorder);
 				tex.move(44 * t.borders, 0);
-				sprites->draw(p, tex, 0.0f, v2(scale, scale),ds::Color(32,32,32));
+				sprites->draw(p, tex, 0.0f, v2(scale, scale),ds::Color(64,64,64));
 			}
 		}
 	}

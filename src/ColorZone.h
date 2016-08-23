@@ -22,10 +22,11 @@ public:
 	void init();
 	bool loadContent();
 	void update(float dt) {}
-	void render() {}
+	void render();
 private:
 	void prepare(ds::Settings* settings);
 	int _textureID;
 	GameContext _context;
+	int _background;
 };
 

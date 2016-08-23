@@ -50,13 +50,20 @@ void TestState::activate() {
 	_hud->updateText(HUD_PERCENTAGE, buffer);
 
 	// FIXME: set HUD colors (5 -> text 6 -> timer etc)
-
-	// FIXME: maybe use a perlin nose sprite as background with this color
-	//graphics::setClearColor(_context->colors[7]);
 }
 
+// --------------------------------------------
+// fill current score
+// --------------------------------------------
 void TestState::fillHighscore() {	
+	_context->currentScore.fillrate = _context->fillRate;
+	_context->currentScore.level = 1;
+	_context->currentScore.score = _context->score;
+	ds::GameTimer* timer = _hud->getTimer(HUD_TIMER);
+	_context->currentScore.minutes = timer->getMinutes();
+	_context->currentScore.seconds = timer->getSeconds();
 }
+
 // --------------------------------------------
 // move laser
 // --------------------------------------------
@@ -76,10 +83,7 @@ void TestState::moveLaser(float dt) {
 			_context->fillRate = _map->getFillRate();
 			LOG << "fillRate: " << _context->fillRate;
 			_hud->setNumber(HUD_SCORE,_context->score);
-			char buffer[32];
-			sprintf_s(buffer, 32, "%d%%", _context->fillRate);
-			_hud->updateText(HUD_PERCENTAGE, buffer);
-			//_hud->setCoverage(_context->fillRate);
+			_hud->updateTextFormatted(HUD_PERCENTAGE, "%d%%", _context->fillRate);
 		}
 	}
 	laser::tick(_laser, dt);
@@ -136,6 +140,7 @@ void TestState::render() {
 	
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 	sprites->begin();
+	//sprites->draw(v2(640,360),math::buildTexture(620,320,640,360),0.0f,v2(2,2),_context->colors[7]);
 	_map->render();
 	_effect->render();
 	block::render(&_previewBlock, _context->colors);
@@ -144,7 +149,7 @@ void TestState::render() {
 	
 
 	for (int i = 0; i < 8; ++i) {
-		sprites->draw(v2(100 + i * 40, 360), math::buildTexture(0, 36, 36, 36), 0.0f, v2(1, 1), _context->colors[i]);
+		sprites->draw(v2(480 + i * 40, 30), math::buildTexture(0, 36, 36, 36), 0.0f, v2(1, 1), _context->colors[i]);
 	}
 
 	sprites->end();
@@ -170,7 +175,7 @@ int TestState::onChar(int ascii) {
 	}
 	if (ascii == 'x') {
 		fillHighscore();
-		return 666;
+		return 1;
 	}
 	if (ascii == 'r') {
 		_context->settings->load();
