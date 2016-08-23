@@ -5,7 +5,8 @@
 
 TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("TestState", game), _context(context) {
 	_map = new TileMap(_context);
-	_laser = new Laser(_context);
+	_laser = new Laser;
+	laser::init(_laser);
 	_map->reset();
 	block::init(&_previewBlock);
 	_previewBlock.position = p2i(760, 660);
@@ -33,10 +34,8 @@ void TestState::activate() {
 	_context->pick_colors();
 	_map->reset();
 	_map->build(0);
-	_laser->start();
-	//_hud->start();
+	laser::start(_laser,_context->settings->laserStartDelay);
 	_hud->activate();
-	//_map->load(1);
 	_context->score = 0;
 	_context->fillRate = 0;
 	_effect->reset();	
@@ -49,6 +48,11 @@ void TestState::activate() {
 	char buffer[32];
 	sprintf_s(buffer, 32, "%d%%", _context->fillRate);
 	_hud->updateText(HUD_PERCENTAGE, buffer);
+
+	// FIXME: set HUD colors (5 -> text 6 -> timer etc)
+
+	// FIXME: maybe use a perlin nose sprite as background with this color
+	//graphics::setClearColor(_context->colors[7]);
 }
 
 void TestState::fillHighscore() {	
@@ -58,7 +62,7 @@ void TestState::fillHighscore() {
 // --------------------------------------------
 void TestState::moveLaser(float dt) {
 	int column = -1;
-	if (_laser->move(dt, &column)) {
+	if (laser::move(_laser, _context->settings->laserStepDelay, _context->settings->laserStartDelay, dt, &column)) {
 		int colors[MAX_Y];
 		_map->getColumn(column, colors);
 		for (int i = 0; i < MAX_Y; ++i) {
@@ -78,7 +82,7 @@ void TestState::moveLaser(float dt) {
 			//_hud->setCoverage(_context->fillRate);
 		}
 	}
-	_laser->tick(dt);
+	laser::tick(_laser, dt);
 }
 // --------------------------------------------
 // update
@@ -129,14 +133,19 @@ int TestState::onButtonUp(int button, int x, int y) {
 // render
 // --------------------------------------------
 void TestState::render() {
+	
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 	sprites->begin();
 	_map->render();
 	_effect->render();
 	block::render(&_previewBlock, _context->colors);
 	block::render_boxed(&_mainBlock, _context->colors);
-	_laser->render();		
+	laser::render(_laser);
+	
 
+	for (int i = 0; i < 8; ++i) {
+		sprites->draw(v2(100 + i * 40, 360), math::buildTexture(0, 36, 36, 36), 0.0f, v2(1, 1), _context->colors[i]);
+	}
 
 	sprites->end();
 	_hud->render();
@@ -153,7 +162,7 @@ int TestState::onChar(int ascii) {
 		_previewBlock.flashTimer = 0.0f;
 	}
 	if (ascii == 's') {
-		_laser->start();
+		laser::start(_laser, _context->settings->laserStartDelay);
 	}
 	if (ascii == 'd') {
 		_context->resume = true;

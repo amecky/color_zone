@@ -11,7 +11,7 @@ namespace laser {
 	// -----------------------------------------------------------------
 	// intialize
 	// -----------------------------------------------------------------
-	void init(MyLaser* laser) {
+	void init(Laser* laser) {
 		laser->state = LS_IDLE;
 		laser->timer = 0.0f;
 		laser->column = 0;
@@ -23,7 +23,7 @@ namespace laser {
 	// -----------------------------------------------------------------
 	// reset
 	// -----------------------------------------------------------------
-	void reset(MyLaser* laser, float startDelay) {
+	void reset(Laser* laser, float startDelay) {
 		LOG << "Laser reset";
 		laser->state = LS_IDLE;
 		laser->timer = startDelay;
@@ -32,7 +32,7 @@ namespace laser {
 	// -----------------------------------------------------------------
 	// move
 	// -----------------------------------------------------------------
-	bool move(MyLaser* laser, float stepDelay, float startDelay, float dt, int* column) {
+	bool move(Laser* laser, float stepDelay, float startDelay, float dt, int* column) {
 		*column = -1;
 		bool ret = false;
 		if (laser->state == LS_RUNNING) {
@@ -61,7 +61,7 @@ namespace laser {
 	// -----------------------------------------------------------------
 	// tick
 	// -----------------------------------------------------------------
-	void tick(MyLaser* laser, float dt) {
+	void tick(Laser* laser, float dt) {
 		if (laser->state == LS_WARMING_UP) {
 			laser->timer -= dt;
 			if (laser->timer <= 0.0f) {
@@ -76,7 +76,7 @@ namespace laser {
 	// -----------------------------------------------------------------
 	// start
 	// -----------------------------------------------------------------
-	void start(MyLaser* laser, float startDelay) {
+	void start(Laser* laser, float startDelay) {
 		LOG << "starting laser";
 		laser->state = LS_WARMING_UP;
 		laser->timer = startDelay;
@@ -86,7 +86,7 @@ namespace laser {
 	// -----------------------------------------------------------------
 	// render
 	// -----------------------------------------------------------------
-	void render(MyLaser* laser) {
+	void render(Laser* laser) {
 		if (laser->state == LS_RUNNING) {
 			ds::Texture t = laser->spriteSheet->get(laser->texture);
 			ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
@@ -98,94 +98,4 @@ namespace laser {
 		}
 	}
 
-}
-
-Laser::Laser(GameContext* context) : _context(context) {
-	_state = LS_IDLE;
-	_timer = 0.0f;
-	_column = 0;
-	_spriteSheet = ds::res::getSpriteSheet("spritesheet");
-	_texture = _spriteSheet->findIndex("laser");
-	_color = ds::Color(0, 210, 210);
-}
-
-Laser::~Laser() {
-}
-
-// -----------------------------------------------------------------
-// reset
-// -----------------------------------------------------------------
-void Laser::reset() {
-	LOG << "Laser reset";
-	_state = LS_IDLE;
-	_timer = _context->settings->laserStartDelay;
-}
-
-// -----------------------------------------------------------------
-// move
-// -----------------------------------------------------------------
-bool Laser::move(float dt, int* column) {
-	*column = -1;
-	bool ret = false;
-	if (_state == LS_RUNNING) {
-		_timer += dt;
-		float c = 0.7f + sin(_timer / _context->settings->laserStepDelay * TWO_PI) * 0.3f;
-		//_color.r = 0.0f;
-		_color.a = c;
-		//_color.b = 0.0f;
-		if (_timer > _context->settings->laserStepDelay) {
-			++_column;
-			if (_column >= 0 && _column < MAX_X) {
-				*column = _column;
-				ret = true;
-			}
-			_timer = 0.0f;
-			if (_column >= MAX_X) {
-				LOG << "Laser state set to warming up";
-				_state = LS_WARMING_UP;
-				_timer = _context->settings->laserStartDelay;
-			}
-		}
-	}
-	return ret;
-}
-
-// -----------------------------------------------------------------
-// tick
-// -----------------------------------------------------------------
-void Laser::tick(float dt) {
-	if (_state == LS_WARMING_UP) {
-		_timer -= dt;
-		if (_timer <= 0.0f) {
-			LOG << "Laser running";
-			_timer = 0.0f;
-			_state = LS_RUNNING;
-			_column = -1;
-		}
-	}	
-}
-
-// -----------------------------------------------------------------
-// start
-// -----------------------------------------------------------------
-void Laser::start() {
-	LOG << "starting laser";
-	_state = LS_WARMING_UP;
-	_timer = _context->settings->laserStartDelay;
-	_column = -1;
-}
-
-// -----------------------------------------------------------------
-// render
-// -----------------------------------------------------------------
-void Laser::render() {
-	if (_state == LS_RUNNING) {
-		ds::Texture t = _context->spriteSheet->get(_texture);
-		ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
-		for (int i = 0; i < MAX_Y; ++i) {
-			p2i tmp = map::screen2grid(v2(_column,i));
-			p2i converted = map::grid2screen(p2i(_column, i));
-			sprites->draw(converted, t, 0.0f, v2(1, 1), _color);
-		}
-	}
 }

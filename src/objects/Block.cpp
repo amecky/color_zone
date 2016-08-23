@@ -30,6 +30,9 @@ namespace block {
 		}
 	}
 
+	// -----------------------------------------------------------------
+	// pick new colors
+	// -----------------------------------------------------------------
 	void pick_colors(Block* block) {
 		int firstColor = math::random(0, 3);
 		int secondColor = math::random(0, 3);
@@ -42,8 +45,9 @@ namespace block {
 			shift_array(block->colors, 4);
 		}
 	}
+
 	// -----------------------------------------------------------------
-	//
+	// init
 	// -----------------------------------------------------------------
 	void init(Block* block) {
 		block->position = p2i(512, 384);
@@ -60,10 +64,16 @@ namespace block {
 		block->flashing = false;
 	}
 
+	// -----------------------------------------------------------------
+	// copy colors from source block to destination block
+	// -----------------------------------------------------------------
 	void copy_colors(Block* dest, const Block* src) {
 		copy_array(src->colors, dest->colors, 4);
 	}
 
+	// -----------------------------------------------------------------
+	// flash scale
+	// -----------------------------------------------------------------
 	void flash_scale(Block* block, float dt, float flashTTL) {
 		if (block->flashing) {
 			block->flashTimer += dt;
@@ -77,6 +87,9 @@ namespace block {
 		}
 	}
 
+	// -----------------------------------------------------------------
+	// render block
+	// -----------------------------------------------------------------
 	void render(Block* block, ds::Color* colors) {
 		ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 		ds::SpriteSheet* spriteSheet = ds::res::getSpriteSheet("spritesheet");
@@ -93,6 +106,9 @@ namespace block {
 		}
 	}
 
+	// -----------------------------------------------------------------
+	// render block and a box surrounding it
+	// -----------------------------------------------------------------
 	void render_boxed(Block* block, ds::Color* colors) {
 		render(block, colors);
 		ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
@@ -108,7 +124,7 @@ namespace block {
 	}
 
 	// -----------------------------------------------------------------
-	// rotate
+	// start rotating
 	// -----------------------------------------------------------------
 	void start_rotating(Block* block) {
 		if (!block->rotating) {
@@ -131,6 +147,9 @@ namespace block {
 		}
 	}
 
+	// -----------------------------------------------------------------
+	// follow mouse
+	// -----------------------------------------------------------------
 	void follow_mouse(Block* block) {
 		v2 mp = ds::input::getMousePosition();
 		p2i tmp = map::screen2grid(mp);
@@ -144,121 +163,3 @@ namespace block {
 	}
 
 }
-/*
-// -----------------------------------------------------------------
-//
-// -----------------------------------------------------------------
-Block::Block(GameContext* context, bool showBorder) : _ctx(context) , _showBorder(showBorder) {
-	_position = p2i(512, 384);
-	_texture = _ctx->spriteSheet->findIndex("block");
-	_boxTexture = _ctx->spriteSheet->findIndex("block_box");
-	for (int i = 0; i < 4; ++i) {
-		_colors[i] = 0;
-	}
-	pickColors();
-	_rotating = false;
-	_rotationRadius = length(v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE));
-}
-
-Block::~Block() {
-}
-
-// -----------------------------------------------------------------
-// set position
-// -----------------------------------------------------------------
-void Block::setPosition(const p2i& p) {
-	_position = p;
-}
-
-// -----------------------------------------------------------------
-// get position
-// -----------------------------------------------------------------
-const p2i& Block::getPosition() const {
-	return _position;
-}
-
-// -----------------------------------------------------------------
-// pick 4 random colors
-// -----------------------------------------------------------------
-void Block::pickColors() {
-	int firstColor = math::random(0, 3);
-	int secondColor = math::random(0, 3);
-	_colors[0] = firstColor;
-	_colors[1] = firstColor;
-	_colors[2] = secondColor;
-	_colors[3] = secondColor;
-	int r = math::random(0, 3);
-	for (int i = 0; i < r; ++i) {
-		block::shift_array(_colors, 4);
-	}
-}
-
-// -----------------------------------------------------------------
-// render
-// -----------------------------------------------------------------
-// draw order:
-// 12
-// 03
-void Block::render() {
-	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
-	v2 p = v2(_position.x,_position.y) + v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
-	float norm = _rotationTimer / ROTATION_TIME;
-	ds::Texture t = _ctx->spriteSheet->get(_texture);
-	for (int i = 0; i < 4; ++i) {
-		float angle = STARTING_ANGLES[i];
-		if (_rotating) {
-			angle += norm * HALF_PI;
-		}
-		v2 pp = ds::math::getDistantPosition(p, angle, _rotationRadius);
-		sprites->draw(pp, t, angle + DEGTORAD(45.0f),v2(1,1),_ctx->colors[_colors[i]]);
-	}
-	if (_showBorder) {
-		float r = 0.0f;
-		ds::Texture bt = _ctx->spriteSheet->get(_boxTexture);
-		if (_rotating) {
-			r = norm * HALF_PI;
-		}
-		sprites->draw(p, bt,r);
-	}
-}
-
-// -----------------------------------------------------------------
-// get color by index
-// -----------------------------------------------------------------
-int Block::getColor(int index) const {
-	return _colors[index];
-}
-
-// -----------------------------------------------------------------
-// copy colors
-// ----------------------------------------------------------------- 
-void Block::copyColors(const Block* other) {
-	for (int i = 0; i < 4; ++i) {
-		_colors[i] = other->getColor(i);
-	}
-}
-
-// -----------------------------------------------------------------
-// rotate
-// -----------------------------------------------------------------
-void Block::rotate() {	
-	if (!_rotating) {
-		_rotating = true;
-		_rotationTimer = 0.0f;
-	}
-}
-
-// -----------------------------------------------------------------
-// update
-// -----------------------------------------------------------------
-void Block::update(float dt) {
-	if (_rotating) {
-		_rotationTimer += dt;
-		float norm = _rotationTimer / ROTATION_TIME;
-		if (norm >= 1.0f) {
-			block::shift_array(_colors, 4);
-			_rotating = false;
-		}		
-	}
-}
-*/

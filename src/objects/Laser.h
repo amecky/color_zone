@@ -8,7 +8,7 @@ enum LaserState {
 	LS_IDLE
 };
 
-struct MyLaser {
+struct Laser {
 
 	ds::Color color;
 	float timer;
@@ -17,48 +17,21 @@ struct MyLaser {
 	LaserState state;
 	ds::SpriteSheet* spriteSheet;
 
-	MyLaser() : color(ds::Color::WHITE), timer(0.0f), column(-1), texture(-1), state(LS_IDLE), spriteSheet(0) {}
+	Laser() : color(ds::Color::WHITE), timer(0.0f), column(-1), texture(-1), state(LS_IDLE), spriteSheet(0) {}
 };
 
 namespace laser {
 
-	void init(MyLaser* laser);
+	void init(Laser* laser);
 
-	void reset(MyLaser* laser, float startDelay);
+	void reset(Laser* laser, float startDelay);
 
-	bool move(MyLaser* laser, float stepDelay, float startDelay, float dt, int* column);
+	bool move(Laser* laser, float stepDelay, float startDelay, float dt, int* column);
 
-	void tick(MyLaser* laser, float dt);
+	void tick(Laser* laser, float dt);
 
-	void start(MyLaser* laser, float startDelay);
+	void start(Laser* laser, float startDelay);
 
-	void render(MyLaser* laser);
+	void render(Laser* laser);
 
 }
-// -----------------------------------------------------------------
-//
-// -----------------------------------------------------------------
-class Laser {
-
-
-
-	
-
-public:
-	Laser(GameContext* context);
-	~Laser();
-	void reset();
-	bool move(float dt,int* column);
-	void tick(float dt);
-	void render();
-	void start();
-private:
-	ds::Color _color;
-	float _timer;
-	int _column;
-	int _texture;
-	GameContext* _context;
-	LaserState _state;
-	ds::SpriteSheet* _spriteSheet;
-};
-
