@@ -9,7 +9,10 @@ ds::BaseApp *app = new ColorZone();
 
 ColorZone::ColorZone() {
 	//_CrtSetBreakAlloc(12876);
-	
+	_timer = 0.0f;
+	_ttl = 1.0f;
+	_minValue = 0.6f;
+	_maxValue = 0.8f;
 }
 
 
@@ -60,6 +63,8 @@ bool ColorZone::loadContent() {
 	ds::Material* m = ds::res::getMaterial(_material);
 	m->texture = ds::res::find("TextureArray", ds::ResourceType::TEXTURE);
 	
+	_maxValue = math::random(_context.settings->background.minIntensity, _context.settings->background.maxIntensity);
+
 	return true;
 }
 
@@ -67,12 +72,41 @@ bool ColorZone::loadContent() {
 // init
 // -------------------------------------------------------
 void ColorZone::init() {
+	renewBackgroundSettings();
 	activate("MainMenu");
 }
 
+// -------------------------------------------------------
+// update
+// -------------------------------------------------------
+void ColorZone::update(float dt) {
+	_timer += dt;
+	float norm = _timer / _ttl;
+	if (norm >= 1.0f) {		
+		renewBackgroundSettings();
+		LOG << "ttl: " << _ttl << " min: " << _minValue << " max: " << _maxValue;
+	}
+}
+
+// -------------------------------------------------------
+// renew background settings
+// -------------------------------------------------------
+void ColorZone::renewBackgroundSettings() {
+	_timer = 0.0f;
+	_ttl = math::random(_context.settings->background.minTTL, _context.settings->background.maxTTL);
+	_minValue = _maxValue;
+	_maxValue = math::random(_context.settings->background.minIntensity, _context.settings->background.maxIntensity);
+}
+
+// -------------------------------------------------------
+// render
+// -------------------------------------------------------
 void ColorZone::render() {
+	ds::Color c = _context.colors[7];
+	float norm = _timer / _ttl;
+	c.a = tweening::interpolate(tweening::linear, _minValue, _maxValue, _timer, _ttl);
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 	sprites->begin();
-	sprites->draw(v2(640, 360), _context.spriteSheet->get(_background), 0.0f, v2(2, 2), _context.colors[7]);
+	sprites->draw(v2(640, 360), _context.spriteSheet->get(_background), 0.0f, v2(2, 2), c);
 	sprites->end();
 }

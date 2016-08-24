@@ -16,11 +16,20 @@ timer {
 }
 text { 
     id : 3
-    pos : 520,660
+    pos : 450,660
     color : 230,180,0,255
     centered : false
     scale : 1,1
     text : "151%"
+}
+numbers { 
+    id : 6
+    pos : 850,650
+    centered : false
+    scale : 1,1
+    value : 10
+    length : 2
+	color : 230,180,0,255
 }
 text { 
     id : 10
@@ -32,7 +41,7 @@ text {
 }
 text { 
     id : 11
-    pos : 520,690
+    pos : 450,690
     color : 67,129,222,255
     centered : false
     scale : 1,1
@@ -45,4 +54,12 @@ text {
     centered : false
     scale : 1,1
     text : "Time"
+}
+text { 
+    id : 13
+    pos : 850,690
+    color : 67,129,222,255
+    centered : false
+    scale : 1,1
+    text : "Laser"
 }

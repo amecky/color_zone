@@ -28,7 +28,7 @@ namespace laser {
 
 	bool move(Laser* laser, float stepDelay, float startDelay, float dt, int* column);
 
-	void tick(Laser* laser, float dt);
+	bool tick(Laser* laser, float dt);
 
 	void start(Laser* laser, float startDelay);
 

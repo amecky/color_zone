@@ -32,6 +32,7 @@ const int MAX_SCORE_ENTRIES = 5;
 const int HUD_TIMER           = 5;
 const int HUD_PERCENTAGE      = 3;
 const int HUD_SCORE           = 4;
+const int HUD_LASER           = 6;
 const int HUD_SCORE_TEXT      = 10;
 const int HUD_PERCENTAGE_TEXT = 11;
 const int HUD_TIMER_TEXT      = 12;

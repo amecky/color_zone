@@ -9,7 +9,7 @@ TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("Test
 	laser::init(_laser);
 	_map->reset();
 	block::init(&_previewBlock);
-	_previewBlock.position = p2i(760, 660);
+	_previewBlock.position = p2i(640, 660);
 	//_previewBlock = new Block(_context, false);
 	//_previewBlock->setPosition(p2i(760, 660));
 	block::init(&_mainBlock);
@@ -48,7 +48,7 @@ void TestState::activate() {
 	char buffer[32];
 	sprintf_s(buffer, 32, "%d%%", _context->fillRate);
 	_hud->updateText(HUD_PERCENTAGE, buffer);
-
+	_hud->setNumber(HUD_LASER, _context->settings->laserStartDelay);
 	// FIXME: set HUD colors (5 -> text 6 -> timer etc)
 }
 
@@ -86,7 +86,12 @@ void TestState::moveLaser(float dt) {
 			_hud->updateTextFormatted(HUD_PERCENTAGE, "%d%%", _context->fillRate);
 		}
 	}
-	laser::tick(_laser, dt);
+	if (laser::tick(_laser, dt)) {
+		_hud->setNumber(HUD_LASER, 0);
+	}
+	if (_laser->state == LS_IDLE || _laser->state == LS_WARMING_UP) {
+		_hud->setNumber(HUD_LASER, _laser->timer + 1);
+	}
 }
 // --------------------------------------------
 // update
@@ -102,10 +107,11 @@ int TestState::update(float dt) {
 
 	_hud->tick(dt);
 	
-	const ds::GameTimer* timer = _hud->getTimer(5);
-	if (timer->getMinutes() > 0) {
-		//fillHighscore();
-		//return 666;
+	const ds::GameTimer* timer = _hud->getTimer(HUD_TIMER);
+	if (timer->getMinutes() >= 3) {
+		// FIXME: find a better way to end the game???
+		fillHighscore();
+		return 1;
 	}
 
 	moveLaser(dt);	
@@ -140,7 +146,6 @@ void TestState::render() {
 	
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 	sprites->begin();
-	//sprites->draw(v2(640,360),math::buildTexture(620,320,640,360),0.0f,v2(2,2),_context->colors[7]);
 	_map->render();
 	_effect->render();
 	block::render(&_previewBlock, _context->colors);

@@ -21,12 +21,17 @@ public:
 	}
 	void init();
 	bool loadContent();
-	void update(float dt) {}
+	void update(float dt);
 	void render();
 private:
 	void prepare(ds::Settings* settings);
+	void renewBackgroundSettings();
 	int _textureID;
 	GameContext _context;
 	int _background;
+	float _timer;
+	float _ttl;
+	float _minValue;
+	float _maxValue;
 };
 

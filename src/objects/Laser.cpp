@@ -61,7 +61,7 @@ namespace laser {
 	// -----------------------------------------------------------------
 	// tick
 	// -----------------------------------------------------------------
-	void tick(Laser* laser, float dt) {
+	bool tick(Laser* laser, float dt) {
 		if (laser->state == LS_WARMING_UP) {
 			laser->timer -= dt;
 			if (laser->timer <= 0.0f) {
@@ -69,8 +69,10 @@ namespace laser {
 				laser->timer = 0.0f;
 				laser->state = LS_RUNNING;
 				laser->column = -1;
+				return true;
 			}
 		}
+		return false;
 	}
 
 	// -----------------------------------------------------------------

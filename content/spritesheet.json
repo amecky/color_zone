@@ -20,7 +20,7 @@ sprite {
 }
 sprite {
     name : "block_box"
-    rect : 0,935,78,78
+    rect : 140,220,78,78
 }
 sprite {
     name : "laser"
