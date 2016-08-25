@@ -1,6 +1,5 @@
 #include "ColorZone.h"
 #include "gamestates\TestState.h"
-#include "gamestates\GameOverState.h"
 #include "gamestates\TileMapEditor.h"
 #include "objects\Levels.h"
 #include <utils\Assert.h>
@@ -52,12 +51,11 @@ bool ColorZone::loadContent() {
 	_background = _context.spriteSheet->findIndex("background");
 	addGameState(new TestState(&_context, game));
 	addGameState(new TileMapEditor(&_context, game));
-	addGameState(new GameOverState(&_context, game));
 	addGameState(new ds::BasicMenuGameState("MainMenu", "MainMenu", game));
 	connectGameStates("TileMapEditor", 1, "TestState");
 	connectGameStates("MainMenu", 1, "TestState");
-	connectGameStates("TestState", 1, "GameOver");
-	connectGameStates("GameOver", 2, "MainMenu");
+	connectGameStates("TestState", 22, "MainMenu");
+	connectGameStates("TestState", 21, "TestState");
 
 	RID _material = ds::res::find("SpriteMaterial", ds::ResourceType::MATERIAL);
 	ds::Material* m = ds::res::getMaterial(_material);
@@ -73,7 +71,7 @@ bool ColorZone::loadContent() {
 // -------------------------------------------------------
 void ColorZone::init() {
 	renewBackgroundSettings();
-	activate("MainMenu");
+	activate("TestState");
 }
 
 // -------------------------------------------------------
@@ -106,7 +104,5 @@ void ColorZone::render() {
 	float norm = _timer / _ttl;
 	c.a = tweening::interpolate(tweening::linear, _minValue, _maxValue, _timer, _ttl);
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
-	sprites->begin();
 	sprites->draw(v2(640, 360), _context.spriteSheet->get(_background), 0.0f, v2(2, 2), c);
-	sprites->end();
 }

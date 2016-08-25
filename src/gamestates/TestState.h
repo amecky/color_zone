@@ -9,6 +9,11 @@
 
 class TestState : public ds::GameState {
 
+	enum GameMode {
+		GM_RUNNING,
+		GM_OVER
+	};
+
 public:
 	TestState(GameContext* context, ds::Game* game);
 	~TestState();
@@ -27,5 +32,7 @@ private:
 	Block _mainBlock;
 	Laser* _laser;
 	ds::GUIDialog* _hud;
+	ds::GUIDialog* _gameOver;
 	SparkleEffect* _effect;
+	GameMode _mode;
 };

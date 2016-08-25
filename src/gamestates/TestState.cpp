@@ -16,6 +16,8 @@ TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("Test
 	_effect = new SparkleEffect(_context);
 	//_hud = new HUD(_context->settings);
 	_hud = ds::res::getGUIDialog("HUD");
+	_gameOver = ds::res::getGUIDialog("GameOver");
+	_mode = GM_OVER;
 }
 
 TestState::~TestState() {
@@ -31,6 +33,8 @@ void TestState::init() {
 }
 
 void TestState::activate() {
+	_mode = GM_RUNNING;
+	_gameOver->deactivate();
 	_context->pick_colors();
 	_map->reset();
 	_map->build(0);
@@ -62,6 +66,11 @@ void TestState::fillHighscore() {
 	ds::GameTimer* timer = _hud->getTimer(HUD_TIMER);
 	_context->currentScore.minutes = timer->getMinutes();
 	_context->currentScore.seconds = timer->getSeconds();
+	//std::string str;
+	_gameOver->updateTextFormatted(10, "%d",_context->levelIndex);
+	_gameOver->updateTextFormatted(11, "%d %%", _context->currentScore.fillrate);
+	_gameOver->updateTextFormatted(12, "%02d:%02d", _context->currentScore.minutes, _context->currentScore.seconds);
+	_gameOver->updateTextFormatted(13, "%06d", _context->currentScore.score);
 }
 
 // --------------------------------------------
@@ -97,25 +106,25 @@ void TestState::moveLaser(float dt) {
 // update
 // --------------------------------------------
 int TestState::update(float dt) {
+	if (_mode == GM_RUNNING) {
+		block::follow_mouse(&_mainBlock);
 
-	block::follow_mouse(&_mainBlock);
+		block::update(&_mainBlock, dt);
+		if (_previewBlock.flashing) {
+			block::flash_scale(&_previewBlock, dt, 0.2f);
+		}
 
-	block::update(&_mainBlock, dt);
-	if (_previewBlock.flashing) {
-		block::flash_scale(&_previewBlock, dt, 0.2f);
+		_hud->tick(dt);
+
+		const ds::GameTimer* timer = _hud->getTimer(HUD_TIMER);
+		if (timer->getMinutes() >= 3) {
+			// FIXME: find a better way to end the game???
+			fillHighscore();
+			return 1;
+		}
+
+		moveLaser(dt);
 	}
-
-	_hud->tick(dt);
-	
-	const ds::GameTimer* timer = _hud->getTimer(HUD_TIMER);
-	if (timer->getMinutes() >= 3) {
-		// FIXME: find a better way to end the game???
-		fillHighscore();
-		return 1;
-	}
-
-	moveLaser(dt);	
-
 	_effect->update(dt);
 
 	return 0;
@@ -125,16 +134,25 @@ int TestState::update(float dt) {
 // click
 // --------------------------------------------
 int TestState::onButtonUp(int button, int x, int y) {
-	if (button == 0) {
-		if (_map->copyBlock(&_mainBlock)) {
-			block::copy_colors(&_mainBlock,&_previewBlock);
-			block::pick_colors(&_previewBlock);
-			_previewBlock.flashing = true;
-			_previewBlock.flashTimer = 0.0f;
+	if (_mode == GM_RUNNING) {
+		if (button == 0) {
+			if (_map->copyBlock(&_mainBlock)) {
+				block::copy_colors(&_mainBlock, &_previewBlock);
+				block::pick_colors(&_previewBlock);
+				_previewBlock.flashing = true;
+				_previewBlock.flashTimer = 0.0f;
+			}
+		}
+		else if (button == 1) {
+			block::start_rotating(&_mainBlock);
 		}
 	}
-	else if (button == 1) {
-		block::start_rotating(&_mainBlock);
+	else {
+		int ret = _gameOver->onButton(button, x, y, true);
+		if (ret != -1) {
+			return ret;
+		}
+
 	}
 	return 0;
 }
@@ -145,20 +163,19 @@ int TestState::onButtonUp(int button, int x, int y) {
 void TestState::render() {
 	
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
-	sprites->begin();
 	_map->render();
-	_effect->render();
-	block::render(&_previewBlock, _context->colors);
-	block::render_boxed(&_mainBlock, _context->colors);
-	laser::render(_laser);
-	
-
-	for (int i = 0; i < 8; ++i) {
-		sprites->draw(v2(480 + i * 40, 30), math::buildTexture(0, 36, 36, 36), 0.0f, v2(1, 1), _context->colors[i]);
+	if (_mode == GM_RUNNING) {
+		_effect->render();
+		block::render(&_previewBlock, _context->colors);
+		block::render_boxed(&_mainBlock, _context->colors);
+		laser::render(_laser);
+		// FIXME: only for visual debugging
+		for (int i = 0; i < 8; ++i) {
+			sprites->draw(v2(480 + i * 40, 30), math::buildTexture(0, 36, 36, 36), 0.0f, v2(1, 1), _context->colors[i]);
+		}
 	}
-
-	sprites->end();
 	_hud->render();
+	_gameOver->render();
 }
 
 // --------------------------------------------
@@ -180,7 +197,9 @@ int TestState::onChar(int ascii) {
 	}
 	if (ascii == 'x') {
 		fillHighscore();
-		return 1;
+		//return 1;
+		_gameOver->activate();
+		_mode = GM_OVER;
 	}
 	if (ascii == 'r') {
 		_context->settings->load();

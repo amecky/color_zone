@@ -1,5 +1,5 @@
 button { 
-    id : 1 
+    id : 21 
     pos : 400,230 
     color : 255,255,255,255 
     centered : true 
@@ -8,7 +8,7 @@ button {
     text : "Restart"    
 }
 button { 
-    id : 2 
+    id : 22 
     pos : 400,120 
     color : 255,255,255,255 
     centered : true 
@@ -18,7 +18,7 @@ button {
 }
 text { 
     id : 4 
-    pos : 400,680 
+    pos : 400,580 
     color : 255,255,255,255 
     centered : true 
     scale : 1,1
