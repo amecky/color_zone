@@ -3,6 +3,7 @@
 #include "gamestates\TileMapEditor.h"
 #include "objects\Levels.h"
 #include <utils\Assert.h>
+#include <io\Huffmann.h>
 
 ds::BaseApp *app = new ColorZone();
 
@@ -63,6 +64,7 @@ bool ColorZone::loadContent() {
 	
 	_maxValue = math::random(_context.settings->background.minIntensity, _context.settings->background.maxIntensity);
 
+	ds::huffmann::first("Hello world");
 	return true;
 }
 
