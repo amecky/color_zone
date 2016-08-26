@@ -64,7 +64,8 @@ bool ColorZone::loadContent() {
 	
 	_maxValue = math::random(_context.settings->background.minIntensity, _context.settings->background.maxIntensity);
 
-	ds::huffmann::first("Hello world");
+	ds::huffmann::first("this is an example of a huffman tree");
+	ds::huffmann::decompress("test.huf");
 	return true;
 }
 
