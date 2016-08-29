@@ -8,6 +8,8 @@
 #include <base\InputSystem.h>
 #include "..\TileMap.h"
 
+const ds::StaticHash BLOCK_TEX_NAME = SID("block");
+
 const float ROTATION_TIME = 0.2f;
 
 const float STARTING_ANGLES[] = { DEGTORAD(225.0f), DEGTORAD(135.0f) , DEGTORAD(45.0f) , DEGTORAD(315.0f) };
@@ -52,7 +54,7 @@ namespace block {
 	void init(Block* block) {
 		block->position = p2i(512, 384);
 		ds::SpriteSheet* spriteSheet = ds::res::getSpriteSheet("spritesheet");
-		block->texture = spriteSheet->findIndex(SID("block"));
+		block->texture = spriteSheet->findIndex(BLOCK_TEX_NAME);
 		block->boxTexture = spriteSheet->findIndex(SID("block_box"));
 		for (int i = 0; i < 4; ++i) {
 			block->colors[i] = 0;

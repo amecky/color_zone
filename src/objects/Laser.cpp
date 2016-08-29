@@ -16,7 +16,7 @@ namespace laser {
 		laser->timer = 0.0f;
 		laser->column = 0;
 		laser->spriteSheet = ds::res::getSpriteSheet("spritesheet");
-		laser->texture = laser->spriteSheet->findIndex("laser");
+		laser->texture = laser->spriteSheet->findIndex(SID("laser"));
 		laser->color = ds::Color(0, 210, 210);
 	}
 
