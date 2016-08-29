@@ -52,8 +52,8 @@ namespace block {
 	void init(Block* block) {
 		block->position = p2i(512, 384);
 		ds::SpriteSheet* spriteSheet = ds::res::getSpriteSheet("spritesheet");
-		block->texture = spriteSheet->findIndex("block");
-		block->boxTexture = spriteSheet->findIndex("block_box");
+		block->texture = spriteSheet->findIndex(SID("block"));
+		block->boxTexture = spriteSheet->findIndex(SID("block_box"));
 		for (int i = 0; i < 4; ++i) {
 			block->colors[i] = 0;
 		}
