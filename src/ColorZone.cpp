@@ -4,6 +4,8 @@
 #include "objects\Levels.h"
 #include <core\base\Assert.h>
 #include <core\io\Huffmann.h>
+#include <core\io\FileRepository.h>
+#include "audio\AudioManager.h"
 
 ds::BaseApp *app = new ColorZone();
 
@@ -24,6 +26,7 @@ ColorZone::~ColorZone() {
 // prepare
 // -------------------------------------------------------
 void ColorZone::prepare(ds::Settings* settings) {
+	settings->repositoryMode = ds::repository::RM_RELEASE;
 	settings->screenWidth = 1280;
 	settings->screenHeight = 720;
 	settings->clearColor = ds::Color(0, 0, 0, 255);
@@ -64,8 +67,12 @@ bool ColorZone::loadContent() {
 	
 	_maxValue = math::random(_context.settings->background.minIntensity, _context.settings->background.maxIntensity);
 
-	ds::huffmann::first("this is an example of a huffman tree");
-	ds::huffmann::decompress("test.huf");
+	//ds::huffmann::first("this is an example of a huffman tree");
+	//ds::huffmann::decompress("test.huf");
+
+	ds::audio::initialize(graphics::getWindowsHandle());
+	ds::audio::load(SID("content\\sounds\\plop.wav"));
+	ds::audio::shutdown();
 	return true;
 }
 
