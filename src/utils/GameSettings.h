@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <imgui\IMGUI.h>
-#include <data\DynamicSettings.h>
+#include <core\data\DynamicSettings.h>
 
 // -------------------------------------------------------
 // game settings

@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "math", "..\math\math.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D11", "..\D11\D11.vcxproj", "{06303B62-8BCD-4AC5-BE6C-26B56D7144EA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DieselCore", "..\DieselCore\DieselCore.vcxproj", "{81265BED-6F81-404B-86DF-6306B3A251CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -37,6 +39,12 @@ Global
 		{06303B62-8BCD-4AC5-BE6C-26B56D7144EA}.Release|Win32.ActiveCfg = Release|Win32
 		{06303B62-8BCD-4AC5-BE6C-26B56D7144EA}.Release|Win32.Build.0 = Release|Win32
 		{06303B62-8BCD-4AC5-BE6C-26B56D7144EA}.Release|x64.ActiveCfg = Release|Win32
+		{81265BED-6F81-404B-86DF-6306B3A251CE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{81265BED-6F81-404B-86DF-6306B3A251CE}.Debug|Win32.Build.0 = Debug|Win32
+		{81265BED-6F81-404B-86DF-6306B3A251CE}.Debug|x64.ActiveCfg = Debug|Win32
+		{81265BED-6F81-404B-86DF-6306B3A251CE}.Release|Win32.ActiveCfg = Release|Win32
+		{81265BED-6F81-404B-86DF-6306B3A251CE}.Release|Win32.Build.0 = Release|Win32
+		{81265BED-6F81-404B-86DF-6306B3A251CE}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

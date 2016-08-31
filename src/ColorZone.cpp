@@ -2,8 +2,8 @@
 #include "gamestates\TestState.h"
 #include "gamestates\TileMapEditor.h"
 #include "objects\Levels.h"
-#include <utils\Assert.h>
-#include <io\Huffmann.h>
+#include <core\base\Assert.h>
+#include <core\io\Huffmann.h>
 
 ds::BaseApp *app = new ColorZone();
 

@@ -1,5 +1,5 @@
 #include "TileMapEditor.h"
-#include <utils\Log.h>
+#include <core\log\Log.h>
 #include <renderer\graphics.h>
 #include <gamestates\GameStateMachine.h>
 #include "..\objects\Levels.h"

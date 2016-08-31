@@ -47,9 +47,6 @@
     <ClCompile Include="src\objects\Laser.cpp">
       <Filter>objects</Filter>
     </ClCompile>
-    <ClCompile Include="src\objects\HUD.cpp">
-      <Filter>objects</Filter>
-    </ClCompile>
     <ClCompile Include="src\objects\Levels.cpp">
       <Filter>objects</Filter>
     </ClCompile>
@@ -80,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="src\utils\GameSettings.h">
       <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objects\HUD.h">
-      <Filter>objects</Filter>
     </ClInclude>
     <ClInclude Include="src\objects\Levels.h">
       <Filter>objects</Filter>
@@ -153,6 +147,12 @@
     </None>
     <None Include="content\resources.json">
       <Filter>content</Filter>
+    </None>
+    <None Include="content\spritesheet.json">
+      <Filter>content</Filter>
+    </None>
+    <None Include="content\resources\nullshock.json">
+      <Filter>content\resources</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

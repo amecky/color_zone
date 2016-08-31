@@ -1,4 +1,5 @@
 #pragma comment(lib, "D11.lib")
+#pragma comment(lib, "DieselCore.lib")
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dsound.lib")
 #pragma comment(lib, "dxerr.lib")

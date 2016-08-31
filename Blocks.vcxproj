@@ -83,8 +83,8 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EmbedManifest>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath);$(DXSDK_DIR)Include;..\math;..\D11</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);$(DXSDK_DIR)Lib\x86;..\D11\Debug</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath);$(DXSDK_DIR)Include;..\math;..\D11;..\DieselCore</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);$(DXSDK_DIR)Lib\x86;..\D11\Debug;..\DieselCore\Debug</LibraryPath>
     <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\devtools\DirectX\Lib\x86;$(ReferencePath)</ReferencePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\Diesel2D;C:\Program Files\DirectX_SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">...\Diesel2D\Release;C:\Program Files\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
@@ -92,7 +92,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>..\D11</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
@@ -102,7 +102,8 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
@@ -232,7 +233,6 @@
     <ClCompile Include="src\gamestates\TileMapEditor.cpp" />
     <ClCompile Include="src\Highscores.cpp" />
     <ClCompile Include="src\objects\Block.cpp" />
-    <ClCompile Include="src\objects\HUD.cpp" />
     <ClCompile Include="src\objects\Laser.cpp" />
     <ClCompile Include="src\objects\Levels.cpp" />
     <ClCompile Include="src\SparkleEffect.cpp" />
@@ -247,7 +247,6 @@
     <ClInclude Include="src\gamestates\TileMapEditor.h" />
     <ClInclude Include="src\Highscores.h" />
     <ClInclude Include="src\objects\Block.h" />
-    <ClInclude Include="src\objects\HUD.h" />
     <ClInclude Include="src\objects\Laser.h" />
     <ClInclude Include="src\objects\Levels.h" />
     <ClInclude Include="src\SparkleEffect.h" />
@@ -268,9 +267,11 @@
     <None Include="content\engine_settings.json" />
     <None Include="content\resources.json" />
     <None Include="content\resources\gui.json" />
+    <None Include="content\resources\nullshock.json" />
     <None Include="content\resources\xscale.json" />
     <None Include="content\settings.json" />
     <None Include="content\settings\color_zone.json" />
+    <None Include="content\spritesheet.json" />
     <None Include="levels\Level1.txt" />
     <None Include="levels\Level2.txt" />
     <None Include="levels\Level3.txt" />

@@ -2,7 +2,7 @@
 
 #include "Constants.h"
 #include <renderer\render_types.h>
-#include <math\Bitset.h>
+#include <core\math\Bitset.h>
 #include <string>
 #include <dialogs\GUIDialog.h>
 #include "utils\GameSettings.h"

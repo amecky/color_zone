@@ -1,5 +1,5 @@
 #include "TestState.h"
-#include <utils\Log.h>
+#include <core\log\Log.h>
 #include <renderer\graphics.h>
 #include <base\InputSystem.h>
 

@@ -1,8 +1,8 @@
 #pragma once
-#include <utils\Color.h>
-#include <utils\StaticHash.h>
+#include <core\graphics\Color.h>
+#include <core\string\StaticHash.h>
 
-const ds::StaticHash TEST_NAME = SID("Hello");
+const StaticHash TEST_NAME = SID("Hello");
 
 const int MAX_LEVELS = 10;
 const int MAX_X = 28;

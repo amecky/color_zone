@@ -1,9 +1,9 @@
 #include "Laser.h"
-#include <math\math.h>
+#include <core\math\math.h>
 #include "..\Constants.h"
 #include <renderer\sprites.h>
 #include "..\TileMap.h"
-#include <utils\Log.h>
+#include <core\log\Log.h>
 #include <resources\ResourceContainer.h>
 
 namespace laser {

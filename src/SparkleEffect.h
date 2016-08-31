@@ -3,7 +3,7 @@
 #include <renderer\render_types.h>
 #include "Common.h"
 #include <stdint.h>
-#include <lib\BlockArray.h>
+#include <core\lib\BlockArray.h>
 
 class SparkleEffect {
 
