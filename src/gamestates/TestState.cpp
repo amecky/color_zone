@@ -2,6 +2,7 @@
 #include <core\log\Log.h>
 #include <renderer\graphics.h>
 #include <base\InputSystem.h>
+#include <audio\AudioManager.h>
 
 TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("TestState", game), _context(context) {
 	_map = new TileMap(_context);
@@ -187,6 +188,9 @@ int TestState::onChar(int ascii) {
 		block::pick_colors(&_previewBlock);
 		_previewBlock.flashing = true;
 		_previewBlock.flashTimer = 0.0f;
+	}
+	if (ascii == '2') {
+		ds::audio::play(0);
 	}
 	if (ascii == 's') {
 		laser::start(_laser, _context->settings->laserStartDelay);
