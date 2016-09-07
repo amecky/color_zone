@@ -79,3 +79,8 @@ material {
 spritesheet {
 	name : "spritesheet"
 }
+sound {
+	file : "255.wav"
+	name : "255"
+}
+

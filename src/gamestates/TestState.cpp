@@ -190,7 +190,7 @@ int TestState::onChar(int ascii) {
 		_previewBlock.flashTimer = 0.0f;
 	}
 	if (ascii == '2') {
-		ds::audio::play(0);
+		ds::audio::play(SID("255"));
 	}
 	if (ascii == 's') {
 		laser::start(_laser, _context->settings->laserStartDelay);
