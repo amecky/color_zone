@@ -9,8 +9,10 @@
 struct GameSettings : public ds::DynamicGameSettings {
 
 	// laser
-	float laserStartDelay;
-	float laserStepDelay;
+	struct Laser {
+		float startDelay;
+		float stepDelay;
+	} laser;
 
 	float sparkleGap;
 	float sparkleTTL;
@@ -50,8 +52,8 @@ struct GameSettings : public ds::DynamicGameSettings {
 		add("sparkle.velocity", &sparkleVelocity, 20.0f);
 		add("sparkle.velocity_variance", &sparkleVelocityVariance, 4.0f);
 		// laser
-		add("laser.start_delay", &laserStartDelay, 10.0f);
-		add("laser.step_delay", &laserStepDelay, 10.0f);
+		add("laser.start_delay", &laser.startDelay, 10.0f);
+		add("laser.step_delay", &laser.stepDelay, 10.0f);
 		// intro
 		add("intro.warmup_timer", &introWarmupTimer, 2.0f);
 		add("intro.ttl", &introTTL, 3.0f);

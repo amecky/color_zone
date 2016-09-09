@@ -39,7 +39,7 @@ void TestState::activate() {
 	_context->pick_colors();
 	_map->reset();
 	_map->build(0);
-	laser::start(_laser,_context->settings->laserStartDelay);
+	laser::start(_laser,_context->settings->laser.startDelay);
 	_hud->activate();
 	_context->score = 0;
 	_context->fillRate = 0;
@@ -53,7 +53,7 @@ void TestState::activate() {
 	char buffer[32];
 	sprintf_s(buffer, 32, "%d%%", _context->fillRate);
 	_hud->updateText(HUD_PERCENTAGE, buffer);
-	_hud->setNumber(HUD_LASER, _context->settings->laserStartDelay);
+	_hud->setNumber(HUD_LASER, _context->settings->laser.startDelay);
 	// FIXME: set HUD colors (5 -> text 6 -> timer etc)
 }
 
@@ -79,7 +79,7 @@ void TestState::fillHighscore() {
 // --------------------------------------------
 void TestState::moveLaser(float dt) {
 	int column = -1;
-	if (laser::move(_laser, _context->settings->laserStepDelay, _context->settings->laserStartDelay, dt, &column)) {
+	if (laser::move(_laser, _context->settings->laser.stepDelay, _context->settings->laser.startDelay, dt, &column)) {
 		int colors[MAX_Y];
 		_map->getColumn(column, colors);
 		for (int i = 0; i < MAX_Y; ++i) {
@@ -193,7 +193,7 @@ int TestState::onChar(int ascii) {
 		ds::audio::play(SID("255"));
 	}
 	if (ascii == 's') {
-		laser::start(_laser, _context->settings->laserStartDelay);
+		laser::start(_laser, _context->settings->laser.startDelay);
 	}
 	if (ascii == 'd') {
 		_context->resume = true;
