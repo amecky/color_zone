@@ -4,7 +4,7 @@
 #include <gamestates\GameStateMachine.h>
 #include "..\objects\Levels.h"
 
-TileMapEditor::TileMapEditor(GameContext* context, ds::Game* game) : ds::BasicMenuGameState("TileMapEditor", "editor", game), _context(context) {
+TileMapEditor::TileMapEditor(GameContext* context) : ds::BasicMenuGameState("TileMapEditor", "editor"), _context(context) {
 	_map = new TileMap(_context);
 }
 

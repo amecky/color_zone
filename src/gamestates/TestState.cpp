@@ -4,7 +4,7 @@
 #include <base\InputSystem.h>
 #include <audio\AudioManager.h>
 
-TestState::TestState(GameContext* context, ds::Game* game) : ds::GameState("TestState", game), _context(context) {
+TestState::TestState(GameContext* context) : ds::GameState("TestState"), _context(context) {
 	_map = new TileMap(_context);
 	_laser = new Laser;
 	laser::init(_laser);

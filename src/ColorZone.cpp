@@ -53,9 +53,9 @@ bool ColorZone::loadContent() {
 	_context.spriteSheet = ds::res::getSpriteSheet("spritesheet");
 	_context.pick_colors();
 	_background = _context.spriteSheet->findIndex(SID("background"));
-	addGameState(new TestState(&_context, game));
-	addGameState(new TileMapEditor(&_context, game));
-	addGameState(new ds::BasicMenuGameState("MainMenu", "MainMenu", game));
+	addGameState(new TestState(&_context));
+	addGameState(new TileMapEditor(&_context));
+	addGameState(new ds::BasicMenuGameState("MainMenu", "MainMenu"));
 	connectGameStates("TileMapEditor", 1, "TestState");
 	connectGameStates("MainMenu", 1, "TestState");
 	connectGameStates("TestState", 22, "MainMenu");

@@ -11,7 +11,7 @@ enum EditorMode {
 };
 
 public:
-	TileMapEditor(GameContext* context, ds::Game* game);
+	TileMapEditor(GameContext* context);
 	~TileMapEditor();
 	int update(float dt);
 	void render();

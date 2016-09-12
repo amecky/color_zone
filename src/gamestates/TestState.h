@@ -15,7 +15,7 @@ class TestState : public ds::GameState {
 	};
 
 public:
-	TestState(GameContext* context, ds::Game* game);
+	TestState(GameContext* context);
 	~TestState();
 	void init();
 	int update(float dt);
