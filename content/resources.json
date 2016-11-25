@@ -72,7 +72,7 @@ material {
 	name : "RTMtrl"
 	diffuse : 255,255,255,255
 	ambient : 32,32,32,2555
-	blend_state : "SpriteBlendState"
+	blend_state : "DefaultBlendState"
 	shader : "SpriteShader"
 	render_target : "RT1"
 }

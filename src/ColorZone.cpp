@@ -33,7 +33,6 @@ void ColorZone::prepare(ds::Settings* settings) {
 	settings->fullScreen = false;
 	settings->reportingDirectory = "reports";
 	settings->synched = true;
-	settings->logTypes = ds::LogTypes::LT_CONSOLE | ds::LogTypes::LT_FILE;
 }
 
 
