@@ -21,7 +21,7 @@ button {
     pos : 400,400
     color : 255,255,255,255
     centered : true
-    scale : 1
+    scale : 1,1
     rect : 320,0,300,50
     text : "Highscores"
 }
@@ -43,19 +43,10 @@ button {
     rect : 260,0,300,50
     text : "Exit"
 }
-button { 
-    id : 6
-    pos : 400,240
-    color : 255,255,255,255
-    centered : true
-    scale : 1,1
-    rect : 568,0,300,50
-    text : "Change name"
-}
 image {
     id : 10
     pos : 250,400
-    color : 191,64,130,255
+    color : 140,66,82,255
     centered : false
     scale : 1,1
     rect : 210,500,100,410
@@ -63,7 +54,7 @@ image {
 image {
     id : 11
     pos : 1000,400
-    color : 191,64,130,255
+    color : 140,66,82,255
     centered : false
     scale : 1,1
     rect : 210,605,100,330

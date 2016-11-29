@@ -15,6 +15,14 @@ text {
     text : "Mode:"
 }
 text { 
+    id : 16
+    pos : 60,60
+    color : 255,255,255,255
+    centered : true
+    scale : 1,1
+    text : "12345678901234567890"
+}
+text { 
     id : 19
     pos : 60,550
     color : 255,255,255,255

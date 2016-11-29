@@ -10,9 +10,11 @@ public:
 	void update(int index, Tile* src);
 	void load();
 	void save();
+	const char* getName(int index) const;
 private:
 	int _blockSize;
 	int _total;
 	Tile* _tiles;
+	char* _names;
 };
 

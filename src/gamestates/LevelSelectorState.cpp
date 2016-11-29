@@ -1,10 +1,11 @@
 #include "LevelSelectorState.h"
-#include <utils\Log.h>
+#include <core\log\Log.h>
 #include <renderer\graphics.h>
 #include <gamestates\GameStateMachine.h>
 
 LevelSelectorState::LevelSelectorState(GameContext* context) : ds::GameState("LevelSelectorState"), _context(context) {
-	_map = new TileMap;
+	_map = new TileMap(_context);
+	_numLevels = 0;
 }
 
 
@@ -16,6 +17,7 @@ LevelSelectorState::~LevelSelectorState() {
 // --------------------------------------------
 void LevelSelectorState::activate() {
 	_map->reset();
+	/*
 	_map->load(_context->levelIndex);
 	_gui->activate("LevelSelector");
 	_context->filesystem.refresh();
@@ -25,7 +27,8 @@ void LevelSelectorState::activate() {
 		if (_levels[i] == _context->levelIndex) {
 			_index = i;
 		}
-	}	
+	}
+	*/
 	LOG << "available levels: " << _numLevels;
 }
 
@@ -33,7 +36,7 @@ void LevelSelectorState::activate() {
 // activate
 // --------------------------------------------
 void LevelSelectorState::deactivate() {
-	_gui->deactivate("LevelSelector");
+	//_gui->deactivate("LevelSelector");
 }
 
 // --------------------------------------------
@@ -63,12 +66,12 @@ int LevelSelectorState::onGUIButton(int button) {
 		}		
 		reload = true;
 	}
+	/*
 	if (reload) {
 		_context->levelIndex = _levels[_index];
 		_map->reset();
 		_map->load(_context->levelIndex);
 	}
-	// "text" { "id" : "6" , "pos" : "150,595" , "text" : "Timer mode" }
 	if (button == 4 || button == 5) {
 		ds::GUIDialog* dlg = _gui->get("LevelSelector");
 		if (_context->gameMode == GM_TIMER) {
@@ -80,6 +83,7 @@ int LevelSelectorState::onGUIButton(int button) {
 			dlg->updateText(6, "Timer mode");
 		}
 	}
+	*/
 	return button;
 }
 

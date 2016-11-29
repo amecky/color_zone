@@ -13,7 +13,7 @@ texture {
 	file : "Textures.png"
 }
 font {
-	name : "xscale"
+	name : "nullshock"
 	file : "nullshock.json"
 }
 font {
@@ -25,33 +25,33 @@ font {
 //}
 dialog {
     name : "MainMenu"
-    font : "xscale"
+    font : "nullshock"
     file : "MainMenu"
 }
 dialog {
     name : "GameOver"
     file : "GameOver" 
-    font : "xscale"
+    font : "nullshock"
 }
 dialog {
     name : "Highscores"
     file : "Highscores"
-    font : "xscale"
+    font : "nullshock"
 }
 dialog {
     name : "HUD"
     file : "HUD"
-    font : "xscale"
+    font : "nullshock"
 }
 dialog {
     name : "editor"
     file : "editor"
-    font : "xscale"
+    font : "nullshock"
 }
 dialog {
     name : "Credits"
     file : "Credits"
-    font : "xscale"
+    font : "nullshock"
 }
 //particle_manager {
 //	name : "ParticleManager"

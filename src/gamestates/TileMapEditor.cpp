@@ -21,14 +21,12 @@ void TileMapEditor::activate() {
 	_currentBorder = 0;
 	_levelIndex = 1;
 	_map->build(_levelIndex - 1);
-	//_gui->activate("editor");
 	_dialog->activate();
 	updateLevelLabel();
 	updateModeLabel();
 }
 
 void TileMapEditor::deactivate() {
-	//_gui->deactivate("editor");
 	_dialog->deactivate();
 }
 
@@ -60,7 +58,7 @@ int TileMapEditor::selectBorder(int x, int y) {
 // --------------------------------------------
 int TileMapEditor::onButtonUp(int button, int x, int y) {
 	int btn = ds::BasicMenuGameState::onButtonUp(button, x, y);
-	if (btn != -1) {
+	if (btn != 0) {
 		return btn;
 	}
 	int border = selectBorder(x, y);
@@ -101,18 +99,17 @@ void TileMapEditor::render() {
 	for (int i = 0; i < 16; ++i) {
 		v2 p(232 + i * 50, 670);
 		if (i == _currentBorder) {
-			sprites->draw(p, math::buildTexture(175, 210, 44, 44));
+			sprites->draw(p, math::buildTexture(140, 320, 44, 44));
 		}
 		else {
-			sprites->draw(p, math::buildTexture(175, 254, 44, 44));
+			sprites->draw(p, math::buildTexture(140, 380, 44, 44));
 		}
 		sprites->draw(p, math::buildTexture(44, 44 * i, 44, 44));
 	}
 	// map
-	_map->render();
-	sprites->end();
+	_map->render();	
 	_dialog->render();
-	
+	sprites->end();
 }
 
 void TileMapEditor::updateModeLabel() {
@@ -128,15 +125,13 @@ void TileMapEditor::updateLevelLabel() {
 	char buffer[32];
 	sprintf_s(buffer, 32, "L:%2d", _levelIndex);
 	_dialog->updateText(19, buffer);
+	_dialog->updateText(16, _context->levels->getName(_levelIndex - 1));
 }
 
 // --------------------------------------------
 // on char
 // --------------------------------------------
 int TileMapEditor::onChar(int ascii) {
-	if (ascii == 'r') {
-		_dialog->load();
-	}
 	return 0;
 }
 

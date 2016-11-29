@@ -3,38 +3,37 @@
 #include <renderer\render_types.h>
 #include "..\Common.h"
 
-struct Block {
+class Block {
 
-	p2i position;
-	int colors[4];
-	int texture;
-	int boxTexture;
-	bool rotating;
-	float rotationTimer;
-	float rotationRadius;
-	bool flashing;
-	float flashTimer;
-	v2 scale;
+public:
+	Block();
+	~Block() {}
+	void render(ds::Color* colors);
+	void render_boxed(ds::Color* colors);
+	void pick_colors();
+	void flash_scale(float dt, float flashTTL);
+	void copy_colors(const Block* other);
+	void start_rotating();
+	void update(float dt);
+	void follow_mouse();
+	int getColor(int idx) const;
+	void setPosition(const p2i& pos);
+	void startFlashing();
+	bool isFlashing() const {
+		return _flashing;
+	}
+	const p2i& getPosition() const {
+		return _position;
+	}
+private:
+	p2i _position;
+	int _colors[4];
+	int _texture;
+	int _boxTexture;
+	bool _rotating;
+	float _rotationTimer;
+	float _rotationRadius;
+	bool _flashing;
+	float _flashTimer;
+	v2 _scale;
 };
-
-namespace block {
-
-	void init(Block* block);
-
-	void render(Block* block, ds::Color* colors);
-
-	void render_boxed(Block* block, ds::Color* colors);
-
-	void pick_colors(Block* block);
-
-	void flash_scale(Block* block, float dt, float flashTTL);
-
-	void copy_colors(Block* block,const Block* other);
-
-	void start_rotating(Block* block);
-
-	void update(Block* block,float dt);
-
-	void follow_mouse(Block* block);
-
-}

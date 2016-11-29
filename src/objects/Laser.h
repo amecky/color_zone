@@ -8,30 +8,24 @@ enum LaserState {
 	LS_IDLE
 };
 
-struct Laser {
+class Laser {
 
-	ds::Color color;
-	float timer;
-	int column;
-	int texture;
-	LaserState state;
-	ds::SpriteSheet* spriteSheet;
-
-	Laser() : color(ds::Color::WHITE), timer(0.0f), column(-1), texture(-1), state(LS_IDLE), spriteSheet(0) {}
+public:
+	Laser();
+	~Laser() {}
+	void reset(float startDelay);
+	bool move(float stepDelay, float startDelay, float dt, int* column);
+	bool tick(float dt);
+	void start(float startDelay);
+	void render();
+	bool isRunning() const;
+	int getIdleSeconds() const;
+	LaserState getState() const;
+private:
+	ds::Color _color;
+	float _timer;
+	int _column;
+	int _texture;
+	LaserState _state;
+	ds::SpriteSheet* _spriteSheet;
 };
-
-namespace laser {
-
-	void init(Laser* laser);
-
-	void reset(Laser* laser, float startDelay);
-
-	bool move(Laser* laser, float stepDelay, float startDelay, float dt, int* column);
-
-	bool tick(Laser* laser, float dt);
-
-	void start(Laser* laser, float startDelay);
-
-	void render(Laser* laser);
-
-}

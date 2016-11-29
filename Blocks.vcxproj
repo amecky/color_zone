@@ -22,7 +22,7 @@
     <ProjectGuid>{D3D09002-96D0-4629-88B8-122C0256058C}</ProjectGuid>
     <RootNamespace>Blocks</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>Blocks</ProjectName>
+    <ProjectName>color_zone</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -108,7 +108,7 @@
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxerr.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)Blocks.exe</OutputFile>
+      <OutputFile>$(OutDir)color_zone.exe</OutputFile>
       <GenerateManifest>false</GenerateManifest>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)Blocks.pdb</ProgramDatabaseFile>
@@ -229,6 +229,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ColorZone.cpp" />
+    <ClCompile Include="src\gamestates\LevelSelectorState.cpp" />
     <ClCompile Include="src\gamestates\TestState.cpp" />
     <ClCompile Include="src\gamestates\TileMapEditor.cpp" />
     <ClCompile Include="src\Highscores.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
+    <ClInclude Include="src\gamestates\LevelSelectorState.h" />
     <ClInclude Include="src\gamestates\TestState.h" />
     <ClInclude Include="src\gamestates\TileMapEditor.h" />
     <ClInclude Include="src\Highscores.h" />
@@ -268,10 +270,10 @@
     <None Include="content\resources.json" />
     <None Include="content\resources\gui.json" />
     <None Include="content\resources\nullshock.json" />
+    <None Include="content\resources\spritesheet.json" />
     <None Include="content\resources\xscale.json" />
     <None Include="content\settings.json" />
     <None Include="content\settings\color_zone.json" />
-    <None Include="content\spritesheet.json" />
     <None Include="levels\Level1.txt" />
     <None Include="levels\Level2.txt" />
     <None Include="levels\Level3.txt" />

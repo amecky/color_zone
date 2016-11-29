@@ -57,6 +57,7 @@ bool ColorZone::loadContent() {
 	addGameState(new ds::BasicMenuGameState("MainMenu", "MainMenu"));
 	connectGameStates("TileMapEditor", 1, "TestState");
 	connectGameStates("MainMenu", 1, "TestState");
+	connectGameStates("MainMenu", 2, "TileMapEditor");
 	connectGameStates("TestState", 22, "MainMenu");
 	connectGameStates("TestState", 21, "TestState");
 
@@ -71,7 +72,7 @@ bool ColorZone::loadContent() {
 
 	
 	
-	ds::audio::play(SID("255"));
+	//ds::audio::play(SID("255"));
 	return true;
 }
 
@@ -80,7 +81,7 @@ bool ColorZone::loadContent() {
 // -------------------------------------------------------
 void ColorZone::init() {
 	renewBackgroundSettings();
-	activate("TestState");
+	activate("TileMapEditor");
 }
 
 // -------------------------------------------------------

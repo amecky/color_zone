@@ -12,9 +12,16 @@ Levels::Levels() {
 		t.state.clear();
 		t.state.set(BIT_AVAILABLE);
 	}
+	_names = new char[16 * MAX_LEVELS];
+	char* tmp = _names;
+	for (int i = 0; i < MAX_LEVELS; ++i) {
+		sprintf(tmp, "Number %d", i + 1);
+		tmp += 16;
+	}
 }
 
 Levels::~Levels() {
+	delete[] _names;
 	delete[] _tiles;
 }
 
@@ -39,6 +46,7 @@ void Levels::update(int index, Tile* src) {
 void Levels::load() {
 	FILE* f = fopen("data\\block.lvl", "rb");
 	if (f) {
+		fread(_names, sizeof(char), 16 * MAX_LEVELS, f);
 		Tile* dest = _tiles;
 		for (int i = 0; i < _total; ++i) {
 			fread(dest, sizeof(Tile), 1, f);
@@ -51,9 +59,15 @@ void Levels::load() {
 void Levels::save() {
 	FILE* f = fopen("data\\block.lvl", "wb");
 	Tile* dest = _tiles;
+	fwrite(_names, sizeof(char), 16 * MAX_LEVELS, f);
 	for (int i = 0; i < _total; ++i) {
 		fwrite(dest, sizeof(Tile), 1, f);
 		++dest;
 	}
 	fclose(f);
+}
+
+const char* Levels::getName(int index) const {
+	int idx = index * 16;
+	return _names + idx;
 }
