@@ -29,7 +29,7 @@ void TestState::activate() {
 	_gameOver->deactivate();
 	_context->pick_colors();
 	_map->reset();
-	_map->build(0);
+	_map->build(_context->levelIndex);
 	_laser->start(_context->settings->laser.startDelay);
 	_hud->activate();
 	_context->score = 0;

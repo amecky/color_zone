@@ -3,7 +3,7 @@
 #include "..\Constants.h"
 #include <gamestates\GameState.h>
 
-class LevelSelectorState : public ds::GameState {
+class LevelSelectorState : public ds::BasicMenuGameState {
 
 public:
 	LevelSelectorState(GameContext* context);

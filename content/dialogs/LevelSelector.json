@@ -1,156 +1,40 @@
-image { 
-    id : 10
-    pos : 200,710
-    color : 255,255,255,255
-    centered : true
-    scale : 1
-    rect : 204,0,502,94
-}
-image { 
-    id : 11
-    pos : 330,630
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 230,510,400,40
-}
-image { 
-    id : 12
-    pos : 700,630
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 230,650,360,40
-}
-image { 
-    id : 13
-    pos : 330,570
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 272,510,400,40
-}
-image { 
-    id : 14
-    pos : 700,570
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 272,650,360,40
-}
-image { 
-    id : 15
-    pos : 133,600
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,20
-}
-image { 
-    id : 16
-    pos : 877,600
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,20
-}
-image { 
-    id : 17
-    pos : 330,520
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 230,510,400,40
-}
-image { 
-    id : 18
-    pos : 700,520
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 230,650,360,40
-}
-image { 
-    id : 19
-    pos : 330,230
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 272,510,400,40
-}
-image { 
-    id : 20
-    pos : 700,230
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 272,650,360,40
-}
-image { 
-    id : 21
-    pos : 133,375
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,250
-}
-image { 
-    id : 22
-    pos : 878,375
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,250
-}
 text { 
-    id : 8
+    id : 7
     pos : 400,700
     color : 255,255,255,255
     centered : true
-    scale : 1.5
+    scale : 1,1
     text : "Select Level"
 }
 text { 
-    id : 6
-    pos : 150,595
+    id : 8
+    pos : 150,600
     color : 255,255,255,255
     centered : true
-    scale : 1
-    text : "Timer mode"
+    scale : 1,1
+    text : "12345678901234567890"
+}
+image_button { 
+	id : 5 
+	pos : 400,600 
+	rect : 210,0,40,40 
+	centered : false  
+}
+image_button { 
+	id : 6
+	pos : 870,600 
+	rect : 210,0,40,40 
+	centered : false 
 }
 button { 
 	id : 1 
 	pos : 400,160 
 	text : "Play" 
-	rect : 510,0,340,50 
+	rect : 320,0,300,50
 }
 button { 
-	id : 7 
+	id : 2 
 	pos : 400,80 
 	text : "Main Menu" 
-	rect : 510,0,340,50 
-}
-image_button {
-	id : 2
-	pos : 200,384
-	rect : 500,350,62,62
-	centered : false
-}
-image_button { 
-	id : 3 
-	pos : 810,384 
-	rect : 500,420,62,62 
-	centered : false 
-}
-image_button { 
-	id : 4 
-	pos : 200,600 
-	rect : 500,350,62,62 
-	centered : false  
-}
-image_button { 
-	id : 5 
-	pos : 810,600 
-	rect : 500,420,62,62 
-	centered : false 
+	rect : 260,0,300,50 
 }

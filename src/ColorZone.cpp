@@ -1,6 +1,7 @@
 #include "ColorZone.h"
 #include "gamestates\TestState.h"
 #include "gamestates\TileMapEditor.h"
+#include "gamestates\LevelSelectorState.h"
 #include "objects\Levels.h"
 #include <core\base\Assert.h>
 #include <core\io\Huffmann.h>
@@ -49,17 +50,22 @@ bool ColorZone::loadContent() {
 	_context.settings->load();
 	_context.levels = new Levels;
 	_context.levels->load();
+	_context.levelIndex = 0;
 	_context.spriteSheet = ds::res::getSpriteSheet("spritesheet");
 	_context.pick_colors();
 	_background = _context.spriteSheet->findIndex(SID("background"));
+
 	addGameState(new TestState(&_context));
 	addGameState(new TileMapEditor(&_context));
+	addGameState(new LevelSelectorState(&_context));
 	addGameState(new ds::BasicMenuGameState("MainMenu", "MainMenu"));
 	connectGameStates("TileMapEditor", 1, "TestState");
-	connectGameStates("MainMenu", 1, "TestState");
+	connectGameStates("MainMenu", 1, "LevelSelectorState");
 	connectGameStates("MainMenu", 2, "TileMapEditor");
 	connectGameStates("TestState", 22, "MainMenu");
 	connectGameStates("TestState", 21, "TestState");
+	connectGameStates("LevelSelectorState", 2, "MainMenu");
+	connectGameStates("LevelSelectorState", 1, "TestState");
 
 	RID _material = ds::res::find("SpriteMaterial", ds::ResourceType::MATERIAL);
 	ds::Material* m = ds::res::getMaterial(_material);
@@ -67,11 +73,6 @@ bool ColorZone::loadContent() {
 	
 	_maxValue = math::random(_context.settings->background.minIntensity, _context.settings->background.maxIntensity);
 
-	//ds::huffmann::first("this is an example of a huffman tree");
-	//ds::huffmann::decompress("test.huf");
-
-	
-	
 	//ds::audio::play(SID("255"));
 	return true;
 }
@@ -81,7 +82,7 @@ bool ColorZone::loadContent() {
 // -------------------------------------------------------
 void ColorZone::init() {
 	renewBackgroundSettings();
-	activate("TileMapEditor");
+	activate("LevelSelectorState");
 }
 
 // -------------------------------------------------------

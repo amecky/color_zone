@@ -2,8 +2,9 @@
 #include <core\log\Log.h>
 #include <renderer\graphics.h>
 #include <gamestates\GameStateMachine.h>
+#include "..\objects\Levels.h"
 
-LevelSelectorState::LevelSelectorState(GameContext* context) : ds::GameState("LevelSelectorState"), _context(context) {
+LevelSelectorState::LevelSelectorState(GameContext* context) : ds::BasicMenuGameState("LevelSelectorState", "LevelSelector"), _context(context) {
 	_map = new TileMap(_context);
 	_numLevels = 0;
 }
@@ -17,26 +18,17 @@ LevelSelectorState::~LevelSelectorState() {
 // --------------------------------------------
 void LevelSelectorState::activate() {
 	_map->reset();
-	/*
-	_map->load(_context->levelIndex);
-	_gui->activate("LevelSelector");
-	_context->filesystem.refresh();
-	_numLevels = _context->filesystem.getAvailableLevels(_levels);
+	_map->build(0);
+	_dialog->activate();
+	_dialog->updateText(8, _context->levels->getName(0));
 	_index = 0;
-	for (int i = 0; i < _numLevels; ++i) {
-		if (_levels[i] == _context->levelIndex) {
-			_index = i;
-		}
-	}
-	*/
-	LOG << "available levels: " << _numLevels;
 }
 
 // --------------------------------------------
 // activate
 // --------------------------------------------
 void LevelSelectorState::deactivate() {
-	//_gui->deactivate("LevelSelector");
+	_dialog->deactivate();
 }
 
 // --------------------------------------------
@@ -52,26 +44,27 @@ int LevelSelectorState::update(float dt) {
 // --------------------------------------------
 int LevelSelectorState::onGUIButton(int button) {
 	bool reload = false;
-	if (button == 2) {
+	if (button == 5) {
 		--_index;
 		if (_index < 0) {
 			_index = 0;
 		}		
 		reload = true;
 	}
-	if (button == 3) {
+	if (button == 6) {
 		++_index;
-		if (_index >= _numLevels) {
-			_index = _numLevels - 1;
+		if (_index >= MAX_LEVELS) {
+			_index = MAX_LEVELS - 1;
 		}		
 		reload = true;
 	}
-	/*
-	if (reload) {
-		_context->levelIndex = _levels[_index];
+	if (reload) {		
+		_context->levelIndex = _index;
 		_map->reset();
-		_map->load(_context->levelIndex);
+		_map->build(_context->levelIndex);
+		_dialog->updateText(8, _context->levels->getName(_index));
 	}
+	/*
 	if (button == 4 || button == 5) {
 		ds::GUIDialog* dlg = _gui->get("LevelSelector");
 		if (_context->gameMode == GM_TIMER) {
@@ -91,7 +84,11 @@ int LevelSelectorState::onGUIButton(int button) {
 // render
 // --------------------------------------------
 void LevelSelectorState::render() {	
-	_map->render(SQUARE_SIZE/2,0.5f);
+	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
+	sprites->begin();
+	_map->render(SQUARE_SIZE / 2, 0.5f);
+	_dialog->render();
+	sprites->end();
 }
 
 

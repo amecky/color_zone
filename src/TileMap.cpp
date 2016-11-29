@@ -140,6 +140,8 @@ void TileMap::render() {
 // render
 // --------------------------------------------
 void TileMap::render(int squareSize,float scale) {
+	int sx = (1280 - squareSize * MAX_X) / 2;
+	int sy = (720 - squareSize * MAX_Y) / 2;
 	ds::Color clr = ds::Color::WHITE;
 	ds::Texture tex;
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
@@ -147,7 +149,7 @@ void TileMap::render(int squareSize,float scale) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			clr = ds::Color::WHITE;
 			const Tile& t = get(x, y);
-			p2i p = map::grid2screen(p2i(x, y));
+			p2i p = p2i(sx + x * squareSize, sy + y * squareSize);
 			if (t.state.isSet(BIT_AVAILABLE)) {	
 				if (t.state.isSet(BIT_COHERENT)) {
 					if (t.edges > 0) {

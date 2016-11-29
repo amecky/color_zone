@@ -53,6 +53,11 @@ dialog {
     file : "Credits"
     font : "nullshock"
 }
+dialog {
+    name : "LevelSelector"
+    file : "LevelSelector"
+    font : "nullshock"
+}
 //particle_manager {
 //	name : "ParticleManager"
 //}
