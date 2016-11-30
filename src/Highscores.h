@@ -13,7 +13,7 @@ public:
 	void save();
 	void load();
 private:	
-	Highscore _scores[MAX_LEVELS * MAX_SCORE_ENTRIES * 2];
+	Highscore _scores[MAX_LEVELS * MAX_SCORE_ENTRIES];
 	int _maxEntries;
 };
 

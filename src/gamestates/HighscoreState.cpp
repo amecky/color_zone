@@ -1,9 +1,11 @@
 #include "HighscoreState.h"
-#include <utils\Log.h>
+#include <core\log\Log.h>
 #include <renderer\graphics.h>
 #include <gamestates\GameStateMachine.h>
+#include "..\objects\Levels.h"
 
-HighscoreState::HighscoreState(GameContext* context) : ds::GameState("HighscoreState"), _context(context) {
+HighscoreState::HighscoreState(GameContext* context) : ds::BasicMenuGameState("HighscoreState","Highscores"), _context(context) {
+	_index = 0;
 }
 
 
@@ -15,15 +17,13 @@ HighscoreState::~HighscoreState() {
 // --------------------------------------------
 void HighscoreState::activate() {
 	_highscores.load();
+	_dialog->activate();
 	_index = 0;
-	_numLevels = _context->filesystem.getAvailableLevels(_availableLevels);
-	_gui->activate("Highscores");	
 	// add current score to highscores
 	int ranking = _highscores.add(_context->currentScore);
 	if (ranking != -1) {
 		_highscores.save();
 	}
-	_mode = GM_TIMER;
 	updateText();
 }
 
@@ -31,7 +31,7 @@ void HighscoreState::activate() {
 // activate
 // --------------------------------------------
 void HighscoreState::deactivate() {
-	_gui->deactivate("Highscores");
+	_dialog->deactivate();
 }
 
 // --------------------------------------------
@@ -43,29 +43,21 @@ int HighscoreState::update(float dt) {
 }
 
 void HighscoreState::updateText() {
-	ds::GUIDialog* dlg = _gui->get("Highscores");
-	char buffer[32];
-	sprintf_s(buffer, 32, "Level %d", _availableLevels[_index]);
-	dlg->updateText(10, buffer);
-	if (_mode == GM_TIMER) {
-		dlg->updateText(11, "Timer mode");
-	}
-	else {
-		dlg->updateText(11, "Coverage mode");
-	}
+	char buffer[64];
+	_dialog->updateText(10, _context->levels->getName(_index));
 	Highscore scores[MAX_SCORE_ENTRIES];
-	_highscores.get(_availableLevels[_index], _mode, scores);
+	_highscores.get(_index, scores);
 	for (int i = 0; i < 5; ++i) {
 		const Highscore& current = scores[i];
 		if (current.score > 0) {
-			dlg->updateText(20 + i, current.name);
+			_dialog->updateText(20 + i, current.name);
 			ds::string::formatInt(current.score, buffer, 6);
-			dlg->updateText(40 + i, buffer);
+			_dialog->updateText(40 + i, buffer);
 		}
 		else {
-			dlg->updateText(20 + i, "---");
+			_dialog->updateText(20 + i, "---");
 			ds::string::formatInt(0, buffer, 6);
-			dlg->updateText(40 + i, buffer);
+			_dialog->updateText(40 + i, buffer);
 		}
 	}
 }
@@ -74,30 +66,18 @@ void HighscoreState::updateText() {
 // --------------------------------------------
 int HighscoreState::onGUIButton(int button) {
 	if (button == 2) {
-		if (_mode == GM_TIMER) {
-			_mode = GM_COVERAGE;
-		}
-		else {
-			--_index;
-			if (_index < 0) {
-				_index = 0;
-			}
-			_mode = GM_TIMER;
+		--_index;
+		if (_index < 0) {
+			_index = 0;
 		}
 		updateText();
 		return 0;
 
 	}
 	else  if (button == 3) {
-		if (_mode == GM_TIMER) {
-			_mode = GM_COVERAGE;
-		}
-		else {
-			++_index;
-			if (_index >= _numLevels) {
-				_index = _numLevels - 1;				
-			}
-			_mode = GM_TIMER;
+		++_index;
+		if (_index >= MAX_LEVELS) {
+			_index = MAX_LEVELS - 1;				
 		}
 		updateText();
 		return 0;
@@ -109,6 +89,10 @@ int HighscoreState::onGUIButton(int button) {
 // render
 // --------------------------------------------
 void HighscoreState::render() {
+	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
+	sprites->begin();
+	_dialog->render();
+	sprites->end();
 }
 
 

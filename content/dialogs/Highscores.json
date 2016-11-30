@@ -1,17 +1,9 @@
-image { 
-    id : 4
-    pos : 200,710
-    color : 255,255,255,255
-    centered : true
-    scale : 1
-    rect : 204,0,502,94
-}
 text { 
     id : 5
     pos : 400,700
     color : 255,255,255,255
     centered : true
-    scale : 1.5
+    scale : 1,1
     text : "Highscores"
 }
 text { 
@@ -19,247 +11,143 @@ text {
     pos : 150,610
     color : 255,255,255,255
     centered : true
-    scale : 1
-    text : "Level 1"
-}
-text { 
-    id : 11
-    pos : 150,570
-    color : 255,255,255,255
-    centered : true
-    scale : 1
-    text : "Timer mode"
-}
-image { 
-    id : 12
-    pos : 335,630
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 230,510,450,40
-}
-image { 
-    id : 13
-    pos : 750,630
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 230,670,380,40
-}
-image { 
-    id : 14
-    pos : 335,560
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 272,510,450,40
-}
-image { 
-    id : 15
-    pos : 750,560
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 272,670,380,40
-}
-image { 
-    id : 16
-    pos : 113,595
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,30
-}
-image { 
-    id : 17
-    pos : 897,595
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,30
+    scale : 1,1
+    text : "12345678901234567890"
 }
 image_button { 
     id : 2
-    pos : 200,600
+    pos : 400,600
     color : 255,255,255,255
     centered : false
-    scale : 1
-    rect : 500,350,62,62
+    scale : 1,1
+    rect : 210,60,40,40
 }
 image_button { 
     id : 3
-    pos : 810,600
+    pos : 870,600
     color : 255,255,255,255
     centered : false
-    scale : 1
-    rect : 500,420,62,62
-}
-image { 
-    id : 51
-    pos : 335,480
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 230,510,450,40
-}
-image { 
-    id : 52
-    pos : 750,480
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 230,670,380,40
-}
-image { 
-    id : 53
-    pos : 335,230
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 272,510,450,40
-}
-image { 
-    id : 54
-    pos : 750,230
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 272,670,380,40
-}
-image { 
-    id : 55
-    pos : 113,355
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,210
-}
-image { 
-    id : 56
-    pos : 897,355
-    color : 255,255,255,255
-    centered : false
-    scale : 1
-    rect : 316,510,6,210
+    scale : 1,1
+    rect : 210,120,40,40
 }
 text { 
     id : 30
-    pos : 150,450
+    pos : 350,450
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "1."
 }
 text { 
     id : 31
-    pos : 150,400
+    pos : 350,400
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "2."
 }
 text { 
     id : 32
-    pos : 150,350
+    pos : 350,350
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "3."
 }
 text { 
     id : 33
-    pos : 150,300
+    pos : 350,300
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "4."
 }
 text { 
     id : 34
-    pos : 150,250
+    pos : 350,250
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "5."
 }
 text { 
     id : 20
-    pos : 200,450
+    pos : 600,450
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "First place"
 }
 text { 
     id : 21
-    pos : 200,400
+    pos : 600,400
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "Second place"
 }
 text { 
     id : 22
-    pos : 200,350
+    pos : 600,350
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "Third place"
 }
 text { 
     id : 23
-    pos : 200,300
+    pos : 600,300
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "Fourth place"
 }
 text { 
     id : 24
-    pos : 200,250
+    pos : 600,250
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "Some Kind of long na"
 }
 text { 
     id : 40
-    pos : 700,450
+    pos : 900,450
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "000000"
 }
 text { 
     id : 41
-    pos : 700,400
+    pos : 900,400
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "000000"
 }
 text { 
     id : 42
-    pos : 700,350
+    pos : 900,350
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "000000"
 }
 text { 
     id : 43
-    pos : 700,300
+    pos : 900,300
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "000000"
 }
 text { 
     id : 44
-    pos : 700,250
+    pos : 900,250
     color : 255,255,255,255
     centered : false
-    scale : 1
+    scale : 1,1
     text : "000000"
 }
 button { 
@@ -267,7 +155,7 @@ button {
     pos : 400,120
     color : 255,255,255,255
     centered : true
-    scale : 1
-    rect : 510,0,340,50
+    scale : 1,1
+    rect : 260,0,300,50 
     text : "Main Menu"
 }

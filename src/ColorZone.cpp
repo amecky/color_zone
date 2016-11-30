@@ -2,6 +2,7 @@
 #include "gamestates\TestState.h"
 #include "gamestates\TileMapEditor.h"
 #include "gamestates\LevelSelectorState.h"
+#include "gamestates\HighscoreState.h"
 #include "objects\Levels.h"
 #include <core\base\Assert.h>
 #include <core\io\Huffmann.h>
@@ -58,10 +59,13 @@ bool ColorZone::loadContent() {
 	addGameState(new TestState(&_context));
 	addGameState(new TileMapEditor(&_context));
 	addGameState(new LevelSelectorState(&_context));
+	addGameState(new HighscoreState(&_context));
 	addGameState(new ds::BasicMenuGameState("MainMenu", "MainMenu"));
-	connectGameStates("TileMapEditor", 1, "TestState");
+	connectGameStates("TileMapEditor", 1, "MainMenu");
 	connectGameStates("MainMenu", 1, "LevelSelectorState");
 	connectGameStates("MainMenu", 2, "TileMapEditor");
+	connectGameStates("MainMenu", 5, "HighscoreState");
+	connectGameStates("HighscoreState", 1, "MainMenu");
 	connectGameStates("TestState", 22, "MainMenu");
 	connectGameStates("TestState", 21, "TestState");
 	connectGameStates("LevelSelectorState", 2, "MainMenu");
@@ -82,7 +86,7 @@ bool ColorZone::loadContent() {
 // -------------------------------------------------------
 void ColorZone::init() {
 	renewBackgroundSettings();
-	activate("LevelSelectorState");
+	activate("TileMapEditor");
 }
 
 // -------------------------------------------------------
@@ -93,7 +97,7 @@ void ColorZone::update(float dt) {
 	float norm = _timer / _ttl;
 	if (norm >= 1.0f) {		
 		renewBackgroundSettings();
-		LOG << "ttl: " << _ttl << " min: " << _minValue << " max: " << _maxValue;
+		//LOG << "ttl: " << _ttl << " min: " << _minValue << " max: " << _maxValue;
 	}
 }
 

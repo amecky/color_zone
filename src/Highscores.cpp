@@ -2,7 +2,7 @@
 
 
 Highscores::Highscores() {
-	_maxEntries = MAX_LEVELS * MAX_SCORE_ENTRIES * 2;
+	_maxEntries = MAX_LEVELS * MAX_SCORE_ENTRIES;
 }
 
 
@@ -15,7 +15,7 @@ Highscores::~Highscores() {
 int Highscores::add(const Highscore& score) {
 	int idx = -1;
 	if (score.score > 0) {
-		int index = 2 * MAX_SCORE_ENTRIES * (score.level - 1);
+		int index = MAX_SCORE_ENTRIES * (score.level - 1);
 		for (int i = 0; i < MAX_SCORE_ENTRIES; ++i) {
 			if (idx == -1 && score.score >= _scores[i + index].score) {
 				idx = i;
@@ -33,7 +33,7 @@ int Highscores::add(const Highscore& score) {
 // get entries by level and mode
 // --------------------------------------------
 void Highscores::get(int level, Highscore* scores) {
-	int index = 2 * MAX_SCORE_ENTRIES * (level - 1);
+	int index = MAX_SCORE_ENTRIES * (level - 1);
 	for (int i = 0; i < MAX_SCORE_ENTRIES; ++i) {
 		scores[i] = _scores[i + index];
 	}
@@ -44,10 +44,10 @@ void Highscores::get(int level, Highscore* scores) {
 // --------------------------------------------
 void Highscores::save() {
 	FILE* f = fopen("scores", "wb");
-	for (int i = 0; i < _maxEntries; ++i ) {
-		fwrite(&_scores[i], sizeof(Highscore), 1, f);
+	if (f) {
+		fwrite(&_scores, sizeof(Highscore) * _maxEntries, 1, f);
+		fclose(f);
 	}
-	fclose(f);
 }
 
 // --------------------------------------------
@@ -56,9 +56,7 @@ void Highscores::save() {
 void Highscores::load() {
 	FILE* f = fopen("scores", "rb");
 	if (f) {
-		for (int i = 0; i < _maxEntries; ++i) {
-			fread(&_scores[i], sizeof(Highscore), 1, f);
-		}
+		fread(&_scores, sizeof(Highscore) * _maxEntries, 1, f);
 		fclose(f);
 	}
 }

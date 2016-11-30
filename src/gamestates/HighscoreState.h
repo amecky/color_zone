@@ -4,7 +4,7 @@
 #include <gamestates\GameState.h>
 #include "..\Highscores.h"
 
-class HighscoreState : public ds::GameState {
+class HighscoreState : public ds::BasicMenuGameState {
 
 public:
 	HighscoreState(GameContext* context);
@@ -18,9 +18,6 @@ private:
 	void updateText();
 	GameContext* _context;
 	Highscores _highscores;
-	int _availableLevels[MAX_LEVELS];
-	int _numLevels;
 	int _index;
-	GameMode _mode;
 };
 
