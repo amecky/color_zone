@@ -155,8 +155,8 @@ int TileMapEditor::onGUIButton(int button) {
 	}
 	if (button == 20) {
 		++_levelIndex;
-		if (_levelIndex >= MAX_LEVELS) {
-			_levelIndex = MAX_LEVELS - 1;
+		if (_levelIndex > MAX_LEVELS) {
+			_levelIndex = MAX_LEVELS;
 		}
 		updateLevelLabel();
 		_map->build(_levelIndex - 1);
