@@ -3,11 +3,11 @@
 #include "..\Constants.h"
 #include <gamestates\GameState.h>
 
-class InputNameState : public ds::GameState {
+class GameOverState : public ds::BasicMenuGameState {
 
 public:
-	InputNameState(GameContext* context);
-	~InputNameState();
+	GameOverState(GameContext* context);
+	~GameOverState();
 	int update(float dt);
 	void render();
 	int onGUIButton(int button);
@@ -17,10 +17,10 @@ public:
 	int onKeyUp(WPARAM virtualKey);
 private:
 	GameContext* _context;
-	ds::GUIDialog* _dialog;
 	ds::Texture _texture;
 	float _timer;
-	bool _visible;
 	int _length;
+	char _text[12];
+	int _textIndex;
 };
 

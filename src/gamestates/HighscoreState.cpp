@@ -16,14 +16,15 @@ HighscoreState::~HighscoreState() {
 // activate
 // --------------------------------------------
 void HighscoreState::activate() {
-	_highscores.load();
+	//_highscores.load();
+	_context->highscoreService->load();
 	_dialog->activate();
 	_index = 0;
 	// add current score to highscores
-	int ranking = _highscores.add(_context->currentScore);
-	if (ranking != -1) {
-		_highscores.save();
-	}
+	//int ranking = _highscores.add(_context->currentScore);
+	//if (ranking != -1) {
+		//_highscores.save();
+	//}
 	updateText();
 }
 
@@ -46,7 +47,7 @@ void HighscoreState::updateText() {
 	char buffer[64];
 	_dialog->updateText(10, _context->levels->getName(_index));
 	Highscore scores[MAX_SCORE_ENTRIES];
-	_highscores.get(_index, scores);
+	_context->highscoreService->get(_index, scores);
 	for (int i = 0; i < 5; ++i) {
 		const Highscore& current = scores[i];
 		if (current.score > 0) {

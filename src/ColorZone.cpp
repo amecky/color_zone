@@ -1,26 +1,28 @@
 #include "ColorZone.h"
-#include "gamestates\TestState.h"
+#include "gamestates\MainState.h"
 #include "gamestates\TileMapEditor.h"
 #include "gamestates\LevelSelectorState.h"
 #include "gamestates\HighscoreState.h"
+#include "gamestates\CreditsState.h"
+#include "gamestates\GameOverState.h"
+#include "gamestates\UserNameState.h"
 #include "objects\Levels.h"
 #include <core\base\Assert.h>
 #include <core\io\Huffmann.h>
 #include <core\io\FileRepository.h>
 #include "audio\AudioManager.h"
+#include "utils\FadingBackgroundPlugin.h"
 
 ds::BaseApp *app = new ColorZone();
 
 ColorZone::ColorZone() {
 	//_CrtSetBreakAlloc(12876);
-	_timer = 0.0f;
-	_ttl = 1.0f;
-	_minValue = 0.6f;
-	_maxValue = 0.8f;
 }
 
 
 ColorZone::~ColorZone() {
+	delete _context.highscoreService;
+	delete _context.levels;
 	delete _context.settings;
 }
 
@@ -54,29 +56,42 @@ bool ColorZone::loadContent() {
 	_context.levelIndex = 0;
 	_context.spriteSheet = ds::res::getSpriteSheet("spritesheet");
 	_context.pick_colors();
-	_background = _context.spriteSheet->findIndex(SID("background"));
+	_context.highscoreService = new HighscoreService;
+	_context.highscoreService->load();
 
-	addGameState(new TestState(&_context));
+	ds::plugins::add(new FadingBackgroundPlugin(&_context));
+	ds::UserNameDialogSettings ids;
+	ids.dialogName = "username";
+	ids.textID = 111;
+	ids.textPosition = v2(540, 360);
+	ids.cursorID = 3;
+	ids.eventID = 200;
+
+	addGameState(new MainState(&_context));
 	addGameState(new TileMapEditor(&_context));
 	addGameState(new LevelSelectorState(&_context));
 	addGameState(new HighscoreState(&_context));
+	addGameState(new CreditsState(&_context));
+	addGameState(new GameOverState(&_context));
 	addGameState(new ds::BasicMenuGameState("MainMenu", "MainMenu"));
+	addGameState(new ds::UserNameState(ids));
 	connectGameStates("TileMapEditor", 1, "MainMenu");
+	connectGameStates("UserNameState", 6, "MainMenu");
 	connectGameStates("MainMenu", 1, "LevelSelectorState");
 	connectGameStates("MainMenu", 2, "TileMapEditor");
 	connectGameStates("MainMenu", 5, "HighscoreState");
+	connectGameStates("MainMenu", 4, "CreditsState");
+	connectGameStates("CreditsState", 1, "MainMenu");
 	connectGameStates("HighscoreState", 1, "MainMenu");
-	connectGameStates("TestState", 22, "MainMenu");
-	connectGameStates("TestState", 21, "TestState");
+	connectGameStates("MainState", 22, "MainMenu");
+	connectGameStates("MainState", 21, "MainState");
 	connectGameStates("LevelSelectorState", 2, "MainMenu");
-	connectGameStates("LevelSelectorState", 1, "TestState");
+	connectGameStates("LevelSelectorState", 1, "MainState");
 
 	RID _material = ds::res::find("SpriteMaterial", ds::ResourceType::MATERIAL);
 	ds::Material* m = ds::res::getMaterial(_material);
 	m->texture = ds::res::find("TextureArray", ds::ResourceType::TEXTURE);
 	
-	_maxValue = math::random(_context.settings->background.minIntensity, _context.settings->background.maxIntensity);
-
 	//ds::audio::play(SID("255"));
 	return true;
 }
@@ -85,39 +100,28 @@ bool ColorZone::loadContent() {
 // init
 // -------------------------------------------------------
 void ColorZone::init() {
-	renewBackgroundSettings();
-	activate("TileMapEditor");
+	activate("UserNameState");
+}
+
+// -------------------------------------------------------
+// onShutdown
+// -------------------------------------------------------
+void ColorZone::onShutdown() {
+	_context.highscoreService->save();
 }
 
 // -------------------------------------------------------
 // update
 // -------------------------------------------------------
 void ColorZone::update(float dt) {
-	_timer += dt;
-	float norm = _timer / _ttl;
-	if (norm >= 1.0f) {		
-		renewBackgroundSettings();
-		//LOG << "ttl: " << _ttl << " min: " << _minValue << " max: " << _maxValue;
+	if (ds::events::num() > 0) {
+		if (ds::events::containsType(200)) {
+			ds::plugins::deactivate(SID("InputDialog"));
+		}
 	}
-}
-
-// -------------------------------------------------------
-// renew background settings
-// -------------------------------------------------------
-void ColorZone::renewBackgroundSettings() {
-	_timer = 0.0f;
-	_ttl = math::random(_context.settings->background.minTTL, _context.settings->background.maxTTL);
-	_minValue = _maxValue;
-	_maxValue = math::random(_context.settings->background.minIntensity, _context.settings->background.maxIntensity);
 }
 
 // -------------------------------------------------------
 // render
 // -------------------------------------------------------
-void ColorZone::render() {
-	ds::Color c = _context.colors[7];
-	float norm = _timer / _ttl;
-	c.a = tweening::interpolate(tweening::linear, _minValue, _maxValue, _timer, _ttl);
-	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
-	sprites->draw(v2(640, 360), _context.spriteSheet->get(_background), 0.0f, v2(2, 2), c);
-}
+void ColorZone::render() {}

@@ -2,21 +2,21 @@
 #include "..\TileMap.h"
 #include "..\Constants.h"
 #include <gamestates\GameState.h>
-#include "..\utils\HighscoreService.h"
+#include "..\SparkleEffect.h"
 
-class HighscoreState : public ds::BasicMenuGameState {
+class CreditsState : public ds::BasicMenuGameState {
 
 public:
-	HighscoreState(GameContext* context);
-	~HighscoreState();
+	CreditsState(GameContext* context);
+	~CreditsState();
 	int update(float dt);
 	void render();
-	int onGUIButton(int button);
 	void activate();
 	void deactivate();
 private:
 	void updateText();
 	GameContext* _context;
 	int _index;
+	float _timer;
 };
 

@@ -12,6 +12,10 @@ texture {
 	name : "TextureArray" 
 	file : "Textures.png"
 }
+texture {
+	name : "gui" 
+	file : "gui.png"
+}
 font {
 	name : "nullshock"
 	file : "nullshock.json"
@@ -19,6 +23,10 @@ font {
 font {
 	name : "gui_font"
 	file : "gui_font.json"
+}
+imgui {
+	font : "gui_font"
+	texture : "gui"
 }
 //particles {
 //	sprite_buffer : 8
@@ -49,13 +57,18 @@ dialog {
     font : "nullshock"
 }
 dialog {
-    name : "Credits"
-    file : "Credits"
+    name : "credits"
+    file : "credits"
     font : "nullshock"
 }
 dialog {
     name : "LevelSelector"
     file : "LevelSelector"
+    font : "nullshock"
+}
+dialog {
+    name : "username"
+    file : "username"
     font : "nullshock"
 }
 //particle_manager {

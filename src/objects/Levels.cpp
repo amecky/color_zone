@@ -1,6 +1,8 @@
 #include "Levels.h"
 
-Levels::Levels() {
+
+
+Levels::Levels() : ds::TextAssetFile("content\\resources\\block.lvl") {
 	_blockSize = MAX_X * MAX_Y;
 	_total = _blockSize * MAX_LEVELS;
 	_tiles = new Tile[_total];
@@ -43,21 +45,19 @@ void Levels::update(int index, Tile* src) {
 	}
 }
 
-void Levels::load() {
-	FILE* f = fopen("data\\block.lvl", "rb");
-	if (f) {
-		fread(_names, sizeof(char), 16 * MAX_LEVELS, f);
-		Tile* dest = _tiles;
-		for (int i = 0; i < _total; ++i) {
-			fread(dest, sizeof(Tile), 1, f);
-			++dest;
-		}
-		fclose(f);
-	}
+bool Levels::reloadData(const char* text) {
+	return true;
+}
+
+bool Levels::loadData(const char* text) {
+	memcpy(_names, text, 16 * MAX_LEVELS * sizeof(char));
+	const char* n = text + 16 * MAX_LEVELS * sizeof(char);
+	memcpy(_tiles, n, _total * sizeof(Tile));	
+	return true;
 }
 
 void Levels::save() {
-	FILE* f = fopen("data\\block.lvl", "wb");
+	FILE* f = fopen("content\\resources\\block.lvl", "wb");
 	Tile* dest = _tiles;
 	fwrite(_names, sizeof(char), 16 * MAX_LEVELS, f);
 	for (int i = 0; i < _total; ++i) {

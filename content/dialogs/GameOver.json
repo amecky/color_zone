@@ -1,32 +1,42 @@
+image {
+    id : 4
+    pos : 200,700
+    rect : 210,332,320,40 
+    color : 255,255,255,255
+    scale : 4,1
+    centered : true
+}
+text { 
+    id : 30 
+    pos : 550,700 
+    color : 255,255,255,255 
+    centered : true 
+    scale : 1,1
+    text : "Game Over"
+}
 button { 
     id : 21 
     pos : 400,230 
     color : 255,255,255,255 
+    image_color : 0,0,255,255
     centered : true 
     scale : 1,1
-    rect : 320,0,300,50
+    rect : 780,0,300,50
     text : "Restart"    
 }
 button { 
     id : 22 
     pos : 400,120 
     color : 255,255,255,255 
+    image_color : 192,0,0,255
     centered : true 
     scale : 1,1
-    rect : 260,0,300,50 
+    rect : 780,0,300,50 
     text : "Main Menu"    
 }
 text { 
-    id : 4 
-    pos : 400,580 
-    color : 255,255,255,255 
-    centered : true 
-    scale : 1,1
-    text : "Game over"    
-}
-text { 
     id : 5 
-    pos : 550,520 
+    pos : 550,500 
     color : 255,255,255,255 
     centered : false 
     scale : 1,1
@@ -58,7 +68,7 @@ text {
 }
 text { 
     id : 10 
-    pos : 650,520 
+    pos : 650,500 
     color : 255,255,255,255 
     centered : false 
     scale : 1,1

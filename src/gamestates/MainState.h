@@ -7,7 +7,7 @@
 #include "..\SparkleEffect.h"
 #include "..\objects\Laser.h"
 
-class TestState : public ds::GameState {
+class MainState : public ds::GameState {
 
 	enum GameMode {
 		GM_RUNNING,
@@ -15,8 +15,8 @@ class TestState : public ds::GameState {
 	};
 
 public:
-	TestState(GameContext* context);
-	~TestState();
+	MainState(GameContext* context);
+	~MainState();
 	void init();
 	int update(float dt);
 	void render();
@@ -24,6 +24,7 @@ public:
 	int onChar(int ascii);
 	void activate();	
 private:	
+	void stopGame();
 	void moveLaser(float dt);
 	void fillHighscore();
 	TileMap* _map;

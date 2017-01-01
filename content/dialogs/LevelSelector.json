@@ -1,14 +1,22 @@
-text { 
+image {
     id : 7
-    pos : 400,700
+    pos : 200,700
+    rect : 150,330,640,60 
+    color : 255,255,255,255
+    scale : 2,1
+    centered : true
+}
+text { 
+    id : 3
+    pos : 150,690
     color : 255,255,255,255
     centered : true
     scale : 1,1
-    text : "Select Level"
+    text : "Select level"
 }
 text { 
     id : 8
-    pos : 150,600
+    pos : 150,560
     color : 255,255,255,255
     centered : true
     scale : 1,1
@@ -16,25 +24,27 @@ text {
 }
 image_button { 
 	id : 5 
-	pos : 400,600 
+	pos : 400,560 
 	rect : 210,60,40,40 
 	centered : false  
 }
 image_button { 
 	id : 6
-	pos : 870,600 
+	pos : 870,560 
 	rect : 210,120,40,40 
 	centered : false 
 }
 button { 
 	id : 1 
 	pos : 400,160 
+	image_color : 0,192,0,255
 	text : "Play" 
-	rect : 320,0,300,50
+	rect : 780,0,300,50
 }
 button { 
 	id : 2 
+	image_color : 192,0,0,255
 	pos : 400,80 
 	text : "Main Menu" 
-	rect : 260,0,300,50 
+	rect : 780,0,300,50 
 }

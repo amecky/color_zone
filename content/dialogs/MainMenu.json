@@ -2,45 +2,50 @@ button {
     id : 1
     pos : 400,560
     color : 255,255,255,255
+    image_color : 0,192,0,255
     centered : true
     scale : 1,1
-    rect : 320,0,300,50
+    rect : 780,0,300,50
     text : "New Game"
 }
 button { 
     id : 2
     pos : 400,480
     color : 255,255,255,255
+    image_color : 0,0,255,255
     centered : true
     scale : 1,1
-    rect : 320,0,300,50
+    rect : 780,0,300,50
     text : "Editor"
 }
 button { 
     id : 5
     pos : 400,400
     color : 255,255,255,255
+    image_color : 0,0,255,255
     centered : true
     scale : 1,1
-    rect : 320,0,300,50
+    rect : 780,0,300,50
     text : "Highscores"
 }
 button { 
     id : 4
     pos : 400,320
     color : 255,255,255,255
+    image_color : 0,0,255,255
     centered : true
     scale : 1,1
-    rect : 320,0,300,50
+    rect : 780,0,300,50
     text : "Credits"
 }
 button { 
     id : 666
     pos : 400,140
     color : 255,255,255,255
+    image_color : 192,0,0,255
     centered : true
     scale : 1,1
-    rect : 260,0,300,50
+    rect : 780,0,300,50
     text : "Exit"
 }
 image {

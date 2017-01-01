@@ -1,10 +1,10 @@
-#include "TestState.h"
+#include "MainState.h"
 #include <core\log\Log.h>
 #include <renderer\graphics.h>
 #include <base\InputSystem.h>
 #include <audio\AudioManager.h>
 
-TestState::TestState(GameContext* context) : ds::GameState("TestState"), _context(context) {
+MainState::MainState(GameContext* context) : ds::GameState("MainState"), _context(context) {
 	_map = new TileMap(_context);
 	_laser = new Laser;
 	_map->reset();
@@ -15,16 +15,16 @@ TestState::TestState(GameContext* context) : ds::GameState("TestState"), _contex
 	_mode = GM_OVER;
 }
 
-TestState::~TestState() {
+MainState::~MainState() {
 	delete _effect;
 	delete _laser;
 	delete _map;
 }
 
-void TestState::init() {
+void MainState::init() {
 }
 
-void TestState::activate() {
+void MainState::activate() {
 	_mode = GM_RUNNING;
 	_gameOver->deactivate();
 	_context->pick_colors();
@@ -50,9 +50,9 @@ void TestState::activate() {
 // --------------------------------------------
 // fill current score
 // --------------------------------------------
-void TestState::fillHighscore() {	
+void MainState::fillHighscore() {
 	_context->currentScore.fillrate = _context->fillRate;
-	_context->currentScore.level = 1;
+	_context->currentScore.level = _context->levelIndex; // ???????????
 	_context->currentScore.score = _context->score;
 	ds::GameTimer* timer = _hud->getTimer(HUD_TIMER);
 	_context->currentScore.minutes = timer->getMinutes();
@@ -61,12 +61,14 @@ void TestState::fillHighscore() {
 	_gameOver->updateTextFormatted(11, "%d %%", _context->currentScore.fillrate);
 	_gameOver->updateTextFormatted(12, "%02d:%02d", _context->currentScore.minutes, _context->currentScore.seconds);
 	_gameOver->updateTextFormatted(13, "%06d", _context->currentScore.score);
+	int index = _context->highscoreService->add(_context->currentScore);
+	LOG << "ranked at: " << index;
 }
 
 // --------------------------------------------
 // move laser
 // --------------------------------------------
-void TestState::moveLaser(float dt) {
+void MainState::moveLaser(float dt) {
 	int column = -1;
 	if (_laser->move(_context->settings->laser.stepDelay, _context->settings->laser.startDelay, dt, &column)) {
 		int colors[MAX_Y];
@@ -95,7 +97,7 @@ void TestState::moveLaser(float dt) {
 // --------------------------------------------
 // update
 // --------------------------------------------
-int TestState::update(float dt) {
+int MainState::update(float dt) {
 	if (_mode == GM_RUNNING) {
 		_mainBlock.follow_mouse();
 
@@ -108,9 +110,7 @@ int TestState::update(float dt) {
 
 		const ds::GameTimer* timer = _hud->getTimer(HUD_TIMER);
 		if (timer->getMinutes() >= 3) {
-			// FIXME: find a better way to end the game???
-			fillHighscore();
-			return 1;
+			stopGame();
 		}
 
 		moveLaser(dt);
@@ -123,7 +123,7 @@ int TestState::update(float dt) {
 // --------------------------------------------
 // click
 // --------------------------------------------
-int TestState::onButtonUp(int button, int x, int y) {
+int MainState::onButtonUp(int button, int x, int y) {
 	if (_mode == GM_RUNNING) {
 		if (button == 0) {
 			if (_map->copyBlock(&_mainBlock)) {
@@ -149,7 +149,7 @@ int TestState::onButtonUp(int button, int x, int y) {
 // --------------------------------------------
 // render
 // --------------------------------------------
-void TestState::render() {
+void MainState::render() {
 	
 	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
 	_map->render();
@@ -168,38 +168,24 @@ void TestState::render() {
 }
 
 // --------------------------------------------
+// stop game
+// --------------------------------------------
+void MainState::stopGame() {
+	fillHighscore();
+	_hud->deactivate();
+	_gameOver->activate();
+	_mode = GM_OVER;
+}
+
+// --------------------------------------------
 // on char
 // --------------------------------------------
-int TestState::onChar(int ascii) {
-	if (ascii == '1') {
-		_mainBlock.copy_colors(&_previewBlock);
-		_previewBlock.pick_colors();
-		_previewBlock.startFlashing();
-	}
+int MainState::onChar(int ascii) {
 	if (ascii == '2') {
 		ds::audio::play(SID("255"));
 	}
-	if (ascii == 's') {
-		_laser->start(_context->settings->laser.startDelay);
-	}
-	if (ascii == 'd') {
-		_context->resume = true;
-		return 1;
-	}
 	if (ascii == 'x') {
-		fillHighscore();
-		//return 1;
-		_gameOver->activate();
-		_mode = GM_OVER;
-	}
-	if (ascii == 'r') {
-		_context->settings->load();
-	}
-	if (ascii == 'k') {
-		_context->pick_colors();
-	}
-	if (ascii == 'p') {
-		_effect->start(p2i(8, 8), 1);
+		stopGame();
 	}
 	return 0;
 }

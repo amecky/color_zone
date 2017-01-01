@@ -1,6 +1,14 @@
+image {
+    id : 3
+    pos : 200,700
+    rect : 150,330,640,60 
+    color : 255,255,255,255
+    scale : 2,1
+    centered : true
+}
 text { 
-    id : 5
-    pos : 400,700
+    id : 4
+    pos : 150,690
     color : 255,255,255,255
     centered : true
     scale : 1,1
@@ -8,7 +16,7 @@ text {
 }
 text { 
     id : 10
-    pos : 150,610
+    pos : 150,570
     color : 255,255,255,255
     centered : true
     scale : 1,1
@@ -16,7 +24,7 @@ text {
 }
 image_button { 
     id : 2
-    pos : 400,600
+    pos : 400,570
     color : 255,255,255,255
     centered : false
     scale : 1,1
@@ -24,7 +32,7 @@ image_button {
 }
 image_button { 
     id : 3
-    pos : 870,600
+    pos : 870,570
     color : 255,255,255,255
     centered : false
     scale : 1,1
@@ -154,8 +162,9 @@ button {
     id : 1
     pos : 400,120
     color : 255,255,255,255
+    image_color : 192,0,0,255
     centered : true
     scale : 1,1
-    rect : 260,0,300,50 
+    rect : 780,0,300,50 
     text : "Main Menu"
 }

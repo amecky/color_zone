@@ -7,19 +7,7 @@
 #include <dialogs\GUIDialog.h>
 #include "utils\GameSettings.h"
 #include <renderer\SpriteSheet.h>
-
-struct Highscore {
-
-	int score;
-	int fillrate;
-	int minutes;
-	int seconds;
-	int level;
-	char name[12];
-
-	Highscore() : score(0), fillrate(0), minutes(0), seconds(0), level(0) {
-	}
-};
+#include "utils\HighscoreService.h"
 
 class Levels;
 
@@ -36,7 +24,7 @@ struct GameContext {
 	ds::Color colors[8];
 	Levels* levels;
 	ds::SpriteSheet* spriteSheet;
-
+	HighscoreService* highscoreService;
 	// http://devmag.org.za/2012/07/29/how-to-choose-colours-procedurally-algorithms/
 	void pick_colors() {
 		// prepare colors

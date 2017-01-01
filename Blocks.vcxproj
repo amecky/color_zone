@@ -28,12 +28,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -73,7 +73,7 @@
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</EmbedManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</EmbedManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
@@ -86,9 +86,9 @@
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath);$(DXSDK_DIR)Include;..\math;..\D11;..\DieselCore</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);$(DXSDK_DIR)Lib\x86;..\D11\Debug;..\DieselCore\Debug</LibraryPath>
     <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\devtools\DirectX\Lib\x86;$(ReferencePath)</ReferencePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\Diesel2D;C:\Program Files\DirectX_SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">...\Diesel2D\Release;C:\Program Files\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
-    <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files\DirectX_SDK\Lib\x86;$(ReferencePath)</ReferencePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IncludePath);$(DXSDK_DIR)Include;..\math;..\D11;..\DieselCore</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\D11\Release;...\DieselCore\Release;$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(DXSDK_DIR)Lib\x86;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,13 +142,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>Diesel2D.lib;d3dxof.lib;dxguid.lib;d3dx9.lib;d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)Blocks.exe</OutputFile>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxerr.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)color_zone.exe</OutputFile>
       <GenerateManifest>false</GenerateManifest>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -156,7 +157,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>..\Diesel2D\Release</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\DieselCore\Release</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -229,31 +230,41 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ColorZone.cpp" />
+    <ClCompile Include="src\gamestates\CreditsState.cpp" />
+    <ClCompile Include="src\gamestates\GameOverState.cpp" />
+    <ClCompile Include="src\gamestates\HighscoreState.cpp" />
     <ClCompile Include="src\gamestates\LevelSelectorState.cpp" />
-    <ClCompile Include="src\gamestates\TestState.cpp" />
+    <ClCompile Include="src\gamestates\MainState.cpp" />
     <ClCompile Include="src\gamestates\TileMapEditor.cpp" />
-    <ClCompile Include="src\Highscores.cpp" />
+    <ClCompile Include="src\gamestates\UserNameState.cpp" />
     <ClCompile Include="src\objects\Block.cpp" />
     <ClCompile Include="src\objects\Laser.cpp" />
     <ClCompile Include="src\objects\Levels.cpp" />
     <ClCompile Include="src\SparkleEffect.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
+    <ClCompile Include="src\utils\FadingBackgroundPlugin.cpp" />
+    <ClCompile Include="src\utils\HighscoreService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\ColorZone.h" />
+    <ClInclude Include="src\gamestates\CreditsState.h" />
+    <ClInclude Include="src\gamestates\GameOverState.h" />
+    <ClInclude Include="src\gamestates\HighscoreState.h" />
     <ClInclude Include="src\gamestates\LevelSelectorState.h" />
-    <ClInclude Include="src\gamestates\TestState.h" />
+    <ClInclude Include="src\gamestates\MainState.h" />
     <ClInclude Include="src\gamestates\TileMapEditor.h" />
-    <ClInclude Include="src\Highscores.h" />
+    <ClInclude Include="src\gamestates\UserNameState.h" />
     <ClInclude Include="src\objects\Block.h" />
     <ClInclude Include="src\objects\Laser.h" />
     <ClInclude Include="src\objects\Levels.h" />
     <ClInclude Include="src\SparkleEffect.h" />
     <ClInclude Include="src\TileMap.h" />
+    <ClInclude Include="src\utils\FadingBackgroundPlugin.h" />
     <ClInclude Include="src\utils\GameSettings.h" />
+    <ClInclude Include="src\utils\HighscoreService.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Blocks.manifest" />
