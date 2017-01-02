@@ -76,7 +76,7 @@ bool ColorZone::loadContent() {
 	addGameState(new ds::BasicMenuGameState("MainMenu", "MainMenu"));
 	addGameState(new ds::UserNameState(ids));
 	connectGameStates("TileMapEditor", 1, "MainMenu");
-	connectGameStates("UserNameState", 6, "MainMenu");
+	//connectGameStates("UserNameState", 6, "MainMenu");
 	connectGameStates("MainMenu", 1, "LevelSelectorState");
 	connectGameStates("MainMenu", 2, "TileMapEditor");
 	connectGameStates("MainMenu", 5, "HighscoreState");
@@ -100,7 +100,8 @@ bool ColorZone::loadContent() {
 // init
 // -------------------------------------------------------
 void ColorZone::init() {
-	activate("UserNameState");
+	pushState("MainMenu");
+	pushState("UserNameState");
 }
 
 // -------------------------------------------------------

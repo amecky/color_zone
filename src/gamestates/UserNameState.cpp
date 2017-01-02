@@ -61,7 +61,14 @@ namespace ds {
 	// render
 	// --------------------------------------------
 	void UserNameState::render() {
+		//_dialog->render();
+		graphics::turnOffZBuffer();
+		graphics::selectViewport(0);
+		ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
+		sprites->begin();
 		_dialog->render();
+		sprites->end();
+		graphics::turnOnZBuffer();
 	}
 
 	// --------------------------------------------
