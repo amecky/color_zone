@@ -1,8 +1,10 @@
 #include "Levels.h"
+#include "..\Common.h"
+#include <string.h>
+#include <windows.h>
+#include "..\resource.h"
 
-
-
-Levels::Levels() : ds::TextAssetFile("content\\resources\\block.lvl") {
+Levels::Levels() {
 	_blockSize = MAX_X * MAX_Y;
 	_total = _blockSize * MAX_LEVELS;
 	_tiles = new Tile[_total];
@@ -20,6 +22,13 @@ Levels::Levels() : ds::TextAssetFile("content\\resources\\block.lvl") {
 		sprintf(tmp, "Number %d", i + 1);
 		tmp += 16;
 	}
+
+	HRSRC myResource = FindResource(NULL, MAKEINTRESOURCE(IDR_BINARY1), RT_RCDATA);
+	HGLOBAL myResourceData = ::LoadResource(NULL, myResource);
+	void* pMyBinaryData = ::LockResource(myResourceData);
+	memcpy(_names, pMyBinaryData, 16 * MAX_LEVELS * sizeof(char));
+	const char* n = (char*)pMyBinaryData + 16 * MAX_LEVELS * sizeof(char);
+	memcpy(_tiles, n, _total * sizeof(Tile));
 }
 
 Levels::~Levels() {
@@ -27,7 +36,7 @@ Levels::~Levels() {
 	delete[] _tiles;
 }
 
-void Levels::copy(int index, Tile* dest) {
+void Levels::copy(int index, Tile* dest) const {
 	int all = MAX_X * MAX_Y;
 	int idx = index * _blockSize;
 	Tile* src = _tiles + idx;
@@ -43,28 +52,6 @@ void Levels::update(int index, Tile* src) {
 	for (int i = 0; i < _blockSize; ++i) {
 		dest[i] = src[i];
 	}
-}
-
-bool Levels::reloadData(const char* text) {
-	return true;
-}
-
-bool Levels::loadData(const char* text) {
-	memcpy(_names, text, 16 * MAX_LEVELS * sizeof(char));
-	const char* n = text + 16 * MAX_LEVELS * sizeof(char);
-	memcpy(_tiles, n, _total * sizeof(Tile));	
-	return true;
-}
-
-void Levels::save() {
-	FILE* f = fopen("content\\resources\\block.lvl", "wb");
-	Tile* dest = _tiles;
-	fwrite(_names, sizeof(char), 16 * MAX_LEVELS, f);
-	for (int i = 0; i < _total; ++i) {
-		fwrite(dest, sizeof(Tile), 1, f);
-		++dest;
-	}
-	fclose(f);
 }
 
 const char* Levels::getName(int index) const {

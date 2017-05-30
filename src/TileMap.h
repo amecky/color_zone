@@ -1,8 +1,10 @@
 #pragma once
 #include "Common.h"
-#include <core\log\Log.h>
-#include "objects\Block.h"
 #include <stdint.h>
+#include <vector>
+#include "objects/Block.h"
+#include "objects/Levels.h"
+#include <SpriteBatchBuffer.h>
 // -------------------------------------------------------------
 // Point list
 // -------------------------------------------------------------
@@ -57,8 +59,8 @@ class TileMap {
 public:	
 	TileMap(GameContext* context);
 	~TileMap() {}
-	void render();
-	void render(int squareSize, float scale);
+	void render(SpriteBatchBuffer* buffer);
+	void render(SpriteBatchBuffer* buffer, int squareSize, float scale);
 	const uint32_t getIndex(uint32_t x, uint32_t y) const;
 	Tile& get(int x, int y);
 	Tile& get(const p2i& p);
@@ -81,8 +83,7 @@ public:
 	void removeBlock(const p2i& gridPos);
 	void setBlock(const p2i& gridPos);
 
-	void build(int index);
-	void save(int index);
+	void build(const Levels& levels, int index);
 
 	void debug();
 
@@ -95,7 +96,7 @@ private:
 	GameContext* _ctx;
 	Tile* _tiles;
 	int _maxAvailable;
-	ds::Array<Border> _border;
+	std::vector<Border> _border;
 
 	int _tile;
 	int _markedTile;
@@ -107,7 +108,7 @@ namespace map {
 
 	p2i screen2grid(int x, int y);
 
-	p2i screen2grid(const v2& p);
+	p2i screen2grid(const ds::vec2& p);
 
 	p2i grid2screen(const p2i& p);
 

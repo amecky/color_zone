@@ -10,10 +10,10 @@ const p2i EDGE_OFFSET[] = { p2i(0, 1), p2i(1, 0), p2i(0, -1), p2i(-1, 0) };
 
 TileMap::TileMap(GameContext* context) : _tiles(0), _ctx(context) {
 	_tiles = new Tile[MAX_X * MAX_Y];
-	_tile = _ctx->spriteSheet->findIndex("tile");
-	_markedTile = _ctx->spriteSheet->findIndex("marked_tile");
-	_filledTile = _ctx->spriteSheet->findIndex("filled_tile");
-	_basicBorder = _ctx->spriteSheet->findIndex("basic_border");
+	//_tile = _ctx->spriteSheet->findIndex("tile");
+	//_markedTile = _ctx->spriteSheet->findIndex("marked_tile");
+	//_filledTile = _ctx->spriteSheet->findIndex("filled_tile");
+	//_basicBorder = _ctx->spriteSheet->findIndex("basic_border");
 }
 // --------------------------------------------
 // copy column
@@ -46,19 +46,14 @@ bool TileMap::copyBlock(const Block* block) {
 		return true;
 	}
 	else {
-		LOG << "Block is not available";
+		//LOG << "Block is not available";
 	}
 	return false;
 }
 
-void TileMap::build(int index) {
-	assert(index >= 0 && index < MAX_LEVELS);
-	_ctx->levels->copy(index, _tiles);
-}
-
-void TileMap::save(int index) {
-	assert(index >= 0 && index < MAX_LEVELS);
-	_ctx->levels->update(index, _tiles);
+void TileMap::build(const Levels& levels, int index) {
+	//assert(index >= 0 && index < MAX_LEVELS);
+	levels.copy(index, _tiles);
 }
 
 // --------------------------------------------
@@ -132,51 +127,51 @@ int TileMap::clearColumn(int col) {
 // --------------------------------------------
 // render
 // --------------------------------------------
-void TileMap::render() {	
-	render(SQUARE_SIZE, 1.0f);
+void TileMap::render(SpriteBatchBuffer* buffer) {
+	render(buffer,SQUARE_SIZE, 1.0f);
 }
 
 // --------------------------------------------
 // render
 // --------------------------------------------
-void TileMap::render(int squareSize,float scale) {
+void TileMap::render(SpriteBatchBuffer* buffer,int squareSize,float scale) {
 	int sx = (1280 - squareSize * MAX_X) / 2;
 	int sy = (720 - squareSize * MAX_Y) / 2;
-	ds::Color clr = ds::Color::WHITE;
-	ds::Texture tex;
-	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
+	ds::Color clr = ds::Color(128,128,128,255);
+	ds::vec4 tex = ds::vec4(0, 100, 36, 36);
 	for (int x = 0; x < MAX_X; ++x) {
 		for (int y = 0; y < MAX_Y; ++y) {
-			clr = ds::Color::WHITE;
+			tex = ds::vec4(0, 100, 36, 36);
+			//clr = ds::Color(255,255,255,255);
 			const Tile& t = get(x, y);
-			p2i p = p2i(sx + x * squareSize, sy + y * squareSize);
+			ds::vec2 p = ds::vec2(sx + x * squareSize, sy + y * squareSize);
 			if (t.state.isSet(BIT_AVAILABLE)) {	
 				if (t.state.isSet(BIT_COHERENT)) {
 					if (t.edges > 0) {
 						clr = _ctx->colors[t.color];
-						tex = _ctx->spriteSheet->get(_tile);
-						tex.move(t.edges * 36, 0);
+						//tex = _ctx->spriteSheet->get(_tile);
+						//tex.move(t.edges * 36, 0);
 					}
 				}
 				else if (t.state.isSet(BIT_MARKED)) {
 					clr = _ctx->colors[t.color];
-					tex = _ctx->spriteSheet->get(_tile);
+					//tex = _ctx->spriteSheet->get(_tile);
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
 					//clr = _ctx->colors[6];
-					tex = _ctx->spriteSheet->get(_filledTile);
+					//tex = _ctx->spriteSheet->get(_filledTile);
 				}
 				else {
-					tex = _ctx->spriteSheet->get(_markedTile);
+					//tex = _ctx->spriteSheet->get(_markedTile);
 				}
 
-				sprites->draw(p, tex, 0.0f, v2(scale, scale), clr);
+				buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, clr);
 
 			}
 			if (t.borders != -1) {
-				tex = _ctx->spriteSheet->get(_basicBorder);
-				tex.move(44 * t.borders, 0);
-				sprites->draw(p, tex, 0.0f, v2(scale, scale),ds::Color(64,64,64));
+				int left = 44 * t.borders;
+				tex = ds::vec4(left, 44, 44, 44);
+				buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, ds::Color(64,64,64,255));
 			}
 		}
 	}
@@ -281,7 +276,7 @@ int TileMap::getFillRate() {
 			}
 		}
 	}
-	LOG << "max: " << _maxAvailable << " current: " << count;
+	//LOG << "max: " << _maxAvailable << " current: " << count;
 	float per = static_cast<float>(count) / static_cast<float>(_maxAvailable) * 100.0f;
 	return static_cast<int>(per);
 }
@@ -396,7 +391,7 @@ void TileMap::setBorder(int x, int y, int index) {
 }
 
 // -------------------------------------------------------------
-// check recursivley to detect matching pieces
+// check recursively to detect matching pieces
 // -------------------------------------------------------------
 void TileMap::check(int xp, int yp, int lastDir, PointList& list, bool rec) {
 	if (isValid(xp, yp)) {
@@ -447,7 +442,7 @@ void TileMap::debug() {
 			sprintf_s(buffer, 32, "C:%2d/B:%2d/S:%2d ", t.color, t.borders, t.state);
 			str.append(buffer);
 		}
-		LOG << str;
+		//LOG << str;
 	}
 }
 
@@ -475,7 +470,7 @@ namespace map {
 	// --------------------------------------------
 	// convert screen pos to aligned screen pos
 	// --------------------------------------------
-	p2i screen2grid(const v2& p) {
+	p2i screen2grid(const ds::vec2& p) {
 
 		int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
 		int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
@@ -498,7 +493,7 @@ namespace map {
 	// convert screen pos to grid pos
 	// --------------------------------------------
 	p2i screen2grid(int x, int y) {
-		return screen2grid(v2(x, y));
+		return screen2grid(ds::vec2(x, y));
 	}
 
 	p2i grid2screen(const p2i& p) {

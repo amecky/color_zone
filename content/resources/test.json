@@ -1,9 +1,0 @@
-first {
-	second {
-		third : 4.0
-		fourth : 1.0
-		fifth {
-			sixth : 1.0
-		}
-	}
-}

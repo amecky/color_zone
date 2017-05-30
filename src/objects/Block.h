@@ -1,6 +1,6 @@
 #pragma once
-#include <Vector.h>
-#include <renderer\render_types.h>
+#include <diesel.h>
+#include <SpriteBatchBuffer.h>
 #include "..\Common.h"
 
 class Block {
@@ -8,7 +8,7 @@ class Block {
 public:
 	Block();
 	~Block() {}
-	void render(ds::Color* colors);
+	void render(SpriteBatchBuffer* buffer,ds::Color* colors);
 	void render_boxed(ds::Color* colors);
 	void pick_colors();
 	void flash_scale(float dt, float flashTTL);
@@ -35,5 +35,5 @@ private:
 	float _rotationRadius;
 	bool _flashing;
 	float _flashTimer;
-	v2 _scale;
+	ds::vec2 _scale;
 };

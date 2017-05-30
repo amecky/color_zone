@@ -1,16 +1,13 @@
 #pragma once
 #include "..\Common.h"
 
-class Levels : public ds::TextAssetFile {
+class Levels {
 
 public:
 	Levels();
 	~Levels();
-	void copy(int index, Tile* dest);
+	void copy(int index, Tile* dest) const;
 	void update(int index, Tile* src);
-	bool loadData(const char* text);
-	bool reloadData(const char* text);
-	void save();
 	const char* getName(int index) const;
 private:
 	int _blockSize;
