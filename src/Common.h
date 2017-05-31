@@ -29,9 +29,17 @@ struct p2i {
 	p2i(int xx, int yy) : x(xx), y(yy) {}
 };
 
+struct GameSettings;
+class SpriteBatchBuffer;
+
 struct GameContext {
 
+	int levelIndex;
+	int score;
+	int fillRate;
 	ds::Color colors[8];
+	GameSettings* settings;
+	SpriteBatchBuffer* buffer;
 
 	// http://devmag.org.za/2012/07/29/how-to-choose-colours-procedurally-algorithms/
 	void pick_colors() {

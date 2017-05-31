@@ -1,5 +1,6 @@
 #include "Block.h"
 #include <math.h>
+#include "..\TileMap.h"
 
 const float ROTATION_TIME = 0.2f;
 
@@ -149,7 +150,6 @@ void Block::update(float dt) {
 // -----------------------------------------------------------------
 void Block::follow_mouse() {
 	ds::vec2 mp = ds::getMousePosition();
-	/*
 	p2i tmp = map::screen2grid(mp);
 	if (tmp.x >= MAX_X - 1) {
 		tmp.x = MAX_X - 2;
@@ -158,7 +158,7 @@ void Block::follow_mouse() {
 		tmp.y = MAX_Y - 2;
 	}
 	_position = map::grid2screen(tmp);
-	*/
+
 }
 
 void Block::setPosition(const p2i& pos) {

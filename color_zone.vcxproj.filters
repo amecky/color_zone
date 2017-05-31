@@ -28,6 +28,16 @@
       <Filter>utils</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="src\objects\Laser.h">
+      <Filter>objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSettings.h" />
+    <ClInclude Include="src\gamestates\BasicGameState.h">
+      <Filter>gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\SparkleEffect.h">
+      <Filter>utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\objects\Block.cpp">
@@ -41,11 +51,21 @@
     <ClCompile Include="src\objects\Levels.cpp">
       <Filter>objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\objects\Laser.cpp">
+      <Filter>objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\SparkleEffect.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="color_zone.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="content\block.lvl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="content\Textures.png" />
   </ItemGroup>
 </Project>

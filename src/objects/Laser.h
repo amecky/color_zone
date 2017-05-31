@@ -1,5 +1,4 @@
 #pragma once
-#include <renderer\render_types.h>
 #include "..\Common.h"
 
 enum LaserState {
@@ -11,21 +10,21 @@ enum LaserState {
 class Laser {
 
 public:
-	Laser();
+	Laser(GameContext* ctx);
 	~Laser() {}
-	void reset(float startDelay);
-	bool move(float stepDelay, float startDelay, float dt, int* column);
+	void reset();
+	bool move(float dt, int* column);
 	bool tick(float dt);
-	void start(float startDelay);
+	void start();
 	void render();
 	bool isRunning() const;
 	int getIdleSeconds() const;
 	LaserState getState() const;
 private:
+	GameContext* _ctx;
 	ds::Color _color;
 	float _timer;
 	int _column;
-	int _texture;
+	ds::vec4 _texture;
 	LaserState _state;
-	ds::SpriteSheet* _spriteSheet;
 };

@@ -59,8 +59,8 @@ class TileMap {
 public:	
 	TileMap(GameContext* context);
 	~TileMap() {}
-	void render(SpriteBatchBuffer* buffer);
-	void render(SpriteBatchBuffer* buffer, int squareSize, float scale);
+	void render();
+	void render(int squareSize, float scale);
 	const uint32_t getIndex(uint32_t x, uint32_t y) const;
 	Tile& get(int x, int y);
 	Tile& get(const p2i& p);

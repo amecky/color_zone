@@ -127,14 +127,14 @@ int TileMap::clearColumn(int col) {
 // --------------------------------------------
 // render
 // --------------------------------------------
-void TileMap::render(SpriteBatchBuffer* buffer) {
-	render(buffer,SQUARE_SIZE, 1.0f);
+void TileMap::render() {
+	render(SQUARE_SIZE, 1.0f);
 }
 
 // --------------------------------------------
 // render
 // --------------------------------------------
-void TileMap::render(SpriteBatchBuffer* buffer,int squareSize,float scale) {
+void TileMap::render(int squareSize,float scale) {
 	int sx = (1280 - squareSize * MAX_X) / 2;
 	int sy = (720 - squareSize * MAX_Y) / 2;
 	ds::Color clr = ds::Color(128,128,128,255);
@@ -142,36 +142,33 @@ void TileMap::render(SpriteBatchBuffer* buffer,int squareSize,float scale) {
 	for (int x = 0; x < MAX_X; ++x) {
 		for (int y = 0; y < MAX_Y; ++y) {
 			tex = ds::vec4(0, 100, 36, 36);
-			//clr = ds::Color(255,255,255,255);
+			clr = ds::Color(255,255,255,255);
 			const Tile& t = get(x, y);
 			ds::vec2 p = ds::vec2(sx + x * squareSize, sy + y * squareSize);
 			if (t.state.isSet(BIT_AVAILABLE)) {	
 				if (t.state.isSet(BIT_COHERENT)) {
 					if (t.edges > 0) {
 						clr = _ctx->colors[t.color];
-						//tex = _ctx->spriteSheet->get(_tile);
-						//tex.move(t.edges * 36, 0);
+						int left = t.edges * 36;
+						tex = ds::vec4(left, 100, 36, 36);
 					}
 				}
 				else if (t.state.isSet(BIT_MARKED)) {
 					clr = _ctx->colors[t.color];
-					//tex = _ctx->spriteSheet->get(_tile);
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
-					//clr = _ctx->colors[6];
-					//tex = _ctx->spriteSheet->get(_filledTile);
+					clr = _ctx->colors[6];
+					tex = ds::vec4(72, 0, 36, 36);
 				}
 				else {
-					//tex = _ctx->spriteSheet->get(_markedTile);
+					tex = ds::vec4(0, 0, 36, 36);
 				}
-
-				buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, clr);
-
+				_ctx->buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, clr);
 			}
 			if (t.borders != -1) {
 				int left = 44 * t.borders;
 				tex = ds::vec4(left, 44, 44, 44);
-				buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, ds::Color(64,64,64,255));
+				_ctx->buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, ds::Color(64,64,64,255));
 			}
 		}
 	}

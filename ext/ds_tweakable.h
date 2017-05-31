@@ -172,6 +172,7 @@ static void twk__realloc_char_buffer(InternalCharBuffer* buffer, size_t addition
 		buffer->capacity = additional;
 		buffer->indices = new size_t[16];
 		buffer->sizes = new size_t[16];
+		buffer->hashes = new uint32_t[16];
 		buffer->indexCapacity = 16;
 	}
 	else {

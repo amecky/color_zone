@@ -29,6 +29,8 @@ Levels::Levels() {
 	memcpy(_names, pMyBinaryData, 16 * MAX_LEVELS * sizeof(char));
 	const char* n = (char*)pMyBinaryData + 16 * MAX_LEVELS * sizeof(char);
 	memcpy(_tiles, n, _total * sizeof(Tile));
+	UnlockResource(myResourceData);
+	FreeResource(myResourceData);
 }
 
 Levels::~Levels() {
