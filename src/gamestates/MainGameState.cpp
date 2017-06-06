@@ -3,9 +3,9 @@
 #include "..\GameSettings.h"
 
 MainGameState::MainGameState(GameContext* ctx) : BasicGameState(ctx, "MainState") {
-	_current.setPosition(p2i(512, 560));
+	_current.setPosition(p2i(640, 560));
 	_current.pick_colors();
-	_next.setPosition(p2i(512, 660));
+	_next.setPosition(p2i(640, 660));
 	_next.pick_colors();
 	_next.pick_colors();
 	_buttonDown[0] = 0;
@@ -106,7 +106,7 @@ int MainGameState::tick(float elapsed, EventStream* stream) {
 void MainGameState::render() {
 	_ctx->buffer->begin();
 	_map->render();
-	_current.render(_ctx->buffer,_ctx->colors);
+	_current.render_boxed(_ctx->buffer,_ctx->colors);
 	_next.render(_ctx->buffer, _ctx->colors);
 	_laser->render();
 	_effect->render();

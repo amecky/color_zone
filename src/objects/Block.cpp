@@ -28,9 +28,6 @@ namespace block {
 
 Block::Block() {
 	_position = p2i(512, 384);
-	//ds::SpriteSheet* spriteSheet = ds::res::getSpriteSheet("spritesheet");
-	//_texture = spriteSheet->findIndex(SID("block"));
-	//_boxTexture = spriteSheet->findIndex(SID("block_box"));
 	for (int i = 0; i < 4; ++i) {
 		_colors[i] = 0;
 	}
@@ -97,7 +94,6 @@ void Block::render(SpriteBatchBuffer* buffer,ds::Color* colors) {
 			angle += norm * ds::PI * 0.5f;
 		}
 		ds::vec2 pp = ds::vec2(p.x + _rotationRadius * cos(angle), p.y + _rotationRadius * sin(angle));
-		// void SpriteBatchBuffer::add(const ds::vec2& position, const ds::vec4& rect, const ds::vec2& scale, float rotation, const ds::Color& clr) {
 		buffer->add(pp, tex, _scale, angle + DEGTORAD(45.0f), colors[_colors[i]]);
 	}
 }
@@ -105,20 +101,16 @@ void Block::render(SpriteBatchBuffer* buffer,ds::Color* colors) {
 // -----------------------------------------------------------------
 // render block and a box surrounding it
 // -----------------------------------------------------------------
-void Block::render_boxed(ds::Color* colors) {
-	/*
-	render(colors);
-	ds::SpriteBuffer* sprites = graphics::getSpriteBuffer();
+void Block::render_boxed(SpriteBatchBuffer* buffer, ds::Color* colors) {
+	render(buffer, colors);
 	float r = 0.0f;
-	ds::SpriteSheet* spriteSheet = ds::res::getSpriteSheet("spritesheet");
-	v2 p = v2(_position.x, _position.y) + v2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
-	ds::Texture bt = spriteSheet->get(_boxTexture);
+	ds::vec2 p = ds::vec2(_position.x, _position.y) + ds::vec2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
+	ds::vec4 t(220, 140, 78, 78);
 	if (_rotating) {
 		float norm = _rotationTimer / ROTATION_TIME;
-		r = norm * HALF_PI;
+		r = norm * ds::PI * 0.5f;
 	}
-	sprites->draw(p, bt, r);
-	*/
+	buffer->add(p, t, ds::vec2(1, 1), r);
 }
 
 // -----------------------------------------------------------------

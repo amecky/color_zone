@@ -9,7 +9,7 @@ public:
 	Block();
 	~Block() {}
 	void render(SpriteBatchBuffer* buffer,ds::Color* colors);
-	void render_boxed(ds::Color* colors);
+	void render_boxed(SpriteBatchBuffer* buffer, ds::Color* colors);
 	void pick_colors();
 	void flash_scale(float dt, float flashTTL);
 	void copy_colors(const Block* other);
