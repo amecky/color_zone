@@ -421,7 +421,7 @@ namespace ds {
 	template<int Size, class T>
 	T length(const Vector<Size, T>& v) {
 		T t = dot(v, v);
-		float tmp = sqrt(static_cast<float>(t));
+		float tmp = std::sqrt(static_cast<float>(t));
 		return static_cast<T>(tmp);
 	}
 

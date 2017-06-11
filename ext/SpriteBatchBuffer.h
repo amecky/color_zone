@@ -20,6 +20,7 @@ struct Sprite {
 struct SpriteBatchBufferInfo {
 	unsigned int maxSprites;
 	RID textureID;
+	ds::TextureFilters textureFilter;
 };
 
 class SpriteBatchBuffer {
@@ -319,7 +320,7 @@ SpriteBatchBuffer::SpriteBatchBuffer(const SpriteBatchBufferInfo& info) : _max(i
 
 	RID constantBuffer = ds::createConstantBuffer(sizeof(SpriteBatchConstantBuffer), &_constantBuffer);
 
-	ds::SamplerStateInfo samplerInfo = { ds::TextureAddressModes::CLAMP, ds::TextureFilters::LINEAR };
+	ds::SamplerStateInfo samplerInfo = { ds::TextureAddressModes::CLAMP, info.textureFilter };
 	RID ssid = ds::createSamplerState(samplerInfo);
 
 	int indices[] = { 0,1,2,1,3,2 };

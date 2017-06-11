@@ -60,7 +60,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	// load the one and only texture
 	//
 	RID textureID = loadImage("content\\Textures.png");
-	SpriteBatchBufferInfo sbbInfo = { 2048, textureID };
+	SpriteBatchBufferInfo sbbInfo = { 2048, textureID , ds::TextureFilters::LINEAR};
 	SpriteBatchBuffer spriteBuffer(sbbInfo);
 
 	bool rendering = true;
