@@ -85,6 +85,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	stateMachine.add(new MainGameState(&ctx));
 	stateMachine.activate("MainState");
 
+	float loadTimer = 0.0f;
+
 	while (ds::isRunning() && rendering) {
 
 		ds::begin();
@@ -101,6 +103,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 		if (update) {
 			stateMachine.tick(static_cast<float>(ds::getElapsedSeconds()));
+		}
+
+		loadTimer += ds::getElapsedSeconds();
+		if (loadTimer >= 1.0f) {
+			loadTimer -= 1.0f;
+			twk_load();
 		}
 		//
 		// handle all the events that might have occurred in one frame

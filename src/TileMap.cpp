@@ -3,6 +3,7 @@
 #include<fstream>
 #include <string>
 #include "objects\Levels.h"
+#include "GameSettings.h"
 
 const int MARK_STEPS[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
 
@@ -157,18 +158,19 @@ void TileMap::render(int squareSize,float scale) {
 					clr = _ctx->colors[t.color];
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
-					clr = _ctx->colors[6];
-					tex = ds::vec4(72, 0, 36, 36);
+					tex = ds::vec4(0, 0, 36, 36);
+					clr = _ctx->settings->grid.filledColor;
 				}
 				else {
 					tex = ds::vec4(0, 0, 36, 36);
+					clr = _ctx->settings->grid.backgroundColor;
 				}
 				_ctx->buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, clr);
 			}
 			if (t.borders != -1) {
 				int left = 44 * t.borders;
 				tex = ds::vec4(left, 44, 44, 44);
-				_ctx->buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, ds::Color(64,64,64,255));
+				_ctx->buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, _ctx->settings->grid.borderColor);
 			}
 		}
 	}

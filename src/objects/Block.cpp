@@ -110,7 +110,7 @@ void Block::render_boxed(SpriteBatchBuffer* buffer, ds::Color* colors) {
 		float norm = _rotationTimer / ROTATION_TIME;
 		r = norm * ds::PI * 0.5f;
 	}
-	buffer->add(p, t, ds::vec2(1, 1), r);
+	buffer->add(p, t, ds::vec2(1, 1), r, { 50,208,253,255 });
 }
 
 // -----------------------------------------------------------------

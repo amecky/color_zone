@@ -105,6 +105,7 @@ int MainGameState::tick(float elapsed, EventStream* stream) {
 
 void MainGameState::render() {
 	_ctx->buffer->begin();
+	_ctx->buffer->add({ 640,360 }, { 320,620,640,360 }, { 2.0f,2.0f }, 0.0f, { 255,0,0,140 });
 	_map->render();
 	_current.render_boxed(_ctx->buffer,_ctx->colors);
 	_next.render(_ctx->buffer, _ctx->colors);

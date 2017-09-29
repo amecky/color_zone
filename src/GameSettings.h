@@ -15,6 +15,11 @@ struct GameSettings {
 		float stepDelay;
 	} laser;
 	
+	struct Grid {
+		ds::Color borderColor;
+		ds::Color backgroundColor;
+		ds::Color filledColor;
+	} grid;
 
 	GameSettings() {
 		twk_add("sparkle","gap", &sparkleGap);
@@ -26,5 +31,9 @@ struct GameSettings {
 
 		twk_add("laser", "start_delay", &laser.startDelay);
 		twk_add("laser", "step_delay", &laser.stepDelay);
+
+		twk_add("grid", "border_color", &grid.borderColor);
+		twk_add("grid", "background_color", &grid.backgroundColor);
+		twk_add("grid", "filled_color", &grid.filledColor);
 	}
 };

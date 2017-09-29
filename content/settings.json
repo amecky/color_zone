@@ -30,3 +30,8 @@ background {
 	min_ttl : 3.0
 	max_ttl : 8.0
 }
+grid {
+    border_color : 25,125,159,255
+    background_color : 30,97,124,64
+    filled_color : 36,116,148,96
+}

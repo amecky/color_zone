@@ -10,6 +10,9 @@
     <Filter Include="utils">
       <UniqueIdentifier>{eb1dacc8-fcb2-49ea-b8b2-67569772e405}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ext">
+      <UniqueIdentifier>{a3d5e2f9-8a78-44a7-ad53-a2b5cc8cff32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\objects\Block.h">
@@ -37,6 +40,18 @@
     </ClInclude>
     <ClInclude Include="src\utils\SparkleEffect.h">
       <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\stb_image.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\ds_tweakable.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\SpriteBatchBuffer.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\StateMachine.h">
+      <Filter>ext</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
