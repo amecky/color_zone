@@ -22,29 +22,35 @@
   <ItemGroup>
     <ClCompile Include="src\colors.cpp" />
     <ClCompile Include="src\gamestates\MainGameState.cpp" />
+    <ClCompile Include="src\game_ui.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\objects\Block.cpp" />
     <ClCompile Include="src\objects\Laser.cpp" />
     <ClCompile Include="src\objects\Levels.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
+    <ClCompile Include="src\utils\GameTimer.cpp" />
     <ClCompile Include="src\utils\SparkleEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ext\diesel.h" />
+    <ClInclude Include="ext\ds_game_ui.h" />
+    <ClInclude Include="ext\ds_imgui.h" />
     <ClInclude Include="ext\ds_tweakable.h" />
+    <ClInclude Include="ext\ds_tweening.h" />
     <ClInclude Include="ext\SpriteBatchBuffer.h" />
-    <ClInclude Include="ext\StateMachine.h" />
     <ClInclude Include="ext\stb_image.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\colors.h" />
     <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\GameSettings.h" />
-    <ClInclude Include="src\gamestates\BasicGameState.h" />
     <ClInclude Include="src\gamestates\MainGameState.h" />
+    <ClInclude Include="src\game_ui.h" />
     <ClInclude Include="src\objects\Block.h" />
     <ClInclude Include="src\objects\Laser.h" />
     <ClInclude Include="src\objects\Levels.h" />
     <ClInclude Include="src\TileMap.h" />
     <ClInclude Include="src\utils\Bitset.h" />
+    <ClInclude Include="src\utils\GameTimer.h" />
     <ClInclude Include="src\utils\SparkleEffect.h" />
   </ItemGroup>
   <ItemGroup>
@@ -125,8 +131,8 @@
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IncludePath);$(DXSDK_DIR)Include;ext</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);$(DXSDK_DIR)Lib\x86</LibraryPath>
     <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\devtools\DirectX\Lib\x86;$(ReferencePath)</ReferencePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\Diesel2;C:\devtools\DirectX_SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\Diesel2\Release;C:\devtools\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ext;C:\devtools\DirectX_SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\devtools\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
     <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\devtools\DirectX_SDK\Lib\x86;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -187,7 +193,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>Diesel2.lib;d3dxof.lib;dxguid.lib;d3dx9.lib;d3d9.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)color_zone.exe</OutputFile>
       <GenerateManifest>false</GenerateManifest>
       <GenerateDebugInformation>true</GenerateDebugInformation>

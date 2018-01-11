@@ -57,10 +57,10 @@ class TileMap {
 	};
 
 public:	
-	TileMap(GameContext* context);
+	TileMap();
 	~TileMap() {}
-	void render();
-	void render(int squareSize, float scale);
+	void render(SpriteBatchBuffer* buffer, ds::Color* colors, GameSettings* settings);
+	void render(SpriteBatchBuffer* buffer, int squareSize, float scale, ds::Color* colors, GameSettings* settings);
 	const uint32_t getIndex(uint32_t x, uint32_t y) const;
 	Tile& get(int x, int y);
 	Tile& get(const p2i& p);
@@ -83,7 +83,7 @@ public:
 	void removeBlock(const p2i& gridPos);
 	void setBlock(const p2i& gridPos);
 
-	void build(const Levels& levels, int index);
+	void build(LevelData* levels, int index);
 
 	void debug();
 
@@ -93,7 +93,6 @@ private:
 	int determineEdge(int x, int y, const Tile& t);
 	void determineEdges();
 	void setState(int x, int y, int index);
-	GameContext* _ctx;
 	Tile* _tiles;
 	int _maxAvailable;
 	std::vector<Border> _border;

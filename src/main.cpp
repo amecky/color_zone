@@ -4,13 +4,18 @@
 #include <stb_image.h>
 #define SPRITE_IMPLEMENTATION
 #include <SpriteBatchBuffer.h>
-#define DS_STATEMACHINE_IMPLEMENTATION
-#include <StateMachine.h>
 #define GAMESETTINGS_IMPLEMENTATION
 #include <ds_tweakable.h>
+#define DS_GAME_UI_IMPLEMENTATION
+#include <ds_game_ui.h>
+#define DS_TWEENING_IMPLEMENTATION
+#include <ds_tweening.h>
 #include "gamestates/MainGameState.h"
 #include "GameSettings.h"
 #include "..\resource.h"
+#include "objects\Levels.h"
+#include "TileMap.h"
+#include "game_ui.h"
 // ---------------------------------------------------------------
 // load image using stb_image
 // ---------------------------------------------------------------
@@ -41,6 +46,91 @@ void debug(const char* message) {
 	OutputDebugString("\n");
 #endif
 }
+
+// ---------------------------------------------------------------
+// bitmap font definitions
+// ---------------------------------------------------------------
+static const ds::vec2 FONT_DEF[] = {
+	ds::vec2(1,24),   // A
+	ds::vec2(24,21),  // B
+	ds::vec2(45,20),  // C
+	ds::vec2(66,22),  // D
+	ds::vec2(88,19),  // E
+	ds::vec2(108,19), // F
+	ds::vec2(127,21), // G
+	ds::vec2(149,21), // H
+	ds::vec2(170, 9), // I
+	ds::vec2(179,13), // J
+	ds::vec2(192,21), // K
+	ds::vec2(213,19), // L
+	ds::vec2(232,29), // M
+	ds::vec2(261,21), // N
+	ds::vec2(282,23), // O
+	ds::vec2(305,21), // P
+	ds::vec2(327,21), // Q
+	ds::vec2(348,21), // R
+	ds::vec2(369,19), // S 
+	ds::vec2(388,19), // T
+	ds::vec2(407,21), // U
+	ds::vec2(428,24), // V
+	ds::vec2(452,30), // W
+	ds::vec2(482,23), // X
+	ds::vec2(505,22), // Y
+	ds::vec2(527,19)  // Z
+};
+
+// ---------------------------------------------------------------
+// build the font info needed by the game ui
+// ---------------------------------------------------------------
+void prepareFontInfo(dialog::FontInfo* info) {
+	// default for every character just empty space
+	for (int i = 0; i < 255; ++i) {
+		info->texture_rects[i] = ds::vec4(112, 4, 20, 19);
+	}
+	// numbers
+	for (int c = 48; c <= 57; ++c) {
+		int idx = (int)c - 48;
+		info->texture_rects[c] = ds::vec4(548 + idx * 22, 440, 22, 19);
+	}
+	// :
+	info->texture_rects[58] = ds::vec4(766, 440, 18, 19);
+	// %
+	info->texture_rects[37] = ds::vec4(788, 440, 36, 19);
+	// characters
+	for (int c = 65; c <= 90; ++c) {
+		ds::vec2 fd = FONT_DEF[(int)c - 65];
+		info->texture_rects[c] = ds::vec4(0.0f + fd.x, 440.0f, fd.y, 19.0f);
+	}
+}
+
+void updateBackgroundData(GameContext* ctx, BackgroundData* data, float dt) {
+	data->color = tweening::interpolate(tweening::linear, ctx->colors[data->current], ctx->colors[data->next], data->timer, data->ttl);
+	data->color.a = tweening::interpolate(tweening::linear, data->firstAlpha, data->secondAlpha, data->timer, data->ttl);
+
+	data->timer += dt;
+	if (data->timer > data->ttl) {
+		++data->current;
+		if (data->current > 7) {
+			data->current = 0;
+		}
+		data->next = data->current + 1;
+		if (data->next > 7) {
+			data->next = 0;
+		}
+		data->timer -= data->ttl;
+		data->ttl = ds::random(1.0f, 2.0f);
+		data->firstAlpha = data->secondAlpha;
+		data->secondAlpha = ds::random(0.7f, 0.9f);
+	}
+}
+
+struct GameMode {
+
+	enum Enum {
+		GM_SELECT_MAP,
+		GM_MAIN
+	};
+};
 // ---------------------------------------------------------------
 // main method
 // ---------------------------------------------------------------
@@ -79,13 +169,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	ctx.pick_colors();
 	ctx.score = 0;
 	ctx.fillRate = 0;
-	ctx.levelIndex = 1;
-	StateMachine stateMachine;
+	ctx.levelIndex = 0;
+	ctx.tileMap = new TileMap;
 
-	stateMachine.add(new MainGameState(&ctx));
-	stateMachine.activate("MainState");
+	ctx.levels = new LevelData;
+	load_levels(ctx.levels);
+	ctx.tileMap->reset();
+	ctx.tileMap->build(ctx.levels, 0);
+
+	dialog::FontInfo fontInfo;
+	prepareFontInfo(&fontInfo);
+	dialog::init(&spriteBuffer, fontInfo);
+
+	MainGameState* mainState = new MainGameState(&ctx);
+	mainState->activate();
+
+	BackgroundData backgroundData;
+	backgroundData.current = 0;
+	backgroundData.next = 1;
+	backgroundData.firstAlpha = 1.0f;
+	backgroundData.secondAlpha = 1.0f;
+	backgroundData.timer = 0.0f;
+	backgroundData.ttl = 2.0f;
 
 	float loadTimer = 0.0f;
+
+	GameMode::Enum mode = GameMode::GM_SELECT_MAP;
 
 	while (ds::isRunning() && rendering) {
 
@@ -102,7 +211,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		}
 
 		if (update) {
-			stateMachine.tick(static_cast<float>(ds::getElapsedSeconds()));
+			if (mode == GameMode::GM_MAIN) {
+				mainState->tick(static_cast<float>(ds::getElapsedSeconds()));
+			}
 		}
 
 		loadTimer += ds::getElapsedSeconds();
@@ -110,23 +221,36 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 			loadTimer -= 1.0f;
 			twk_load();
 		}
-		//
-		// handle all the events that might have occurred in one frame
-		//
-		//uint32_t num = stateMachine->numEvents();
-		//for (uint32_t i = 0; i < num; ++i) {
-			// the "get ready" message has elapsed so deactivate the state
-			//if (stateMachine->getEventType(i) == ET_PREPARE_ELAPSED) {
-				//stateMachine->deactivate("PrepareState");
-				//mainState->startSpawning();
-			//}
-			
-		stateMachine.render();
-		// let us see how we are doing
-		ds::dbgPrint(0, 0, "FPS: %d", ds::getFramesPerSecond());
-		ds::dbgPrint(0, 1, "Running: %s", update ? "YES" : "NO");
-		ds::dbgPrint(0, 2, "Score: %d Fillrate: %d Level: %d", ctx.score, ctx.fillRate, ctx.levelIndex);
+
+		updateBackgroundData(&ctx, &backgroundData, ds::getElapsedSeconds());
+
+		spriteBuffer.begin();
+
+		spriteBuffer.add({ 640,360 }, { 320,620,640,360 }, { 2.0f,2.0f }, 0.0f, backgroundData.color);
+
+		
+		if (mode == GameMode::GM_SELECT_MAP) {
+			int r = show_map_selection(&ctx);
+			if (r == 1) {
+				mainState->activate();
+				mode = GameMode::GM_MAIN;
+			}
+		}
+		else if (mode == GameMode::GM_MAIN) {
+			mainState->render();
+		}
+		
+		spriteBuffer.flush();
+
+		ds::dbgPrint(0, 34, "FPS: %d", ds::getFramesPerSecond());
+
 		ds::end();
 	}	
 	ds::shutdown();
+
+	// FIXME: clean up GameContext
+	delete[] ctx.levels->tiles;
+	delete ctx.levels;
+	delete ctx.tileMap;
+	delete mainState;
 }

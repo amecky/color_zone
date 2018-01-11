@@ -2,13 +2,14 @@
 #include <diesel.h>
 #include "colors.h"
 #include "utils/Bitset.h"
+#include "utils\GameTimer.h"
 
 const int MAX_LEVELS = 10;
 const int MAX_X = 28;
 const int MAX_Y = 16;
 const int BORDER_SIZE = 44;
 const int SQUARE_SIZE = 36;
-const float HALF_SQUARE_SIZE = 18.0f;
+const int HALF_SQUARE_SIZE = 18;
 const int START_X = (1280 - SQUARE_SIZE * MAX_X) / 2;
 const int START_Y = (720 - SQUARE_SIZE * MAX_Y) / 2;
 
@@ -29,8 +30,20 @@ struct p2i {
 	p2i(int xx, int yy) : x(xx), y(yy) {}
 };
 
+struct BackgroundData {
+	int current;
+	int next;
+	float firstAlpha;
+	float secondAlpha;
+	float timer;
+	float ttl;
+	ds::Color color;
+};
+
 struct GameSettings;
 class SpriteBatchBuffer;
+class TileMap;
+struct LevelData;
 
 struct GameContext {
 
@@ -40,6 +53,9 @@ struct GameContext {
 	ds::Color colors[8];
 	GameSettings* settings;
 	SpriteBatchBuffer* buffer;
+	TimerData timer;
+	TileMap *tileMap;
+	LevelData* levels;
 
 	// http://devmag.org.za/2012/07/29/how-to-choose-colours-procedurally-algorithms/
 	void pick_colors() {

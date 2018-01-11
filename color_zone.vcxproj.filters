@@ -35,9 +35,6 @@
       <Filter>objects</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSettings.h" />
-    <ClInclude Include="src\gamestates\BasicGameState.h">
-      <Filter>gamestates</Filter>
-    </ClInclude>
     <ClInclude Include="src\utils\SparkleEffect.h">
       <Filter>utils</Filter>
     </ClInclude>
@@ -50,7 +47,20 @@
     <ClInclude Include="ext\SpriteBatchBuffer.h">
       <Filter>ext</Filter>
     </ClInclude>
-    <ClInclude Include="ext\StateMachine.h">
+    <ClInclude Include="ext\diesel.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\ds_game_ui.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\ds_imgui.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game_ui.h" />
+    <ClInclude Include="src\utils\GameTimer.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\ds_tweening.h">
       <Filter>ext</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,6 +81,10 @@
       <Filter>objects</Filter>
     </ClCompile>
     <ClCompile Include="src\utils\SparkleEffect.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_ui.cpp" />
+    <ClCompile Include="src\utils\GameTimer.cpp">
       <Filter>utils</Filter>
     </ClCompile>
   </ItemGroup>

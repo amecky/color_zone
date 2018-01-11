@@ -9,13 +9,10 @@ const int MARK_STEPS[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
 
 const p2i EDGE_OFFSET[] = { p2i(0, 1), p2i(1, 0), p2i(0, -1), p2i(-1, 0) };
 
-TileMap::TileMap(GameContext* context) : _tiles(0), _ctx(context) {
+TileMap::TileMap() : _tiles(0) {
 	_tiles = new Tile[MAX_X * MAX_Y];
-	//_tile = _ctx->spriteSheet->findIndex("tile");
-	//_markedTile = _ctx->spriteSheet->findIndex("marked_tile");
-	//_filledTile = _ctx->spriteSheet->findIndex("filled_tile");
-	//_basicBorder = _ctx->spriteSheet->findIndex("basic_border");
 }
+
 // --------------------------------------------
 // copy column
 // --------------------------------------------
@@ -52,9 +49,8 @@ bool TileMap::copyBlock(const Block* block) {
 	return false;
 }
 
-void TileMap::build(const Levels& levels, int index) {
-	//assert(index >= 0 && index < MAX_LEVELS);
-	levels.copy(index, _tiles);
+void TileMap::build(LevelData* levels, int index) {
+	copy_level(levels, index, _tiles);
 }
 
 // --------------------------------------------
@@ -128,14 +124,14 @@ int TileMap::clearColumn(int col) {
 // --------------------------------------------
 // render
 // --------------------------------------------
-void TileMap::render() {
-	render(SQUARE_SIZE, 1.0f);
+void TileMap::render(SpriteBatchBuffer* buffer, ds::Color* colors, GameSettings* settings) {
+	render(buffer, SQUARE_SIZE, 1.0f, colors, settings);
 }
 
 // --------------------------------------------
 // render
 // --------------------------------------------
-void TileMap::render(int squareSize,float scale) {
+void TileMap::render(SpriteBatchBuffer* buffer, int squareSize,float scale, ds::Color* colors, GameSettings* settings) {
 	int sx = (1280 - squareSize * MAX_X) / 2;
 	int sy = (720 - squareSize * MAX_Y) / 2;
 	ds::Color clr = ds::Color(128,128,128,255);
@@ -149,28 +145,28 @@ void TileMap::render(int squareSize,float scale) {
 			if (t.state.isSet(BIT_AVAILABLE)) {	
 				if (t.state.isSet(BIT_COHERENT)) {
 					if (t.edges > 0) {
-						clr = _ctx->colors[t.color];
+						clr = colors[t.color];
 						int left = t.edges * 36;
 						tex = ds::vec4(left, 100, 36, 36);
 					}
 				}
 				else if (t.state.isSet(BIT_MARKED)) {
-					clr = _ctx->colors[t.color];
+					clr = colors[t.color];
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
 					tex = ds::vec4(0, 0, 36, 36);
-					clr = _ctx->settings->grid.filledColor;
+					clr = settings->grid.filledColor;
 				}
 				else {
 					tex = ds::vec4(0, 0, 36, 36);
-					clr = _ctx->settings->grid.backgroundColor;
+					clr =settings->grid.backgroundColor;
 				}
-				_ctx->buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, clr);
+				buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, clr);
 			}
 			if (t.borders != -1) {
 				int left = 44 * t.borders;
 				tex = ds::vec4(left, 44, 44, 44);
-				_ctx->buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, _ctx->settings->grid.borderColor);
+				buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, settings->grid.borderColor);
 			}
 		}
 	}

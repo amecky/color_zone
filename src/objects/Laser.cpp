@@ -6,7 +6,7 @@
 
 Laser::Laser(GameContext* ctx) : _ctx(ctx), _color(ds::Color(255,255,255,255)), _timer(0.0f), _column(-1), _texture(-1), _state(LS_IDLE) {
 	_texture = ds::vec4(322, 0, 36, 36);
-	_color = ds::Color(0, 210, 210);
+	_color = ds::Color(0, 210, 210, 255);
 }
 
 // -----------------------------------------------------------------

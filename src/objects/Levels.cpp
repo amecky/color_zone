@@ -4,59 +4,55 @@
 #include <windows.h>
 #include "..\resource.h"
 
-Levels::Levels() {
-	_blockSize = MAX_X * MAX_Y;
-	_total = _blockSize * MAX_LEVELS;
-	_tiles = new Tile[_total];
-	for (int i = 0; i < _total; ++i) {
-		Tile& t = _tiles[i];
+bool load_levels(LevelData* data) {
+	data->blockSize = MAX_X * MAX_Y;
+	data->total = data->blockSize * MAX_LEVELS;
+	data->tiles = new Tile[data->total];
+	for (int i = 0; i < data->total; ++i) {
+		Tile& t = data->tiles[i];
 		t.borders = -1;
 		t.color = -1;
 		t.edges = -1;
 		t.state.clear();
 		t.state.set(BIT_AVAILABLE);
 	}
-	_names = new char[16 * MAX_LEVELS];
-	char* tmp = _names;
-	for (int i = 0; i < MAX_LEVELS; ++i) {
-		sprintf(tmp, "Number %d", i + 1);
-		tmp += 16;
-	}
+	data->names = new char[16 * MAX_LEVELS];
+	char* tmp = data->names;
+	//for (int i = 0; i < MAX_LEVELS; ++i) {
+		//sprintf(tmp, "Number %d", i + 1);
+		//tmp += 16;
+	//}
 
 	HRSRC myResource = FindResource(NULL, MAKEINTRESOURCE(IDR_BINARY1), RT_RCDATA);
 	HGLOBAL myResourceData = ::LoadResource(NULL, myResource);
 	void* pMyBinaryData = ::LockResource(myResourceData);
-	memcpy(_names, pMyBinaryData, 16 * MAX_LEVELS * sizeof(char));
+	memcpy(data->names, pMyBinaryData, 16 * MAX_LEVELS * sizeof(char));
 	const char* n = (char*)pMyBinaryData + 16 * MAX_LEVELS * sizeof(char);
-	memcpy(_tiles, n, _total * sizeof(Tile));
+	memcpy(data->tiles, n, data->total * sizeof(Tile));
 	UnlockResource(myResourceData);
 	FreeResource(myResourceData);
+	return true;
 }
 
-Levels::~Levels() {
-	delete[] _names;
-	delete[] _tiles;
-}
-
-void Levels::copy(int index, Tile* dest) const {
+void copy_level(LevelData* data, int index, Tile* dest) {
 	int all = MAX_X * MAX_Y;
-	int idx = index * _blockSize;
-	Tile* src = _tiles + idx;
-	for (int i = 0; i < _blockSize; ++i) {
+	int idx = index * data->blockSize;
+	Tile* src = data->tiles + idx;
+	for (int i = 0; i < data->blockSize; ++i) {
 		dest[i] = src[i];
 	}
 }
 
-void Levels::update(int index, Tile* src) {
+void update_level(LevelData* data, int index, Tile* src) {
 	int all = MAX_X * MAX_Y;
-	int idx = index * _blockSize;
-	Tile* dest = _tiles + idx;
-	for (int i = 0; i < _blockSize; ++i) {
+	int idx = index * data->blockSize;
+	Tile* dest = data->tiles + idx;
+	for (int i = 0; i < data->blockSize; ++i) {
 		dest[i] = src[i];
 	}
 }
 
-const char* Levels::getName(int index) const {
+const char* get_level_name(LevelData* data,int index) {
 	int idx = index * 16;
-	return _names + idx;
+	return data->names + idx;
 }

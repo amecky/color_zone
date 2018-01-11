@@ -1,18 +1,18 @@
 #pragma once
 #include "..\Common.h"
 
-class Levels {
-
-public:
-	Levels();
-	~Levels();
-	void copy(int index, Tile* dest) const;
-	void update(int index, Tile* src);
-	const char* getName(int index) const;
-private:
-	int _blockSize;
-	int _total;
-	Tile* _tiles;
-	char* _names;
+struct LevelData {
+	int blockSize;
+	int total;
+	Tile* tiles;
+	char* names;
 };
+
+bool load_levels(LevelData* data);
+
+void copy_level(LevelData* data, int index, Tile* dest);
+
+void update_level(LevelData* data, int index, Tile* src);
+
+const char* get_level_name(LevelData* data, int index);
 

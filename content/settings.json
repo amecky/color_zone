@@ -32,6 +32,6 @@ background {
 }
 grid {
     border_color : 25,125,159,255
-    background_color : 30,97,124,64
-    filled_color : 36,116,148,96
+    background_color : 64,64,64,192
+    filled_color : 128,128,128,192
 }
