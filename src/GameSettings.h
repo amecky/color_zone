@@ -21,6 +21,19 @@ struct GameSettings {
 		ds::Color filledColor;
 	} grid;
 
+	struct Background {
+		float min_intensity;
+		float max_intensity;
+		float min_ttl;
+		float max_ttl;
+	} background;
+
+	struct HUD {
+		ds::vec2 score_position;
+		ds::vec2 coverage_position;
+		ds::vec2 timer_position;
+	} hud;
+
 	GameSettings() {
 		twk_add("sparkle","gap", &sparkleGap);
 		twk_add("sparkle", "ttl", &sparkleTTL);
@@ -35,5 +48,14 @@ struct GameSettings {
 		twk_add("grid", "border_color", &grid.borderColor);
 		twk_add("grid", "background_color", &grid.backgroundColor);
 		twk_add("grid", "filled_color", &grid.filledColor);
+
+		twk_add("background", "min_intensity", &background.min_intensity);
+		twk_add("background", "max_intensity", &background.max_intensity);
+		twk_add("background", "min_ttl", &background.min_ttl);
+		twk_add("background", "max_ttl", &background.max_ttl);
+
+		twk_add("hud", "score_position", &hud.score_position);
+		twk_add("hud", "coverage_position", &hud.coverage_position);
+		twk_add("hud", "timer_position", &hud.timer_position);
 	}
 };

@@ -20,16 +20,6 @@ const int LD[4] = { 1, 0, 3, 2 };
 const int BLOCK_X[4] = { 0,1,1,0 };
 const int BLOCK_Y[4] = { 0,0,1,1 };
 
-struct p2i {
-
-	int x;
-	int y;
-
-	p2i() : x(0), y(0) {}
-
-	p2i(int xx, int yy) : x(xx), y(yy) {}
-};
-
 struct BackgroundData {
 	int current;
 	int next;

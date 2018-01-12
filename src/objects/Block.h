@@ -2,6 +2,7 @@
 #include <diesel.h>
 #include <SpriteBatchBuffer.h>
 #include "..\Common.h"
+#include <ds_imgui.h>
 
 class Block {
 

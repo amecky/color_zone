@@ -10,12 +10,36 @@
 #include <ds_game_ui.h>
 #define DS_TWEENING_IMPLEMENTATION
 #include <ds_tweening.h>
+#define DS_IMGUI_IMPLEMENTATION
+#include <ds_imgui.h>
 #include "gamestates/MainGameState.h"
 #include "GameSettings.h"
 #include "..\resource.h"
 #include "objects\Levels.h"
 #include "TileMap.h"
 #include "game_ui.h"
+// ---------------------------------------------------------------
+// load text file
+// ---------------------------------------------------------------
+const char* loadTextFile(const char* name) {
+	
+	HRSRC resourceHandle = ::FindResource(NULL, MAKEINTRESOURCE(IDS_SETTINGS), RT_RCDATA);
+	if (resourceHandle == 0) {
+		return 0;
+	}
+	DWORD imageSize = ::SizeofResource(NULL, resourceHandle);
+	if (imageSize == 0) {
+		return 0;
+	}
+	HGLOBAL myResourceData = ::LoadResource(NULL, resourceHandle);
+	char* pMyBinaryData = (char*)::LockResource(myResourceData);
+	UnlockResource(myResourceData);
+	char* ret = new char[imageSize];
+	memcpy(ret, pMyBinaryData, imageSize);
+	FreeResource(myResourceData);
+	return ret;
+}
+
 // ---------------------------------------------------------------
 // load image using stb_image
 // ---------------------------------------------------------------
@@ -31,7 +55,7 @@ RID loadImage(const char* name) {
 	}
 	HGLOBAL myResourceData = ::LoadResource(NULL, resourceHandle);
 	void* pMyBinaryData = ::LockResource(myResourceData);
-	unsigned char *data = stbi_load_from_memory((const unsigned char*)pMyBinaryData,imageSize,&x, &y, &n, 4);
+	unsigned char *data = stbi_load_from_memory((const unsigned char*)pMyBinaryData, imageSize, &x, &y, &n, 4);
 	ds::TextureInfo info = { x,y,n,data,ds::TextureFormat::R8G8B8A8_UNORM , ds::BindFlag::BF_SHADER_RESOURCE };
 	RID textureID = ds::createTexture(info, name);
 	stbi_image_free(data);
@@ -118,9 +142,9 @@ void updateBackgroundData(GameContext* ctx, BackgroundData* data, float dt) {
 			data->next = 0;
 		}
 		data->timer -= data->ttl;
-		data->ttl = ds::random(1.0f, 2.0f);
+		data->ttl = ds::random(ctx->settings->background.min_ttl, ctx->settings->background.max_ttl);
 		data->firstAlpha = data->secondAlpha;
-		data->secondAlpha = ds::random(0.7f, 0.9f);
+		data->secondAlpha = ds::random(ctx->settings->background.min_intensity, ctx->settings->background.max_intensity);
 	}
 }
 
@@ -155,13 +179,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 	bool rendering = true;
 	bool update = true;
-	bool pressed = false;
+	bool pressed = false;	
+	
+	gui::init();
 
+#ifdef DEBUG
 	twk_init("content\\settings.json");
+#else
+	twk_init();
+#endif
 
 	GameSettings settings;
 
+#ifdef DEBUG
 	twk_load();
+#else
+	const char* txt = loadTextFile("content\\settings.json");
+	if (txt != 0) {
+		twk_parse(txt);
+		delete[] txt;
+	}
+#endif
 
 	GameContext ctx;
 	ctx.settings = &settings;
@@ -194,6 +232,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 	float loadTimer = 0.0f;
 
+	int settingsStates[6] = { 0 };
+
 	GameMode::Enum mode = GameMode::GM_SELECT_MAP;
 
 	while (ds::isRunning() && rendering) {
@@ -215,13 +255,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 				mainState->tick(static_cast<float>(ds::getElapsedSeconds()));
 			}
 		}
-
+#ifdef DEBUG
 		loadTimer += ds::getElapsedSeconds();
 		if (loadTimer >= 1.0f) {
 			loadTimer -= 1.0f;
 			twk_load();
 		}
-
+#endif
 		updateBackgroundData(&ctx, &backgroundData, ds::getElapsedSeconds());
 
 		spriteBuffer.begin();
@@ -242,12 +282,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		
 		spriteBuffer.flush();
 
+		p2i dp(10, 710);
+		int state = 1;
+		gui::start(&dp, 300);
+		int nc = twk_num_categories();
+		for (int i = 0; i < nc; ++i) {
+			show_tweakable_gui(twk_get_category_name(i), &settingsStates[i]);
+		}
+		gui::end();
+
 		ds::dbgPrint(0, 34, "FPS: %d", ds::getFramesPerSecond());
 
 		ds::end();
 	}	
 	ds::shutdown();
-
+	gui::shutdown();
+	twk_shutdown();
 	// FIXME: clean up GameContext
 	delete[] ctx.levels->tiles;
 	delete ctx.levels;

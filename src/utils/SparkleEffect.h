@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include "..\Common.h"
+#include <ds_imgui.h>
 
 class SparkleEffect {
 

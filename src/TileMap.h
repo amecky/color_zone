@@ -5,6 +5,7 @@
 #include "objects/Block.h"
 #include "objects/Levels.h"
 #include <SpriteBatchBuffer.h>
+#include <ds_imgui.h>
 // -------------------------------------------------------------
 // Point list
 // -------------------------------------------------------------

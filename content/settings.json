@@ -20,12 +20,12 @@ laser {
 }
 hud {
 	padding : 6
-	score_position : 130,680
-	coverage_position : 640,30
-    timer_position : 940,680
+	score_position : 130,670
+	coverage_position : 400,670
+    timer_position : 940,670
 }
 background {
-	min_intensity : 0.5
+	min_intensity : 0.7
 	max_intensity : 0.9
 	min_ttl : 3.0
 	max_ttl : 8.0
