@@ -13,6 +13,9 @@ struct GameSettings {
 	struct Laser {
 		float startDelay;
 		float stepDelay;
+		float minAlpha;
+		float maxAlpha;
+		float alphaTTL;
 	} laser;
 	
 	struct Grid {
@@ -44,6 +47,9 @@ struct GameSettings {
 
 		twk_add("laser", "start_delay", &laser.startDelay);
 		twk_add("laser", "step_delay", &laser.stepDelay);
+		twk_add("laser", "min_alpha", &laser.minAlpha);
+		twk_add("laser", "max_alpha", &laser.maxAlpha);
+		twk_add("laser", "alpha_ttl", &laser.alphaTTL);
 
 		twk_add("grid", "border_color", &grid.borderColor);
 		twk_add("grid", "background_color", &grid.backgroundColor);

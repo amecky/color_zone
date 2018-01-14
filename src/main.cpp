@@ -127,6 +127,9 @@ void prepareFontInfo(dialog::FontInfo* info) {
 	}
 }
 
+// ---------------------------------------------------------------
+// update background data
+// ---------------------------------------------------------------
 void updateBackgroundData(GameContext* ctx, BackgroundData* data, float dt) {
 	data->color = tweening::interpolate(tweening::linear, ctx->colors[data->current], ctx->colors[data->next], data->timer, data->ttl);
 	data->color.a = tweening::interpolate(tweening::linear, data->firstAlpha, data->secondAlpha, data->timer, data->ttl);
@@ -152,7 +155,8 @@ struct GameMode {
 
 	enum Enum {
 		GM_SELECT_MAP,
-		GM_MAIN
+		GM_MAIN,
+		GM_TEST
 	};
 };
 // ---------------------------------------------------------------
@@ -234,7 +238,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 	int settingsStates[6] = { 0 };
 
-	GameMode::Enum mode = GameMode::GM_SELECT_MAP;
+	GameMode::Enum mode = GameMode::GM_TEST;
+
+	bool showGUI = true;
+	bool guiKeyPressed = false;
+
+	// FIXME: remove
+	Laser l(&ctx);
+	ctx.settings->laser.startDelay = 0.0f;
 
 	while (ds::isRunning() && rendering) {
 
@@ -249,10 +260,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		else {
 			pressed = false;
 		}
+		if (ds::isKeyPressed('D')) {
+			if (!guiKeyPressed) {
+				showGUI = !showGUI;
+				guiKeyPressed = true;
+			}
+		}
+		else {
+			guiKeyPressed = false;
+		}
 
 		if (update) {
 			if (mode == GameMode::GM_MAIN) {
 				mainState->tick(static_cast<float>(ds::getElapsedSeconds()));
+			}
+			else if (mode == GameMode::GM_TEST) {
+				l.tick(ds::getElapsedSeconds());
+				if (l.isRunning()) {
+					int col = 0;
+					l.move(ds::getElapsedSeconds(), &col);
+				}
 			}
 		}
 #ifdef DEBUG
@@ -279,18 +306,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		else if (mode == GameMode::GM_MAIN) {
 			mainState->render();
 		}
+		else if (mode == GameMode::GM_TEST) {
+			l.render();
+		}
 		
 		spriteBuffer.flush();
-
-		p2i dp(10, 710);
-		int state = 1;
-		gui::start(&dp, 300);
-		int nc = twk_num_categories();
-		for (int i = 0; i < nc; ++i) {
-			show_tweakable_gui(twk_get_category_name(i), &settingsStates[i]);
+		if (showGUI) {
+			p2i dp(10, 710);
+			int state = 1;
+			gui::start(&dp, 300);
+			int nc = twk_num_categories();
+			for (int i = 0; i < nc; ++i) {
+				show_tweakable_gui(twk_get_category_name(i), &settingsStates[i]);
+			}
+			if (gui::begin("Laser",&state)) {
+				gui::Value("Idle", l.getIdleSeconds());
+				if (gui::Button("Start")) {
+					l.start();
+				}
+			}
+			gui::end();
 		}
-		gui::end();
-
 		ds::dbgPrint(0, 34, "FPS: %d", ds::getFramesPerSecond());
 
 		ds::end();

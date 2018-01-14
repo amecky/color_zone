@@ -1843,7 +1843,7 @@ namespace ds {
 #endif
 
 #ifdef DS_IMPLEMENTATION
-
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <crtdbg.h>  
 #include <d3d11.h>

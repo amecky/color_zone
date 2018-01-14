@@ -1,10 +1,16 @@
 #pragma once
 #include "..\Common.h"
 
-enum LaserState {
-	LS_RUNNING,
-	LS_WARMING_UP,
-	LS_IDLE
+
+struct LaserState {
+
+	enum Enum {
+		LS_RUNNING,
+		LS_WARMING_UP,
+		LS_IDLE,
+		LS_MOVING
+	};
+
 };
 
 class Laser {
@@ -19,12 +25,13 @@ public:
 	void render();
 	bool isRunning() const;
 	int getIdleSeconds() const;
-	LaserState getState() const;
+	LaserState::Enum getState() const;
 private:
 	GameContext* _ctx;
 	ds::Color _color;
 	float _timer;
+	float _alphaTimer;
 	int _column;
 	ds::vec4 _texture;
-	LaserState _state;
+	LaserState::Enum _state;
 };
