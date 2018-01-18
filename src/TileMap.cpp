@@ -434,7 +434,7 @@ void TileMap::debug() {
 		std::string str;
 		for (int x = 0; x < MAX_X; ++x) {
 			const Tile& t = _tiles[x + y * MAX_X];
-			sprintf_s(buffer, 32, "C:%2d/B:%2d/S:%2d ", t.color, t.borders, t.state);
+			sprintf_s(buffer, 32, "C:%2d/B:%2d/S:%2d ", t.color, t.borders, t.state.getValue());
 			str.append(buffer);
 		}
 		//LOG << str;

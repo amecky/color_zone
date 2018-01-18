@@ -43,6 +43,30 @@ const char* loadTextFile(const char* name) {
 // ---------------------------------------------------------------
 // load image using stb_image
 // ---------------------------------------------------------------
+RID loadImageFromResource(LPCTSTR name, LPCTSTR type) {
+	int x, y, n;
+	HRSRC resourceHandle = ::FindResource(NULL, name, type);
+	if (resourceHandle == 0) {
+		return NO_RID;
+	}
+	DWORD imageSize = ::SizeofResource(NULL, resourceHandle);
+	if (imageSize == 0) {
+		return NO_RID;
+	}
+	HGLOBAL myResourceData = ::LoadResource(NULL, resourceHandle);
+	void* pMyBinaryData = ::LockResource(myResourceData);
+	unsigned char *data = stbi_load_from_memory((const unsigned char*)pMyBinaryData, imageSize, &x, &y, &n, 4);
+	ds::TextureInfo info = { x,y,n,data,ds::TextureFormat::R8G8B8A8_UNORM , ds::BindFlag::BF_SHADER_RESOURCE };
+	RID textureID = ds::createTexture(info, "Texture");
+	stbi_image_free(data);
+	UnlockResource(myResourceData);
+	FreeResource(myResourceData);
+	return textureID;
+}
+
+// ---------------------------------------------------------------
+// load image using stb_image
+// ---------------------------------------------------------------
 RID loadImage(const char* name) {
 	int x, y, n;
 	HRSRC resourceHandle = ::FindResource(NULL, MAKEINTRESOURCE(IDB_PNG1), "PNG");
@@ -64,7 +88,7 @@ RID loadImage(const char* name) {
 	return textureID;
 }
 
-void debug(const char* message) {
+void debug(const LogLevel& level, const char* message) {
 #ifdef DEBUG
 	OutputDebugString(message);
 	OutputDebugString("\n");
@@ -173,11 +197,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	rs.clearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
 	rs.multisampling = 4;
 	rs.useGPUProfiling = false;
+#ifdef DEBUG
+	rs.logHandler = debug;
+#endif
 	ds::init(rs);
 	//
 	// load the one and only texture
 	//
-	RID textureID = loadImage("content\\Textures.png");
+	RID textureID = loadImageFromResource(MAKEINTRESOURCE(IDB_PNG1), "PNG");
 	SpriteBatchBufferInfo sbbInfo = { 2048, textureID , ds::TextureFilters::LINEAR};
 	SpriteBatchBuffer spriteBuffer(sbbInfo);
 

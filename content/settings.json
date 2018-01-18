@@ -16,7 +16,8 @@ intro {
 }
 laser {
 	start_delay : 10.0
-	step_delay : 0.4
+	wait_delay : 0.2
+	move_delay : 0.4
 	min_alpha : 0.6
 	max_alpha : 0.9
 	alpha_ttl : 0.6

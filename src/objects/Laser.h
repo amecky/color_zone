@@ -1,6 +1,6 @@
 #pragma once
 #include "..\Common.h"
-
+#include <SpriteBatchBuffer.h>
 
 struct LaserState {
 
@@ -8,9 +8,18 @@ struct LaserState {
 		LS_RUNNING,
 		LS_WARMING_UP,
 		LS_IDLE,
-		LS_MOVING
+		LS_MOVING,
+		LS_WAITING
 	};
 
+};
+
+struct MyLaser {
+	LaserState::Enum state;
+	Sprite sprites[MAX_Y];
+	float timer;
+	float xPos;
+	bool active;
 };
 
 class Laser {
@@ -32,6 +41,7 @@ private:
 	float _timer;
 	float _alphaTimer;
 	int _column;
-	ds::vec4 _texture;
 	LaserState::Enum _state;
+
+	MyLaser _laser;
 };

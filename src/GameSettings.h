@@ -12,7 +12,8 @@ struct GameSettings {
 
 	struct Laser {
 		float startDelay;
-		float stepDelay;
+		float waitDelay;
+		float moveDelay;
 		float minAlpha;
 		float maxAlpha;
 		float alphaTTL;
@@ -46,7 +47,8 @@ struct GameSettings {
 		twk_add("sparkle", "velocity_variance", &sparkleVelocityVariance);
 
 		twk_add("laser", "start_delay", &laser.startDelay);
-		twk_add("laser", "step_delay", &laser.stepDelay);
+		twk_add("laser", "wait_delay", &laser.waitDelay);
+		twk_add("laser", "move_delay", &laser.moveDelay);
 		twk_add("laser", "min_alpha", &laser.minAlpha);
 		twk_add("laser", "max_alpha", &laser.maxAlpha);
 		twk_add("laser", "alpha_ttl", &laser.alphaTTL);

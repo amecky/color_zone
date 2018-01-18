@@ -13,6 +13,12 @@ struct Sprite {
 	ds::vec2 scaling;
 	float rotation;
 	ds::Color color;
+
+	Sprite() : position(0.0f), textureRect(0.0f), scaling(1.0f), rotation(0.0f), color(255, 255, 255, 255) {}
+	Sprite(const ds::vec2& p, const ds::vec4& r) : position(p), textureRect(r), scaling(1.0f), rotation(0.0f), color(255, 255, 255, 255) {}
+	Sprite(const ds::vec2& p, const ds::vec4& r, const ds::vec2& s) : position(p), textureRect(r), scaling(s), rotation(0.0f), color(255, 255, 255, 255) {}
+	Sprite(const ds::vec2& p, const ds::vec4& r, const ds::vec2& s, float rot) : position(p), textureRect(r), scaling(s), rotation(rot), color(255, 255, 255, 255) {}
+	Sprite(const ds::vec2& p, const ds::vec4& r, const ds::vec2& s, float rot, const ds::Color& clr) : position(p), textureRect(r), scaling(s), rotation(rot), color(clr) {}
 };
 
 struct SpriteBatchBufferInfo {
@@ -36,6 +42,7 @@ public:
 	void begin();
 	void add(const ds::vec2& pos, const ds::vec4& textureRect, const ds::vec2& scaling = ds::vec2(1, 1), float rotation = 0.0f, const ds::Color& color = ds::Color(255, 255, 255, 255));
 	void add(const Sprite& sprite);
+	void add(Sprite* sprites, int count);
 	void flush();
 private:
 	unsigned int _max;
@@ -430,6 +437,15 @@ void SpriteBatchBuffer::add(const Sprite& sprite) {
 		flush();
 	}
 	_buffer[_current++] = sprite;
+}
+
+void SpriteBatchBuffer::add(Sprite* sprites, int count) {
+	if ((_current + count) >= _max) {
+		flush();
+	}
+	for (int i = 0; i < count; ++i) {
+		_buffer[_current++] = sprites[i];
+	}
 }
 
 void SpriteBatchBuffer::flush() {
