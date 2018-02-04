@@ -265,7 +265,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 	int settingsStates[6] = { 0 };
 
-	GameMode::Enum mode = GameMode::GM_TEST;
+	GameMode::Enum mode = GameMode::GM_MAIN;
 
 	bool showGUI = true;
 	bool guiKeyPressed = false;
