@@ -86,6 +86,7 @@ bool Laser::tick(float dt) {
 			_timer = 0.0f;
 			_state = LaserState::LS_MOVING;
 			_column = -1;
+			_laser.xPos = START_X;
 			return true;
 		}
 	}
