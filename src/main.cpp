@@ -18,6 +18,9 @@
 #include "objects\Levels.h"
 #include "TileMap.h"
 #include "game_ui.h"
+#include <ds_stretchbuffer.h>
+#include "tiles.h"
+#include "objects\Block.h"
 // ---------------------------------------------------------------
 // load text file
 // ---------------------------------------------------------------
@@ -183,6 +186,39 @@ struct GameMode {
 		GM_TEST
 	};
 };
+
+struct ButtonDefinition {
+
+	enum Enum {
+		NONE,
+		LEFT,
+		RIGHT
+	};
+
+};
+
+ButtonDefinition::Enum handle_buttons(int* buttonDown) {
+	ButtonDefinition::Enum buttonClicked = ButtonDefinition::NONE;
+	if (ds::isMouseButtonPressed(0)) {
+		buttonDown[0] = 1;
+	}
+	else {
+		if (buttonDown[0] == 1) {
+			buttonDown[0] = 0;
+			buttonClicked = ButtonDefinition::LEFT;
+		}
+	}
+	if (ds::isMouseButtonPressed(1)) {
+		buttonDown[1] = 1;
+	}
+	else {
+		if (buttonDown[1] == 1) {
+			buttonDown[1] = 0;
+			buttonClicked = ButtonDefinition::RIGHT;
+		}
+	}
+	return buttonClicked;
+}
 // ---------------------------------------------------------------
 // main method
 // ---------------------------------------------------------------
@@ -199,6 +235,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	rs.useGPUProfiling = false;
 #ifdef DEBUG
 	rs.logHandler = debug;
+	rs.supportDebug = true;
 #endif
 	ds::init(rs);
 	//
@@ -239,19 +276,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	ctx.score = 0;
 	ctx.fillRate = 0;
 	ctx.levelIndex = 0;
-	ctx.tileMap = new TileMap;
-
+	ctx.tiles = 0;
+	array_resize(ctx.tiles, MAX_X * MAX_Y);
 	ctx.levels = new LevelData;
 	load_levels(ctx.levels);
-	ctx.tileMap->reset();
-	ctx.tileMap->build(ctx.levels, 0);
+	ctx.pick_colors();
+	ctx.currentBlock = new Block;
+	initialise_block(ctx.currentBlock);
+	ctx.nextBlock = new Block;
+	initialise_block(ctx.nextBlock);
+	ctx.currentBlock->position = p2i(640, 560);
+	pick_block_colors(ctx.currentBlock);
+	ctx.nextBlock->position = p2i(640, 660);
+	for (int i = 0; i < 6; ++i) {
+		pick_block_colors(ctx.nextBlock);
+	}
+	copy_block_colors(ctx.currentBlock, ctx.nextBlock);
+	pick_block_colors(ctx.nextBlock);
+	//ctx.nextBlock->startFlashing();
 
 	dialog::FontInfo fontInfo;
 	prepareFontInfo(&fontInfo);
 	dialog::init(&spriteBuffer, fontInfo);
 
-	MainGameState* mainState = new MainGameState(&ctx);
-	mainState->activate();
+	//MainGameState* mainState = new MainGameState(&ctx);
+	//mainState->activate();
 
 	BackgroundData backgroundData;
 	backgroundData.current = 0;
@@ -270,14 +319,40 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	bool showGUI = true;
 	bool guiKeyPressed = false;
 
+	int buttonDown[2] = { 0 };
+
 	// FIXME: remove
 	Laser l(&ctx);
 	ctx.settings->laser.startDelay = 0.0f;
 
+	copy_level(ctx.levels, ctx.levelIndex, ctx.tiles);
+
+	int laser_col = 0;
+
 	while (ds::isRunning() && rendering) {
 
 		ds::begin();
+
+		float dt = static_cast<float>(ds::getElapsedSeconds());
+
+		ButtonDefinition::Enum buttonClicked = handle_buttons(buttonDown);
 		
+		if (buttonClicked == ButtonDefinition::RIGHT) {
+			if (!ctx.currentBlock->rotating) {
+				ctx.currentBlock->rotating = true;
+				ctx.currentBlock->rotationTimer = 0.0f;
+			}
+		}
+		if (buttonClicked == ButtonDefinition::LEFT) {
+			if (copy_block(ctx.tiles, ctx.currentBlock)) {
+				copy_block_colors(ctx.currentBlock,ctx.nextBlock);
+				pick_block_colors(ctx.nextBlock);
+				ctx.nextBlock->flashing = true;
+				ctx.nextBlock->flashTimer = 0.0f;
+				calculate_fill_rate(ctx.tiles);
+			}
+		}
+
 		if (ds::isKeyPressed('U') ) {
 			if (!pressed) {
 				update = !update;
@@ -299,13 +374,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 		if (update) {
 			if (mode == GameMode::GM_MAIN) {
-				mainState->tick(static_cast<float>(ds::getElapsedSeconds()));
+				//mainState->tick(static_cast<float>(ds::getElapsedSeconds()));
 			}
 			else if (mode == GameMode::GM_TEST) {
+				follow_mouse(ctx.currentBlock);
+				rotate_block(ctx.currentBlock,dt);
+				flash_block_scale(ctx.nextBlock, dt, 0.2f);
 				l.tick(ds::getElapsedSeconds());
 				if (l.isRunning()) {
-					int col = 0;
-					l.move(ds::getElapsedSeconds(), &col);
+					l.move(ds::getElapsedSeconds(), &laser_col);
 				}
 			}
 		}
@@ -324,17 +401,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 		
 		if (mode == GameMode::GM_SELECT_MAP) {
-			int r = show_map_selection(&ctx);
+			int r = show_map_selection(ctx.tiles, &ctx);
 			if (r == 1) {
-				mainState->activate();
+				//mainState->activate();
 				mode = GameMode::GM_MAIN;
 			}
 		}
 		else if (mode == GameMode::GM_MAIN) {
-			mainState->render();
+			//mainState->render();
 		}
 		else if (mode == GameMode::GM_TEST) {
+			render_tiles(ctx.tiles, &spriteBuffer, SQUARE_SIZE, 1.0f, ctx.colors, ctx.settings);
+			render_block_boxed(ctx.currentBlock,&spriteBuffer, ctx.colors);
+			render_block(ctx.nextBlock,&spriteBuffer, ctx.colors);			
 			l.render();
+			ds::dbgPrint(0, 0, "LC %d", laser_col);
 		}
 		
 		spriteBuffer.flush();
@@ -361,9 +442,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	ds::shutdown();
 	gui::shutdown();
 	twk_shutdown();
+	array_free(ctx.tiles);
 	// FIXME: clean up GameContext
+	delete ctx.currentBlock;
+	delete ctx.nextBlock;
 	delete[] ctx.levels->tiles;
 	delete ctx.levels;
-	delete ctx.tileMap;
-	delete mainState;
 }

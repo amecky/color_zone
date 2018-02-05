@@ -66,6 +66,10 @@
     <ClInclude Include="ext\ds_tweening.h">
       <Filter>ext</Filter>
     </ClInclude>
+    <ClInclude Include="ext\ds_stretchbuffer.h">
+      <Filter>ext</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tiles.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\objects\Block.cpp">
@@ -90,6 +94,7 @@
     <ClCompile Include="src\utils\GameTimer.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\tiles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="color_zone.rc" />

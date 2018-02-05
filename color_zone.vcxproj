@@ -28,6 +28,7 @@
     <ClCompile Include="src\objects\Laser.cpp" />
     <ClCompile Include="src\objects\Levels.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
+    <ClCompile Include="src\tiles.cpp" />
     <ClCompile Include="src\utils\GameTimer.cpp" />
     <ClCompile Include="src\utils\SparkleEffect.cpp" />
   </ItemGroup>
@@ -35,6 +36,7 @@
     <ClInclude Include="ext\diesel.h" />
     <ClInclude Include="ext\ds_game_ui.h" />
     <ClInclude Include="ext\ds_imgui.h" />
+    <ClInclude Include="ext\ds_stretchbuffer.h" />
     <ClInclude Include="ext\ds_tweakable.h" />
     <ClInclude Include="ext\ds_tweening.h" />
     <ClInclude Include="ext\SpriteBatchBuffer.h" />
@@ -49,6 +51,7 @@
     <ClInclude Include="src\objects\Laser.h" />
     <ClInclude Include="src\objects\Levels.h" />
     <ClInclude Include="src\TileMap.h" />
+    <ClInclude Include="src\tiles.h" />
     <ClInclude Include="src\utils\Bitset.h" />
     <ClInclude Include="src\utils\GameTimer.h" />
     <ClInclude Include="src\utils\SparkleEffect.h" />

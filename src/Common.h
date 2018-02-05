@@ -34,6 +34,24 @@ struct GameSettings;
 class SpriteBatchBuffer;
 class TileMap;
 struct LevelData;
+struct Block;
+// Bits
+const int BIT_AVAILABLE = 1;
+const int BIT_MARKED = 2;
+const int BIT_COHERENT = 3;
+const int BIT_FILLED = 4;
+
+struct Tile {
+
+	ds::Bits state;
+	int color;
+	int borders;
+	int edges;
+
+	Tile() : color(-1), edges(0), borders(0) {}
+
+};
+
 
 struct GameContext {
 
@@ -44,8 +62,10 @@ struct GameContext {
 	GameSettings* settings;
 	SpriteBatchBuffer* buffer;
 	TimerData timer;
-	TileMap *tileMap;
+	Tile *tiles;
 	LevelData* levels;
+	Block* currentBlock;
+	Block* nextBlock;
 
 	// http://devmag.org.za/2012/07/29/how-to-choose-colours-procedurally-algorithms/
 	void pick_colors() {
@@ -63,19 +83,3 @@ struct GameContext {
 	}
 };
 
-// Bits
-const int BIT_AVAILABLE = 1;
-const int BIT_MARKED    = 2;
-const int BIT_COHERENT  = 3;
-const int BIT_FILLED    = 4;
-
-struct Tile {
-
-	ds::Bits state;
-	int color;
-	int borders;
-	int edges;
-
-	Tile() : color(-1), edges(0), borders(0) {}
-
-};

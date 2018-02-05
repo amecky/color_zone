@@ -34,7 +34,7 @@ bool Laser::move(float dt, int* column) {
 	float stepDelay = _ctx->settings->laser.waitDelay;
 	float moveDelay = _ctx->settings->laser.moveDelay;
 	float startDelay = _ctx->settings->laser.startDelay;
-	*column = -1;
+	*column = _column;
 	bool ret = false;
 
 	if (_state == LaserState::LS_WAITING || _state == LaserState::LS_MOVING) {

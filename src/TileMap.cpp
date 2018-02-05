@@ -17,7 +17,7 @@ TileMap::TileMap() : _tiles(0) {
 // copy column
 // --------------------------------------------
 bool TileMap::copyBlock(const Block* block) {
-	const p2i& p = block->getPosition();
+	const p2i& p = block->position;
 	int xp = (p.x - START_X + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	int yp = (p.y - START_Y + SQUARE_SIZE / 2) / SQUARE_SIZE;
 	if (isBlockAvailable(xp, yp)) {
@@ -26,7 +26,8 @@ bool TileMap::copyBlock(const Block* block) {
 			int cy = yp + MARK_STEPS[i * 2 + 1];
 			Tile& t = get(cx,cy);
 			t.state.set(BIT_MARKED);
-			t.color = block->getColor(i);
+			t.color = block->colors[i];
+			/*
 			PointList list;
 			check(cx, cy, -1, list, true);
 			list.add(cx, cy);
@@ -39,6 +40,7 @@ bool TileMap::copyBlock(const Block* block) {
 					setState(p.x, p.y, BIT_COHERENT);
 				}
 			}
+			*/
 		}	
 		determineEdges();
 		return true;
@@ -388,6 +390,7 @@ void TileMap::setBorder(int x, int y, int index) {
 // -------------------------------------------------------------
 // check recursively to detect matching pieces
 // -------------------------------------------------------------
+/*
 void TileMap::check(int xp, int yp, int lastDir, PointList& list, bool rec) {
 	if (isValid(xp, yp)) {
 		Tile& t = get(xp,yp);
@@ -424,7 +427,7 @@ void TileMap::check(int xp, int yp, int lastDir, PointList& list, bool rec) {
 		}
 	}
 }
-
+*/
 // -------------------------------------------------------
 // reset
 // -------------------------------------------------------

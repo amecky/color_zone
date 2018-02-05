@@ -26,121 +26,72 @@ namespace block {
 
 }
 
-Block::Block() {
-	_position = p2i(512, 384);
-	for (int i = 0; i < 4; ++i) {
-		_colors[i] = 0;
-	}
-	pick_colors();
-	_rotating = false;
-	_rotationRadius = length(ds::vec2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE));
-	_scale = ds::vec2(1, 1);
-	_flashing = false;
-}
-// -----------------------------------------------------------------
-// pick new colors
-// -----------------------------------------------------------------
-void Block::pick_colors() {
+void pick_block_colors(Block* block) {
 	int firstColor = ds::random(0, 3);
 	int secondColor = ds::random(0, 3);
-	_colors[0] = firstColor;
-	_colors[1] = firstColor;
-	_colors[2] = secondColor;
-	_colors[3] = secondColor;
+	block->colors[0] = firstColor;
+	block->colors[1] = firstColor;
+	block->colors[2] = secondColor;
+	block->colors[3] = secondColor;
 	int r = ds::random(0, 6);
 	for (int i = 0; i < r; ++i) {
-		block::shift_array(_colors, 4);
+		block::shift_array(block->colors, 4);
 	}
 }
 
-int Block::getColor(int idx) const {
-	return _colors[idx];
-}
-// -----------------------------------------------------------------
-// copy colors from source block to destination block
-// -----------------------------------------------------------------
-void Block::copy_colors(const Block* src) {
+void initialise_block(Block* block) {
+	block->position = p2i(512, 384);
 	for (int i = 0; i < 4; ++i) {
-		_colors[i] = src->getColor(i);
+		block->colors[i] = 0;
 	}
+	pick_block_colors(block);
+	block->rotating = false;
+	block->rotationRadius = length(ds::vec2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE));
+	block->scale = ds::vec2(1, 1);
+	block->flashing = false;
+	block->flashTimer = 0.0f;
+	block->rotationTimer = 0.0f;
 }
 
-// -----------------------------------------------------------------
-// flash scale
-// -----------------------------------------------------------------
-void Block::flash_scale(float dt, float flashTTL) {
-	if (_flashing) {
-		_flashTimer += dt;
-		if (_flashTimer >= flashTTL) {
-			_flashing = false;
-		}
-		else {
-			float norm = 0.2f + _flashTimer / flashTTL * 0.8f;
-			_scale = ds::vec2(norm, norm);
-		}
+void copy_block_colors(Block* current, Block* other) {
+	for (int i = 0; i < 4; ++i) {
+		current->colors[i] = other->colors[i];
 	}
 }
 
 // -----------------------------------------------------------------
 // render block
 // -----------------------------------------------------------------
-void Block::render(SpriteBatchBuffer* buffer,ds::Color* colors) {
-	ds::vec2 p = ds::vec2(_position.x, _position.y) + ds::vec2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
-	float norm = _rotationTimer / ROTATION_TIME;
+void render_block(Block* block, SpriteBatchBuffer* buffer, ds::Color* colors) {
+	ds::vec2 p = ds::vec2(block->position.x, block->position.y) + ds::vec2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
+	float norm = block->rotationTimer / ROTATION_TIME;
 	ds::vec4 tex(36, 0, 36, 36);
 	for (int i = 0; i < 4; ++i) {
 		float angle = STARTING_ANGLES[i];
-		if (_rotating) {
+		if (block->rotating) {
 			angle += norm * ds::PI * 0.5f;
 		}
-		ds::vec2 pp = ds::vec2(p.x + _rotationRadius * cos(angle), p.y + _rotationRadius * sin(angle));
-		buffer->add(pp, tex, _scale, angle + DEGTORAD(45.0f), colors[_colors[i]]);
+		ds::vec2 pp = ds::vec2(p.x + block->rotationRadius * cos(angle), p.y + block->rotationRadius * sin(angle));
+		buffer->add(pp, tex, block->scale, angle + DEGTORAD(45.0f), colors[block->colors[i]]);
 	}
 }
 
 // -----------------------------------------------------------------
 // render block and a box surrounding it
 // -----------------------------------------------------------------
-void Block::render_boxed(SpriteBatchBuffer* buffer, ds::Color* colors) {
-	render(buffer, colors);
+void render_block_boxed(Block* block, SpriteBatchBuffer* buffer, ds::Color* colors) {
+	render_block(block, buffer, colors);
 	float r = 0.0f;
-	ds::vec2 p = ds::vec2(_position.x, _position.y) + ds::vec2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
+	ds::vec2 p = ds::vec2(block->position.x, block->position.y) + ds::vec2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
 	ds::vec4 t(220, 140, 78, 78);
-	if (_rotating) {
-		float norm = _rotationTimer / ROTATION_TIME;
+	if (block->rotating) {
+		float norm = block->rotationTimer / ROTATION_TIME;
 		r = norm * ds::PI * 0.5f;
 	}
 	buffer->add(p, t, ds::vec2(1, 1), r, { 50,208,253,255 });
 }
 
-// -----------------------------------------------------------------
-// start rotating
-// -----------------------------------------------------------------
-void Block::start_rotating() {
-	if (!_rotating) {
-		_rotating = true;
-		_rotationTimer = 0.0f;
-	}
-}
-
-// -----------------------------------------------------------------
-// update
-// -----------------------------------------------------------------
-void Block::update(float dt) {
-	if (_rotating) {
-		_rotationTimer += dt;
-		float norm = _rotationTimer / ROTATION_TIME;
-		if (norm >= 1.0f) {
-			block::shift_array(_colors, 4);
-			_rotating = false;
-		}
-	}
-}
-
-// -----------------------------------------------------------------
-// follow mouse
-// -----------------------------------------------------------------
-void Block::follow_mouse() {
+void follow_mouse(Block* block) {
 	ds::vec2 mp = ds::getMousePosition();
 	p2i tmp = map::screen2grid(mp);
 	if (tmp.x >= MAX_X - 1) {
@@ -149,15 +100,34 @@ void Block::follow_mouse() {
 	if (tmp.y >= MAX_Y - 1) {
 		tmp.y = MAX_Y - 2;
 	}
-	_position = map::grid2screen(tmp);
+	block->position = map::grid2screen(tmp);
 
 }
 
-void Block::setPosition(const p2i& pos) {
-	_position = pos;
+void flash_block_scale(Block* block, float dt, float flashTTL) {
+	if (block->flashing) {
+		block->flashTimer += dt;
+		if (block->flashTimer >= flashTTL) {
+			block->flashing = false;
+		}
+		else {
+			float norm = 0.2f + block->flashTimer / flashTTL * 0.8f;
+			block->scale = ds::vec2(norm, norm);
+		}
+	}
 }
 
-void Block::startFlashing() {
-	_flashing = true;
-	_flashTimer = 0.0f;
+// -----------------------------------------------------------------
+// update
+// -----------------------------------------------------------------
+void rotate_block(Block* block, float dt) {
+	if (block->rotating) {
+		block->rotationTimer += dt;
+		float norm = block->rotationTimer / ROTATION_TIME;
+		if (norm >= 1.0f) {
+			block::shift_array(block->colors, 4);
+			block->rotating = false;
+		}
+	}
 }
+

@@ -6,43 +6,7 @@
 #include "objects/Levels.h"
 #include <SpriteBatchBuffer.h>
 #include <ds_imgui.h>
-// -------------------------------------------------------------
-// Point list
-// -------------------------------------------------------------
-class PointList {
 
-	typedef std::vector<p2i> Points;
-
-public:
-	PointList() {}
-	~PointList() {}
-	void add(int x, int y) {
-		if (!contains(x, y)) {
-			p2i p;
-			p.x = x;
-			p.y = y;
-			_points.push_back(p);
-		}
-	}
-	bool contains(int x, int y) const {
-		if (x >= 0 && x < MAX_X && y >= 0 && y < MAX_Y) {
-			for (size_t i = 0; i < _points.size(); ++i) {
-				if (_points[i].x == x && _points[i].y == y) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	const p2i& get(int index) const {
-		return _points[index];
-	}
-	const size_t size() const {
-		return _points.size();
-	}
-private:
-	Points _points;
-};
 
 // -------------------------------------------------------------
 // Tile map
@@ -90,7 +54,7 @@ public:
 
 private:	
 	bool matches(int x, int y, const Tile& t);
-	void check(int xp, int yp, int lastDir, PointList& list, bool rec);
+	//void check(int xp, int yp, int lastDir, PointList& list, bool rec);
 	int determineEdge(int x, int y, const Tile& t);
 	void determineEdges();
 	void setState(int x, int y, int index);
