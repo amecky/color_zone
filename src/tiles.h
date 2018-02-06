@@ -16,4 +16,6 @@ uint32_t get_tiles_index(uint32_t x, uint32_t y);
 
 int calculate_fill_rate(Tile* tiles);
 
+void get_colors(Tile* tiles, int col, int* colors);
+
 void render_tiles(Tile* tiles, SpriteBatchBuffer* buffer, int squareSize, float scale, ds::Color* colors, GameSettings* settings);

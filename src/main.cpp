@@ -314,20 +314,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 	int settingsStates[6] = { 0 };
 
-	GameMode::Enum mode = GameMode::GM_MAIN;
+	GameMode::Enum mode = GameMode::GM_TEST;
 
 	bool showGUI = true;
 	bool guiKeyPressed = false;
 
 	int buttonDown[2] = { 0 };
-
-	// FIXME: remove
-	Laser l(&ctx);
-	ctx.settings->laser.startDelay = 0.0f;
+	
+	Laser laser;
+	initialize_laser(&laser);
 
 	copy_level(ctx.levels, ctx.levelIndex, ctx.tiles);
 
-	int laser_col = 0;
+	SparkleEffect* sparkleEffect = new SparkleEffect(&ctx);
+	sparkleEffect->reset();
+
+	int dbgSparkCol = 2; // FIXME: remove 
 
 	while (ds::isRunning() && rendering) {
 
@@ -377,12 +379,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 				//mainState->tick(static_cast<float>(ds::getElapsedSeconds()));
 			}
 			else if (mode == GameMode::GM_TEST) {
+				sparkleEffect->update(dt);
 				follow_mouse(ctx.currentBlock);
 				rotate_block(ctx.currentBlock,dt);
 				flash_block_scale(ctx.nextBlock, dt, 0.2f);
-				l.tick(ds::getElapsedSeconds());
-				if (l.isRunning()) {
-					l.move(ds::getElapsedSeconds(), &laser_col);
+				tick_laser(&laser, dt);
+				flash_laser(&laser, dt, ctx.settings->laser.minAlpha, ctx.settings->laser.maxAlpha, ctx.settings->laser.alphaTTL);
+				//l.tick(ds::getElapsedSeconds());
+				if (laser.active) {
+					if (move_laser(&laser, dt, ctx.settings->laser.startDelay, ctx.settings->laser.waitDelay, ctx.settings->laser.moveDelay)) {
+						// column has changed
+					}
+					//if (l.isRunning()) {
+						//l.move(ds::getElapsedSeconds(), &laser_col);
+					//}
 				}
 			}
 		}
@@ -414,8 +424,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 			render_tiles(ctx.tiles, &spriteBuffer, SQUARE_SIZE, 1.0f, ctx.colors, ctx.settings);
 			render_block_boxed(ctx.currentBlock,&spriteBuffer, ctx.colors);
 			render_block(ctx.nextBlock,&spriteBuffer, ctx.colors);			
-			l.render();
-			ds::dbgPrint(0, 0, "LC %d", laser_col);
+			render_laser(&laser,&spriteBuffer);
+			sparkleEffect->render();
+			ds::dbgPrint(0, 0, "LC %d", laser.column);
 		}
 		
 		spriteBuffer.flush();
@@ -428,9 +439,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 				show_tweakable_gui(twk_get_category_name(i), &settingsStates[i]);
 			}
 			if (gui::begin("Laser",&state)) {
-				gui::Value("Idle", l.getIdleSeconds());
+				//gui::Value("Idle", l.getIdleSeconds());
 				if (gui::Button("Start")) {
-					l.start();
+					start_laser(&laser, 4.0f);// ctx.settings->laser.startDelay);
+				}
+			}
+			gui::Input("Spark Col", &dbgSparkCol);
+			if (gui::Button("Sparkles")) {
+				int colors[MAX_Y];
+				get_colors(ctx.tiles, dbgSparkCol, colors);
+				for (int i = 0; i < MAX_Y; ++i) {
+					if (colors[i] != -1) {
+						sparkleEffect->start(p2i(dbgSparkCol, i), colors[i]);
+					}
 				}
 			}
 			gui::end();
@@ -444,6 +465,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	twk_shutdown();
 	array_free(ctx.tiles);
 	// FIXME: clean up GameContext
+	delete sparkleEffect;
 	delete ctx.currentBlock;
 	delete ctx.nextBlock;
 	delete[] ctx.levels->tiles;

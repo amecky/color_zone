@@ -23,7 +23,6 @@ private:
 	int _buttonDown[2];
 	Block _current;
 	Block _next;
-	Laser* _laser;
 	SparkleEffect* _effect;
 	
 };

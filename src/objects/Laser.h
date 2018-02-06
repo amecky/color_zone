@@ -1,6 +1,4 @@
 #pragma once
-#include "..\Common.h"
-#include <SpriteBatchBuffer.h>
 
 struct LaserState {
 
@@ -14,14 +12,34 @@ struct LaserState {
 
 };
 
-struct MyLaser {
+struct Laser {
 	LaserState::Enum state;
-	Sprite sprites[MAX_Y];
 	float timer;
 	float xPos;
 	bool active;
+	int column;
+	float alphaTimer;
+	int idleSeconds;
+	float alpha;
 };
 
+class SpriteBatchBuffer;
+
+void initialize_laser(Laser* laser);
+
+void start_laser(Laser* laser, float startDelay);
+
+void reset_laser(Laser* laser, float startDelay);
+
+bool tick_laser(Laser* laser, float dt);
+
+bool move_laser(Laser* laser, float dt, float startDelay, float stepDelay, float moveDelay);
+
+void flash_laser(Laser* laser, float dt, float minAlpha, float maxAlpha, float ttl);
+
+void render_laser(Laser* laser, SpriteBatchBuffer* buffer);
+
+/*
 class Laser {
 
 public:
@@ -45,3 +63,4 @@ private:
 
 	MyLaser _laser;
 };
+*/

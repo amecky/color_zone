@@ -277,6 +277,17 @@ void render_tiles(Tile* tiles, SpriteBatchBuffer* buffer, int squareSize, float 
 	}
 }
 
+void get_colors(Tile* tiles, int col, int* colors) {
+	for (int y = 0; y < MAX_Y; ++y) {
+		if (is_available(tiles, col, y)) {
+			Tile& t = tiles[get_tiles_index(col, y)];
+			colors[y] = t.color;
+		}
+		else {
+			colors[y] = -1;
+		}
+	}
+}
 // --------------------------------------------
 // get fill rate
 // --------------------------------------------
