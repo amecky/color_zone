@@ -232,18 +232,21 @@ bool copy_block(Tile* tiles, const Block* block) {
 	return false;
 }
 
+const static ds::vec4 TILE_TEXTURE = ds::vec4(0, 0, 36, 36);
+const static ds::Color UNDEFINED_COLOR = ds::Color(255, 255, 255, 255);
+
 // ---------------------------------------------------------------
 // render tiles
 // ---------------------------------------------------------------
 void render_tiles(Tile* tiles, SpriteBatchBuffer* buffer, int squareSize, float scale, ds::Color* colors, GameSettings* settings) {
 	int sx = (1280 - squareSize * MAX_X) / 2;
 	int sy = (720 - squareSize * MAX_Y) / 2;
-	ds::Color clr = ds::Color(128, 128, 128, 255);
-	ds::vec4 tex = ds::vec4(0, 100, 36, 36);
+	ds::Color clr = UNDEFINED_COLOR;
+	ds::vec4 tex = TILE_TEXTURE;
 	for (int x = 0; x < MAX_X; ++x) {
 		for (int y = 0; y < MAX_Y; ++y) {
-			tex = ds::vec4(0, 100, 36, 36);
-			clr = ds::Color(255, 255, 255, 255);
+			tex = TILE_TEXTURE;
+			clr = UNDEFINED_COLOR;
 			uint32_t idx = get_tiles_index(x, y);
 			const Tile& t = tiles[idx];
 			ds::vec2 p = ds::vec2(sx + x * squareSize, sy + y * squareSize);
@@ -259,11 +262,11 @@ void render_tiles(Tile* tiles, SpriteBatchBuffer* buffer, int squareSize, float 
 					clr = colors[t.color];
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
-					tex = ds::vec4(0, 0, 36, 36);
+					tex = TILE_TEXTURE;
 					clr = settings->grid.filledColor;
 				}
 				else {
-					tex = ds::vec4(0, 0, 36, 36);
+					tex = TILE_TEXTURE;
 					clr = settings->grid.backgroundColor;
 				}
 				buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, clr);

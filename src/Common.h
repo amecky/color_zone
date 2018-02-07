@@ -66,6 +66,7 @@ struct GameContext {
 	LevelData* levels;
 	Block* currentBlock;
 	Block* nextBlock;
+	int laserIdle;
 
 	// http://devmag.org.za/2012/07/29/how-to-choose-colours-procedurally-algorithms/
 	void pick_colors() {

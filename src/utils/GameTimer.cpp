@@ -1,5 +1,11 @@
 #include "GameTimer.h"
 
+void reset_timer(TimerData* data) {
+	data->timer = 0.0f;
+	data->minutes = 0;
+	data->seconds = 0;
+	data->mode = TimerMode::TM_INC;
+}
 
 void start_timer(TimerData * data, int minutes, int seconds, TimerMode::Enum mode) {
 	data->timer = 0.0f;

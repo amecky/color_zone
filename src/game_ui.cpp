@@ -39,6 +39,9 @@ void show_hud(GameContext* ctx) {
 	dialog::FormattedText(ctx->settings->hud.score_position, false, ds::vec2(1.0f), "%06d",ctx->score);
 	dialog::FormattedText(ctx->settings->hud.timer_position, false, ds::vec2(1.0f), "%02d:%02d", ctx->timer.minutes,ctx->timer.seconds);
 	dialog::FormattedText(ctx->settings->hud.coverage_position, false, ds::vec2(1.0f), "%3d%%", ctx->fillRate);
+	if (ctx->laserIdle > 0) {
+		dialog::FormattedText(ctx->settings->hud.laser_idle_position, false, ds::vec2(1.0f), "%2d", ctx->laserIdle);
+	}
 	dialog::end();
 }
 

@@ -26,7 +26,8 @@ hud {
 	padding : 6
 	score_position : 130,670
 	coverage_position : 400,670
-    timer_position : 940,670
+    timer_position : 910,670
+	laser_idle_position : 1080,670
 }
 background {
 	min_intensity : 0.7

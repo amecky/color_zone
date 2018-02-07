@@ -36,6 +36,7 @@ struct GameSettings {
 		ds::vec2 score_position;
 		ds::vec2 coverage_position;
 		ds::vec2 timer_position;
+		ds::vec2 laser_idle_position;
 	} hud;
 
 	GameSettings() {
@@ -65,5 +66,6 @@ struct GameSettings {
 		twk_add("hud", "score_position", &hud.score_position);
 		twk_add("hud", "coverage_position", &hud.coverage_position);
 		twk_add("hud", "timer_position", &hud.timer_position);
+		twk_add("hud", "laser_idle_position", &hud.laser_idle_position);
 	}
 };

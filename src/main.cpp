@@ -293,6 +293,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	}
 	copy_block_colors(ctx.currentBlock, ctx.nextBlock);
 	pick_block_colors(ctx.nextBlock);
+	reset_timer(&ctx.timer);
+	ctx.laserIdle = 10;
 	//ctx.nextBlock->startFlashing();
 
 	dialog::FontInfo fontInfo;
@@ -421,6 +423,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 			//mainState->render();
 		}
 		else if (mode == GameMode::GM_TEST) {
+			show_hud(&ctx);
 			render_tiles(ctx.tiles, &spriteBuffer, SQUARE_SIZE, 1.0f, ctx.colors, ctx.settings);
 			render_block_boxed(ctx.currentBlock,&spriteBuffer, ctx.colors);
 			render_block(ctx.nextBlock,&spriteBuffer, ctx.colors);			

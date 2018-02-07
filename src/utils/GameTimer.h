@@ -15,6 +15,8 @@ struct TimerData {
 	TimerMode::Enum mode;
 };
 
-void start_timer(TimerData * data, int minutes, int seconds, TimerMode::Enum mode);
+void reset_timer(TimerData* data);
+
+void start_timer(TimerData* data, int minutes, int seconds, TimerMode::Enum mode);
 
 void tick_timer(TimerData* data, float dt);
