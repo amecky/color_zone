@@ -429,7 +429,12 @@ void SpriteBatchBuffer::add(const ds::vec2& position, const ds::vec4& rect, cons
 	if ((_current + 1) >= _max) {
 		flush();
 	}
-	_buffer[_current++] = { position, rect, scale, rotation, clr };
+	Sprite& sprite = _buffer[_current++];
+	sprite.position = position;
+	sprite.textureRect = rect;
+	sprite.scaling = scale;
+	sprite.rotation = rotation;
+	sprite.color = clr;
 }
 
 void SpriteBatchBuffer::add(const Sprite& sprite) {

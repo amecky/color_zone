@@ -666,7 +666,12 @@ namespace gui {
 			if ((ctx->sprites.current + 1) >= ctx->sprites.max) {
 				flush_items(ctx);
 			}
-			ctx->sprites.items[ctx->sprites.current++] = { position, rect, scale, clr };
+			GUIItem& sp = ctx->sprites.items[ctx->sprites.current++];
+			sp.position.x = position.x;
+			sp.position.y = position.y;
+			sp.textureRect = rect;
+			sp.scaling = scale;
+			sp.color = clr;
 		}
 
 		static void draw_buffer(UIContext* ctx, UIBuffer* buffer, const p2i& startPos, const p2i& size) {
@@ -721,7 +726,8 @@ namespace gui {
 			if ((buffer->num + 1) >= buffer->capacity) {
 				draw_buffer(ctx);
 			}
-			buffer->positions[buffer->num] = ds::vec2(p.x, p.y);
+			buffer->positions[buffer->num].x = p.x;
+			buffer->positions[buffer->num].y = p.y;
 			buffer->scales[buffer->num] = scale;
 			buffer->rectangles[buffer->num] = rect;
 			buffer->colors[buffer->num] = color;
