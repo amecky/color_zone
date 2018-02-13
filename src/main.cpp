@@ -219,6 +219,32 @@ ButtonDefinition::Enum handle_buttons(int* buttonDown) {
 	}
 	return buttonClicked;
 }
+
+void load_level(const char* fileName, char** tmp) {
+	FILE* fp = fopen(fileName,"r");
+	int c = 0;
+	int row = 0;
+	if (fp) {
+		do {
+			c = fgetc(fp);
+			if (c != '\n') {
+				array_push(*tmp, c);
+			}
+			else {
+				++row;
+			}
+			//else {
+				//tmp[col + row * MAX_X] = c;
+			//}
+		} while (c != EOF);
+		fclose(fp);
+		DBG_LOG("rows: %d", row);
+	}
+}
+
+bool is_valid_index(int x, int y) {
+	return x >= 0 && x < MAX_X && y >= 0 && y < MAX_Y;
+}
 // ---------------------------------------------------------------
 // main method
 // ---------------------------------------------------------------
@@ -238,6 +264,72 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	rs.supportDebug = true;
 #endif
 	ds::init(rs);
+
+	char* tmp = 0;
+	load_level("content\\test_level.txt", &tmp);
+	int sz = array_size(tmp);
+	DBG_LOG("size: %d", sz);
+	int y = 1;
+	const static int DX[] = { -1, 0, 1,  0 };
+	const static int DY[] = {  0, 1, 0, -1 };
+	//for (int y = 0; y < MAX_Y; ++y) {
+		for (int x = 0; x < MAX_X; ++x) {
+			int cur = 0;
+			char c = tmp[x + y * MAX_X];
+			for (int i = 0; i < 4; ++i) {
+				if (is_valid_index(x + DX[i], y + DY[i])) {
+					char n = tmp[x + DX[i] + (y + DY[i]) * MAX_X];
+					if (n != 'x') {
+						cur |= 1 << i;
+					}
+				}
+				else {
+					cur |= 1 << i;
+				}
+			}
+			//if (c == 'x') {
+			/*
+				if (is_valid_index(x - 1, y)) {
+					char n = tmp[x - 1 + y * MAX_X];
+					if (n != 'x') {
+						cur += 1;
+					}
+				}
+				else {
+					cur += 1;
+				}
+				if (is_valid_index(x, y + 1)) {
+					char n = tmp[x + (y + 1) * MAX_X];
+					if (n != 'x') {
+						cur += 2;
+					}
+				}
+				else {
+					cur += 2;
+				}
+				if (is_valid_index(x + 1, y)) {
+					char n = tmp[x + 1 + y * MAX_X];
+					if (n != 'x') {
+						cur += 4;
+					}
+				}
+				else {
+					cur += 4;
+				}
+				if (is_valid_index(x, y - 1)) {
+					char n = tmp[x + (y - 1) * MAX_X];
+					if (n != 'x') {
+						cur += 8;
+					}
+				}
+				else {
+					cur += 8;
+				}
+				*/
+			//}
+			DBG_LOG("%d %d = %d", x, y, cur);
+		}
+	//}
 	//
 	// load the one and only texture
 	//
