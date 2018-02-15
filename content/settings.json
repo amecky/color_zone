@@ -26,8 +26,8 @@ hud {
 	padding : 6
 	score_position : 130,670
 	coverage_position : 400,670
-    timer_position : 910,670
-	laser_idle_position : 1080,670
+    timer_position : 840,670
+	laser_idle_position : 1070,670
 }
 background {
 	min_intensity : 0.7
@@ -36,7 +36,7 @@ background {
 	max_ttl : 8.0
 }
 grid {
-    border_color : 25,125,159,255
-    background_color : 64,64,64,192
+    border_color : 250,160,9,255
+    background_color : 192,192,192,192
     filled_color : 128,128,128,192
 }

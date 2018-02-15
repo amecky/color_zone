@@ -36,11 +36,26 @@ void show_tweakable_gui(const char* category, int* state) {
 
 void show_hud(GameContext* ctx) {
 	dialog::begin();
-	dialog::FormattedText(ctx->settings->hud.score_position, false, ds::vec2(1.0f), "%06d",ctx->score);
-	dialog::FormattedText(ctx->settings->hud.timer_position, false, ds::vec2(1.0f), "%02d:%02d", ctx->timer.minutes,ctx->timer.seconds);
-	dialog::FormattedText(ctx->settings->hud.coverage_position, false, ds::vec2(1.0f), "%3d%%", ctx->fillRate);
+	ds::vec2 block_pos = ctx->settings->hud.score_position;
+	block_pos.x += 60.0f;
+	dialog::Image(block_pos, ds::vec4(310, 220, 160, 40), ds::Color(6,134,235,255));
+	dialog::FormattedText(ctx->settings->hud.score_position, false, ds::vec2(1.0f), ds::Color(255, 255, 255, 255), "%06d",ctx->score);
+
+	block_pos = ctx->settings->hud.coverage_position;
+	block_pos.x += 60.0f;
+	dialog::Image(block_pos, ds::vec4(310, 220, 120, 40), ds::Color(6, 134, 235, 255));
+	dialog::FormattedText(ctx->settings->hud.coverage_position, false, ds::vec2(1.0f), ds::Color(255, 255, 255, 255), "%3d%%", ctx->fillRate);
+
+	block_pos = ctx->settings->hud.timer_position;
+	block_pos.x += 50.0f;
+	dialog::Image(block_pos, ds::vec4(310, 220, 140, 40), ds::Color(6, 134, 235, 255));
+	dialog::FormattedText(ctx->settings->hud.timer_position, false, ds::vec2(1.0f), ds::Color(255, 255, 255, 255), "%02d:%02d", ctx->timer.minutes,ctx->timer.seconds);
+	
+	block_pos = ctx->settings->hud.laser_idle_position;
+	block_pos.x += 20.0f;
+	dialog::Image(block_pos, ds::vec4(310, 220, 80, 40), ds::Color(6, 134, 235, 255));
 	if (ctx->laserIdle > 0) {
-		dialog::FormattedText(ctx->settings->hud.laser_idle_position, false, ds::vec2(1.0f), "%2d", ctx->laserIdle);
+		dialog::FormattedText(ctx->settings->hud.laser_idle_position, false, ds::vec2(1.0f), ds::Color(255, 255, 255, 255), "%2d", ctx->laserIdle);
 	}
 	dialog::end();
 }

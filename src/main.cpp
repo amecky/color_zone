@@ -256,7 +256,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	rs.width = 1280;
 	rs.height = 720;
 	rs.title = "color_zone";
-	rs.clearColor = ds::Color(0.0f, 0.0f, 0.0f, 1.0f);
+	rs.clearColor = ds::Color(0.9f, 0.9f, 0.9f, 1.0f);
 	rs.multisampling = 4;
 	rs.useGPUProfiling = false;
 #ifdef DEBUG
@@ -287,46 +287,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 					cur |= 1 << i;
 				}
 			}
-			//if (c == 'x') {
-			/*
-				if (is_valid_index(x - 1, y)) {
-					char n = tmp[x - 1 + y * MAX_X];
-					if (n != 'x') {
-						cur += 1;
-					}
-				}
-				else {
-					cur += 1;
-				}
-				if (is_valid_index(x, y + 1)) {
-					char n = tmp[x + (y + 1) * MAX_X];
-					if (n != 'x') {
-						cur += 2;
-					}
-				}
-				else {
-					cur += 2;
-				}
-				if (is_valid_index(x + 1, y)) {
-					char n = tmp[x + 1 + y * MAX_X];
-					if (n != 'x') {
-						cur += 4;
-					}
-				}
-				else {
-					cur += 4;
-				}
-				if (is_valid_index(x, y - 1)) {
-					char n = tmp[x + (y - 1) * MAX_X];
-					if (n != 'x') {
-						cur += 8;
-					}
-				}
-				else {
-					cur += 8;
-				}
-				*/
-			//}
 			DBG_LOG("%d %d = %d", x, y, cur);
 		}
 	//}
@@ -410,7 +370,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 	GameMode::Enum mode = GameMode::GM_TEST;
 
-	bool showGUI = true;
+	bool showGUI = false;
 	bool guiKeyPressed = false;
 
 	int buttonDown[2] = { 0 };
@@ -501,7 +461,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 		spriteBuffer.begin();
 
-		spriteBuffer.add({ 640,360 }, { 320,620,640,360 }, { 2.0f,2.0f }, 0.0f, backgroundData.color);
+		//spriteBuffer.add({ 640,360 }, { 320,620,640,360 }, { 2.0f,2.0f }, 0.0f, backgroundData.color);
 
 		
 		if (mode == GameMode::GM_SELECT_MAP) {

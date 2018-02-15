@@ -80,7 +80,6 @@ void render_block(Block* block, SpriteBatchBuffer* buffer, ds::Color* colors) {
 // render block and a box surrounding it
 // -----------------------------------------------------------------
 void render_block_boxed(Block* block, SpriteBatchBuffer* buffer, ds::Color* colors) {
-	render_block(block, buffer, colors);
 	float r = 0.0f;
 	ds::vec2 p = ds::vec2(block->position.x, block->position.y) + ds::vec2(HALF_SQUARE_SIZE, HALF_SQUARE_SIZE);
 	ds::vec4 t(220, 140, 78, 78);
@@ -88,7 +87,8 @@ void render_block_boxed(Block* block, SpriteBatchBuffer* buffer, ds::Color* colo
 		float norm = block->rotationTimer / ROTATION_TIME;
 		r = norm * ds::PI * 0.5f;
 	}
-	buffer->add(p, t, ds::vec2(1, 1), r, { 50,208,253,255 });
+	buffer->add(p, t, ds::vec2(1, 1), r, { 64,64,64,255 });
+	render_block(block, buffer, colors);
 }
 
 void follow_mouse(Block* block) {

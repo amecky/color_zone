@@ -20,7 +20,7 @@ namespace dialog {
 
 	void begin();
 
-	void Image(const ds::vec2& pos, const ds::vec4& rect);
+	void Image(const ds::vec2& pos, const ds::vec4& rect, const ds::Color& color = ds::Color(255,255,255,255));
 
 	bool Button(const ds::vec2& pos, const ds::vec4& rect);
 
@@ -28,9 +28,9 @@ namespace dialog {
 
 	bool isCursorInside(const ds::vec2& p, const ds::vec2& dim);
 
-	void Text(const ds::vec2& pos, const char* text, bool centered = true, const ds::vec2& scale = ds::vec2(1.0f) );
+	void Text(const ds::vec2& pos, const char* text, bool centered = true, const ds::vec2& scale = ds::vec2(1.0f), const ds::Color& color = ds::Color(255,255,255,255));
 
-	void FormattedText(const ds::vec2& pos, bool centered, const ds::vec2& scale, const char* fmt, ...);
+	void FormattedText(const ds::vec2& pos, bool centered, const ds::vec2& scale, const ds::Color& color, const char* fmt, ...);
 
 	void Input(const ds::vec2& pos, char* text, int maxLength);
 
@@ -50,6 +50,7 @@ namespace dialog {
 		ds::vec2 pos;
 		ds::vec4 rect;
 		ds::vec2 scale;
+		ds::Color color;
 	};
 
 	const int MAX_DRAW_CALLS = 1024;
@@ -197,19 +198,20 @@ namespace dialog {
 	// ---------------------------------------------------------------
 	// image
 	// ---------------------------------------------------------------
-	void Image(const ds::vec2& pos, const ds::vec4& rect) {
+	void Image(const ds::vec2& pos, const ds::vec4& rect, const ds::Color& color) {
 		if (_guiCtx.num_calls < MAX_DRAW_CALLS) {
 			DrawCall& call = _guiCtx.calls[_guiCtx.num_calls++];
 			call.pos = pos;
 			call.rect = rect;
 			call.scale = ds::vec2(1.0f);
+			call.color = color;
 		}
 	}
 
 	// ---------------------------------------------------------------
 	// text
 	// ---------------------------------------------------------------
-	void Text(const ds::vec2& pos, const char* text, bool centered, const ds::vec2& scale) {
+	void Text(const ds::vec2& pos, const char* text, bool centered, const ds::vec2& scale, const ds::Color& color) {
 		int l = strlen(text);
 		ds::vec2 p = pos;
 		ds::vec2 size = text_size(text);
@@ -235,6 +237,7 @@ namespace dialog {
 				call.pos = p;
 				call.rect = r;
 				call.scale = scale;
+				call.color = color;
 			}
 			lw = r.z * scale.x;
 		}
@@ -243,13 +246,13 @@ namespace dialog {
 	// ---------------------------------------------------------------
 	// formatted text
 	// ---------------------------------------------------------------
-	void FormattedText(const ds::vec2& pos, bool centered, const ds::vec2& scale, const char* fmt, ...) {
+	void FormattedText(const ds::vec2& pos, bool centered, const ds::vec2& scale, const ds::Color& color, const char* fmt, ...) {
 		char buffer[1024];
 		va_list args;
 		va_start(args, fmt);
 		vsprintf(buffer, fmt, args);
 		ds::vec2 size = text_size(buffer);
-		Text(pos, buffer, centered, scale);
+		Text(pos, buffer, centered, scale, color);
 		va_end(args);
 	}
 
@@ -285,7 +288,7 @@ namespace dialog {
 	void end() {
 		for (int i = 0; i < _guiCtx.num_calls; ++i) {
 			const DrawCall& call = _guiCtx.calls[i];
-			_guiCtx.buffer->add(call.pos, call.rect, call.scale);
+			_guiCtx.buffer->add(call.pos, call.rect, call.scale, 0.0f, call.color);
 		}
 	}
 }

@@ -260,6 +260,8 @@ void render_tiles(Tile* tiles, SpriteBatchBuffer* buffer, int squareSize, float 
 				}
 				else if (t.state.isSet(BIT_MARKED)) {
 					clr = colors[t.color];
+					tex = TILE_TEXTURE;
+					tex = ds::vec4(0, 100, 36, 36);
 				}
 				else if (t.state.isSet(BIT_FILLED)) {
 					tex = TILE_TEXTURE;
