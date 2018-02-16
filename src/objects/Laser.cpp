@@ -30,7 +30,7 @@ void reset_laser(Laser* laser, float startDelay) {
 void flash_laser(Laser* laser, float dt, float minAlpha, float maxAlpha, float ttl) {
 	if (laser->state == LaserState::LS_WAITING || laser->state == LaserState::LS_MOVING) {
 		laser->alphaTimer += dt;
-		float c = minAlpha + abs(sin(laser->alphaTimer / ttl * ds::TWO_PI)) * (maxAlpha - minAlpha);
+		float c = minAlpha + fabs(sin(laser->alphaTimer / ttl * ds::TWO_PI)) * (maxAlpha - minAlpha);
 		if (laser->alphaTimer > ttl) {
 			laser->alphaTimer -= ttl;
 		}

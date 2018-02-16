@@ -1,6 +1,8 @@
 #include "SparkleEffect.h"
 #include "..\TileMap.h"
 #include "..\GameSettings.h"
+#include <SpriteBatchBuffer.h>
+
 const float PARTICLE_ANGLES[] = {
 	135.0f,110.0f, 70.0f, 45.0f,
 	160.0f,110.0f, 70.0f, 20.0f,
@@ -61,7 +63,7 @@ void SparkleEffect::start(const p2i& pos, int color) {
 				_positions[idx] = ds::vec2(np.x + (dx + gap) * x, np.y - (dy + gap) * y);
 				_timers[idx] = 0.0f;
 				float v = _ctx->settings->sparkleVelocity + ds::random(-_ctx->settings->sparkleVelocityVariance, _ctx->settings->sparkleVelocityVariance);
-				_velocities[idx] = ds::vec2( v * cos(PARTICLE_ANGLES[cnt++]), v * sin(PARTICLE_ANGLES[cnt++]));
+				_velocities[idx] = ds::vec2( v * cosf(PARTICLE_ANGLES[cnt++]), v * sinf(PARTICLE_ANGLES[cnt++]));
 				_accelerations[idx] = ds::vec2(0, 0);
 				_colors[idx] = color;
 				_scales[idx] = ds::vec2(1, 1);

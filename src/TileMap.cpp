@@ -1,20 +1,140 @@
 #include "TileMap.h"
-#include<iostream>
-#include<fstream>
-#include <string>
-#include "objects\Levels.h"
 #include "GameSettings.h"
+#include <SpriteBatchBuffer.h>
+#include "Common.h"
+#include "objects\Levels.h"
+#include "objects\Block.h"
+#include <vector>
+
+// -------------------------------------------------------------
+// Point list
+// -------------------------------------------------------------
+class PointList {
+
+	typedef std::vector<p2i> Points;
+
+public:
+	PointList() {}
+	~PointList() {}
+	void add(int x, int y) {
+		if (!contains(x, y)) {
+			p2i p;
+			p.x = x;
+			p.y = y;
+			_points.push_back(p);
+		}
+	}
+	bool contains(int x, int y) const {
+		if (x >= 0 && x < MAX_X && y >= 0 && y < MAX_Y) {
+			for (size_t i = 0; i < _points.size(); ++i) {
+				if (_points[i].x == x && _points[i].y == y) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	const p2i& get(int index) const {
+		return _points[index];
+	}
+	const size_t size() const {
+		return _points.size();
+	}
+private:
+	Points _points;
+};
 
 const int MARK_STEPS[] = { 0, 0, 0, 1, 1, 1, 1, 0 };
 
 const p2i EDGE_OFFSET[] = { p2i(0, 1), p2i(1, 0), p2i(0, -1), p2i(-1, 0) };
 
-TileMap::TileMap() : _tiles(0) {
+const static ds::vec4 TILE_TEXTURE = ds::vec4(0, 0, 36, 36);
+const static ds::Color UNDEFINED_COLOR = ds::Color(255, 255, 255, 255);
+
+TileMap::TileMap(SpriteBatchBuffer* buffer, GameSettings* settings) 
+	: _sprites(buffer) , _settings(settings) , _tiles(0) {
 	_tiles = new Tile[MAX_X * MAX_Y];
+	_levelData = new LevelData;
+	load_levels(_levelData);
+	_guiState = 1;
 }
 
+TileMap::~TileMap() {
+	delete[] _tiles;
+	delete _levelData;
+}
+
+void TileMap::buildLevel(int lvl) {
+	_currentLevel = lvl;
+	int all = MAX_X * MAX_Y;
+	int idx = lvl * _levelData->blockSize;
+	Tile* src = _levelData->tiles + idx;
+	for (int i = 0; i < _levelData->blockSize; ++i) {
+		_tiles[i] = src[i];
+	}
+}
+
+const char* TileMap::getLevelName() const {
+	int idx = _currentLevel * 16;
+	return _levelData->names + idx;
+}
+
+int TileMap::getLevel() const {
+	return _currentLevel;
+}
+
+// ---------------------------------------------------------------
+// render tiles
+// ---------------------------------------------------------------
+void TileMap::render(ds::Color* colors, float scale) {
+	int squareSize = SQUARE_SIZE;
+	if (scale != 1.0f) {
+		squareSize *= scale;
+	}
+	int sx = (1280 - squareSize * MAX_X) / 2;
+	int sy = (720 - squareSize * MAX_Y) / 2;
+	ds::Color clr = UNDEFINED_COLOR;
+	ds::vec4 tex = TILE_TEXTURE;
+	for (int x = 0; x < MAX_X; ++x) {
+		for (int y = 0; y < MAX_Y; ++y) {
+			tex = TILE_TEXTURE;
+			clr = UNDEFINED_COLOR;
+			uint32_t idx = x + y * MAX_X;
+			const Tile& t = _tiles[idx];
+			ds::vec2 p = ds::vec2(sx + x * squareSize, sy + y * squareSize);
+			if (t.state.isSet(BIT_AVAILABLE)) {
+				if (t.state.isSet(BIT_COHERENT)) {
+					if (t.edges > 0) {
+						clr = colors[t.color];
+						int left = t.edges * 36;
+						tex = ds::vec4(left, 100, 36, 36);
+					}
+				}
+				else if (t.state.isSet(BIT_MARKED)) {
+					clr = colors[t.color];
+					tex = TILE_TEXTURE;
+					tex = ds::vec4(0, 100, 36, 36);
+				}
+				else if (t.state.isSet(BIT_FILLED)) {
+					tex = TILE_TEXTURE;
+					clr = _settings->grid.filledColor;
+				}
+				else {
+					tex = TILE_TEXTURE;
+					clr = _settings->grid.backgroundColor;
+				}
+				_sprites->add(p, tex, ds::vec2(scale, scale), 0.0f, clr);
+			}
+			if (t.borders != -1) {
+				int left = 44 * t.borders;
+				tex = ds::vec4(left, 44, 44, 44);
+				_sprites->add(p, tex, ds::vec2(scale, scale), 0.0f, _settings->grid.borderColor);
+			}
+		}
+	}
+}
 // --------------------------------------------
-// copy column
+// copy block
 // --------------------------------------------
 bool TileMap::copyBlock(const Block* block) {
 	const p2i& p = block->position;
@@ -27,7 +147,6 @@ bool TileMap::copyBlock(const Block* block) {
 			Tile& t = get(cx,cy);
 			t.state.set(BIT_MARKED);
 			t.color = block->colors[i];
-			/*
 			PointList list;
 			check(cx, cy, -1, list, true);
 			list.add(cx, cy);
@@ -40,7 +159,6 @@ bool TileMap::copyBlock(const Block* block) {
 					setState(p.x, p.y, BIT_COHERENT);
 				}
 			}
-			*/
 		}	
 		determineEdges();
 		return true;
@@ -51,6 +169,7 @@ bool TileMap::copyBlock(const Block* block) {
 	return false;
 }
 
+/*
 void TileMap::build(LevelData* levels, int index) {
 	copy_level(levels, index, _tiles);
 }
@@ -173,11 +292,11 @@ void TileMap::render(SpriteBatchBuffer* buffer, int squareSize,float scale, ds::
 		}
 	}
 }
-
+*/
 // --------------------------------------------
 // get index
 // --------------------------------------------
-const uint32_t TileMap::getIndex(uint32_t x, uint32_t y) const {
+uint32_t TileMap::getIndex(uint32_t x, uint32_t y) const {
 	return x + y * MAX_X;
 }
 
@@ -219,35 +338,17 @@ void TileMap::setState(int x, int y,int index) {
 }
 
 // --------------------------------------------
-// is valid
-// --------------------------------------------
-const bool TileMap::isValid(int x, int y) const {
-	if (x < 0 || x >= MAX_X) {
-		return false;
-	}
-	if (y < 0 || y >= MAX_Y) {
-		return false;
-	}
-	return true;
-}
-
-const bool TileMap::isValid(const p2i& p) const {
-	return isValid(p.x, p.y);
-}
-
-
-// --------------------------------------------
 //
 // --------------------------------------------
-bool TileMap::isCoherent(int gx, int gy) {
-	Tile& t = get(gx, gy);
+bool TileMap::isCoherent(int gx, int gy) const {
+	const Tile& t = get(gx, gy);
 	if (!t.state.isSet(BIT_AVAILABLE)) {
 		return false;
 	}
 	int color = t.color;
 	int cnt = 0;
 	for (int i = 1; i < 4; ++i) {
-		Tile& n = get(gx + BLOCK_X[i], gy + BLOCK_Y[i]);
+		const Tile& n = get(gx + BLOCK_X[i], gy + BLOCK_Y[i]);
 		if (n.state.isSet(BIT_MARKED) || n.state.isSet(BIT_FILLED)) {
 			if (n.color == color) {
 				++cnt;
@@ -259,7 +360,7 @@ bool TileMap::isCoherent(int gx, int gy) {
 	}
 	return false;
 }
-
+/*
 // --------------------------------------------
 // get fill rate
 // --------------------------------------------
@@ -277,10 +378,28 @@ int TileMap::getFillRate() {
 	float per = static_cast<float>(count) / static_cast<float>(_maxAvailable) * 100.0f;
 	return static_cast<int>(per);
 }
+*/
 // --------------------------------------------
-//
+// is valid
 // --------------------------------------------
-bool TileMap::isBlockAvailable(int gx, int gy) {
+bool TileMap::isValid(int x, int y) const {
+	if (x < 0 || x >= MAX_X) {
+		return false;
+	}
+	if (y < 0 || y >= MAX_Y) {
+		return false;
+	}
+	return true;
+}
+
+bool TileMap::isValid(const p2i& p) const {
+	return isValid(p.x, p.y);
+}
+
+// --------------------------------------------
+// is block available
+// --------------------------------------------
+bool TileMap::isBlockAvailable(int gx, int gy) const {
 	for (int i = 0; i < 4; ++i) {
 		if (!isFree(gx + BLOCK_X[i], gy + BLOCK_Y[i])) {
 			return false;
@@ -292,40 +411,38 @@ bool TileMap::isBlockAvailable(int gx, int gy) {
 // --------------------------------------------
 // is available
 // --------------------------------------------
-bool TileMap::isAvailable(int gx, int gy){
+bool TileMap::isAvailable(int gx, int gy) const {
 	if (!isValid(gx, gy)) {
 		return false;
 	}
-	Tile& t = get(gx, gy);
+	const Tile& t = get(gx, gy);
 	return t.state.isSet(BIT_AVAILABLE);
 }
 
 // --------------------------------------------
 //
 // --------------------------------------------
-bool TileMap::isFree(int gx, int gy) {
+bool TileMap::isFree(int gx, int gy) const {
 	if (!isValid(gx, gy)) {
 		return true;
 	}
-	Tile& t = get(gx, gy);
+	const Tile& t = get(gx, gy);
 	return t.state.isSet(BIT_AVAILABLE) && !t.state.isSet(BIT_MARKED);
 }
 
 // -------------------------------------------------------
 // reset
 // -------------------------------------------------------
-void TileMap::reset() {
+void TileMap::resetLevel() {
 	for (int y = 0; y < MAX_Y; ++y) {
 		for (int x = 0; x < MAX_X; ++x) {
 			Tile& t = _tiles[x + y * MAX_X];
-			t.borders = -1;
 			t.color = -1;
-			t.edges = -1;
 			t.state.clear();
 			t.state.set(BIT_AVAILABLE);
 		}
 	}
-	_maxAvailable = MAX_X * MAX_Y;
+	//_maxAvailable = MAX_X * MAX_Y;
 }
 
 // -------------------------------------------------------
@@ -377,7 +494,7 @@ int TileMap::determineEdge(int x, int y,const Tile& t) {
 	}
 	return set;
 }
-
+/*
 // --------------------------------------------
 // set borders
 // --------------------------------------------
@@ -386,11 +503,10 @@ void TileMap::setBorder(int x, int y, int index) {
 		_tiles[x + y * MAX_X].borders = index;
 	}
 }
-
+*/
 // -------------------------------------------------------------
 // check recursively to detect matching pieces
 // -------------------------------------------------------------
-/*
 void TileMap::check(int xp, int yp, int lastDir, PointList& list, bool rec) {
 	if (isValid(xp, yp)) {
 		Tile& t = get(xp,yp);
@@ -427,10 +543,29 @@ void TileMap::check(int xp, int yp, int lastDir, PointList& list, bool rec) {
 		}
 	}
 }
-*/
+
+void TileMap::showDebugGUI() {
+	if (gui::begin("TileMap", &_guiState)) {
+		ds::vec2 mp = ds::getMousePosition();
+		p2i p = map::screen2grid(mp);
+		if (isValid(p)) {
+			const Tile& t = get(p);
+			ds::vec2 gp = ds::vec2(p.x, p.y);
+			gui::Value("Pos", gp);
+			gui::Value("Color", t.color);
+			gui::Value("State", t.state.getValue());
+			gui::Value("Borders",t.borders);
+			gui::Value("Edges", t.edges);
+		}
+		if (gui::Button("Start")) {
+			
+		}
+	}
+}
 // -------------------------------------------------------
 // reset
 // -------------------------------------------------------
+/*
 void TileMap::debug() {
 	char buffer[32];
 	for (int y = MAX_Y - 1; y >= 0; --y) {
@@ -443,7 +578,7 @@ void TileMap::debug() {
 		//LOG << str;
 	}
 }
-
+*/
 namespace map {
 
 	bool is_inside(int x, int y) {

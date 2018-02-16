@@ -5,7 +5,8 @@
 #include <ds_tweakable.h>
 #include <ds_imgui.h>
 #include "GameSettings.h"
-#include "tiles.h"
+#include "TileMap.h"
+#include "Common.h"
 
 void show_tweakable_gui(const char* category, int* state) {
 	Tweakable  vars[256];
@@ -60,25 +61,31 @@ void show_hud(GameContext* ctx) {
 	dialog::end();
 }
 
-int show_map_selection(Tile* tiles, GameContext* ctx) {
-	dialog::begin();
-	const char* name = get_level_name(ctx->levels, ctx->levelIndex);
+int show_map_selection(TileMap& map, GameContext* ctx) {
+	dialog::begin();	
+	// name
+	dialog::Image(ds::vec2(640, 550), ds::vec4(310, 220, 360, 40), ds::Color(6, 134, 235, 255));
+	const char* name = map.getLevelName();
 	dialog::Text(ds::vec2(120, 550), name);
+
+	int lvl = map.getLevel();
 	// back button
 	if (dialog::Button(ds::vec2(400, 550), ds::vec4(60, 210, 40, 40))) {
-		--ctx->levelIndex;
-		if (ctx->levelIndex < 0) {
-			ctx->levelIndex = 0;
+		--lvl;
+		if (lvl < 0) {
+			lvl = 0;
 		}
-		copy_level(ctx->levels, ctx->levelIndex, tiles);
+		map.buildLevel(lvl);
+		//copy_level(ctx->levels, ctx->levelIndex, tiles);
 	}
 	// next button
 	if (dialog::Button(ds::vec2(860, 550), ds::vec4(120, 210, 40, 40))) {
-		++ctx->levelIndex;
-		if (ctx->levelIndex >= MAX_LEVELS) {
-			ctx->levelIndex = MAX_LEVELS - 1;
+		++lvl;
+		if (lvl >= MAX_LEVELS) {
+			lvl = MAX_LEVELS - 1;
 		}
-		copy_level(ctx->levels, ctx->levelIndex, tiles);
+		map.buildLevel(lvl);
+		//copy_level(ctx->levels, ctx->levelIndex, tiles);
 	}
 	// main menu button
 	if (dialog::Button(ds::vec2(640, 150), ds::vec4(0, 260, 300, 50), "Select")) {
@@ -86,7 +93,8 @@ int show_map_selection(Tile* tiles, GameContext* ctx) {
 	}
 	dialog::end();
 
-	render_tiles(tiles, ctx->buffer, HALF_SQUARE_SIZE, 0.5f, ctx->colors, ctx->settings);
+	//render_tiles(tiles, ctx->buffer, HALF_SQUARE_SIZE, 0.5f, ctx->colors, ctx->settings);
+	map.render(ctx->colors, 0.5f);
 	
 	return 0;
 }

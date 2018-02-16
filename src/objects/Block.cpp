@@ -71,7 +71,7 @@ void render_block(Block* block, SpriteBatchBuffer* buffer, ds::Color* colors) {
 		if (block->rotating) {
 			angle += norm * ds::PI * 0.5f;
 		}
-		ds::vec2 pp = ds::vec2(p.x + block->rotationRadius * cos(angle), p.y + block->rotationRadius * sin(angle));
+		ds::vec2 pp = ds::vec2(p.x + block->rotationRadius * cosf(angle), p.y + block->rotationRadius * sinf(angle));
 		buffer->add(pp, tex, block->scale, angle + DEGTORAD(45.0f), colors[block->colors[i]]);
 	}
 }

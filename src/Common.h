@@ -55,15 +55,12 @@ struct Tile {
 
 struct GameContext {
 
-	int levelIndex;
 	int score;
 	int fillRate;
 	ds::Color colors[8];
 	GameSettings* settings;
 	SpriteBatchBuffer* buffer;
 	TimerData timer;
-	Tile *tiles;
-	LevelData* levels;
 	Block* currentBlock;
 	Block* nextBlock;
 	int laserIdle;

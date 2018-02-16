@@ -327,11 +327,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	ctx.pick_colors();
 	ctx.score = 0;
 	ctx.fillRate = 0;
-	ctx.levelIndex = 0;
-	ctx.tiles = 0;
-	array_resize(ctx.tiles, MAX_X * MAX_Y);
-	ctx.levels = new LevelData;
-	load_levels(ctx.levels);
 	ctx.pick_colors();
 	ctx.currentBlock = new Block;
 	initialise_block(ctx.currentBlock);
@@ -378,12 +373,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	Laser laser;
 	initialize_laser(&laser);
 
-	copy_level(ctx.levels, ctx.levelIndex, ctx.tiles);
-
 	SparkleEffect* sparkleEffect = new SparkleEffect(&ctx);
 	sparkleEffect->reset();
 
 	int dbgSparkCol = 2; // FIXME: remove 
+
+	TileMap tileMap(&spriteBuffer, &settings);
+	tileMap.buildLevel(0);
 
 	while (ds::isRunning() && rendering) {
 
@@ -400,12 +396,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 			}
 		}
 		if (buttonClicked == ButtonDefinition::LEFT) {
-			if (copy_block(ctx.tiles, ctx.currentBlock)) {
+			if (tileMap.copyBlock(ctx.currentBlock)) {
 				copy_block_colors(ctx.currentBlock,ctx.nextBlock);
 				pick_block_colors(ctx.nextBlock);
 				ctx.nextBlock->flashing = true;
 				ctx.nextBlock->flashTimer = 0.0f;
-				calculate_fill_rate(ctx.tiles);
+				//calculate_fill_rate(ctx.tiles);
 			}
 		}
 
@@ -429,10 +425,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		}
 
 		if (update) {
-			if (mode == GameMode::GM_MAIN) {
-				//mainState->tick(static_cast<float>(ds::getElapsedSeconds()));
-			}
-			else if (mode == GameMode::GM_TEST) {
+			if (mode == GameMode::GM_TEST || mode == GameMode::GM_MAIN) {
 				sparkleEffect->update(dt);
 				follow_mouse(ctx.currentBlock);
 				rotate_block(ctx.currentBlock,dt);
@@ -465,7 +458,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 		
 		if (mode == GameMode::GM_SELECT_MAP) {
-			int r = show_map_selection(ctx.tiles, &ctx);
+			int r = show_map_selection(tileMap, &ctx);
 			if (r == 1) {
 				//mainState->activate();
 				mode = GameMode::GM_MAIN;
@@ -476,7 +469,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		}
 		else if (mode == GameMode::GM_TEST) {
 			show_hud(&ctx);
-			render_tiles(ctx.tiles, &spriteBuffer, SQUARE_SIZE, 1.0f, ctx.colors, ctx.settings);
+			tileMap.render(ctx.colors);
+			//render_tiles(ctx.tiles, &spriteBuffer, SQUARE_SIZE, 1.0f, ctx.colors, ctx.settings);
 			render_block_boxed(ctx.currentBlock,&spriteBuffer, ctx.colors);
 			render_block(ctx.nextBlock,&spriteBuffer, ctx.colors);			
 			render_laser(&laser,&spriteBuffer);
@@ -502,13 +496,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 			gui::Input("Spark Col", &dbgSparkCol);
 			if (gui::Button("Sparkles")) {
 				int colors[MAX_Y];
-				get_colors(ctx.tiles, dbgSparkCol, colors);
+				//get_colors(ctx.tiles, dbgSparkCol, colors);
 				for (int i = 0; i < MAX_Y; ++i) {
 					if (colors[i] != -1) {
 						sparkleEffect->start(p2i(dbgSparkCol, i), colors[i]);
 					}
 				}
 			}
+
+			tileMap.showDebugGUI();
+
 			gui::end();
 		}
 		ds::dbgPrint(0, 34, "FPS: %d", ds::getFramesPerSecond());
@@ -518,11 +515,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	ds::shutdown();
 	gui::shutdown();
 	twk_shutdown();
-	array_free(ctx.tiles);
 	// FIXME: clean up GameContext
 	delete sparkleEffect;
 	delete ctx.currentBlock;
 	delete ctx.nextBlock;
-	delete[] ctx.levels->tiles;
-	delete ctx.levels;
 }
