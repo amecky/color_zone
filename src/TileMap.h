@@ -1,12 +1,21 @@
 #pragma once
-#include <ds_imgui.h>
+#include <stdint.h>
 
+// -------------------------------------------------------------
+// forward declarations
+// -------------------------------------------------------------
+struct p2i;
 struct GameSettings;
 class SpriteBatchBuffer;
 struct Tile;
 struct LevelData;
 struct Block;
 class PointList;
+namespace ds {
+	struct Color;
+	struct vec2;
+}
+
 // -------------------------------------------------------------
 // Tile map
 // -------------------------------------------------------------
@@ -21,23 +30,9 @@ public:
 	int getLevel() const;
 	bool copyBlock(const Block* block);
 	void resetLevel();
-	/*
-	
-	void reset();
-	void setBorder(int x, int y, int index);
-	
-	bool copyBlock(const Block* block);
 	int clearColumn(int col);
-	int getFillRate();
-	void getColumn(int col,int* colors);
-
-	void removeBlock(const p2i& gridPos);
-	void setBlock(const p2i& gridPos);
-
-	void build(LevelData* levels, int index);
-
-	void debug();
-	*/
+	//int getFillRate();
+	void getColor(int col,int* colors);
 	void showDebugGUI();
 private:	
 	bool isValid(int x, int y) const;

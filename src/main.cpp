@@ -435,7 +435,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 				//l.tick(ds::getElapsedSeconds());
 				if (laser.active) {
 					if (move_laser(&laser, dt, ctx.settings->laser.startDelay, ctx.settings->laser.waitDelay, ctx.settings->laser.moveDelay)) {
-						// column has changed
+						int colors[MAX_Y];
+						tileMap.getColor(laser.column, colors);
+						for (int i = 0; i < MAX_Y; ++i) {
+							if (colors[i] != -1) {
+								sparkleEffect->start(p2i(laser.column, i), colors[i]);
+							}
+						}
+						tileMap.clearColumn(laser.column);
 					}
 					//if (l.isRunning()) {
 						//l.move(ds::getElapsedSeconds(), &laser_col);

@@ -169,38 +169,16 @@ bool TileMap::copyBlock(const Block* block) {
 	return false;
 }
 
-/*
-void TileMap::build(LevelData* levels, int index) {
-	copy_level(levels, index, _tiles);
-}
-
 // --------------------------------------------
 // get column
 // --------------------------------------------
-void TileMap::getColumn(int col, int* colors) {
+void TileMap::getColor(int col, int* colors) {
 	for (int y = 0; y < MAX_Y; ++y) {
 		Tile& t = get(col, y);
 		colors[y] = t.color;		
 	}
 }
-
-// --------------------------------------------
-// remove block from grid
-// --------------------------------------------
-void TileMap::removeBlock(const p2i& gridPos) {
-	for (int x = 0; x < 2; ++x) {
-		for (int y = 0; y < 2; ++y) {
-			p2i current = p2i(gridPos.x + x, gridPos.y + y);
-			if (isValid(current)) {
-				Tile& t = get(current);
-				if (t.state.isSet(BIT_AVAILABLE)) {
-					t.state.toggle(BIT_AVAILABLE);
-				}
-			}
-		}
-	}
-}
-
+/*
 // --------------------------------------------
 // remove block from grid
 // --------------------------------------------
@@ -217,7 +195,7 @@ void TileMap::setBlock(const p2i& gridPos) {
 		}
 	}
 }
-
+*/
 // --------------------------------------------
 // clear column
 // --------------------------------------------
@@ -242,57 +220,6 @@ int TileMap::clearColumn(int col) {
 	return ret;
 }
 
-// --------------------------------------------
-// render
-// --------------------------------------------
-void TileMap::render(SpriteBatchBuffer* buffer, ds::Color* colors, GameSettings* settings) {
-	render(buffer, SQUARE_SIZE, 1.0f, colors, settings);
-}
-
-// --------------------------------------------
-// render
-// --------------------------------------------
-void TileMap::render(SpriteBatchBuffer* buffer, int squareSize,float scale, ds::Color* colors, GameSettings* settings) {
-	int sx = (1280 - squareSize * MAX_X) / 2;
-	int sy = (720 - squareSize * MAX_Y) / 2;
-	ds::Color clr = ds::Color(128,128,128,255);
-	ds::vec4 tex = ds::vec4(0, 100, 36, 36);
-	for (int x = 0; x < MAX_X; ++x) {
-		for (int y = 0; y < MAX_Y; ++y) {
-			tex = ds::vec4(0, 100, 36, 36);
-			clr = ds::Color(255,255,255,255);
-			const Tile& t = get(x, y);
-			ds::vec2 p = ds::vec2(sx + x * squareSize, sy + y * squareSize);
-			if (t.state.isSet(BIT_AVAILABLE)) {	
-				if (t.state.isSet(BIT_COHERENT)) {
-					if (t.edges > 0) {
-						clr = colors[t.color];
-						int left = t.edges * 36;
-						tex = ds::vec4(left, 100, 36, 36);
-					}
-				}
-				else if (t.state.isSet(BIT_MARKED)) {
-					clr = colors[t.color];
-				}
-				else if (t.state.isSet(BIT_FILLED)) {
-					tex = ds::vec4(0, 0, 36, 36);
-					clr = settings->grid.filledColor;
-				}
-				else {
-					tex = ds::vec4(0, 0, 36, 36);
-					clr =settings->grid.backgroundColor;
-				}
-				buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, clr);
-			}
-			if (t.borders != -1) {
-				int left = 44 * t.borders;
-				tex = ds::vec4(left, 44, 44, 44);
-				buffer->add(p, tex, ds::vec2(scale, scale), 0.0f, settings->grid.borderColor);
-			}
-		}
-	}
-}
-*/
 // --------------------------------------------
 // get index
 // --------------------------------------------
