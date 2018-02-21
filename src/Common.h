@@ -34,7 +34,6 @@ struct GameSettings;
 class SpriteBatchBuffer;
 class TileMap;
 struct LevelData;
-struct Block;
 // Bits
 const int BIT_AVAILABLE = 1;
 const int BIT_MARKED = 2;
@@ -61,8 +60,6 @@ struct GameContext {
 	GameSettings* settings;
 	SpriteBatchBuffer* buffer;
 	TimerData timer;
-	Block* currentBlock;
-	Block* nextBlock;
 	int laserIdle;
 
 	// http://devmag.org.za/2012/07/29/how-to-choose-colours-procedurally-algorithms/

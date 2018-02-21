@@ -21,6 +21,11 @@
 #include <ds_stretchbuffer.h>
 #include "tiles.h"
 #include "objects\Block.h"
+
+#include "ColorZone.h"
+#include "scenes\MapSelectionScene.h"
+#include "scenes\MainGameScene.h"
+#include "EventStream.h"
 // ---------------------------------------------------------------
 // load text file
 // ---------------------------------------------------------------
@@ -91,12 +96,6 @@ RID loadImage(const char* name) {
 	return textureID;
 }
 
-void debug(const LogLevel& level, const char* message) {
-#ifdef DEBUG
-	OutputDebugString(message);
-	OutputDebugString("\n");
-#endif
-}
 
 // ---------------------------------------------------------------
 // bitmap font definitions
@@ -187,15 +186,7 @@ struct GameMode {
 	};
 };
 
-struct ButtonDefinition {
 
-	enum Enum {
-		NONE,
-		LEFT,
-		RIGHT
-	};
-
-};
 
 ButtonDefinition::Enum handle_buttons(int* buttonDown) {
 	ButtonDefinition::Enum buttonClicked = ButtonDefinition::NONE;
@@ -249,77 +240,25 @@ bool is_valid_index(int x, int y) {
 // main method
 // ---------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow) {
-	//
-	// prepare application
-	//
-	ds::RenderSettings rs;
-	rs.width = 1280;
-	rs.height = 720;
-	rs.title = "color_zone";
-	rs.clearColor = ds::Color(0.9f, 0.9f, 0.9f, 1.0f);
-	rs.multisampling = 4;
-	rs.useGPUProfiling = false;
-#ifdef DEBUG
-	rs.logHandler = debug;
-	rs.supportDebug = true;
-#endif
-	ds::init(rs);
 
-	char* tmp = 0;
-	load_level("content\\test_level.txt", &tmp);
-	int sz = array_size(tmp);
-	DBG_LOG("size: %d", sz);
-	int y = 1;
-	const static int DX[] = { -1, 0, 1,  0 };
-	const static int DY[] = {  0, 1, 0, -1 };
-	//for (int y = 0; y < MAX_Y; ++y) {
-		for (int x = 0; x < MAX_X; ++x) {
-			int cur = 0;
-			char c = tmp[x + y * MAX_X];
-			for (int i = 0; i < 4; ++i) {
-				if (is_valid_index(x + DX[i], y + DY[i])) {
-					char n = tmp[x + DX[i] + (y + DY[i]) * MAX_X];
-					if (n != 'x') {
-						cur |= 1 << i;
-					}
-				}
-				else {
-					cur |= 1 << i;
-				}
-			}
-			DBG_LOG("%d %d = %d", x, y, cur);
-		}
-	//}
+	ColorZone* game = new ColorZone;
+	game->init();
+
+	const ApplicationSettings& appSettings = game->getSettings();		
 	//
 	// load the one and only texture
-	//
+	// move to colorzone->init
 	RID textureID = loadImageFromResource(MAKEINTRESOURCE(IDB_PNG1), "PNG");
 	SpriteBatchBufferInfo sbbInfo = { 2048, textureID , ds::TextureFilters::LINEAR};
 	SpriteBatchBuffer spriteBuffer(sbbInfo);
+	game->setSpriteBatchBuffer(&spriteBuffer);
+	//
+	// load settings
+	//
 
-	bool rendering = true;
-	bool update = true;
-	bool pressed = false;	
-	
-	gui::init();
-
-#ifdef DEBUG
-	twk_init("content\\settings.json");
-#else
-	twk_init();
-#endif
-
+	game->initializeSettings("content\\settings.json");
 	GameSettings settings;
-
-#ifdef DEBUG
-	twk_load();
-#else
-	const char* txt = loadTextFile("content\\settings.json");
-	if (txt != 0) {
-		twk_parse(txt);
-		delete[] txt;
-	}
-#endif
+	game->loadSettings();
 
 	GameContext ctx;
 	ctx.settings = &settings;
@@ -328,28 +267,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	ctx.score = 0;
 	ctx.fillRate = 0;
 	ctx.pick_colors();
-	ctx.currentBlock = new Block;
-	initialise_block(ctx.currentBlock);
-	ctx.nextBlock = new Block;
-	initialise_block(ctx.nextBlock);
-	ctx.currentBlock->position = p2i(640, 560);
-	pick_block_colors(ctx.currentBlock);
-	ctx.nextBlock->position = p2i(640, 660);
-	for (int i = 0; i < 6; ++i) {
-		pick_block_colors(ctx.nextBlock);
-	}
-	copy_block_colors(ctx.currentBlock, ctx.nextBlock);
-	pick_block_colors(ctx.nextBlock);
 	reset_timer(&ctx.timer);
 	ctx.laserIdle = 10;
-	//ctx.nextBlock->startFlashing();
 
 	dialog::FontInfo fontInfo;
 	prepareFontInfo(&fontInfo);
 	dialog::init(&spriteBuffer, fontInfo);
-
-	//MainGameState* mainState = new MainGameState(&ctx);
-	//mainState->activate();
 
 	BackgroundData backgroundData;
 	backgroundData.current = 0;
@@ -381,12 +304,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	TileMap tileMap(&spriteBuffer, &settings);
 	tileMap.buildLevel(0);
 
-	while (ds::isRunning() && rendering) {
+	MapSelectionScene* mapSelectionScene = new MapSelectionScene(&tileMap, &ctx);
+	MainGameScene* mainGameScene = new MainGameScene(&tileMap, &ctx);
+	game->setActivateScene(mapSelectionScene);
+
+	while (ds::isRunning()) {
 
 		ds::begin();
 
 		float dt = static_cast<float>(ds::getElapsedSeconds());
 
+		game->tick(dt);
+
+		ds::EventStream* events = game->getEventStream();
+		if (events->num() > 0) {
+			for (uint32_t i = 0; i < events->num(); ++i) {
+				int type = events->getType(i);
+				if (type == 100) {
+					game->setActivateScene(mainGameScene);
+				}
+			}
+		}
+		/*
 		ButtonDefinition::Enum buttonClicked = handle_buttons(buttonDown);
 		
 		if (buttonClicked == ButtonDefinition::RIGHT) {
@@ -427,9 +366,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		if (update) {
 			if (mode == GameMode::GM_TEST || mode == GameMode::GM_MAIN) {
 				sparkleEffect->update(dt);
-				follow_mouse(ctx.currentBlock);
-				rotate_block(ctx.currentBlock,dt);
-				flash_block_scale(ctx.nextBlock, dt, 0.2f);
 				tick_laser(&laser, dt);
 				flash_laser(&laser, dt, ctx.settings->laser.minAlpha, ctx.settings->laser.maxAlpha, ctx.settings->laser.alphaTTL);
 				//l.tick(ds::getElapsedSeconds());
@@ -450,30 +386,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 				}
 			}
 		}
-#ifdef DEBUG
-		loadTimer += ds::getElapsedSeconds();
-		if (loadTimer >= 1.0f) {
-			loadTimer -= 1.0f;
-			twk_load();
-		}
-#endif
+
 		updateBackgroundData(&ctx, &backgroundData, ds::getElapsedSeconds());
 
-		spriteBuffer.begin();
-
 		//spriteBuffer.add({ 640,360 }, { 320,620,640,360 }, { 2.0f,2.0f }, 0.0f, backgroundData.color);
-
 		
-		if (mode == GameMode::GM_SELECT_MAP) {
-			int r = show_map_selection(tileMap, &ctx);
-			if (r == 1) {
-				//mainState->activate();
-				mode = GameMode::GM_MAIN;
-			}
-		}
-		else if (mode == GameMode::GM_MAIN) {
-			//mainState->render();
-		}
 		else if (mode == GameMode::GM_TEST) {
 			show_hud(&ctx);
 			tileMap.render(ctx.colors);
@@ -486,7 +403,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		}
 		
 		spriteBuffer.flush();
-		if (showGUI) {
+
+		if (showGUI && appSettings.useIMGUI) {
 			p2i dp(10, 710);
 			int state = 1;
 			gui::start(&dp, 300);
@@ -515,15 +433,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 			gui::end();
 		}
+		*/
 		ds::dbgPrint(0, 34, "FPS: %d", ds::getFramesPerSecond());
 
 		ds::end();
 	}	
 	ds::shutdown();
-	gui::shutdown();
-	twk_shutdown();
+	
+	
 	// FIXME: clean up GameContext
+	delete mainGameScene;
+	delete mapSelectionScene;
 	delete sparkleEffect;
-	delete ctx.currentBlock;
-	delete ctx.nextBlock;
+	//delete ctx.currentBlock;
+	//delete ctx.nextBlock;
 }

@@ -7,6 +7,7 @@
 #include "GameSettings.h"
 #include "TileMap.h"
 #include "Common.h"
+#include "EventStream.h"
 
 void show_tweakable_gui(const char* category, int* state) {
 	Tweakable  vars[256];
@@ -98,3 +99,4 @@ int show_map_selection(TileMap& map, GameContext* ctx) {
 	
 	return 0;
 }
+
