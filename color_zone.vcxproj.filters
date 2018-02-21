@@ -16,6 +16,9 @@
     <Filter Include="content">
       <UniqueIdentifier>{7099a9b7-178b-4830-a41b-04307ff7cd8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="scenes">
+      <UniqueIdentifier>{9d154b78-b7ca-4a49-8e49-bdab90f280f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\objects\Block.h">
@@ -70,6 +73,15 @@
       <Filter>ext</Filter>
     </ClInclude>
     <ClInclude Include="src\tiles.h" />
+    <ClInclude Include="src\BaseApp.h" />
+    <ClInclude Include="src\ColorZone.h" />
+    <ClInclude Include="src\EventStream.h" />
+    <ClInclude Include="src\scenes\MapSelectionScene.h">
+      <Filter>scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\MainGameScene.h">
+      <Filter>scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\objects\Block.cpp">
@@ -95,6 +107,15 @@
       <Filter>utils</Filter>
     </ClCompile>
     <ClCompile Include="src\tiles.cpp" />
+    <ClCompile Include="src\BaseApp.cpp" />
+    <ClCompile Include="src\ColorZone.cpp" />
+    <ClCompile Include="src\EventStream.cpp" />
+    <ClCompile Include="src\scenes\MapSelectionScene.cpp">
+      <Filter>scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\MainGameScene.cpp">
+      <Filter>scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="color_zone.rc" />
