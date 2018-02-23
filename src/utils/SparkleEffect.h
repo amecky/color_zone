@@ -3,6 +3,8 @@
 #include "..\Common.h"
 #include <ds_imgui.h>
 
+class SpriteBatchBuffer;
+
 class SparkleEffect {
 
 public:
@@ -10,7 +12,7 @@ public:
 	virtual ~SparkleEffect();
 	void start(const p2i& pos, int color);
 	virtual void update(float dt);
-	virtual void render();
+	virtual void render(SpriteBatchBuffer* buffer);
 	void reset() {
 		_sparklesCount = 0;
 	}

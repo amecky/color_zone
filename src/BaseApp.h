@@ -1,10 +1,8 @@
 #pragma once
 #include <diesel.h>
-
+#include "EventStream.h"
+#include <Windows.h>
 class SpriteBatchBuffer;
-namespace ds {
-	class EventStream;
-}
 
 struct ApplicationSettings {
 	bool useIMGUI;	
@@ -40,6 +38,7 @@ public:
 	}
 	virtual void onActivation() {}
 	virtual void onDeactivation() {}
+	virtual void showGUI() {}
 	bool isActive() const {
 		return _active;
 	}
@@ -60,8 +59,9 @@ public:
 	}
 	void init();
 	virtual void initialize() = 0;
+	virtual void handleEvents(ds::EventStream* events) {}
 	void tick(float dt);
-	void setActivateScene(Scene* scene) {
+	void setActiveScene(Scene* scene) {
 		if (_activeScene != 0) {
 			_activeScene->onDeactivation();
 		}
@@ -69,22 +69,23 @@ public:
 		_activeScene->prepare(_events);
 		_activeScene->initialize();
 		_activeScene->onActivation();
-	}
-	ds::EventStream* getEventStream() const {
-		return _events;
-	}
+	}	
 	void setSpriteBatchBuffer(SpriteBatchBuffer* buffer) {
 		_buffer = buffer;
 	}
 	void initializeSettings(const char* settingsFileName);
 	void loadSettings();
-protected:
-	Scene* _activeScene;
+protected:	
+	RID loadImageFromResource(LPCTSTR name, LPCTSTR type);
 	ApplicationSettings _settings;
 	ds::EventStream* _events;
-	SpriteBatchBuffer* _buffer;
+	SpriteBatchBuffer* _buffer;	
+private:
+	Scene* _activeScene;
 	float _loadTimer;
 	const char* _settingsFileName;
 	bool _useTweakables;
+	bool _guiKeyPressed;
+	bool _guiActive;
 };
 

@@ -1343,12 +1343,14 @@ namespace gui {
 		pushID(header);
 		pushID("Box");
 		checkItem(_guiCtx->currentPos, p2i(20, 20));
-		if (isClicked()) {
-			if (*state == 0) {
-				*state = 1;
-			}
-			else {
-				*state = 0;
+		if (state != 0) {
+			if (isClicked()) {
+				if (*state == 0) {
+					*state = 1;
+				}
+				else {
+					*state = 0;
+				}
 			}
 		}
 		popID();
@@ -1365,16 +1367,21 @@ namespace gui {
 		pos = _guiCtx->currentPos;
 		pos.x -= 10;
 		renderer::add_box(_guiCtx->uiContext, pos, 20, 20, _guiCtx->settings.buttonColor);
-		if (*state == 0) {
-			renderer::add_text(_guiCtx->uiContext, pos, "+");
-		}
-		else {
-			renderer::add_text(_guiCtx->uiContext, pos, "-");
+		if (state != 0) {
+			if (*state == 0) {
+				renderer::add_text(_guiCtx->uiContext, pos, "+");
+			}
+			else {
+				renderer::add_text(_guiCtx->uiContext, pos, "-");
+			}
 		}
 		int advance = 20 + _guiCtx->settings.lineSpacing;
 		moveForward(p2i(10, advance));
 		popID();
-		return *state == 1;
+		if (state != 0) {
+			return *state == 1;
+		}
+		return true;
 	}
 
 	// --------------------------------------------------------

@@ -4,9 +4,6 @@
     <Filter Include="objects">
       <UniqueIdentifier>{965ff4cf-ae7a-440e-8a13-426559187c82}</UniqueIdentifier>
     </Filter>
-    <Filter Include="gamestates">
-      <UniqueIdentifier>{9e0cc7f9-839c-476a-ad8f-b1df71c6baf0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="utils">
       <UniqueIdentifier>{eb1dacc8-fcb2-49ea-b8b2-67569772e405}</UniqueIdentifier>
     </Filter>
@@ -25,9 +22,6 @@
       <Filter>objects</Filter>
     </ClInclude>
     <ClInclude Include="src\Common.h" />
-    <ClInclude Include="src\gamestates\MainGameState.h">
-      <Filter>gamestates</Filter>
-    </ClInclude>
     <ClInclude Include="src\colors.h" />
     <ClInclude Include="src\TileMap.h" />
     <ClInclude Include="src\objects\Levels.h">
@@ -86,9 +80,6 @@
   <ItemGroup>
     <ClCompile Include="src\objects\Block.cpp">
       <Filter>objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gamestates\MainGameState.cpp">
-      <Filter>gamestates</Filter>
     </ClCompile>
     <ClCompile Include="src\colors.cpp" />
     <ClCompile Include="src\TileMap.cpp" />

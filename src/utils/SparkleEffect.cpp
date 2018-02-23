@@ -107,8 +107,8 @@ void SparkleEffect::update(float dt) {
 // --------------------------------------------
 // render
 // --------------------------------------------
-void SparkleEffect::render() {
+void SparkleEffect::render(SpriteBatchBuffer* buffer) {
 	for (int i = 0; i < _sparklesCount; ++i) {
-		_ctx->buffer->add(_positions[i], _texture, _scales[i], _rotations[i], _ctx->colors[_colors[i]]);
+		buffer->add(_positions[i], _texture, _scales[i], _rotations[i], _ctx->colors[_colors[i]]);
 	}
 }

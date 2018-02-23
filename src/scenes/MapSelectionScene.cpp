@@ -5,6 +5,9 @@
 #include "..\TileMap.h"
 #include "..\EventStream.h"
 
+// --------------------------------------------
+// render
+// --------------------------------------------
 void MapSelectionScene::render(SpriteBatchBuffer* buffer) {
 	dialog::begin();
 	// name

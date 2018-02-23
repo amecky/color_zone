@@ -4,6 +4,8 @@
 #include <SpriteBatchBuffer.h>
 #include <ds_tweakable.h>
 #include <ds_imgui.h>
+#include <stb_image.h>
+#include "..\resource.h"
 
 void debug(const LogLevel& level, const char* message) {
 #ifdef DEBUG
@@ -22,6 +24,8 @@ BaseApp::BaseApp() : _activeScene(0) {
 	_events = new ds::EventStream;
 	_loadTimer = 0.0f;
 	_useTweakables = false;
+	_guiKeyPressed = false;
+	_guiActive = true;
 }
 
 BaseApp::~BaseApp() {
@@ -32,6 +36,78 @@ BaseApp::~BaseApp() {
 		gui::shutdown();
 	}
 	delete _events;
+}
+
+// ---------------------------------------------------------------
+// load image using stb_image
+// ---------------------------------------------------------------
+RID BaseApp::loadImageFromResource(LPCTSTR name, LPCTSTR type) {
+	int x, y, n;
+	HRSRC resourceHandle = ::FindResource(NULL, name, type);
+	if (resourceHandle == 0) {
+		return NO_RID;
+	}
+	DWORD imageSize = ::SizeofResource(NULL, resourceHandle);
+	if (imageSize == 0) {
+		return NO_RID;
+	}
+	HGLOBAL myResourceData = ::LoadResource(NULL, resourceHandle);
+	void* pMyBinaryData = ::LockResource(myResourceData);
+	unsigned char *data = stbi_load_from_memory((const unsigned char*)pMyBinaryData, imageSize, &x, &y, &n, 4);
+	ds::TextureInfo info = { x,y,n,data,ds::TextureFormat::R8G8B8A8_UNORM , ds::BindFlag::BF_SHADER_RESOURCE };
+	RID textureID = ds::createTexture(info, "Texture");
+	stbi_image_free(data);
+	UnlockResource(myResourceData);
+	FreeResource(myResourceData);
+	return textureID;
+}
+
+// ---------------------------------------------------------------
+// load text file
+// ---------------------------------------------------------------
+const char* loadTextFile(const char* name) {
+
+	HRSRC resourceHandle = ::FindResource(NULL, MAKEINTRESOURCE(IDS_SETTINGS), RT_RCDATA);
+	if (resourceHandle == 0) {
+		return 0;
+	}
+	DWORD imageSize = ::SizeofResource(NULL, resourceHandle);
+	if (imageSize == 0) {
+		return 0;
+	}
+	HGLOBAL myResourceData = ::LoadResource(NULL, resourceHandle);
+	char* pMyBinaryData = (char*)::LockResource(myResourceData);
+	UnlockResource(myResourceData);
+	char* ret = new char[imageSize];
+	memcpy(ret, pMyBinaryData, imageSize);
+	FreeResource(myResourceData);
+	return ret;
+}
+
+
+
+// ---------------------------------------------------------------
+// load image using stb_image
+// ---------------------------------------------------------------
+RID loadImage(const char* name) {
+	int x, y, n;
+	HRSRC resourceHandle = ::FindResource(NULL, MAKEINTRESOURCE(IDB_PNG1), "PNG");
+	if (resourceHandle == 0) {
+		return NO_RID;
+	}
+	DWORD imageSize = ::SizeofResource(NULL, resourceHandle);
+	if (imageSize == 0) {
+		return NO_RID;
+	}
+	HGLOBAL myResourceData = ::LoadResource(NULL, resourceHandle);
+	void* pMyBinaryData = ::LockResource(myResourceData);
+	unsigned char *data = stbi_load_from_memory((const unsigned char*)pMyBinaryData, imageSize, &x, &y, &n, 4);
+	ds::TextureInfo info = { x,y,n,data,ds::TextureFormat::R8G8B8A8_UNORM , ds::BindFlag::BF_SHADER_RESOURCE };
+	RID textureID = ds::createTexture(info, name);
+	stbi_image_free(data);
+	UnlockResource(myResourceData);
+	FreeResource(myResourceData);
+	return textureID;
 }
 
 void BaseApp::init() {
@@ -52,13 +128,18 @@ void BaseApp::init() {
 	ds::init(rs);
 
 	if (_settings.useIMGUI) {
+		ds::log(LogLevel::LL_DEBUG, "=> IMGUI is enabled");
 		gui::init();
 	}
+
+	ds::log(LogLevel::LL_DEBUG,"=> Press 'D' to toggle GUI");
+	initialize();
 }
 
 void BaseApp::initializeSettings(const char* settingsFileName) {
 	_settingsFileName = settingsFileName;
 	_useTweakables = true;
+	ds::log(LogLevel::LL_DEBUG, "=> Tweakables are enabled");
 #ifdef DEBUG
 		twk_init(_settingsFileName);
 #else
@@ -92,6 +173,16 @@ void BaseApp::tick(float dt) {
 #endif
 	}
 
+	if (ds::isKeyPressed('D')) {
+		if (!_guiKeyPressed) {
+			_guiActive = !_guiActive;
+			_guiKeyPressed = true;
+		}
+	}
+	else {
+		_guiKeyPressed = false;
+	}
+
 	_events->reset();
 	if (_activeScene != 0) {
 		// update
@@ -100,5 +191,10 @@ void BaseApp::tick(float dt) {
 		_buffer->begin();
 		_activeScene->render(_buffer);
 		_buffer->flush();
+
+		if (_settings.useIMGUI && _guiActive) {
+			_activeScene->showGUI();
+		}
 	}
+	handleEvents(_events);
 }

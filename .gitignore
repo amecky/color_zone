@@ -12,3 +12,7 @@ color_zone.sdf
 .vs/color_zone/v14/.suo
 color_zone.aps
 Release/
+Blocks.VC.db
+color_zone.VC.VC.opendb
+color_zone.VC.db
+update.bat

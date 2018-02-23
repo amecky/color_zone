@@ -58,8 +58,7 @@ struct GameContext {
 	int fillRate;
 	ds::Color colors[8];
 	GameSettings* settings;
-	SpriteBatchBuffer* buffer;
-	TimerData timer;
+	
 	int laserIdle;
 
 	// http://devmag.org.za/2012/07/29/how-to-choose-colours-procedurally-algorithms/
