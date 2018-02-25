@@ -12,13 +12,15 @@
 #include <ds_tweening.h>
 #define DS_IMGUI_IMPLEMENTATION
 #include <ds_imgui.h>
-#include "ColorZone.h"
+#include "BaseApp.h"
+//#include "ColorZone.h"
 
-
+extern BaseApp* app;
 
 // ---------------------------------------------------------------
 // update background data
 // ---------------------------------------------------------------
+/*
 void updateBackgroundData(GameContext* ctx, BackgroundData* data, float dt) {
 	data->color = tweening::interpolate(tweening::linear, ctx->colors[data->current], ctx->colors[data->next], data->timer, data->ttl);
 	data->color.a = tweening::interpolate(tweening::linear, data->firstAlpha, data->secondAlpha, data->timer, data->ttl);
@@ -39,15 +41,13 @@ void updateBackgroundData(GameContext* ctx, BackgroundData* data, float dt) {
 		data->secondAlpha = ds::random(ctx->settings->background.min_intensity, ctx->settings->background.max_intensity);
 	}
 }
-
+*/
 // ---------------------------------------------------------------
 // main method
 // ---------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow) {
 
-	ColorZone* game = new ColorZone;
-
-	game->init();
+	app->init();
 
 	while (ds::isRunning()) {
 
@@ -55,7 +55,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 		float dt = static_cast<float>(ds::getElapsedSeconds());
 
-		game->tick(dt);
+		app->tick(dt);
 		
 		ds::dbgPrint(0, 34, "FPS: %d", ds::getFramesPerSecond());
 
@@ -63,5 +63,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	}	
 	ds::shutdown();
 	
+	delete app;
 	
 }

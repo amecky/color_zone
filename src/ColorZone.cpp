@@ -3,6 +3,8 @@
 #include <ds_game_ui.h>
 #include <Windows.h>
 #include "..\resource.h"
+
+BaseApp *app = new ColorZone();
 // ---------------------------------------------------------------
 // bitmap font definitions
 // ---------------------------------------------------------------
@@ -74,7 +76,9 @@ void prepareFontInfo(dialog::FontInfo* info) {
 	}
 }
 
-
+// ---------------------------------------------------------------
+// initialize
+// ---------------------------------------------------------------
 void ColorZone::initialize() {
 	//
 	// load the one and only texture
@@ -106,6 +110,9 @@ void ColorZone::initialize() {
 	setActiveScene(_mainGameScene);
 }
 
+// ---------------------------------------------------------------
+// handle events
+// ---------------------------------------------------------------
 void ColorZone::handleEvents(ds::EventStream* events) {
 	if (events->num() > 0) {
 		for (uint32_t i = 0; i < events->num(); ++i) {
