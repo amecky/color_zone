@@ -1,4 +1,4 @@
-#include "MapSelectionScene.h"
+#include "GameOverScene.h"
 #include "..\Common.h"
 #include <ds_game_ui.h>
 #include <ds_imgui.h>
@@ -8,7 +8,7 @@
 // --------------------------------------------
 // render
 // --------------------------------------------
-void MapSelectionScene::render(SpriteBatchBuffer* buffer) {
+void GameOverScene::render(SpriteBatchBuffer* buffer) {
 	dialog::begin();
 	dialog::Text(ds::vec2(120, 650), "Select map", true, ds::vec2(1.5f));
 	// name

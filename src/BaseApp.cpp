@@ -14,7 +14,7 @@ void debug(const LogLevel& level, const char* message) {
 #endif
 }
 
-BaseApp::BaseApp() : _activeScene(0) {
+BaseApp::BaseApp() {
 	_settings.useIMGUI = true;
 	_settings.useGPUProfiling = false;
 	_settings.screenWidth = 1280;
@@ -26,6 +26,7 @@ BaseApp::BaseApp() : _activeScene(0) {
 	_useTweakables = false;
 	_guiKeyPressed = false;
 	_guiActive = true;
+	_running = true;
 }
 
 BaseApp::~BaseApp() {
@@ -184,6 +185,26 @@ void BaseApp::tick(float dt) {
 	}
 
 	_events->reset();
+
+	_buffer->begin();
+	ScenesIterator it = _scenes.begin();
+	while (it != _scenes.end()) {
+		(*it)->update(dt);
+		++it;
+	}
+	it = _scenes.begin();
+	while (it != _scenes.end()) {
+		(*it)->render(_buffer);
+		++it;
+	}
+	_buffer->flush();
+
+	it = _scenes.begin();
+	while (it != _scenes.end()) {
+		(*it)->showGUI();
+		++it;
+	}
+	/*
 	if (_activeScene != 0) {
 		// update
 		_activeScene->update(dt);
@@ -196,5 +217,6 @@ void BaseApp::tick(float dt) {
 			_activeScene->showGUI();
 		}
 	}
+	*/
 	handleEvents(_events);
 }

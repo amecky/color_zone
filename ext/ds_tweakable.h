@@ -107,7 +107,7 @@ struct InternalCharBuffer {
 	char* data;
 	size_t capacity;
 	size_t size;
-	int count;
+	size_t count;
 	size_t* indices;
 	size_t* sizes;
 	uint32_t* hashes;
@@ -246,7 +246,7 @@ static void twk__reallocate_indices(InternalCharBuffer* buffer, size_t additiona
 }
 
 static int twk__find_string(uint32_t hash) {
-	for (int i = 0; i < _twkCtx->charBuffer.count; ++i) {
+	for (size_t i = 0; i < _twkCtx->charBuffer.count; ++i) {
 		if (_twkCtx->charBuffer.hashes[i] == hash) {
 			return i;
 		}
@@ -804,7 +804,7 @@ void twk_parse(const char* text) {
 			++p;
 		}
 	}
-	int idx = 0;
+	size_t idx = 0;
 	TWKToken& t = tokens[idx];
 	char name[128];
 	float values[128];

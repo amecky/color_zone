@@ -3,6 +3,10 @@
 #include "TileMap.h"
 #include "scenes\MainGameScene.h"
 #include "scenes\MapSelectionScene.h"
+#include "scenes\GameOverScene.h"
+#include "scenes\HighscoreScene.h"
+#include "scenes\MainMenuScene.h"
+#include "scenes\BackgroundScene.h"
 #include "Common.h"
 #include "GameSettings.h"
 
@@ -17,6 +21,10 @@ private:
 	TileMap* _tiles;
 	MapSelectionScene* _mapSelectionScene;
 	MainGameScene* _mainGameScene;
+	MainMenuScene* _mainMenuScene;
+	HighscoreScene* _highscoreScene;
+	GameOverScene* _gameOverScene;
+	BackgroundScene* _backgroundScene;
 	GameSettings* _gameSettings;
 	GameContext _ctx;
 };

@@ -49,6 +49,8 @@ ColorZone::ColorZone() : BaseApp() {
 ColorZone::~ColorZone() {
 	delete _mainGameScene;
 	delete _mapSelectionScene;
+	delete _backgroundScene;
+	delete _mainMenuScene;
 	delete _gameSettings;
 }
 
@@ -58,17 +60,17 @@ ColorZone::~ColorZone() {
 void prepareFontInfo(dialog::FontInfo* info) {
 	// default for every character just empty space
 	for (int i = 0; i < 255; ++i) {
-		info->texture_rects[i] = ds::vec4(112, 4, 20, 19);
+		info->texture_rects[i] = ds::vec4(114, 4, 20, 19);
 	}
 	// numbers
 	for (int c = 48; c <= 57; ++c) {
 		int idx = (int)c - 48;
-		info->texture_rects[c] = ds::vec4(548 + idx * 22, 440, 22, 19);
+		info->texture_rects[c] = ds::vec4(idx * 22, 490, 22, 19);
 	}
 	// :
-	info->texture_rects[58] = ds::vec4(766, 440, 18, 19);
+	info->texture_rects[58] = ds::vec4(220, 490, 18, 19);
 	// %
-	info->texture_rects[37] = ds::vec4(788, 440, 36, 19);
+	info->texture_rects[37] = ds::vec4(241, 490, 36, 19);
 	// characters
 	for (int c = 65; c <= 90; ++c) {
 		ds::vec2 fd = FONT_DEF[(int)c - 65];
@@ -107,7 +109,11 @@ void ColorZone::initialize() {
 
 	_mapSelectionScene = new MapSelectionScene(_tiles, &_ctx);
 	_mainGameScene = new MainGameScene(_tiles, &_ctx);
-	setActiveScene(_mainGameScene);
+	_backgroundScene = new BackgroundScene(&_ctx);
+	_mainMenuScene = new MainMenuScene(&_ctx);
+	//setActiveScene(_mainGameScene);
+	pushScene(_backgroundScene);
+	pushScene(_mainMenuScene);
 }
 
 // ---------------------------------------------------------------
@@ -118,7 +124,11 @@ void ColorZone::handleEvents(ds::EventStream* events) {
 		for (uint32_t i = 0; i < events->num(); ++i) {
 			int type = events->getType(i);
 			if (type == 100) {
-				setActiveScene(_mainGameScene);
+				popScene();
+				pushScene(_mainGameScene);
+			}
+			if (type == 102) {
+				stopGame();
 			}
 		}
 	}

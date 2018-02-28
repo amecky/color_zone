@@ -29,7 +29,11 @@
     <ClCompile Include="src\objects\Block.cpp" />
     <ClCompile Include="src\objects\Laser.cpp" />
     <ClCompile Include="src\objects\Levels.cpp" />
+    <ClCompile Include="src\scenes\BackgroundScene.cpp" />
+    <ClCompile Include="src\scenes\GameOverScene.cpp" />
+    <ClCompile Include="src\scenes\HighscoreScene.cpp" />
     <ClCompile Include="src\scenes\MainGameScene.cpp" />
+    <ClCompile Include="src\scenes\MainMenuScene.cpp" />
     <ClCompile Include="src\scenes\MapSelectionScene.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
     <ClCompile Include="src\tiles.cpp" />
@@ -56,7 +60,11 @@
     <ClInclude Include="src\objects\Block.h" />
     <ClInclude Include="src\objects\Laser.h" />
     <ClInclude Include="src\objects\Levels.h" />
+    <ClInclude Include="src\scenes\BackgroundScene.h" />
+    <ClInclude Include="src\scenes\GameOverScene.h" />
+    <ClInclude Include="src\scenes\HighscoreScene.h" />
     <ClInclude Include="src\scenes\MainGameScene.h" />
+    <ClInclude Include="src\scenes\MainMenuScene.h" />
     <ClInclude Include="src\scenes\MapSelectionScene.h" />
     <ClInclude Include="src\TileMap.h" />
     <ClInclude Include="src\tiles.h" />

@@ -26,6 +26,8 @@ namespace dialog {
 
 	bool Button(const ds::vec2& pos, const ds::vec4& rect, const char* text);
 
+	bool Button(const ds::vec2& pos, const ds::vec4& rect, const char* text, const ds::Color& color);
+
 	bool isCursorInside(const ds::vec2& p, const ds::vec2& dim);
 
 	void Text(const ds::vec2& pos, const char* text, bool centered = true, const ds::vec2& scale = ds::vec2(1.0f), const ds::Color& color = ds::Color(255,255,255,255));
@@ -162,20 +164,26 @@ namespace dialog {
 			call.pos = pos;
 			call.rect = rect;
 			call.scale = ds::vec2(1.0f);
+			call.color = ds::Color(255, 255, 255, 255);
 			ds::vec2 dim = ds::vec2(rect.z, rect.w);
 			return isClicked(pos, dim);
 		}
 		return false;
 	}
 
+	bool Button(const ds::vec2& pos, const ds::vec4& rect, const char* text) {
+		return Button(pos, rect, text, ds::Color(255, 255, 255, 255));
+	}
+
 	// ---------------------------------------------------------------
 	// button with text
 	// ---------------------------------------------------------------
-	bool Button(const ds::vec2& pos, const ds::vec4& rect, const char* text) {
+	bool Button(const ds::vec2& pos, const ds::vec4& rect, const char* text, const ds::Color& buttonColor) {
 		DrawCall& call = _guiCtx.calls[_guiCtx.num_calls++];
 		call.pos = pos;
 		call.rect = rect;
 		call.scale = ds::vec2(1.0f);
+		call.color = buttonColor;
 		ds::vec2 dim = ds::vec2(rect.z, rect.w);
 		int l = strlen(text);
 		ds::vec2 p = pos;
@@ -189,6 +197,7 @@ namespace dialog {
 			text_call.pos = p;
 			text_call.rect = r;
 			text_call.scale = ds::vec2(1.0f);
+			text_call.color = ds::Color(255, 255, 255, 255);
 			lw = r.z;
 		}
 		return isClicked(pos, dim);
@@ -214,7 +223,7 @@ namespace dialog {
 	void Text(const ds::vec2& pos, const char* text, bool centered, const ds::vec2& scale, const ds::Color& color) {
 		int l = strlen(text);
 		ds::vec2 p = pos;
-		ds::vec2 size = text_size(text);
+		ds::vec2 size = text_size(text, scale);
 		if (centered) {
 			p.x = (ds::getScreenWidth() - size.x) * 0.5f;
 		}

@@ -17,31 +17,7 @@
 
 extern BaseApp* app;
 
-// ---------------------------------------------------------------
-// update background data
-// ---------------------------------------------------------------
-/*
-void updateBackgroundData(GameContext* ctx, BackgroundData* data, float dt) {
-	data->color = tweening::interpolate(tweening::linear, ctx->colors[data->current], ctx->colors[data->next], data->timer, data->ttl);
-	data->color.a = tweening::interpolate(tweening::linear, data->firstAlpha, data->secondAlpha, data->timer, data->ttl);
 
-	data->timer += dt;
-	if (data->timer > data->ttl) {
-		++data->current;
-		if (data->current > 7) {
-			data->current = 0;
-		}
-		data->next = data->current + 1;
-		if (data->next > 7) {
-			data->next = 0;
-		}
-		data->timer -= data->ttl;
-		data->ttl = ds::random(ctx->settings->background.min_ttl, ctx->settings->background.max_ttl);
-		data->firstAlpha = data->secondAlpha;
-		data->secondAlpha = ds::random(ctx->settings->background.min_intensity, ctx->settings->background.max_intensity);
-	}
-}
-*/
 // ---------------------------------------------------------------
 // main method
 // ---------------------------------------------------------------
@@ -49,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
 	app->init();
 
-	while (ds::isRunning()) {
+	while (ds::isRunning() && app->isRunning()) {
 
 		ds::begin();
 

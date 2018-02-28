@@ -2,6 +2,8 @@
 #include <diesel.h>
 #include "EventStream.h"
 #include <Windows.h>
+#include <vector>
+
 class SpriteBatchBuffer;
 
 struct ApplicationSettings {
@@ -51,6 +53,9 @@ private:
 
 class BaseApp {
 
+typedef std::vector<Scene*> Scenes;
+typedef std::vector<Scene*>::iterator ScenesIterator;
+
 public:
 	BaseApp();
 	~BaseApp();
@@ -61,31 +66,43 @@ public:
 	virtual void initialize() = 0;
 	virtual void handleEvents(ds::EventStream* events) {}
 	void tick(float dt);
-	void setActiveScene(Scene* scene) {
-		if (_activeScene != 0) {
-			_activeScene->onDeactivation();
+	void pushScene(Scene* scene) {
+		scene->prepare(_events);
+		scene->initialize();
+		scene->onActivation();
+		_scenes.push_back(scene);
+	}
+	void popScene() {
+		if (!_scenes.empty()) {
+			Scene* scene = _scenes[_scenes.size() - 1];
+			scene->onDeactivation();
 		}
-		_activeScene = scene;
-		_activeScene->prepare(_events);
-		_activeScene->initialize();
-		_activeScene->onActivation();
-	}	
+		_scenes.pop_back();
+	}
 	void setSpriteBatchBuffer(SpriteBatchBuffer* buffer) {
 		_buffer = buffer;
 	}
 	void initializeSettings(const char* settingsFileName);
 	void loadSettings();
+	bool isRunning() const {
+		return _running;
+	}
 protected:	
+	void stopGame() {
+		_running = false;
+	}
 	RID loadImageFromResource(LPCTSTR name, LPCTSTR type);
 	ApplicationSettings _settings;
 	ds::EventStream* _events;
 	SpriteBatchBuffer* _buffer;	
 private:
-	Scene* _activeScene;
+	//Scene* _activeScene;
+	Scenes _scenes;
 	float _loadTimer;
 	const char* _settingsFileName;
 	bool _useTweakables;
 	bool _guiKeyPressed;
 	bool _guiActive;
+	bool _running;
 };
 
