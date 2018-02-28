@@ -105,15 +105,15 @@ void ColorZone::initialize() {
 	_ctx.score = 0;
 	_ctx.fillRate = 0;
 	_ctx.pick_colors();
-	_ctx.laserIdle = 10;
 
 	_mapSelectionScene = new MapSelectionScene(_tiles, &_ctx);
 	_mainGameScene = new MainGameScene(_tiles, &_ctx);
 	_backgroundScene = new BackgroundScene(&_ctx);
 	_mainMenuScene = new MainMenuScene(&_ctx);
-	//setActiveScene(_mainGameScene);
+	
 	pushScene(_backgroundScene);
-	pushScene(_mainMenuScene);
+	//pushScene(_mainMenuScene);
+	pushScene(_mainGameScene);
 }
 
 // ---------------------------------------------------------------
@@ -127,7 +127,11 @@ void ColorZone::handleEvents(ds::EventStream* events) {
 				popScene();
 				pushScene(_mainGameScene);
 			}
-			if (type == 102) {
+			else if (type == 101) {
+				popScene();
+				pushScene(_mapSelectionScene);
+			}
+			else if (type == 102) {
 				stopGame();
 			}
 		}

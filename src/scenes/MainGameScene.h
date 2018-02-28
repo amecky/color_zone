@@ -8,6 +8,7 @@ struct Tile;
 class TileMap;
 struct Block;
 class SparkleEffect;
+class Laser;
 
 struct ButtonDefinition {
 
@@ -41,6 +42,7 @@ private:
 	int _buttonDown[2];
 	TimerData _timer;
 	SparkleEffect* _sparkleEffect;
+	Laser* _laser;
 	// debug
 	int _dbgSparkCol;
 };

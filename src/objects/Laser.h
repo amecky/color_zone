@@ -12,55 +12,33 @@ struct LaserState {
 
 };
 
-struct Laser {
-	LaserState::Enum state;
-	float timer;
-	float xPos;
-	bool active;
-	int column;
-	float alphaTimer;
-	int idleSeconds;
-	float alpha;
-};
-
+class GameContext;
 class SpriteBatchBuffer;
 
-void initialize_laser(Laser* laser);
-
-void start_laser(Laser* laser, float startDelay);
-
-void reset_laser(Laser* laser, float startDelay);
-
-bool tick_laser(Laser* laser, float dt);
-
-bool move_laser(Laser* laser, float dt, float startDelay, float stepDelay, float moveDelay);
-
-void flash_laser(Laser* laser, float dt, float minAlpha, float maxAlpha, float ttl);
-
-void render_laser(Laser* laser, SpriteBatchBuffer* buffer);
-
-/*
 class Laser {
 
 public:
 	Laser(GameContext* ctx);
-	~Laser() {}
 	void reset();
-	bool move(float dt, int* column);
-	bool tick(float dt);
 	void start();
-	void render();
-	bool isRunning() const;
-	int getIdleSeconds() const;
-	LaserState::Enum getState() const;
+	void render(SpriteBatchBuffer* buffer);
+	bool tick(float dt);
+	bool move(float dt);
+	void flash(float dt);
+	int getIdleSeconds() const {
+		return static_cast<int>(_timer) + 1;
+	}
+	int getColumn() const {
+		return _column;
+	}
 private:
-	GameContext* _ctx;
-	ds::Color _color;
-	float _timer;
-	float _alphaTimer;
-	int _column;
 	LaserState::Enum _state;
-
-	MyLaser _laser;
+	float _timer;
+	float _xPos;
+	bool _active;
+	int _column;
+	float _alphaTimer;
+	int _idleSeconds;
+	float _alpha;
+	GameContext* _ctx;
 };
-*/

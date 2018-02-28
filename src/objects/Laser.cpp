@@ -5,65 +5,66 @@
 #include <ds_imgui.h>
 #include "..\TileMap.h"
 
-void initialize_laser(Laser* laser) {
-	laser->active = true;
-	laser->alphaTimer = 0.0f;
-	laser->column = 0;
-	laser->state = LaserState::LS_IDLE;
-	laser->timer = 0.0f;
-	laser->xPos = 0;
-	laser->alpha = 1.0f;
-	laser->idleSeconds = 10;
+Laser::Laser(GameContext* ctx) {
+	_ctx = ctx;
+	_active = true;
+	_alphaTimer = 0.0f;
+	_column = 0;
+	_state = LaserState::LS_IDLE;
+	_timer = 0.0f;
+	_xPos = 0;
+	_alpha = 1.0f;
+	_idleSeconds = 10;
 }
 
 // -----------------------------------------------------------------
 // reset
 // -----------------------------------------------------------------
-void reset_laser(Laser* laser, float startDelay) {
-	laser->state = LaserState::LS_IDLE;
-	laser->timer = startDelay;
-	laser->alphaTimer = 0.0f;
-	laser->active = false;
-	laser->alpha = 1.0f;
+void Laser::reset() {
+	_state = LaserState::LS_IDLE;
+	_timer = _ctx->settings->laser.startDelay;
+	_alphaTimer = 0.0f;
+	_active = false;
+	_alpha = 1.0f;
 }
 
-void flash_laser(Laser* laser, float dt, float minAlpha, float maxAlpha, float ttl) {
-	if (laser->state == LaserState::LS_WAITING || laser->state == LaserState::LS_MOVING) {
-		laser->alphaTimer += dt;
-		float c = minAlpha + fabs(sin(laser->alphaTimer / ttl * ds::TWO_PI)) * (maxAlpha - minAlpha);
-		if (laser->alphaTimer > ttl) {
-			laser->alphaTimer -= ttl;
+void Laser::flash(float dt) {
+	if (_state == LaserState::LS_WAITING || _state == LaserState::LS_MOVING) {
+		_alphaTimer += dt;
+		float c = _ctx->settings->laser.minAlpha + fabs(sin(_alphaTimer / _ctx->settings->laser.alphaTTL * ds::TWO_PI)) * (_ctx->settings->laser.maxAlpha - _ctx->settings->laser.minAlpha);
+		if (_alphaTimer > _ctx->settings->laser.alphaTTL) {
+			_alphaTimer -= _ctx->settings->laser.alphaTTL;
 		}
-		laser->alpha = c;
+		_alpha = c;
 	}
 }
 
-bool move_laser(Laser* laser, float dt, float startDelay, float stepDelay, float moveDelay) {
+bool Laser::move(float dt) {
 	bool ret = false;
-	if (laser->state == LaserState::LS_WAITING) {
-		laser->timer += dt;
-		if (laser->timer > stepDelay) {
-			laser->timer -= stepDelay;
-			laser->state = LaserState::LS_MOVING;
+	if (_state == LaserState::LS_WAITING) {
+		_timer += dt;
+		if (_timer > _ctx->settings->laser.waitDelay) {
+			_timer -= _ctx->settings->laser.waitDelay;
+			_state = LaserState::LS_MOVING;
 		}
 	}
 
-	if (laser->state == LaserState::LS_MOVING) {
-		laser->timer += dt;
-		float vel = static_cast<float>(SQUARE_SIZE ) / moveDelay;
-		laser->xPos += vel * dt;
-		if (laser->timer >= moveDelay) {
-			++laser->column;
-			if (laser->column >= 0 && laser->column < MAX_X) {
+	if (_state == LaserState::LS_MOVING) {
+		_timer += dt;
+		float vel = static_cast<float>(SQUARE_SIZE ) / _ctx->settings->laser.moveDelay;
+		_xPos += vel * dt;
+		if (_timer >= _ctx->settings->laser.moveDelay) {
+			++_column;
+			if (_column >= 0 && _column < (MAX_X + 1)) {
 				ret = true;
 			}
-			laser->timer -= moveDelay;
-			laser->state = LaserState::LS_WAITING;
+			_timer -= _ctx->settings->laser.moveDelay;
+			_state = LaserState::LS_WAITING;
 
-			if (laser->column >= MAX_X) {
-				laser->state = LaserState::LS_WARMING_UP;
-				laser->timer = startDelay;
-				laser->active = false;
+			if (_column >= MAX_X) {
+				_state = LaserState::LS_WARMING_UP;
+				_timer = _ctx->settings->laser.startDelay;
+				_active = false;
 			}
 		}
 	}
@@ -73,14 +74,14 @@ bool move_laser(Laser* laser, float dt, float startDelay, float stepDelay, float
 // -----------------------------------------------------------------
 // tick
 // -----------------------------------------------------------------
-bool tick_laser(Laser* laser, float dt) {
-	if (laser->state == LaserState::LS_WARMING_UP) {
-		laser->timer -= dt;
-		if (laser->timer <= 0.0f) {
-			laser->timer = 0.0f;
-			laser->state = LaserState::LS_MOVING;
-			laser->column = 0;
-			laser->xPos = START_X;
+bool Laser::tick(float dt) {
+	if (_state == LaserState::LS_WARMING_UP) {
+		_timer -= dt;
+		if (_timer <= 0.0f) {
+			_timer = 0.0f;
+			_state = LaserState::LS_MOVING;
+			_column = 0;
+			_xPos = START_X;
 			return true;
 		}
 	}
@@ -90,26 +91,25 @@ bool tick_laser(Laser* laser, float dt) {
 // -----------------------------------------------------------------
 // start
 // -----------------------------------------------------------------
-void start_laser(Laser* laser, float startDelay) {
-	laser->state = LaserState::LS_WARMING_UP;
-	laser->timer = startDelay;
-	laser->column = 0;
-	laser->alphaTimer = 0.0f;
-	laser->active = true;
-	laser->xPos = START_X;
+void Laser::start() {
+	_state = LaserState::LS_WARMING_UP;
+	_timer = _ctx->settings->laser.startDelay;
+	_column = 0;
+	_alphaTimer = 0.0f;
+	_active = true;
+	_xPos = START_X;
 }
 
 // -----------------------------------------------------------------
 // render
 // -----------------------------------------------------------------
-void render_laser(Laser* laser, SpriteBatchBuffer* buffer) {
-	if (laser->active) {
+void Laser::render(SpriteBatchBuffer* buffer) {
+	if (_state != LaserState::LS_WARMING_UP && _state != LaserState::LS_IDLE) {
 		for (int i = 0; i < MAX_Y; ++i) {
-			p2i converted = map::grid2screen(p2i(laser->column, i));
-			ds::vec2 v((int)laser->xPos - 18, converted.y);
-			int alpha = 255.0f * laser->alpha;
+			p2i converted = map::grid2screen(p2i(_column, i));
+			ds::vec2 v((int)_xPos - 18, converted.y);
+			int alpha = 255.0f * _alpha;
 			buffer->add(v, ds::vec4(375, 0, 36, 36), ds::vec2(1.0f), 0.0f, ds::Color(0, 210, 210, alpha));
 		}
 	}
 }
-

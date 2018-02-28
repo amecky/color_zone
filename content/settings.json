@@ -24,10 +24,10 @@ laser {
 }
 hud {
 	padding : 6
-	score_position : 130,670
-	coverage_position : 400,670
-    timer_position : 840,670
-	laser_idle_position : 1070,670
+	score_position : 130,675
+	coverage_position : 400,675
+    timer_position : 840,675
+	laser_idle_position : 1070,675
 }
 background {
 	min_intensity : 0.7
@@ -37,6 +37,6 @@ background {
 }
 grid {
     border_color : 250,160,9,255
-    background_color : 192,192,192,192
-    filled_color : 128,128,128,192
+    background_color : 128,128,128,128
+    filled_color : 128,128,128,160
 }

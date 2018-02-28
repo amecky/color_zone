@@ -7,7 +7,7 @@
 #include "..\objects\Block.h"
 #include "..\GameSettings.h"
 #include "..\utils\SparkleEffect.h"
-
+#include "..\objects\Laser.h"
 // --------------------------------------------
 // ctor
 // --------------------------------------------
@@ -30,12 +30,14 @@ MainGameScene::MainGameScene(TileMap* tiles, GameContext* ctx) : Scene(), _tiles
 	_sparkleEffect = new SparkleEffect(_ctx);
 	_sparkleEffect->reset();
 	_dbgSparkCol = 2;
+	_laser = new Laser(_ctx);
 }
 
 // --------------------------------------------
 // dtor
 // --------------------------------------------
 MainGameScene::~MainGameScene() {
+	delete _laser;
 	delete _sparkleEffect;
 	delete _currentBlock;
 	delete _nextBlock;
@@ -49,6 +51,8 @@ void MainGameScene::onActivation() {
 	_buttonDown[1] = 0;
 	start_timer(&_timer, 0, 0, TimerMode::TM_INC);
 	_sparkleEffect->reset();
+	_laser->reset();
+	_laser->start();
 }
 
 // --------------------------------------------
@@ -107,6 +111,19 @@ void MainGameScene::update(float dt) {
 	tick_timer(&_timer, dt);
 
 	_sparkleEffect->update(dt);
+
+	_laser->tick(dt);
+	_laser->flash(dt);
+	if (_laser->move(dt)) {
+		int colors[MAX_Y];
+		_tiles->getColor(_laser->getColumn() - 1, colors);
+		for (int i = 0; i < MAX_Y; ++i) {
+			if (colors[i] != -1) {
+				_sparkleEffect->start(p2i(_laser->getColumn() - 1, i), colors[i]);
+			}
+		}
+		_tiles->clearColumn(_laser->getColumn() - 1);
+	}
 }
 
 // --------------------------------------------
@@ -116,6 +133,7 @@ void MainGameScene::render(SpriteBatchBuffer* buffer) {
 	_tiles->render(_ctx->colors);
 	render_block_boxed(_currentBlock, buffer, _ctx->colors);
 	render_block(_nextBlock, buffer, _ctx->colors);
+	_laser->render(buffer);
 	_sparkleEffect->render(buffer);
 	showHUD();
 }
@@ -125,26 +143,11 @@ void MainGameScene::render(SpriteBatchBuffer* buffer) {
 // --------------------------------------------
 void MainGameScene::showHUD() {
 	dialog::begin();
-	ds::vec2 block_pos = _ctx->settings->hud.score_position;
-	block_pos.x += 60.0f;
-	dialog::Image(block_pos, ds::vec4(310, 220, 160, 40), ds::Color(6, 134, 235, 255));
 	dialog::FormattedText(_ctx->settings->hud.score_position, false, ds::vec2(1.0f), ds::Color(255, 255, 255, 255), "%06d", _ctx->score);
-
-	block_pos = _ctx->settings->hud.coverage_position;
-	block_pos.x += 60.0f;
-	dialog::Image(block_pos, ds::vec4(310, 220, 120, 40), ds::Color(6, 134, 235, 255));
 	dialog::FormattedText(_ctx->settings->hud.coverage_position, false, ds::vec2(1.0f), ds::Color(255, 255, 255, 255), "%3d%%", _ctx->fillRate);
-
-	block_pos = _ctx->settings->hud.timer_position;
-	block_pos.x += 50.0f;
-	dialog::Image(block_pos, ds::vec4(310, 220, 140, 40), ds::Color(6, 134, 235, 255));
 	dialog::FormattedText(_ctx->settings->hud.timer_position, false, ds::vec2(1.0f), ds::Color(255, 255, 255, 255), "%02d:%02d", _timer.minutes, _timer.seconds);
-
-	block_pos = _ctx->settings->hud.laser_idle_position;
-	block_pos.x += 20.0f;
-	dialog::Image(block_pos, ds::vec4(310, 220, 80, 40), ds::Color(6, 134, 235, 255));
-	if (_ctx->laserIdle > 0) {
-		dialog::FormattedText(_ctx->settings->hud.laser_idle_position, false, ds::vec2(1.0f), ds::Color(255, 255, 255, 255), "%2d", _ctx->laserIdle);
+	if (_laser->getIdleSeconds() > 0) {
+		dialog::FormattedText(_ctx->settings->hud.laser_idle_position, false, ds::vec2(1.0f), ds::Color(255, 255, 255, 255), "%2d", _laser->getIdleSeconds());
 	}
 	dialog::end();
 }

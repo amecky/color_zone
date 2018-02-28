@@ -198,11 +198,12 @@ void BaseApp::tick(float dt) {
 		++it;
 	}
 	_buffer->flush();
-
-	it = _scenes.begin();
-	while (it != _scenes.end()) {
-		(*it)->showGUI();
-		++it;
+	if (_settings.useIMGUI && _guiActive) {
+		it = _scenes.begin();
+		while (it != _scenes.end()) {
+			(*it)->showGUI();
+			++it;
+		}
 	}
 	/*
 	if (_activeScene != 0) {
