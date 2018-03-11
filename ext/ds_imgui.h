@@ -86,15 +86,7 @@ namespace gui {
 
 	void start(p2i* position, int width);
 
-	//void begin(const char* header, int width = 200);
-
-	//void begin(const p2i& pos);
-
-	//bool begin(const char* header, int* state, int width = 200);
-
 	bool begin(const char* header, int* state);
-
-	//bool begin(const char* header, int* state, p2i* position, int width = 200);
 
 	void beginGroup();
 
@@ -127,6 +119,8 @@ namespace gui {
 	void Value(const char* label, const ds::vec2& v);
 
 	void Value(const char* label, const ds::vec3& v);
+
+	void Value(const char* label, const ds::vec3& v, const char* format);
 
 	void Value(const char* label, const ds::vec4& v);
 
@@ -217,6 +211,8 @@ namespace gui {
 	p2i draw_text(const p2i& position, const char* text);
 
 	void draw_box(const p2i& position, const p2i& dimension, const ds::Color& color);
+
+	void setAlphaLevel(float alpha);
 
 	const IMGUISettings& getSettings();
 	
@@ -500,6 +496,7 @@ namespace gui {
 			p2i size;
 			char tmpBuffer[256];
 			UIBatchBuffer sprites;
+			float alpha;
 		};
 
 		static void createBatchBuffer(UIContext* ctx, int max, RID textureID, ds::TextureFilters textureFilter) {
@@ -593,6 +590,7 @@ namespace gui {
 			createBuffer(ctx->buffer, 4096);
 			ctx->overlay_buffer = new UIBuffer();
 			ctx->use_overlay = false;
+			ctx->alpha = 1.0f;
 			createBuffer(ctx->overlay_buffer, 4096);			
 			uint8_t* data = new uint8_t[256 * 256 * 4];
 			for (int i = 0; i < 256 * 256 * 4; ++i) {
@@ -784,7 +782,9 @@ namespace gui {
 				sz.y = WHITE_RECT.height;
 				scale.y = static_cast<float>(size.y) / static_cast<float>(WHITE_RECT.height);
 			}
-			add_to_buffer(ctx, pos, recti(256, 0, sz.x, sz.y), scale, color, resize);
+			ds::Color tmpColor = color;
+			tmpColor.a = ctx->alpha;
+			add_to_buffer(ctx, pos, recti(256, 0, sz.x, sz.y), scale, tmpColor, resize);
 			if (size.x > ctx->size.x) {
 				ctx->size.x = size.x;
 			}
@@ -998,6 +998,10 @@ namespace gui {
 	};
 
 	static GUIContext* _guiCtx = 0;
+
+	void setAlphaLevel(float alpha) {
+		_guiCtx->uiContext->alpha = alpha;
+	}
 
 	// -------------------------------------------------------
 	// methods for state checking
@@ -1608,6 +1612,14 @@ namespace gui {
 	}
 
 	// --------------------------------------------------------
+	// Value - vec3
+	// --------------------------------------------------------
+	void Value(const char* label, const ds::vec3& v, const char* format) {
+		sprintf_s(_guiCtx->tmpBuffer, 256, format, v.x, v.y, v.z);
+		Label(label, _guiCtx->tmpBuffer);
+	}
+
+	// --------------------------------------------------------
 	// Value - p2i
 	// --------------------------------------------------------
 	void Value(const char* label, const p2i& v) {
@@ -1712,9 +1724,10 @@ namespace gui {
 	// -------------------------------------------------------
 	bool TextBox(const char* label, char* str, int maxLength) {
 		pushID(label);
-		bool ret = InputScalar(0, str, maxLength, 500);
+		int width = maxLength * 10;
+		bool ret = InputScalar(0, str, maxLength, width);
 		p2i p = _guiCtx->currentPos;
-		p.x += 560;
+		p.x += width + 10;
 		p2i ts = renderer::add_text(_guiCtx->uiContext, p, label);
 		moveForward(p2i(150 + ts.x + 10, 22));
 		popID();
@@ -1944,12 +1957,12 @@ namespace gui {
 		if (isClicked()) {
 			ds::vec2 mp = ds::getMousePosition();
 			float dx = mp.x - p.x;
-			val = static_cast<int>(dx * d / width);
+			val = minValue + static_cast<int>(dx * d / width);
 		}
 		if (isDragging()) {
 			ds::vec2 mp = ds::getMousePosition();
 			float dx = mp.x - p.x;
-			val = static_cast<int>(dx * d / width);
+			val = minValue + static_cast<int>(dx * d / width);
 		}
 		*v = val;
 		if (*v < minValue) {
@@ -1958,7 +1971,7 @@ namespace gui {
 		if (*v > maxValue) {
 			*v = maxValue;
 		}
-		p.x += static_cast<float>(*v) / static_cast<float>(d) * width;
+		p.x += static_cast<float>(*v - minValue) / static_cast<float>(d) * width;
 		renderer::add_box(_guiCtx->uiContext, p, p2i(8, 24), _guiCtx->settings.sliderColor);
 		p = _guiCtx->currentPos;
 		sprintf_s(_guiCtx->tmpBuffer, 256, "%d", *v);
@@ -1985,12 +1998,12 @@ namespace gui {
 		if (isClicked()) {
 			ds::vec2 mp = ds::getMousePosition();
 			float dx = mp.x - p.x;
-			*v = dx * d / width;
+			*v = minValue + dx * d / width;
 		}
 		if (isDragging()) {
 			ds::vec2 mp = ds::getMousePosition();
 			float dx = mp.x - p.x;
-			*v = dx * d / width;
+			*v = minValue + dx * d / width;
 		}
 		if (*v < minValue) {
 			*v = minValue;
@@ -2002,7 +2015,7 @@ namespace gui {
 			float prec = 10.0f * static_cast<float>(precision);
 			*v = roundf(*v * prec) / prec;
 		}
-		p.x += *v / d * width;
+		p.x += (*v - minValue) / d * width;
 		renderer::add_box(_guiCtx->uiContext, p, p2i(8, 28), _guiCtx->settings.sliderColor);
 		p = _guiCtx->currentPos;
 		sprintf_s(_guiCtx->tmpBuffer, 256, "%g", *v);
